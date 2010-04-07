@@ -1,0 +1,42 @@
+int main(void) {
+   int i = 0;
+   while( i< 32 ){
+      if(i == 15){
+         i++;
+      } else {
+         i = i + 3;
+      }
+   }
+   return i;
+}
+
+
+Código em LLVM
+; ModuleID = '/tmp/webcompile/_3741_0.bc'
+target datalayout = "e-p:32:32:32-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:32:64-f32:32:32-f64:32:64-v64:64:64-v128:128:128-a0:0:64-s0:0:64-f80:32:32"
+target triple = "i686-pc-linux-gnu"
+
+define i32 @main() {
+entry:
+	br label %bb
+
+bb:		; preds = %cond_false, %cond_true, %entry
+	%i.017.0 = phi i32 [ 0, %entry ], [ %tmp5, %cond_true ], [ %tmp7, %cond_false ]		; <i32> [#uses=3]
+	%tmp2 = icmp eq i32 %i.017.0, 15		; <i1> [#uses=1]
+	br i1 %tmp2, label %cond_true, label %cond_false
+
+cond_true:		; preds = %bb
+	%tmp5 = add i32 %i.017.0, 1		; <i32> [#uses=3]
+	%tmp1025 = icmp slt i32 %tmp5, 32		; <i1> [#uses=1]
+	br i1 %tmp1025, label %bb, label %bb13
+
+cond_false:		; preds = %bb
+	%tmp7 = add i32 %i.017.0, 3		; <i32> [#uses=3]
+	%tmp10 = icmp slt i32 %tmp7, 32		; <i1> [#uses=1]
+	br i1 %tmp10, label %bb, label %bb13
+
+bb13:		; preds = %cond_false, %cond_true
+	%i.017.1 = phi i32 [ %tmp5, %cond_true ], [ %tmp7, %cond_false ]		; <i32> [#uses=1]
+	ret i32 %i.017.1
+}
+

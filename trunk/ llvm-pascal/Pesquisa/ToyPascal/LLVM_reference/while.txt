@@ -1,0 +1,11 @@
+entry:
+	%evaluating = icmp eq i1 1, 1
+	br label %bb
+
+body:	
+
+bb:		
+	%exitcond = icmp eq i1 %evaluating, 1		
+	br i1 %exitcond, label %body, label %exit
+exit:
+		
