@@ -1,0 +1,7 @@
+if:
+   %evaluating = icmp eq i1 1, 1
+   %tmp1 = icmp eq i1 %evaluating, 1		
+   br i1 %tmp1, label %cond_true, label %cond_false
+cond_true:
+ 
+cond_false:
