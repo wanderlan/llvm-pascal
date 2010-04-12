@@ -21,12 +21,12 @@ type
     Buf : array[1..32768] of char;
     Arq : text;
     SourceName,
-    Line         : string;
-    FToken       : TToken;
-    CommentStyle : char;
-    FEndSource   : boolean;
-    LenLine      : integer;
-    FElapsed     : TDateTime;
+    Line        : string;
+    FToken      : TToken;
+    FEndComment : string;
+    FEndSource  : boolean;
+    LenLine     : integer;
+    FElapsed    : TDateTime;
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(EndComment: string);
   protected
@@ -55,7 +55,7 @@ type
 implementation
 
 uses
-  SysUtils, Grammar;
+  StrUtils, SysUtils, Grammar;
 
 const
   ReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
@@ -128,10 +128,11 @@ procedure TScanner.FindEndComment(EndComment : string);
 var
   PosEnd : integer;
 begin
-  PosEnd := pos(EndComment, Line);
+  FEndComment := EndComment;
+  PosEnd := PosEx(EndComment, Line, First);
   if PosEnd <> 0 then begin // End comment in same line
-    CommentStyle := #0;
     First := PosEnd + length(EndComment);
+    FEndComment := '';
   end
   else
     First := MAXINT;
@@ -157,10 +158,9 @@ begin
       First := 1;
     end;
     // End comment across many lines
-    case CommentStyle of
-      #0  : ;
-      '{' : begin FindEndComment('}');  continue; end;
-      '*' : begin FindEndComment('*)'); continue; end;
+    if FEndComment <> '' then begin
+      FindEndComment(FEndComment);
+      continue;
     end;
     case Line[First] of
       ' ', #9 : begin // SkipBlank
@@ -226,10 +226,8 @@ begin
         exit;
       end;
       '(' :
-        if (length(Line) > First) and (Line[First + 1] = '*') then begin // Comment Style (*
-          CommentStyle := '*';
-          FindEndComment('*)');
-        end
+        if (length(Line) > First) and (Line[First + 1] = '*') then // Comment Style (*
+          FindEndComment('*)')
         else begin
           FToken.Lexeme := '(';
           FToken.Kind   := tkSpecialSymbol;
@@ -245,7 +243,7 @@ begin
           inc(First);
           exit
         end;
-      '{' : begin CommentStyle := '{'; FindEndComment('}'); end;
+      '{' : FindEndComment('}');
       '.' : begin NextChar(['.']); exit; end;
       '*' : begin NextChar(['*']); exit; end;
       '>',
