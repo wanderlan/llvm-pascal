@@ -1,10 +1,10 @@
 unit Grammar;
 
 interface
- type p = procedure (s:array of char); pascal;
+
 const
   // Productions id
-  Start        = #128; ParIdentList = #129; IdentList    = #130; UsesClause   = #131; ExportsList = #132;
+  Start        = #128; ParIdentList = #129; IdentList    = #130; UsesClause   = #131; ExportsList  = #132;
   DeclSection  = #133; VarDecl      = #134; VarList      = #135; VarInit      = #136; Type_        = #137;
   EnumList     = #138; CompoundStmt = #139; Statement    = #140; StmtList     = #141; Expression   = #142;
   ToOrDownto   = #143; WithList     = #144; IntSection   = #145; ImplSection  = #146; InitSection  = #147;
