@@ -1,0 +1,2416 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+
+
+
+
+	
+		<title></title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<style type="text/css">
+			html {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 13px;
+	height: 100%;
+	background-color: transparent;
+	margin: 0;
+	padding: 0;
+	font-family: Helvetica,sans-serif;
+	color: #333;
+}
+
+span.disqus {
+	font-family: Trebuchet MS, Trebuchet, Verdana, Arial, sans-serif;
+	font-size: 90%;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+form {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: #1C5392;
+}
+
+a.forgot-password {
+    margin-left: 15px;
+    font-size: 95%;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+
+.form-text-label {
+	font-weight: bold;
+}
+
+.input-block {
+	float: left;
+}
+
+.input-block label {
+	display: block;
+}
+
+label img {
+    margin-bottom: -1px;
+    margin-left: 3px;
+}
+
+input {
+	margin: 0;
+	padding: 0;
+}
+
+input.form-text{
+	padding: 2px;
+	margin-right: 10px;
+	margin-bottom: 7px;
+	font-size: 100%;
+	display: block;
+	font-family: Helvetica,sans-serif;
+}
+
+textarea.placeholder-grey {
+    color: #aaa;
+}
+
+input.placeholder {
+    -moz-opacity: 0.6;
+    opacity:.60;
+    filter: alpha(opacity=60);
+}
+
+input.submit {
+	margin-right: 5px;
+}
+
+input#custom-submit {
+	border: 0px;
+	display: none;
+	cursor: pointer;
+}
+
+.submit-footer {
+	margin: 10px 0 0 0;
+	clear: left;
+}
+
+
+label span.error {
+    color: #c03000;
+    font-weight: bold;
+}
+
+ul.errorlist {
+	margin:0;
+	padding: 0;
+}
+
+ul.errorlist li {
+	font-size: 90%;
+	color: #c03000;
+	list-style: none;
+}
+
+#post-choices {
+	padding: 5px 0;
+	width: 99%;
+}
+
+#post-choices input {
+    vertical-align: top;
+}
+
+#post-choices label {
+    vertical-align: baseline;
+    margin-right: 12px;
+}
+
+#post-choices span.help {
+    margin-left: 10px;
+    font-size: .85em;
+}
+
+#post-choices span.help a {
+	cursor: help;
+	text-decoration: none;
+    border-style: dotted;
+    border-width: 0 0 1px 0;
+}
+
+/**
+ * Login
+ */
+ 
+.login-register-copy {
+    margin: 5px 0 20px 0;
+    font-size: 14px;
+    color: #333;
+}
+.login-register-copy span.copy {
+    background-color: #E8F0F7;
+    border: 1px solid #cdd6dd;
+    -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	padding: 5px;
+}
+
+.form-login-register {
+    font-size: 14px;
+}
+
+.form-login-register input {
+    font-size: 16px;
+}
+
+.form-login-register .form-field {
+    margin-bottom: 10px;
+}
+
+.form-login-register .form-text-label {
+    color: #333333;
+    display: block;
+    margin-bottom: 3px;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+
+.login-register-toggle {
+    display: block;
+    margin-top: 20px;
+}
+
+.login-register-toggle span {
+    border-width: 0 0 1px 0;
+    border-style: dotted;    
+    cursor: pointer;
+    color: #333;
+}
+
+/**
+ * Lightbox
+ */
+
+.overlay {
+    display: block;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:5000;   
+    background-color:#000;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+
+.overlay[id] {
+    position:fixed;
+}
+
+.lightbox {
+    display: block;
+    position: fixed;
+    background-color: #fff;
+    color: #333;
+    z-index: 9999;
+    padding: 10px;
+    -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.lightbox a {
+    color: #333;
+}
+
+.lightbox .lightbox-status {
+    margin-bottom: 10px;
+    padding: 4px;
+}
+
+.lightbox .lightbox-status .lightbox-status-text {
+    vertical-align: bottom;
+}
+
+.lightbox .lightbox-status .lightbox-status-text strong {
+    vertical-align: bottom;
+}
+
+.lightbox .lightbox-status .lightbox-avatar {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.lightbox span.dsq-badge {
+    font-size: 10px;
+    margin-right: 10px;
+}
+
+span.dsq-badge {
+    font-family: Optima, Lucida Grande, Lucida Sans, Helvetica, Arial, sans-serif;
+    padding: 2px 4px;
+    -moz-border-radius: 0px 5px 0px 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	vertical-align: middle;
+}
+
+span.dsq-badge.dsq-badge-verified {
+    background-color: #92C72A;
+    border: 1px solid #6ca300;
+    color: #fff;
+}
+
+span.dsq-badge.dsq-badge-registered {
+    background-color: #fffe98;
+    border: 1px solid #eae800;
+    color: #000;
+}
+
+span.badge-facebook,
+span.badge-twitter {
+    padding: 2px;
+    color: #fff;
+}
+
+span.badge-facebook {
+    background-color: #46639d;
+}
+
+span.badge-twitter {
+    background-color: #31ceff;
+}
+
+.dsq-popup .dsq-profile-services span.dsq-profile-badge.dsq-badge-guest {
+    background-color: #ddd;
+    border: 1px solid #ccc;
+}
+
+.lightbox .lightbox-form,
+.lightbox .lightbox-learnmore {
+    margin: 10px;
+    padding: 10px;
+    background-color: #E8F0F7;
+    border: 1px solid #cdd6dd;
+    -moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.lightbox .lightbox-copy {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #CDD6DD;
+}
+
+.lightbox .lightbox-copy a.why {
+    cursor: help;
+    white-space: nowrap;
+    text-decoration: none;
+    border-bottom-width: 1px;
+    border-bottom-style: dotted;
+}
+
+.lightbox .lightbox-learnmore ul {
+    padding: 0 15px;
+}
+
+.lightbox .lightbox-learnmore ul li {
+    list-style: none inside url(http://mediacdn.disqus.com/1006/images/tick.png);
+    margin: 5px 0;
+}
+
+.lightbox .lightbox-fields {
+    width: 200px;
+    margin: 0 auto;
+}
+
+.lightbox .lightbox-field input.text {
+    font-size: 110%;
+    padding: 2px;
+    width: 100%;
+}
+
+.lightbox .lightbox-field label.text {
+    margin: 0 0 3px 0;
+    display: block;
+    font-size: 95%;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+
+.lightbox .error {
+    color: #c03000;
+    font-weight: bold;
+}
+.lightbox .ok {
+    color: #92C72A;
+    font-weight: bold;
+}
+
+.lightbox .lightbox-field {
+    margin-bottom: 8px;
+}
+
+.lightbox a.lightbox-email-block {
+    display: block;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+    font-size: 90%;
+    text-align: right;
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+}
+
+.lightbox .lightbox-email-block .lightbox-email-change {
+    font-style: italic;
+    font-weight: bold;
+    display: none;
+}
+
+.lightbox a.lightbox-email-block:hover .lightbox-email-change {
+    background-color: #E8F0F7;
+    display: inline;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.lightbox .lightbox-email-field {
+    font-size: 90%;
+}
+
+.lightbox .lightbox-submit {
+    text-align: center;
+}
+
+.lightbox .lightbox-submit input.button {
+    font-size: 100%;
+}
+
+.lightbox .lightbox-footer {
+    text-align: center;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+}
+
+/**
+ * Subscriptions
+ */
+
+#choose-subscription {
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);
+    border: 0;
+    margin: 10px 0 0 0;
+    padding-left: 5px;
+    background: transparent url(http://mediacdn.disqus.com/1006/images/small-tick.png) no-repeat 0 2px;
+    color: #333;
+}
+
+#choose-subscription.no-subscribe {
+    background: transparent url(http://mediacdn.disqus.com/1006/images/small-off.png) no-repeat 0 2px;
+
+}
+
+#choose-subscription:hover {
+    -moz-opacity: 1.0;
+    opacity:1.0;
+    filter: alpha(opacity=100);
+    border: 1px solid #333;
+}
+
+
+/**
+ * Buttons
+ */
+
+button { 
+    position: relative;
+    border: 0; 
+    padding: 0;
+    cursor: pointer;
+    overflow: visible; /* removes extra side padding in IE */
+}
+
+button::-moz-focus-inner {
+    border: none;  /* overrides extra padding in Firefox */
+}
+
+button span { 
+    position: relative;
+    display: block; 
+    white-space: nowrap;	
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+/* Safari and Google Chrome only - fix margins */
+button span {
+	margin-top: -1px;
+}
+}
+
+button.button { 
+    padding: 0 8px 0 0;
+    font-size: 13px;
+    text-align: center; 
+    background: transparent url(http://mediacdn.disqus.com/1006/images/v3/btn/button-large.gif) no-repeat right -104px; 
+}
+
+button.button span {
+    padding: 9px 0 0 8px; 
+    height:23px;
+    background: transparent url(http://mediacdn.disqus.com/1006/images/v3/btn/button-large.gif) no-repeat left top; 
+    color:#333; 
+    font-family: Arial, Helvetica, Calibri, sans-serif;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #fff;
+}
+button.button img {
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+
+button.button:hover {
+    background-position: right -156px; 
+}
+
+button.button:hover span {
+    background-position: 0 -52px;
+}
+
+/* Small Buttons */
+
+button.button.small {
+	padding: 0 5px 0 0;
+	font-size: 11px;
+	background: transparent url(http://mediacdn.disqus.com/1006/images/v3/btn/button-small.gif) no-repeat right -84px;
+}
+button.button.small span {
+    float: none;
+	padding: 5px 0 0 6px;
+	height: 17px;
+	width: auto;
+	background: transparent url(http://mediacdn.disqus.com/1006/images/v3/btn/button-small.gif) no-repeat left top; 
+	font-weight: normal;
+}
+
+button.button.small:hover {
+	background-position: right -126px; 
+}
+	
+button.button.small:hover span {
+	background-position: 0 -42px;
+}
+
+
+/**
+ * Remote
+ */
+
+#remote-settings form div {
+    margin-bottom: 20px;
+}
+
+#remote-settings label {
+    display: block;
+}
+
+#remote-settings ul {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+#remote-settings h3 {
+    font-size: 14px;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+#remote-settings li {
+    list-style: none;
+    margin: 0;
+    margin-bottom: 3px;
+}
+
+			textarea {
+	margin: 0;
+    padding: 2px 0;
+	font-size: 13px;
+	width: 99%;
+	height: 120px;
+	font-family: Helvetica,sans-serif;
+}
+
+.form-info{
+    margin-top: 10px;
+	width: 190px;
+}
+
+.form-block {
+	position: relative;
+}
+
+span.tooltip {
+    position: absolute;
+    display: block;
+	margin: 0 0 0 3px;
+}
+
+span.tooltip .tt-arrow {
+    color: #5b87a5;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+span.tooltip .tt-message {
+    background-color: #5b87a5;
+    color: #fff;
+    margin: 0 0 0 -3px;
+    padding: 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    vertical-align: middle;
+}
+
+
+#form-block-username {
+	display: none;
+}
+
+#form-block-password {
+	display: none;
+}
+
+
+.dsq-post-avatar {
+	width: 24px;
+	height: 24px;
+	margin-bottom: -6px;
+	border: 0px;
+}
+
+#dsq-post-retweet {
+  margin: 0 3px 0 5px;
+  vertical-align: text-bottom;
+  -webkit-vertical-align: baseline;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) /* Webkit hack */
+{   
+ #dsq-post-retweet {
+     vertical-align: baseline;   
+ }
+}
+
+#dsq-label-retweet {
+  font-size: 90%;
+  vertical-align: text-bottom;
+}
+
+#dsq-label-retweet a {
+    color: inherit;
+}
+
+		</style>
+		<script type="text/javascript" charset="utf-8">
+			
+
+
+
+
+
+var FragmentPacket = function(reader, writer, writer_url, is_child, receiveCallback) {
+	var that = this;
+	this.reader = reader;
+	this.writer = writer;
+	this.writer_url = writer_url;
+
+	this.is_child = is_child || false;
+	this.receiveCallback = receiveCallback;
+
+	this._lastHash = null;
+
+	this._accumMsg = '';
+
+	this._lastSeqno = 0;
+
+	this.MAX_DATA_LEN	= 1024;
+
+	this.WAIT_TIME		= 10;
+
+	this.READY		= 0x1;
+	this.WRITING	= 0x2;
+	this.FIN		= 0x4;
+	this.ACK		= 0x8;
+
+};
+
+FragmentPacket.prototype.createListener = function() {
+	var that = this;
+	var listener = function() {
+		that.recv();
+	};
+	return window.setInterval(listener, 10);
+};
+
+FragmentPacket.prototype.log = function(msg) {
+
+
+
+};
+
+FragmentPacket.prototype.recv = function() {
+	var hash;
+	if (/MSIE/.test(navigator.userAgent)) {
+
+		hash = this.reader.name;
+	} else {
+
+		var hashIndex = this.reader.location.href.indexOf('#');
+		if (hashIndex == -1) {
+			return;
+		}
+		hash = this.reader.location.href.substring(hashIndex+1);
+	}
+	var flags = parseInt(hash.substring(0, 4), 10);
+	var seqno = parseInt(hash.substring(4, 24), 10);
+	var data  = hash.substring(24);
+
+	if (this._lastHash !== hash) {
+		this._lastHash = hash;
+		this.log('recv: ' + hash);
+
+		this.log(' flags: ' + flags);
+		this.log(' seqno: ' + seqno + ' len: ' + hash.substring(4, 24).length + ' (' + hash.substring(4, 24) + ')');
+		this.log(' data: ' + data + ' len: ' + data.length);
+
+		this._lastSeqno = seqno;
+
+		if (flags & this.WRITING) {
+			this._accumMsg += data;
+			this.sendFlag(this.ACK, seqno);
+			if (flags & this.FIN) {
+				this.log('recv finished: ' + decodeURIComponent(this._accumMsg));
+				this.receiveCallback(decodeURIComponent(this._accumMsg));
+
+				this._accumMsg = '';
+
+				this.sendFlag(this.READY | this.ACK, this._lastSeqno);
+			}
+		}
+	}
+
+	return {
+		flags: flags,
+		seqno: seqno,
+		data: data
+	};
+};
+
+FragmentPacket.prototype.sendRawPacket = function(packet) {
+	if (/MSIE/.test(navigator.userAgent)) {
+		this.writer.name = packet;
+	} else {
+
+		this.writer.location.href = this.writer_url + '#' + packet;
+	}
+
+};
+
+FragmentPacket.prototype.sendFlag = function(flag, seqno) {
+	this.sendRawPacket(this._zerofill(flag, 4) + this._zerofill(seqno, 20));
+};
+
+FragmentPacket.prototype.send = function(msg) {
+	this._send(0, encodeURIComponent(msg));
+};
+
+FragmentPacket.prototype._send = function(packetNum, msg) {
+	var that = this;
+	var recvBuf = this.recv();
+
+	if (packetNum === 0) {
+
+		if (!(recvBuf.flags & this.READY)) {
+			this.log('client is not ready, waiting...');
+			window.setTimeout(function() { that._send(packetNum, msg); }, this.WAIT_TIME);
+			return;
+		}
+	} else {
+
+		if (!( (recvBuf.flags & this.ACK) && (recvBuf.seqno === this._lastSeqno) )) {
+			this.log('waiting for ack from client...');
+			window.setTimeout(function() { that._send(packetNum, msg); }, this.WAIT_TIME);
+			return;
+		} else {
+			this.log('received ack: ' + this._lastSeqno + ' ' + recvBuf.seqno);
+		}
+	}
+
+	var flags = this.WRITING;
+	var num_packets = Math.ceil(msg.length / this.MAX_DATA_LEN);
+	this.log('num_packets: ' + num_packets);
+
+	if (num_packets === packetNum) {
+
+		this.log('message successfully sent!');
+		this.sendFlag(this.READY | this.ACK, this._lastSeqno);
+		return true;
+	}
+
+	this._lastSeqno++;
+
+	if (packetNum == num_packets-1) {
+		flags |= this.FIN;
+	}
+
+	var data = msg.substring(packetNum * this.MAX_DATA_LEN, (packetNum+1) * this.MAX_DATA_LEN);
+	var packet = this._zerofill(flags, 4) + this._zerofill(this._lastSeqno, 20) + data;
+
+	this.log('sending raw packet: ' + packet);
+	this.sendRawPacket(packet);
+
+	return this._send(packetNum + 1, msg);
+};
+
+FragmentPacket.prototype._zerofill = function(num, width) {
+	var retval = num.toString();
+	var retval_len = retval.length;
+	for (var i = 0; i < width - retval_len; i++) {
+		retval = '0' + retval;
+	}
+	return retval;
+};
+
+var PostMessagePacket = function(receiver, receiveCallback, id, receiverId) {
+	var that = this;
+	this.receiver = receiver;
+	this.receiveCallback = receiveCallback;
+	this.id = id;
+
+
+	this.receiverId = receiverId;
+};
+
+PostMessagePacket.prototype.createListener = function() {
+	var that = this;
+
+	var listener = function(e) {
+
+		if (!that.id) {
+			that.id = e.data;
+			return;
+		}
+
+
+		var id = e.data.split(';')[0];
+		if (id !== that.id) {
+			return;
+		}
+		var data = e.data.substring(e.data.indexOf(';') + 1);
+
+		that.receiveCallback(data);
+	};
+
+	if (/MSIE/.test(navigator.userAgent) && typeof window.attachEvent == 'function') {
+
+
+
+
+
+
+		window.attachEvent('onmessage', listener);
+	} else if (typeof window.addEventListener == 'function') {
+		window.addEventListener('message', listener, false);
+	} else {
+		throw new Error('No method found to create event listener for PostMessagePacket.');
+	}
+};
+
+PostMessagePacket.prototype.send = function(msg) {
+
+
+
+	var needs_reget = false;
+	try {
+		if (typeof this.receiver.id == 'undefined' || typeof this.receiver.postMessage == 'undefined') {
+			needs_reget = true;
+		}
+	} catch(e) {
+
+
+	}
+	if (needs_reget && typeof this.receiverId != 'undefined') {
+		this.receiver = document.getElementById(this.receiverId).contentWindow;
+	}
+
+	var packet;
+	if (!msg) {
+
+		packet = this.id;
+	} else {
+		packet = this.id + ';' + msg;
+	}
+	this.receiver.postMessage(packet, '*');
+};
+
+PostMessagePacket._last_unique_id = null;
+PostMessagePacket._get_unique_id = function() {
+	var id = (new Date()).getTime();
+	if (id == PostMessagePacket._last_unique_id) {
+		id++;
+	}
+	PostMessagePacket._last_unique_id = id;
+	return id.toString();
+};
+
+var JsonRpc = function() {
+
+	this.ids = {};
+
+	this.objectToJSON = function(obj) {
+		var json = '';
+		var results = [];
+
+		if (obj === undefined || obj === null) {
+			return 'null';
+		}
+
+		switch (obj.constructor) {
+			case Object:
+				for (var property in obj) {
+					if (obj.hasOwnProperty(property)) {
+						results.push(this.objectToJSON(property) + ': ' + this.objectToJSON(obj[property]));
+					}
+				}
+				json = '{' + results.join(', ') + '}';
+				break;
+			case Array:
+				for (var i = 0; i < obj.length; i++) {
+					results.push(this.objectToJSON(obj[i]));
+				}
+				json = '[' + results.join(', ') + ']';
+				break;
+			case Number:
+			case Boolean:
+				json = obj.toString();
+				break;
+			case String:
+
+				var specialChars = {'\b': '\\b', '\t': '\\t', '\n': '\\n', '\f': '\\f', '\r': '\\r', '\\': '\\\\'};
+
+				json = obj.replace(/[\x00-\x1f\\]/g, function(match) {
+					var ch = specialChars[match];
+					return ch ? ch : '\\u00' + match.charCodeAt().toPaddedString(2, 16);
+				});
+
+				json = '"' + json.replace(/"/g, '\\"') + '"';
+				break;
+			default:
+
+				json = 'null';
+				break;
+		}
+
+		return json;
+	};
+
+	this.createHandler = function(send_func, registered_funcs) {
+		var that = this;
+		var handler = function(message) {
+
+			try {
+				var rpc = eval('(' + message + ')');
+			} catch(e) {
+				alert('bad JSON: ' + message);
+				return;
+			}
+			if (rpc.method) {
+
+				if (!registered_funcs[rpc.method]) {
+					return;
+				}
+
+				var retval = registered_funcs[rpc.method].apply(null, rpc.params);
+				if (rpc.id) {
+					var response = {
+						result: retval,
+						error: null,	// TODO
+						id: rpc.id
+					};
+					send_func(that.objectToJSON(response));
+				}
+			} else if(rpc.result) {
+
+				if (!that.ids[rpc.id]) {
+					return;
+				}
+
+				that.ids[rpc.id](rpc.result);
+				delete that.ids[rpc.id];
+			}
+		};
+		return handler;
+	};
+
+	this.execute = function(send_func, method, params, response_callback) {
+		response_callback = response_callback || null;
+		var id = (response_callback) ? (new Date()).getTime() : null;
+
+		var request = {
+			method: method,
+			params: params,
+			id: id
+		};
+
+		send_func(this.objectToJSON(request));
+
+		if (id) {
+			this.ids[id] = response_callback;
+		}
+	};
+};
+JsonRpc = new JsonRpc();
+
+	var ChildMessenger = function(receiverUrl, receiveCallback) {
+	var that = this;
+
+
+	if (/msie/i.test(navigator.userAgent) && !/opera/i.test(navigator.userAgent)) {
+		receiverUrl = '';
+	}
+
+	if (typeof window.postMessage == 'function') {
+		this.packetHandler = new PostMessagePacket(window.parent, receiveCallback);
+		this.type = 'PostMessagePacket';
+	} else {
+		this.receiverUrl = receiverUrl;
+		this.packetHandler = new FragmentPacket(window, window.parent, this.receiverUrl, true, receiveCallback);
+		this.type = 'FragmentPacket';
+
+		this.packetHandler.sendFlag(that.packetHandler.READY, 0);
+	}
+
+	this._listener = this.packetHandler.createListener();
+};
+
+ChildMessenger.prototype.sendMessage = function(message) {
+	var that = this;
+	if (this.type === 'PostMessagePacket' && !this.packetHandler.id) {
+
+
+
+		window.setTimeout(function() { that.sendMessage(message); }, 10);
+		return;
+	}
+	this.packetHandler.send(message);
+	return true;
+};
+
+
+
+
+var Browsers = {
+	ie: /msie/i.test(navigator.userAgent) && !/opera/i.test(navigator.userAgent)
+};
+var $ = function(id) { return document.getElementById(id); }
+
+var Utils = new function() {
+	this.createCookie = function(name,value) {
+		document.cookie = name+"="+value+"; path=/";
+	};
+
+	this.readCookie = function(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0;i < ca.length;i++) {
+			var c = ca[i];
+			while (c.charAt(0)==' ') c = c.substring(1,c.length);
+			if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+		}
+		return null;
+	};
+
+	this.eraseCookie = function(name) {
+		var date = new Date();
+		date.setTime(date.getTime()+(-1*24*60*60*1000));
+		document.cookie = name+"=;expires="+date.toGMTString()+"; path=/";
+	};
+
+
+	this.findPos = function(obj) {
+		var curleft = 0;
+		var curtop = 0;
+		if (obj.offsetParent) {
+			do {
+				curleft += obj.offsetLeft;
+				curtop += obj.offsetTop;
+			} while (obj = obj.offsetParent);
+		}
+		return [curleft,curtop];
+	};
+
+	this.deleteNode = function(node) {
+		if(node) {
+			this.deleteChildren(node);
+			if(typeof node.outerHTML != 'undefined') { node.outerHTML = ''; }
+			else if(node.parentNode) { node.parentNode.removeChild(node); }
+			delete node;
+		}
+	};
+
+	this.deleteChildren = function(node) {
+		if(node) {
+			for(var x = node.childNodes.length-1; x >= 0; x--) {
+				var childNode = node.childNodes[x];
+				if(childNode.hasChildNodes()) { this.deleteChildren(childNode); }
+				if(typeof childNode.outerHTML != 'undefined') { childNode.outerHTML = ''; }
+				else node.removeChild(childNode);
+				delete childNode;
+			}
+		}
+	};
+
+	this.getWindowSize = function() {
+		var windowWidth = -1;
+		var windowHeight = -1;
+
+		if(typeof(window.innerWidth) == 'number') { //Non-IE
+		        windowWidth = window.innerWidth;
+		        windowHeight = window.innerHeight;
+		} else if(document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) { //IE 6+ in 'standards compliant mode'
+		        windowWidth = document.documentElement.clientWidth;
+		        windowHeight = document.documentElement.clientHeight;
+		}
+
+		return [windowWidth, windowHeight];
+	};
+};
+
+
+var Validators = new function() {
+	this.VALID_EMAIL_RE = /^[a-z0-9\-\_\+]+(\.[a-z0-9\-\_\+]+)*\@(([a-z0-9\-\_\+]+(\.[a-z0-9\-\_\+]+)*)+\.[a-z]{2,}|([0-9]+\.){3}[0-9]+)$/i;
+
+	this.message = function(msg) {
+		if(msg == comment.placeholder['textarea']) {
+			return "Please enter a comment to post.";
+		} else if(!msg || msg.length < 2) {
+			return "Your comment must have at least 2 characters.";
+		}
+		return true;
+	};
+
+	this.name = function(name) {
+		if(name.length >= 1) {
+			return true;
+		} else {
+			return "Please enter a name to comment.";
+		}
+	};
+
+	this.email = function(addr) {
+		if(Validators.VALID_EMAIL_RE.test(addr)) {
+			return true;
+		} else {
+			return "Please enter a valid email to comment.";
+		}
+	};
+
+
+	this.url = function(addr) {
+		if(!addr || addr.indexOf('.') != -1) {
+			return true;
+		} else {
+			return "Please check your website URL (this field is optional).";
+		}
+	};
+
+	this.username = function(name) {
+		if(name.length >= 3) {
+			return true;
+		} else {
+			return "Your username must contain at least 3 characters.";
+		}
+	};
+
+	this.password = function(pass) {
+		if(pass.length >= 6) {
+			return true;
+		} else {
+			return "Your password must be at least 6 characters.";
+		}
+	};
+
+	this.inBulk = function(bulk_validation, failure_callback) {
+		failure_callback = failure_callback || function(e){ alert(e); };
+
+		for(var i = 0, ret, v; i < bulk_validation.length; i++) {
+			v = bulk_validation[i];
+			if(typeof(v.condition) == 'undefined' || v.condition === true) {
+				ret = v.validator(v.value);
+				if(ret !== true) {
+					failure_callback(ret);
+					return false;
+				}
+			}
+		}
+
+		return true;
+	};
+};
+
+
+function setSubmitButton(button, active) {
+	if(active) {
+		button.disabled = false;
+		button.value = comment.submitButtonValue;
+	} else {
+		// Save value to restore later
+		comment.submitButtonValue = button.value;
+		button.disabled = true;
+		button.value = 'Just one moment...';
+	}
+}
+
+function switchForm(action) {
+	switch(action) {
+		case 'login':
+			$('form-login').style.display = "block";
+			$('form-register').style.display = "none";
+			break;
+		case 'register':
+			$('form-login').style.display = "none";
+			$('form-register').style.display = "block";
+			break;
+	}
+}
+
+function setFieldLabel(name, label) {
+	$('label-' + name).innerHTML = label;
+}
+
+function toggleHelp() {
+	var formDiv = $('form-fields');
+	var helpDiv = $('form-help');
+
+	if(helpDiv.style.display != "none") {
+		helpDiv.style.display = "none";
+		formDiv.style.display = "block";
+	} else {
+		helpDiv.style.display = "block";
+		formDiv.style.display = "none";
+	}
+}
+
+function handleAuth(action) {
+	var email = (action == 'register') ? $('form-' + action + '-email').value : '';
+	var username = $('form-' + action + '-username').value;
+	var password = $('form-' + action + '-password').value;
+
+	// Containers in which the errors will be placed
+	var emailErrs = $('label-' + action + '-email');
+	var usernameErrs = $('label-' + action + '-username');
+	var passwordErrs = $('label-' + action + '-password');
+
+	if (action == 'register') {
+		url = 'http://alcides.disqus.com/_auth/json/validate_register/';
+	} else if (action == 'login') {
+		url = 'http://alcides.disqus.com/_auth/json/validate_login/';
+	}
+	$AJR(url, {
+		success: function(response) {
+			if(response.message) {
+				var e = response.message;
+				if(typeof(e) == 'object') {
+					// Registration errors
+					if(e['email']) {
+						emailErrs.innerHTML = '<span class="error">' + e['email'] + '<span>';
+					} else {
+						emailErrs.innerHTML = 'Email';
+					}
+					if(e['username']) {
+						usernameErrs.innerHTML = '<span class="error">' + e['username'] + '</span>';
+					} else {
+						usernameErrs.innerHTML = 'Pick Username';
+					}
+					if(e['password']) {
+						passwordErrs.innerHTML = '<span class="error">' + e['password'] + '</span>';
+					} else {
+						passwordErrs.innerHTML = 'Pick Password';
+					}
+				} else {
+					// Login errors
+					passwordErrs.innerHTML = '<span class="error">Sorry, you\'ve entered an incorrect password.</span>';
+				}
+			} else {
+				if(action == 'login') {
+					document.login.submit();
+				} else if(action == 'register') {
+					document.signup.submit();
+				}
+			}
+		}
+	}, {
+		'email': email,
+		'username': username,
+		'password': password
+	});
+
+	return false;
+}
+
+function handleSubmit() {
+	// pass 
+	return true;
+};
+
+function selectSubscribe(select, option) {
+	if(option == 0) {
+		select.className = 'no-subscribe';
+	} else {
+		select.className = '';
+	}
+};
+
+function cookieFailure() {
+	// Frame themes should override this method to display an error message.
+	// This placeholder is to prevent a JS error on older themes.
+}
+
+function sendTimerStop(nonce, thread_id) {
+	// used on unload to notify the server that we left the page
+	try {
+		$AJR('http://alcides.disqus.com/timer.html?nonce=' + nonce + '&thread_id=' + thread_id, undefined, undefined, "POST", false);
+	} catch (e) {} // ignore errors and do nothing.
+}
+
+MessageCache = new function() {
+	var self = this;
+	this.disabled = false;
+
+	this.createCookie = function(name,value) {
+		document.cookie = name+"="+value+"; path=/";
+	};
+
+	this.readCookie = function(name) {
+		var nameEQ = name + "=";
+		var ca = document.cookie.split(';');
+
+		for(var i = 0; i < ca.length; i++) {
+			var c = ca[i];
+			while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+			if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+		}
+		return null;
+	};
+
+	this.eraseCookie = function(name) {
+		var date = new Date();
+		date.setTime(date.getTime()+(-1*24*60*60*1000));
+		document.cookie = name+"=;expires="+date.toGMTString()+"; path=/";
+	};
+
+	this.put = function(thread_id) {
+		if (!self.disabled) {
+			var blank_re = /^\s*$/;
+			var message = document.forms[0].message.value;
+
+			if (message === comment.placeholder['textarea'] || blank_re.test(message)) {
+				self.eraseCookie('message_' + thread_id);
+			} else {
+				self.createCookie('message_' + thread_id, encodeURIComponent(message));
+			}
+		}
+	};
+
+	this.get = function(thread_id) {
+		var name = 'message_' + thread_id;
+		var message = self.readCookie(name);
+		var textarea = document.forms[0].message;
+
+		if (message) {
+			textarea.innerHTML = decodeURIComponent(message);
+			textarea.className = textarea.className.replace('placeholder-grey', '').replace(/^\s+|\s+$/g, '');
+		}
+	};
+
+	this.erase = function(thread_id) {
+		self.eraseCookie('message_' + thread_id);
+		self.disabled = true;
+	};
+};
+
+			
+
+
+var comment = new function() {	
+	this.placeholder = {
+		'name'     :    "Name",
+		'email'    :    "Email",
+		'website'  :    "Website",
+		'textarea' :    "Type your comment here."
+	};
+	
+	this.submitButtonValue = 'Submit';
+	
+	this.validateSubmit = function() {
+		var message = (document.comment_form.message) ? document.comment_form.message : false;
+		var author_email = (document.comment_form.author_email) ? document.comment_form.author_email : false;
+		var author_url = (document.comment_form.author_url) ? document.comment_form.author_url : false;
+		var author_name = (document.comment_form.author_name) ? document.comment_form.author_name : false;
+		var username = (document.comment_form.username) ? document.comment_form.username : false;
+		var password = (document.comment_form.password) ? document.comment_form.password : false;
+		var anon = $('post-choices-anon');
+		var register = $('post-choices-register');
+		var login = $('post-choices-login');
+		var chose_anon = anon && anon.checked;
+		var chose_register = register && register.checked;
+		var chose_login = login && login.checked;		
+		var bulk_validation = [{
+			// message
+			validator: Validators.message,
+			value: message.value
+		}, {
+			// author name
+			validator: Validators.name,
+			value: author_name.value,
+			condition: author_name && chose_anon
+		}, {
+			// email
+			validator: Validators.email,
+			value: author_email.value,
+			condition: author_email && (chose_anon || chose_register)
+		}, {
+			// website url
+			validator: Validators.url,
+			value: author_url.value,
+			condition: author_url && chose_anon
+		}, {
+			// username
+			validator: Validators.username,
+			value: username.value,
+			condition: chose_login || chose_register
+		}, {
+			// password
+			validator: Validators.password,
+			value: password.value,
+			condition: chose_login || chose_register
+		}];
+
+		return Validators.inBulk(bulk_validation, Lightbox.generic);
+	};
+
+	this.handleSubmit = function() {
+		var userIsAnon = $('unauthenticated-content') ? true : false;
+		var userIsFb = ($('fbconnect-connected-content').innerHTML != '') ? true : false;
+		var websiteField = $('form-anon-url');
+		var emailField = $('form-anon-email');
+		var nameField = $('form-anon-name');
+
+		if(websiteField) {
+			websiteField.value = (websiteField.value == comment.placeholder['website']) ? '' : websiteField.value;
+		}
+
+		if(this.validateSubmit()) {
+
+			// If the user is authenticated or the user has skipped the lightbox before
+			if(!userIsAnon || userIsFb || Utils.readCookie('skipped_auth')) { 
+				MessageCache.erase(35124915); 
+				return true; 
+			}
+			
+			// Prompt user to login if a profile with the inputted email is found
+			// Else, prompt user to register a profile
+			$AJR('http://alcides.disqus.com/_auth/json/get_user_by_email/', {
+				success: function(response) {
+					var message = response.message;
+					if(message.username) {
+						Lightbox.profileAuth('login', {'username': message.username, 'display_name': message.display_name, 'avatar_url': message.avatar_url, 'verified': message.verified, 'email': emailField.value});
+					} else {
+						Lightbox.profileAuth('register', {'email': emailField.value, 'name': nameField.value});
+					}
+				}
+			}, {
+				'email': emailField.value
+			}, 'get');
+			
+			setSubmitButton($('default-submit'), false);
+			
+		}
+
+		return false;
+	};
+};
+
+var Lightbox = new function() {
+	this.el = $('lightbox');
+	this.overlay = $('overlay');
+	this.preventUnload = true;
+	this.saveObj = {};
+	
+	this.handleSubmit = function(action) {		
+		var email = $('form-anon-email').value;
+		var username = $('form-anon-username').value;
+		var password = $('form-anon-password').value;
+
+		// Containers in which the errors will be placed
+		var emailErrs = $('lightbox-copy');
+		var usernameErrs = $('label-username');
+		var passwordErrs = $('label-password');
+		
+		// Save the original content of the containers
+		// before we shove the errors into them
+		if(!Lightbox.saveObj['email']) {
+			Lightbox.saveObj = {
+				'email' : emailErrs.innerHTML,
+				'username': usernameErrs.innerHTML,
+				'password': passwordErrs.innerHTML
+			}
+		}
+		
+		if(action == 'anon') {
+			setAction(action);
+			Utils.createCookie('skipped_auth', true);
+			Lightbox.preventUnload = false;
+			document.comment_form.submit();
+			MessageCache.erase(35124915);
+			return true;
+		}
+		
+		// Server-side validation
+		if (action == 'register') {
+			url = 'http://alcides.disqus.com/_auth/json/validate_register/';
+		} else if (action == 'login') {
+			url = 'http://alcides.disqus.com/_auth/json/validate_login/';
+		}
+		$AJR(url, {
+			success: function(response) {
+				if(response.message) {
+					setSubmitButton($('lightbox-submit-button'), true);
+					
+					var e = response.message;
+					if(typeof(e) == 'object') {
+						// Registration errors
+						if(e['email']) {
+							emailErrs.innerHTML = '<span class="error">' + e['email'] + '<span>';
+						} else {
+							emailErrs.innerHTML = Lightbox.saveObj['email'];
+						}
+						if(e['username']) {
+							usernameErrs.innerHTML = '<span class="error">' + e['username'] + '</span>';
+						} else {
+							usernameErrs.innerHTML = Lightbox.saveObj['username'];
+						}
+						if(e['password']) {
+							passwordErrs.innerHTML = '<span class="error">' + e['password'] + '</span>';
+						} else {
+							passwordErrs.innerHTML = Lightbox.saveObj['password'];
+						}
+					} else {
+						// Login errors
+						$('label-password').innerHTML = '<span class="error">Sorry, you\'ve entered an incorrect password.</span> <a href="/forgot/" target="_blank">Forgot? Click here to reset</a>.';
+					}
+					Lightbox.position(Lightbox.el);
+				} else {
+					setAction(action);
+					Lightbox.preventUnload = false;
+					document.comment_form.submit();
+					MessageCache.erase(35124915);
+					return true;
+				}
+			}
+		}, {
+			'email': email,
+			'username': username,
+			'password': password
+		});
+		
+		setSubmitButton($('lightbox-submit-button'), false);
+
+		return false;
+	};
+	
+	this.setUnload = function() {
+		window.onbeforeunload = function(evt) {
+			var message = 'Warning: Your comment has NOT been posted yet.';
+			if(typeof evt == 'undefined') { evt = window.event; }
+			
+			if(Lightbox.preventUnload) {
+				if(evt) { evt.returnValue = message; }
+				if(Lightbox.preventUnload) { return message; }
+			}
+		}
+	};
+	
+	this.changeVerifiedEmail = function() {
+		// Allows the anonymous user to change the input email
+		// because the email they've initially entered has already been confirmed by an existing user
+		var submit = $('lightbox-submit-button');
+		var lightboxCopy = $('lightbox-copy');
+		var lightboxFooter = $('lightbox-footer');
+		var passwordField = $('lightbox-field-password');
+		var lightboxStatus = $('lightbox-status');
+		var form = $('comment-form');
+		var newEmailField = $('lightbox-email-field');
+
+		this.updateEmail(false);
+		lightboxStatus.style.display = 'none';
+		passwordField.style.display = 'none';
+		lightboxCopy.innerHTML = 'This email address has already been verified and cannot be used without logging in. Please change what you\'ve entered.';
+		lightboxFooter.innerHTML = '<a id="lightbox-skip" class="lightbox-skip" href="#" onclick="Lightbox.deactivate(true); return false">Cancel posting this comment.</a>';
+		submit.value ='Post Comment as a Guest';
+		newEmailField.focus();
+
+		// Change the onsubmit to verify that the email hasn't already been confirmed by an existng user
+		form.onsubmit = function() {
+			$AJR('http://alcides.disqus.com/_auth/json/get_user_by_email/', {
+				success: function(response) {
+					var message = response.message;
+					if(message.verified) {
+						lightboxCopy.innerHTML = 'This email address has already been verified.';
+						lightboxCopy.className += ' error';
+					} else {
+						Lightbox.handleSubmit('anon');
+					}
+				}
+			}, {
+				'email': $('form-anon-email').value
+			}, 'get');
+			return false;
+		};
+		Lightbox.position(Lightbox.el);
+	};
+
+	this.setEmail = function() {
+		// Set the actual email field from the new-email field
+		var emailField = $('form-anon-email');
+		var newEmailField = $('lightbox-email-field');
+		emailField.value = newEmailField.value; // set email form field
+	};
+
+	this.updateEmail = function(hideField) {
+		var emailBlock = $('lightbox-email-block');
+		var emailText = $('lightbox-email');
+		var emailField = $('form-anon-email');
+		var newEmailField = $('lightbox-email-field');
+
+		if(newEmailField.value != '') {			
+			this.setEmail();
+			emailText.innerHTML = newEmailField.value;
+			if(hideField) {
+				newEmailField.value = ''; // clear new-email form field
+				emailBlock.style.display = 'block';
+				newEmailField.style.display = 'none';
+			}
+		} else {
+			newEmailField.value = emailField.value;
+			emailBlock.style.display = 'none';
+			newEmailField.style.display = 'block';
+		}
+
+		Lightbox.position(Lightbox.el);
+	};
+	
+	this.showMoreInfo = function() {
+		var form = $('lightbox-form');
+		var moreInfo = $('lightbox-learnmore');
+		var footer = $('lightbox-footer');
+	
+		if(moreInfo.style.display != 'none') {
+			moreInfo.innerHTML = '';
+			moreInfo.style.display = 'none';
+			form.style.display = 'block';
+			footer.style.display = 'block';
+		} else {
+			var html = ' \
+			With a <span class="disqus">Disqus</span> Profile, you can: \
+			<ul> \
+				<li> \
+					<strong>Verify and Claim</strong> your comments on thousands of sites \
+				</li> \
+				<li> \
+					<strong>Share</strong> to your <span class="badge-facebook">Facebook</span> News Feed, your <span class="badge-twitter">Twitter</span> stream, and more \
+				</li> \
+				<li> \
+					<strong>Manage and Track</strong> your comments: reblog, edit, or even delete \
+				</li> \
+			</ul> \
+			<div style="margin-top:15px; text-align:center"><a href="#" onclick="Lightbox.showMoreInfo(); return false">&laquo; Back to Posting</a></div> \
+			';
+			moreInfo.innerHTML = html;
+			moreInfo.style.display = 'block';
+			form.style.display = 'none';
+			footer.style.display = 'none';
+		}
+		
+		Lightbox.position(Lightbox.el);
+	};
+	
+	this.generic = function(msg) {
+		var lightbox;
+		var overlay;
+		
+		Lightbox.activate(msg);
+		lightbox = Lightbox.el;
+		overlay = Lightbox.overlay;
+
+		lightbox.innerHTML += '<p style="text-align:center"><button id="lightbox-close">OK</button></p>';
+		lightbox.style.fontSize = '125%';
+		
+		lightbox.onclick = function() { Lightbox.deactivate(); }
+		overlay.onclick = function() { Lightbox.deactivate(); }
+		$('lightbox-close').focus();
+		
+		Lightbox.position(lightbox);
+	};
+	
+	this.switchAuth = function(choice) {
+		var form = $('comment-form');
+		var lightboxEmail = $('lightbox-email');
+		var usernameLabel = $('label-username');
+		var passwordLabel = $('label-password');
+		var submitButton = $('lightbox-submit-button');
+		var copy = $('lightbox-auth-choice');
+		
+		switch(choice) {
+			case 'login':
+				lightboxEmail.style.display = 'none';
+				usernameLabel.innerHTML = 'Username or Email';
+				passwordLabel.innerHTML = 'Password';
+				submitButton.value = 'Login and Post Comment';
+
+				copy.innerHTML = ' \
+				 \
+				<a href="#" onclick="Lightbox.switchAuth(\'register\'); return false">Register intead?</a> \
+				';
+				break;
+			case 'register':
+				lightboxEmail.style.display = 'inline';
+				usernameLabel.innerHTML = 'Pick Username';
+				passwordLabel.innerHTML = 'Pick Password';
+				submitButton.value = 'Register and Post Comment';
+				
+				copy.innerHTML = ' \
+				 \
+				<a href="#" onclick="Lightbox.switchAuth(\'login\'); return false">Login intead?</a> \
+				';
+				
+				break;
+		}
+		form.onsubmit = function() { return Lightbox.handleSubmit(choice); }
+	};
+
+	this.profileAuth = function(choice, authData) {
+		if(typeof(authData) == 'undefined') {
+			var authData = {};
+		}
+	
+		var content;
+		var username = authData['username'];
+		var display_name = authData['display_name'];
+		var avatar_url = authData['avatar_url'];
+		var verified = authData['verified'];
+		var email = authData['email'];
+		var name = authData['name'];
+		var form = $('comment-form');
+		var focusField;
+
+		form.onsubmit = function() { return Lightbox.handleSubmit(choice); }
+		
+		// Enabling the main form's submit button so the "Enter" key works
+		setSubmitButton($('default-submit'), true);
+		
+		switch(choice) {
+			case 'register':
+				content = ' \
+				<div id="lightbox-status" class="lightbox-status">Wait! Your comment is almost posted. <span id="lightbox-auth-choice"> <a href="#" onclick="Lightbox.switchAuth(\'login\'); return false">Login instead?</a></span></div> \
+				<div id="lightbox-form" class="lightbox-form"> \
+					<div id="lightbox-copy" class="lightbox-copy"><strong>Optional</strong>: Use <span class="disqus">Disqus</span> Profile to claim and manage your comments on sites all over the web. <a href="#" onclick="Lightbox.showMoreInfo(); return false" class="why">Learn why</a></div> \
+					<div class="lightbox-fields"> \
+						<div id="lightbox-field-email" class="lightbox-field"> \
+							<a href="#" id="lightbox-email-block" class="lightbox-email-block" onclick="Lightbox.updateEmail(true); return false"> \
+								<span class="lightbox-email-change">(click to change)&nbsp;&nbsp;</span> \
+								<span id="lightbox-email" class="lightbox-email">' + email + '</span> \
+							</a> \
+							<input id="lightbox-email-field" class="text" style="display: none" onkeyup="Lightbox.setEmail()" onblur="Lightbox.updateEmail(true)"> \
+						</div> \
+						<div id="lightbox-field-username" class="lightbox-field"> \
+							<label id="label-username" for="form-anon-username" class="text">Pick Username</label> \
+							<input id="form-anon-username" name="username" class="text" type="text" value="" /> \
+						</div> \
+						<div id="lightbox-field-password" class="lightbox-field"> \
+							<label id="label-password" for="form-anon-password" class="text">Pick Password</label> \
+							<input id="form-anon-password" name="password" class="text" type="password" /> \
+						</div> \
+					</div> \
+					<div class="lightbox-submit"> \
+						<input id="lightbox-submit-button" type="submit" class="button" value="Register and Post Comment" /> \
+					</div> \
+				</div> \
+				<div id="lightbox-learnmore" class="lightbox-learnmore" style="display: none"> \
+				</div> \
+				<div id="lightbox-footer" class="lightbox-footer"> \
+					 \
+						<a id="lightbox-skip" class="lightbox-skip" href="#" onclick="Lightbox.handleSubmit(\'anon\'); return false">Skip this step. Post my comment as a Guest.</a> \
+					 \
+				</div> \
+				';
+				
+				focusField = 'form-anon-username';
+				break;
+
+			case 'login':
+				content = ' \
+				<div id="lightbox-status" class="lightbox-status">'
+				+ '<img class="lightbox-avatar" src="' + avatar_url + '" /><span class="dsq-badge ' + (verified ? 'dsq-badge-verified' : 'dsq-badge-registered') + '">' + (verified ? 'Verified' : 'Registered') + '</span> <span class="lightbox-status-text">Hello, <strong>' + display_name + '</strong> &mdash; Is that really you?</span>'
+				+ '</div> \
+				<div class="lightbox-form"> \
+					<div id="lightbox-copy" class="lightbox-copy">Log into your existing <span class="disqus">DISQUS</span> Profile</div> \
+					<div class="lightbox-fields"> \
+						<div id="lightbox-field-email" class="lightbox-field"> \
+							<a href="#" id="lightbox-email-block" class="lightbox-email-block" onclick="Lightbox.updateEmail(false); return false"> \
+								<span class="lightbox-email-change">(click to change)&nbsp;&nbsp;</span> \
+								<span id="lightbox-email" class="lightbox-email"></span> \
+							</a> \
+							<input id="lightbox-email-field" class="text" style="display: none" onkeyup="Lightbox.setEmail()" onblur="Lightbox.updateEmail(false)"> \
+						</div> \
+						<div id="lightbox-field-username" class="lightbox-field" style="display: none"> \
+							<label id="label-username" for="form-anon-username" class="text">Username</label> \
+							<input id="form-anon-username" name="username" class="text" type="text" value="' + username + '" /> \
+						</div> \
+						<div id="lightbox-field-password" class="lightbox-field"> \
+							<label id="label-password" for="form-anon-password" class="text">Password for ' + username + ' (<a href="/forgot/" target="_blank">I forgot</a>)</label> \
+							<input id="form-anon-password" name="password" class="text" type="password" /> \
+						</div> \
+					</div> \
+					<div class="lightbox-submit"> \
+						<input id="lightbox-submit-button" type="submit" class="button" value="Post Comment as ' + username + '" /> \
+					</div> \
+				</div> \
+				<div id="lightbox-footer" class="lightbox-footer">'
+				
+					+ (verified
+						? '<a id="lightbox-skip" class="lightbox-skip" href="#" onclick="Lightbox.changeVerifiedEmail(); return false">This is not me. Post my comment as a Guest.</a>' 
+						: '<a id="lightbox-skip" class="lightbox-skip" href="#" onclick="Lightbox.handleSubmit(\'anon\'); return false">This is not me. Post my comment as a Guest.</a>')
+					
+					+ '</div> \
+				';
+					
+				focusField = 'form-anon-password';
+				break;
+			default:
+				alert('Error!');
+				return;
+				break;
+		}	
+
+		Lightbox.activate(content, form);
+		
+		if(choice == 'register' && name) {
+			// Prepopulated username field
+			var usernameField = $('form-anon-username');
+			var suggestedUsername = name;
+			suggestedUsername = suggestedUsername.replace(/[^a-zA-Z0-9-]/g,'');
+			suggestedUsername = suggestedUsername.toLowerCase();
+			usernameField.value = suggestedUsername;
+		}
+
+		$(focusField).focus();
+		Lightbox.position(Lightbox.el);
+		
+		Lightbox.preventUnload = true;
+		Lightbox.setUnload();
+	};
+
+	this.position = function(el) {
+		// Lightbox.position() must be the last method called after content is added to the Lightbox.		
+		var windowWidth = Utils.getWindowSize()[0];
+		var windowHeight = Utils.getWindowSize()[1];
+
+		el.style.left = (windowWidth - el.offsetWidth) / 2 + 'px';
+		el.style.top = (windowHeight - el.offsetHeight) / 2 + 'px';
+		el.style.margin = '0 10px'; // Margin needs to be added after positioning
+	};
+
+	this.activate = function(content, area) {
+		var body;
+		var overlay;
+		var lightbox;
+		
+		if($('lightbox')) { 
+			Lightbox.deactivate();
+		}
+
+		body = document.getElementsByTagName('body')[0];
+		overlay = document.createElement('div');
+		lightbox = document.createElement('div');
+		if(typeof(area) == 'undefined') { area = body; }
+
+		overlay.id = 'overlay';
+		overlay.className = 'overlay';
+		lightbox.id = 'lightbox';
+		lightbox.className = 'lightbox';
+
+		lightbox.innerHTML = content;
+
+		body.appendChild(overlay);
+		area.appendChild(lightbox);
+		
+		Lightbox.el = lightbox;
+		Lightbox.overlay = overlay;
+	};
+	
+	this.deactivate = function(resetSubmit) {
+		Utils.deleteNode(Lightbox.overlay);
+		Utils.deleteNode(Lightbox.el);
+		
+		if(resetSubmit) {
+			$('comment-form').onsubmit = function() { return comment.handleSubmit(); };
+			this.preventUnload = false;
+		}
+	};
+};
+
+/**
+ * BEWARE: Garbage follows below.
+ */
+
+function handleFields(evt, el, key) {
+	var className = (handlePlaceholder(evt, el, key)) ? 'form-text placeholder' : 'form-text';
+	var tooltip = $('tooltip-' + key);
+	
+	var _showTooltip = function(type) {
+		var t = document.createElement('span');
+		var body = document.body || document.getElementsByTagName('body')[0];
+		var message = {
+			'name':		'Name required',
+			'email':	'Email required but not shown',
+			'website':	'Website optional'
+		};
+		
+		t.className = 'tooltip';
+		t.id = 'tooltip-' + key;
+		t.innerHTML = '<span class="tt-arrow">&#9664;</span><span class="tt-message">' + message[type];
+
+		t.style.left = el.offsetWidth + 'px';
+		t.style.top = Utils.findPos(el)[1] + 'px';
+
+		body.appendChild(t);
+	};
+	switch(evt.type) {
+		case 'focus':
+			_showTooltip(key);
+			break;
+		case 'blur':
+			Utils.deleteNode(tooltip);
+			break;
+	}
+	el.className = className;
+}
+
+function handlePlaceholder(evt, el, key) {
+	var isPlaceholder = false;
+	
+	switch(evt.type) {
+		case 'focus':
+			if(el.value == comment.placeholder[key]) { 
+				el.value = ''; 
+				el.className = el.className.replace('placeholder-grey', '');
+				el.className = el.className.replace(/^\s+|\s+$/g, '');
+			}
+			break;
+
+		case 'blur':
+			if(el.value == '') {
+				el.value = comment.placeholder[key];
+				el.className += ' placeholder-grey';
+				isPlaceholder = true;
+			}	
+			break;
+	}
+	return isPlaceholder;
+}
+
+function handleTextArea(evt, el, placeholder) {
+	switch(evt.type) {
+		case 'focus':
+			if(el.value == placeholder) {
+				el.value = '';
+			}
+			break;
+		case 'blur':
+			if(el.value == '') {
+				el.value = placeholder;
+			}
+			break;
+	}
+}
+
+
+function toggleRichEditor(el) {
+	var intervalId;
+	var richTxt = 'Use rich text editor';
+	var plainTxt = 'Use plain text editor';
+
+	var _doToggle = function() {
+		if(el.innerHTML == richTxt) {
+			el.innerHTML = plainTxt;
+			if (tinyMCE.get('plain-message')) {
+				tinyMCE.execCommand('mceAddControl', false, 'plain-message');
+			}
+			else {
+				initRichEditor();
+			}
+		} else {
+			el.innerHTML = richTxt;
+			tinyMCE.execCommand('mceRemoveControl', false, 'plain-message');
+		}
+	}
+
+	if(!window.tinyMceLoaded) {
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'http://mediacdn.disqus.com/1006/javascript/library/tiny_mce/tiny_mce_src.js?v=' + (new Date()).getTime();
+		document.getElementsByTagName('head')[0].appendChild(script);
+		window.tinyMceLoaded = true;
+
+		intervalId = setInterval(function() {
+			if(typeof(tinymce) != 'undefined' && typeof(tinyMCE) != 'undefined') {
+				clearInterval(intervalId);
+				_doToggle();
+			}
+		}, 10);
+	} else {
+		_doToggle();
+	}
+}
+
+function initRichEditor() {
+	tinyMCE.init({
+		mode : "textareas",
+		theme : "simple",
+		body_id : 'rich-message',
+		content_css : 'http://mediacdn.disqus.com/1006/styles/tinymce.css'
+	});
+}
+
+function hideFormBlock(name) {
+	$('form-block-' + name).style.display = 'none';
+}
+
+function showFormBlock(name) {
+	$('form-block-' + name).style.display = 'block';
+}
+
+function setErrorVisibility(type, visible) {
+	var style = visible ? 'inline' : 'none';
+	switch(type) {
+		case 'anon':
+			$('anon-errors-name').style.display = style;
+			$('anon-errors-email').style.display = style;
+			$('anon-errors-url').style.display = style;
+			break;
+		case 'login':
+			$('login-errors').style.display = style;
+			break;
+		case 'register':
+			$('register-errors-username').style.display = style;
+			$('register-errors-email').style.display = style;
+			$('register-errors-password').style.display = style;
+			break;
+		default:
+			// log error;
+	}
+}
+
+function toggleFields(radio) {
+	switch(radio.value) {
+		case 'post-anonymously':
+			setFieldLabel('username', "Username");
+			setFieldLabel('password', "Password");
+			hideFormBlock('username');
+			hideFormBlock('password');
+			showFormBlock('name');
+			showFormBlock('email');
+			showFormBlock('url');
+			setErrorVisibility('login', false);
+			setErrorVisibility('register', false);
+			setErrorVisibility('anon', true);
+			break;
+		case 'post-login':
+			setFieldLabel('username', "Username");
+			setFieldLabel('password', "Password");
+			showFormBlock('username');
+			showFormBlock('password');
+			hideFormBlock('name');
+			hideFormBlock('email');
+			hideFormBlock('url');
+			setErrorVisibility('anon', false);
+			setErrorVisibility('register', false);
+			setErrorVisibility('login', true);
+			break;
+		case 'post-register':
+			setFieldLabel('username', "Pick Username");
+			setFieldLabel('password', "Pick Password");
+			showFormBlock('username');
+			showFormBlock('password');
+			hideFormBlock('name');
+			showFormBlock('email');
+			hideFormBlock('url');
+			setErrorVisibility('anon', false);
+			setErrorVisibility('login', false);
+			setErrorVisibility('register', true);
+			break;
+		case 'post-fbconnect':
+			hideFormBlock('username');
+			hideFormBlock('password');
+			hideFormBlock('name');
+			hideFormBlock('email');
+			hideFormBlock('url');
+			setErrorVisibility('anon', false);
+			setErrorVisibility('register', false);
+			setErrorVisibility('login', false);
+			break;
+		default:
+			// log an error
+	}
+}
+
+function setAction(action) {
+	var radio;
+	radio = $('post-choices-' + action);
+	if(radio) { radio.checked = true; }
+}
+
+		</script>
+		<script type="text/javascript" src="reply_data/httpjson.js"></script>
+		
+		
+
+		
+	</head><body onunload="MessageCache.put(35124915); 
+sendTimerStop('-:2010-03-29T16:07:26.339218', 35124915);" 
+onload="MessageCache.get(35124915); ">
+		<form 
+action="http://alcides.disqus.com/alcides_fonseca_writing_a_compiler_using_python_lex_yacc_and_llvm/?xtype=&amp;theme=&amp;ifrs=&amp;ff=Helvetica,sans-serif&amp;fc=&amp;cbp="
+ onsubmit="return comment.handleSubmit()" method="POST" 
+id="comment-form" name="comment_form">
+			<input name="parent_post" value="" type="hidden">
+			<input name="from_embed" value="1" type="hidden">
+			<input name="to_redirect" value="" type="hidden">
+			<input name="parent" 
+value="http://wiki.alcidesfonseca.com/blog/writing-compiler-using-python-lex-yacc-and-llvm/"
+ type="hidden">
+			<input name="per_page" value="" type="hidden">
+
+			
+
+<style type="text/css">
+	html, body, form, textarea {
+		outline: 0;
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+	}
+	textarea {
+		border: 0;
+	}
+</style>
+
+<textarea id="form-message" name="message" style="border-style: none;" 
+onfocus="handlePlaceholder(event, this, 'textarea');" 
+onblur="handlePlaceholder(event, this, 'textarea')">Type your comment 
+here.</textarea>
+
+<!-- Authentication choices -->
+<input id="post-choices-anon" name="action" value="post-anonymously" 
+style="display: none;" type="radio">
+<input id="post-choices-register" name="action" value="post-register" 
+style="display: none;" type="radio">
+<input id="post-choices-login" name="action" value="post-login" 
+style="display: none;" type="radio">
+<input id="post-choices-fbconnect" name="action" value="post-fbconnect" 
+style="display: none;" type="radio">
+
+<!-- Anonymous author fields -->
+<input id="form-anon-name" name="author_name" type="hidden">
+<input id="form-anon-email" name="author_email" type="hidden">
+<input id="form-anon-url" name="author_url" type="hidden">
+
+<!-- Subscription -->
+<!--
+
+
+<select name="subscribe" id="choose-subscription" class="subscribe-select" onchange="selectSubscribe(this, this.value)">
+	<option value="0">&nbsp;&nbsp;Do not subscribe</option>
+	
+	<option value="2" selected>&nbsp;&nbsp;Subscribe to all comments</option>
+</select>
+
+-->
+
+<!-- Retweet -->
+
+
+<!-- Submission -->
+<!--
+<input class="submit" type="submit" id="default-submit" value="Post Comment" />
+-->
+
+<div id="fbconnect-connected-content" style="display: none; padding-top:
+ 1em;"></div> 
+
+<script type="text/javascript">
+	
+
+
+var $ = function(id) { return document.getElementById(id); };
+var receiver_url = '';
+
+var state = {};
+
+/**
+ * Helper function wrapping around JsonRpc.execute.
+ */
+var execute = function(method, args, callback) {
+	JsonRpc.execute(
+		function(msg) { messenger.sendMessage(msg); },
+		method,
+		args,
+		callback
+	);
+};
+
+/**
+ * Posts a comment.
+ */
+var postComment = function(author_name, author_email, author_url, authenticate, sharing_services, subscribe) {
+	if ($('form-message').value == comment.placeholder.textarea) {
+		execute('postComment.onFailure', [{message: "Please enter a comment to post."}]);
+		return;
+	}
+
+	var postData = {
+		message: $('form-message').value
+	};
+	if (author_name) {
+		postData.author_name = author_name;
+	}
+	if (author_email) {
+		postData.author_email = author_email;
+	}
+	if (author_url) {
+		postData.author_url = author_url;
+	}
+	if (subscribe) {
+		postData.subscribe = subscribe;
+	}
+	if (authenticate) {
+		postData.auth_choice = authenticate.auth_choice;
+		postData.auth_username = authenticate.username;
+		postData.auth_password = authenticate.password;
+		postData.auth_email = authenticate.email;
+	}
+
+	if (sharing_services) {
+		for (var code in sharing_services) {
+			if (sharing_services.hasOwnProperty(code) === true) {
+				postData[code] = sharing_services[code];
+			}
+		}
+	}
+	if (state.parent_post_id) {
+		postData.parent_post_id = state.parent_post_id;
+	}
+	if (state.depth || state.depth === 0) {
+		postData.parent_post_depth = state.depth;
+	}
+
+	$AJR('http://alcides.disqus.com/alcides_fonseca_writing_a_compiler_using_python_lex_yacc_and_llvm/post_create/', {
+		success: function(response) {
+			execute('postComment.onSuccess', [response]);
+
+			// Reset values to defaults.
+			$('form-message').value = comment.placeholder.textarea;
+			$('form-message').className += ' placeholder-grey';
+
+			if (authenticate) {
+				execute('reload', []);
+			}
+		},
+		failure: function(code, response) {
+			response = eval('(' + response + ')');
+			execute('postComment.onFailure', [response]);
+		}
+	}, postData);
+};
+
+var editComment = function(post_id, message) {
+	$AJR('http://alcides.disqus.com/alcides_fonseca_writing_a_compiler_using_python_lex_yacc_and_llvm/edit_post/', {
+		success: function(response) {
+			execute('editComment.onSuccess', [response]);
+		},
+		failure: function(response) {
+			execute('editComment.onFailure', [response]);
+		}
+	}, {
+		'id': post_id,
+		'message': message
+	});
+};
+
+var setState = function(parent_post_id, depth) {
+	state.parent_post_id = parent_post_id;
+	state.depth = depth;
+};
+
+var getUserByEmail = function(email) {
+	$AJR('http://alcides.disqus.com/_auth/json/get_user_by_email/', {
+		success: function(response) {
+			execute('getUserByEmail.onSuccess', [response]);
+		},
+		failure: function(response) {
+			alert("Error.");
+		}
+	}, {
+		'email': email
+	}, 'get');
+};
+
+/**
+ * Validates credentials.
+ *
+ * auth_choice	{String}	Either 'register' or 'login'.
+ */
+var validateAuth = function(auth_choice, email, username, password) {
+	if (auth_choice == 'register') {
+		url = 'http://alcides.disqus.com/_auth/json/validate_register/';
+	} else if (auth_choice == 'login') {
+		url = 'http://alcides.disqus.com/_auth/json/validate_login/';
+	}
+
+	$AJR(url, {
+		success: function(response) {
+			// Expecting empty response on success.
+			if (response.message) {
+				execute('validateAuth.onFailure', [response, auth_choice]);
+			} else {
+				execute('validateAuth.onSuccess', [response, auth_choice]);
+			}
+		},
+		failure: function(code, response) {
+			response = eval('(' + response + ')');
+			execute('validateAuth.onFailure', [response, auth_choice]);
+		}
+	}, {
+		'email': email,
+		'username': username,
+		'password': password
+	});
+};
+
+var authenticateFacebook = function(session, forum_url) {
+	var postData = {'forum_url': forum_url};
+	for (var key in session) {
+		if (session.hasOwnProperty(key)) {
+			postData['facebook_' + key] = session[key];
+		}
+	}
+
+	$AJR('http://alcides.disqus.com/_auth/json/authenticate_facebook/', {
+		success: function(response) {
+			execute('reload', []);
+		}
+	}, postData);
+};
+
+var receive_callback = JsonRpc.createHandler(
+	function(msg) { messenger.sendMessage(msg); }, {
+		'postComment': postComment,
+		'editComment': editComment,
+		'setState': setState,
+		'getUserByEmail': getUserByEmail,
+		'validateAuth': validateAuth,
+		'authenticateFacebook': authenticateFacebook
+	}
+);
+var messenger = new ChildMessenger(receiver_url, receive_callback);
+
+var cookieFailure = function(post_id) {
+	execute('cookieFailure', [post_id]);
+};
+
+
+	// For IE, set height of textarea to entire window.
+	if (Browsers.ie) {
+		if (document.body.clientHeight > 0) {
+			$('form-message').style.height = document.body.clientHeight - 2;
+		} else {
+			// NOTE: This is a workaround for when an iframe is
+			//       created in a hidden container and the
+			//       document.body.clientHeight is 0 until displayed.
+			// FIXME: We should be careful about setting window.onresize here
+			//        without checking if we're clobbering another event.
+			var _once = false;
+			window.onresize = function() {
+				if (!_once) {
+					$('form-message').style.height = document.body.clientHeight - 2;
+				}
+				_once = true;
+			};
+		}
+	}
+</script>
+
+
+		</form>
+		
+		
+			
+				<!-- Start Quantcast tag -->
+				<script type="text/javascript">
+				_qoptions={
+				qacct:"p-94WKwgUwZHlfo"
+				};
+				</script>
+				<script type="text/javascript" src="reply_data/quant.js"></script>
+				<noscript>
+				<img src="http://pixel.quantserve.com/pixel/p-94WKwgUwZHlfo.gif" style="display: none;" border="0" height="1" width="1" alt="Quantcast"/>
+				</noscript>
+				<!-- End Quantcast tag -->
+				<script type="text/javascript">
+				var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+				document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+				</script><script src="reply_data/ga.js" type="text/javascript"></script>
+				<script type="text/javascript">
+				try {
+				var pageTracker = _gat._getTracker("UA-1410476-6");
+				pageTracker._trackPageview();
+				} catch(err) {}</script>
+			
+		
+
+	</body></html>
