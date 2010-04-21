@@ -1,11 +1,5 @@
 = O Guepardo-Dragão ou Cheetah-Dragon =
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Escolhemos este mascote que é uma fusão do mascote do Free Pascal, um guepardo ou cheetah, com o mascote do LLVM, um dragão. Essa [http://en.wikipedia.org/wiki/Chimera_(mythology) quimera] representa a união dessas duas tecnologias.
+ 
+http://llvm-pascal.googlecode.com/svn/trunk/imagens/Cheetah_Dragon_by_Demon_of_night_wings.jpg
