@@ -1,5 +1,4 @@
-= Roadmap =
-
+#labels Featured,Phase-Requirements
   * 1/2010 - Scanner completo
   * 2/2010 - Parser completo
   * 1/2011 - Analizador semântico completo com AST (Abstract Syntatic Tree)
