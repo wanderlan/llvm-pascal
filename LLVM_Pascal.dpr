@@ -13,7 +13,7 @@ uses
   Parser;
 
 begin
-  writeln('LLVM-Pascal Version 0.1 - alpha');
+  writeln('LLVM-Pascal Version 0.1.1 - alpha');
   writeln('(c)2010 by'^M^J,
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^M^J,
           'New BSD license'^M^J,
