@@ -1,7 +1,7 @@
 #labels Featured,Phase-Design
 = O Guepardo-Dragão ou Cheetah-Dragon =
 
-Escolhemos este mascote que é uma fusão do mascote do Free Pascal, um guepardo ou cheetah, com o mascote do LLVM, um dragão. Com essa [http://en.wikipedia.org/wiki/Chimera_(mythology) quimera] ou [http://en.wikipedia.org/wiki/Griffin grifo] fica representada alegoricamente a união utópica dessas duas tecnologias.
+Escolhemos este mascote que é uma fusão do mascote do Free Pascal, um guepardo ou cheetah, com o mascote do LLVM, [http://llvm.org/Logo.html um dragão]. Com essa [http://en.wikipedia.org/wiki/Chimera_(mythology) quimera] ou [http://en.wikipedia.org/wiki/Griffin grifo] fica representada alegoricamente a união utópica dessas duas tecnologias.
 
  
 http://llvm-pascal.googlecode.com/svn/trunk/imagens/Cheetah_Dragon_by_Demon_of_night_wings.jpg
