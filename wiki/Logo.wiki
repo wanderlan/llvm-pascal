@@ -7,4 +7,4 @@ Escolhemos este mascote que é uma fusão do mascote do Free Pascal, um guepardo
 http://llvm-pascal.googlecode.com/svn/trunk/imagens/Cheetah_Dragon_by_Demon_of_night_wings.jpg
 
 Esta imagem está licenciada como [http://creativecommons.org/licenses/by-nc-nd/3.0/ (CC) Creative Commons 3.0]
-pelo [http://demon-of-night-wings.deviantart.com/art/Cheetah-Dragon-125266130 author original]
+pelo [http://demon-of-night-wings.deviantart.com/art/Cheetah-Dragon-125266130 autor original (by Demon-of-night-wings)]
