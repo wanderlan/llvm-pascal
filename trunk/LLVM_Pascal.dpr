@@ -10,17 +10,25 @@ Based on Dragon Book
 {$APPTYPE CONSOLE}
 
 uses
-  Parser;
+  SysUtils, Parser;
 
+var
+  F : TSearchrec;
 begin
   writeln('LLVM-Pascal Version 0.1.1 - alpha');
   writeln('(c)2010 by'^M^J,
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^M^J,
           'New BSD license'^M^J,
-          'http://llvm-pascal.googlecode.com/'^M^J);
-  try
-    with TParser.Create(ParamStr(1), 10) do Compile;
-  finally
-    readln;
-  end;
+          'http://llvm-pascal.googlecode.com'^M^J);
+  with TParser.Create(10) do
+    try
+      if FindFirst(ParamStr(1), faAnyFile, F) = 0 then
+        repeat
+          Compile(ExtractFilePath(ParamStr(1)) + F.Name);
+        until FindNext(F) <> 0;
+      FindClose(F);
+    finally
+      Free;
+      readln;
+    end;
 end.

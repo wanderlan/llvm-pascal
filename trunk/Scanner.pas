@@ -20,7 +20,7 @@ type
   private
     Buf : array[1..32768] of char;
     Arq : text;
-    SourceName,
+    FSourceName,
     Line        : string;
     FToken      : TToken;
     FEndComment : string;
@@ -29,8 +29,9 @@ type
     FElapsed    : TDateTime;
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(EndComment: string);
+    procedure SetFSourceName(const Value: string);
   protected
-    FLineNumber, Top, First, FErrors, FMaxErrors : integer;
+    FLineNumber, FTotalLines, Top, First, FErrors, FMaxErrors : integer;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -38,13 +39,15 @@ type
     procedure NextToken;
     procedure RecoverFromError(Expected, Found : string); virtual;
   public
-    constructor Create(Source : string; MaxErrors : integer);
+    constructor Create(MaxErrors : integer);
     destructor Destroy; override;
     procedure Error(Msg : string);
     procedure ErrorExpected(Expected, Found : string);
     procedure MatchToken(TokenExpected : string);
     procedure MatchTerminal(KindExpected : TTokenKind);
+    property SourceName : string read FSourceName write SetFSourceName;
     property LineNumber : integer read FLineNumber;
+    property TotalLines : integer read FTotalLines;
     property ColNumber : integer read First;
     property Token : TToken read FToken;
     property EndSource : boolean read FEndSource;
@@ -55,7 +58,7 @@ type
 implementation
 
 uses
-  StrUtils, SysUtils, Grammar;
+  SysUtils, StrUtils, Grammar;
 
 const
   ReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
@@ -65,29 +68,18 @@ const
   Kinds : array[TTokenKind] of string = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant', 'Real Constant', 'Constant Expression',
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
 
-constructor TScanner.Create(Source: string; MaxErrors : integer); begin
+constructor TScanner.Create(MaxErrors : integer); begin
   FElapsed   := Now;
-  SourceName := Source;
-  if FileExists(Source) then begin
-    assign(Arq, Source);
-    SetTextBuf(Arq, Buf);
-    writeln(Source);
-    reset(Arq);
-    First := 1;
-    FMaxErrors := MaxErrors;
-    FToken := TToken.Create;
-    NextToken;
-  end
-  else begin
-    FEndSource := true;
-    Error('Source file ''' + Source + ''' not found');
-  end;
+  FMaxErrors := MaxErrors;
 end;
 
 destructor TScanner.Destroy; begin
+  if Errors <> 0 then
+    writeln(Errors, ' error(s).')
+  else
+    writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Now-Elapsed), 'seconds.');
   inherited;
   FToken.Free;
-  close(Arq)
 end;
 
 procedure TScanner.ScanChars(Chars : array of TSetChar; Tam : array of integer; Optional : boolean = false);
@@ -109,6 +101,26 @@ begin
     end
     else
       if Optional then exit;
+  end;
+end;
+
+procedure TScanner.SetFSourceName(const Value: string); begin
+  if FileExists(SourceName) then close(Arq);
+  FSourceName := Value;
+  FLineNumber := 0;
+  if FileExists(SourceName) then begin
+    assign(Arq, SourceName);
+    SetTextBuf(Arq, Buf);
+    writeln(SourceName);
+    reset(Arq);
+    First := 1;
+    FToken := TToken.Create;
+    NextToken;
+  end
+  else begin
+    FEndSource := true;
+    Error('Source file ''' + SourceName + ''' not found');
+    Abort;
   end;
 end;
 
@@ -155,6 +167,7 @@ begin
         exit;
       end;
       inc(FLineNumber);
+      inc(FTotalLines);
       First := 1;
     end;
     // End comment across many lines

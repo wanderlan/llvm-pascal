@@ -28,6 +28,7 @@ type
     FEndSource   : boolean;
     LenLine      : integer;
     FElapsed     : TDateTime;
+    FTotalLines  : integer;
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(EndComment: string);
   protected
@@ -43,6 +44,7 @@ type
     procedure MatchToken(TokenExpected : string);
     procedure MatchTerminal(KindExpected : TTokenKind);
     property LineNumber : integer read FLineNumber;
+    property TotalLines : integer read FTotalLines;
     property ColNumber : integer read First;
     property Token : TToken read FToken;
     property EndSource : boolean read FEndSource;
@@ -68,7 +70,7 @@ constructor TScanner.Create(Source: string; MaxErrors : integer); begin
     dec(Top);
     except
      on x:x do begin Top; x; end;
-      on x do Top;
+     on x do Top;
     else
       dec(Top);
       dec(Top);
