@@ -20,7 +20,8 @@ const
   GUID         = #193; ExceptFin    = #194; ExceptHand   = #195; ExceptType   = #196; ExceptList   = #197;
   InterfMet    = #198; InterDir     = #199; AbstractDir  = #200; FinSection   = #201; RaiseStmt    = #202;
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
-  RsrcDecl     = #208; OfObject     = #209; MethodDir    = #210; ExternalDir  = #211; Directives   = #211;
+  RsrcDecl     = #208; OfObject     = #209; MethodDir    = #210; ExternalDir  = #211; MetCall      = #212;
+  Directives   = #213;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -98,9 +99,9 @@ const
   '|FOR|' + Ident + QualId + Require + ForStmt + 'DO' + Statement +
   '|WITH|' + Ident + QualId + WithList + 'DO' + Statement +
   '|CASE|' + Require + Expression + 'OF' + Require + Expression + SetList + ':' + Statement + CaseList + Mark +
-  '|TRY|' + Statement + StmtList + ExceptFin +
+  '|TRY|' + Statement + StmtList + Require + ExceptFin +
   '|GOTO|' + Require + LabelId +
-  '|INHERITED|' +
+  '|INHERITED|' + MetCall +
   '|RAISE|' + RaiseStmt +
   '|' + IntConst + '|' + ':' + Statement +
   '|ASM|' + (*AsmStatement +*) 'END',
@@ -266,8 +267,8 @@ const
 // GUID
   '|[|' + IdentDir + ']',
 // ExceptFin
-  '|EXCEPT|' + ExceptHand + Statement + StmtList + Mark +
-  '|FINALLY|' + Statement + StmtList,
+  '|EXCEPT|' + ExceptHand + Statement + StmtList + Mark + 
+  '|FINALLY|' + Statement + StmtList + 'END',
 // ExceptHand
   '|ON|' + Ident + ExceptType + 'DO' + Statement + ExceptList + EndCaseList + Pop,
 // ExceptType
@@ -311,7 +312,9 @@ const
   '|REINTRODUCE|;' + MethodDir + '|OVERLOAD|;' + MethodDir + '|VIRTUAL|;' + AbstractDir + '|OVERRIDE|;' +
   '|MESSAGE|;' + LabelId + '|DYNAMIC|;' + AbstractDir,
 // ExternalDir
-  '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop +
+  '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop,
+// MetCall
+  '|' + Ident + '|' + QualId, 
 // Directives
   '|FORWARD|;' + Pop +
   '|FAR|;' + Directives + '|NEAR|;' + Directives + '|EXPORT|;' + Directives + // Deprecateds

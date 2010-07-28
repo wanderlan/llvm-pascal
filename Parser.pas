@@ -23,7 +23,7 @@ type
   protected
     procedure RecoverFromError(Expected, Found : string); override;
   public
-    procedure Compile;
+    procedure Compile(Source : string);
   end;
 
 implementation
@@ -54,7 +54,8 @@ procedure TParser.RecoverFromError(Expected, Found : string); begin
   inc(Top);
 end;
 
-procedure TParser.Compile; begin
+procedure TParser.Compile(Source : string); begin
+  SourceName := Source;
   Symbols[1] := Start;
   Symbol     := Start;
   Top        := 1;
@@ -67,10 +68,6 @@ procedure TParser.Compile; begin
     end;
     PopSymbol;
   until EndSource or (Top < 1);
-  if Errors <> 0 then
-    writeln(Errors, ' error(s).')
-  else
-    writeln(LineNumber, ' lines,', FormatDateTime(' s.z ', Now-Elapsed), 'seconds.')
 end;
 
 procedure TParser.ExpandProduction(T : string);
