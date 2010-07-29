@@ -55,19 +55,24 @@ procedure TParser.RecoverFromError(Expected, Found : string); begin
 end;
 
 procedure TParser.Compile(Source : string); begin
-  SourceName := Source;
-  Symbols[1] := Start;
-  Symbol     := Start;
-  Top        := 1;
-  repeat
-    case Symbol[1] of
-      #0..#127           : MatchToken(Symbol); // Terminal
-      Start..pred(Ident) : ExpandProduction(Token.Lexeme) // Production
-    else // Other Terminal
-      MatchTerminal(CharToTokenKind(Symbol[1]));
-    end;
-    PopSymbol;
-  until EndSource or (Top < 1);
+  try
+    SourceName := Source;
+    Symbols[1] := Start;
+    Symbol     := Start;
+    Top        := 1;
+    repeat
+      case Symbol[1] of
+        #0..#127           : MatchToken(Symbol); // Terminal
+        Start..pred(Ident) : ExpandProduction(Token.Lexeme) // Production
+      else // Other Terminal
+        MatchTerminal(CharToTokenKind(Symbol[1]));
+      end;
+      PopSymbol;
+    until EndSource or (Top < 1);
+  except
+    on E : EAbort do exit;
+    on E : Exception do Error(E.Message);
+  end;
 end;
 
 procedure TParser.ExpandProduction(T : string);

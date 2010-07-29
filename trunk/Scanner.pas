@@ -12,7 +12,7 @@ type
   TToken = class
     Lexeme       : string;
     Kind         : TTokenKind;
-    RealValue    : double;
+    RealValue    : Extended;
     IntegerValue : Int64;
   end;
   TSetChar = set of char;
@@ -29,7 +29,10 @@ type
     FElapsed    : TDateTime;
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(EndComment: string);
-    procedure SetFSourceName(const Value: string);
+    procedure SetFSourceName(const Value : string);
+    procedure DoDirective(DollarInc : integer);
+    procedure SkipBlank; inline;
+    function TokenIn(S : string) : boolean; inline;
   protected
     FLineNumber, FTotalLines, Top, First, FErrors, FMaxErrors : integer;
     function CharToTokenKind(N : char) : TTokenKind;
@@ -39,7 +42,7 @@ type
     procedure NextToken;
     procedure RecoverFromError(Expected, Found : string); virtual;
   public
-    constructor Create(MaxErrors : integer);
+    constructor Create(MaxErrors : integer = 10);
     destructor Destroy; override;
     procedure Error(Msg : string);
     procedure ErrorExpected(Expected, Found : string);
@@ -67,10 +70,12 @@ const
     'then.threadvar.to.try.type.unit.until.uses.var.while.with.xor.';
   Kinds : array[TTokenKind] of string = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant', 'Real Constant', 'Constant Expression',
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
+  ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.';
 
-constructor TScanner.Create(MaxErrors : integer); begin
+constructor TScanner.Create(MaxErrors : integer = 10); begin
   FElapsed   := Now;
   FMaxErrors := MaxErrors;
+  DecimalSeparator := '.';
 end;
 
 destructor TScanner.Destroy; begin
@@ -104,10 +109,13 @@ begin
   end;
 end;
 
-procedure TScanner.SetFSourceName(const Value: string); begin
+procedure TScanner.SetFSourceName(const Value : string); begin
+  if FErrors >= FMaxErrors  then Abort;
   if FileExists(SourceName) then close(Arq);
   FSourceName := Value;
   FLineNumber := 0;
+  FEndSource  := false;
+  LenLine     := 0;
   if FileExists(SourceName) then begin
     assign(Arq, SourceName);
     SetTextBuf(Arq, Buf);
@@ -136,18 +144,69 @@ procedure TScanner.NextChar(C : TSetChar); begin
   FToken.Kind := tkSpecialSymbol;
 end;
 
+procedure TScanner.DoDirective(DollarInc : integer);
+var
+  I : integer;
+begin
+  inc(First, DollarInc + 1);
+  if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
+    ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+    SkipBlank;
+    case AnsiIndexText(FToken.Lexeme, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF']) of
+      0 : if pos('.' + FToken.Lexeme + '.', ConditionalSymbols) = 0 then ConditionalSymbols := ConditionalSymbols + FToken.Lexeme + '.';
+      1 : begin
+        I := pos('.' + FToken.Lexeme + '.', ConditionalSymbols);
+        if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
+      end;
+      2 : begin
+        ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+        if pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols) = 0 then
+          FindEndComment('ENDIF' + FEndComment)
+        else
+          FindEndComment(FEndComment);
+      end;
+      3 : begin
+        ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+        if pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols) <> 0 then
+          FindEndComment('ENDIF' + FEndComment)
+        else
+          FindEndComment(FEndComment);
+      end;
+    else
+      FindEndComment(FEndComment);
+    end;
+  end
+  else begin
+    Error('Invalid compiler directive ''' + Line[First] + '''');
+    First := MAXINT;
+  end;
+end;
+
 procedure TScanner.FindEndComment(EndComment : string);
 var
   PosEnd : integer;
 begin
-  FEndComment := EndComment;
-  PosEnd := PosEx(EndComment, Line, First);
-  if PosEnd <> 0 then begin // End comment in same line
-    First := PosEnd + length(EndComment);
-    FEndComment := '';
-  end
-  else
-    First := MAXINT;
+  if Line[First + length(EndComment)] = '$' then
+    DoDirective(length(EndComment))
+  else begin
+    FEndComment := EndComment;
+    PosEnd := PosEx(EndComment, Line, First);
+    if PosEnd <> 0 then begin // End comment in same line
+      First := PosEnd + length(EndComment);
+      FEndComment := '';
+    end
+    else
+      First := MAXINT;
+  end;
+end;
+
+procedure TScanner.SkipBlank; begin
+  inc(First);
+  while (First <= LenLine) and (Line[First] in [' ', #9]) do inc(First);
+end;
+
+function TScanner.TokenIn(S : string) : boolean; begin
+  Result := pos('.' + FToken.Lexeme + '.', S) <> 0
 end;
 
 // Implementar {$, (*$
@@ -176,10 +235,7 @@ begin
       continue;
     end;
     case Line[First] of
-      ' ', #9 : begin // SkipBlank
-        inc(First);
-        while (First <= LenLine) and (Line[First] in [' ', #9]) do inc(First);
-      end;
+      ' ', #9 : SkipBlank;
       'A'..'Z', '_', 'a'..'z' : begin // Identifiers
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
         if (length(FToken.Lexeme) < 2) or (pos('.' + LowerCase(FToken.Lexeme) + '.', ReservedWords) = 0) then
