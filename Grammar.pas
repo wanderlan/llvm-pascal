@@ -28,7 +28,7 @@ const
   // Grammar commands
   Require = #253; Mark = #254; Pop = #255;
 
-  SimpleType = 'Type' + '|' + Ident + '|' + SubRange + '|INTEGER|' + '|BOOLEAN|' + '|BYTE|' + '|WORD|' + '|CARDINAL|' + '|LONGINT|' +
+  SimpleType = 'Type' + '|' + Ident + '|' + Expression + SubRange + '|INTEGER|' + '|BOOLEAN|' + '|BYTE|' + '|WORD|' + '|CARDINAL|' + '|LONGINT|' +
     '|INT64|' + '|UINT64|' + '|CHAR|' + '|WIDECHAR|' + '|WIDESTRING|' +'|LONGWORD|' + '|SHORTINT|' + '|SMALLINT|' +
     '|PCHAR|' + '|POINTER|' + '|REAL|' + '|SINGLE|' + '|DOUBLE|' + '|EXTENDED|' + '|CURRENCY|' + '|COMP|' +
     '|BYTEBOOL|' + '|WORDBOOL|'+ '|LONGBOOL|';
@@ -61,7 +61,7 @@ const
   '|EXPORTS|'     + Ident + FormalParams + PropIndex + NameDir + ExportsList + DeclSection +
   '|RESOURCESTRING|' + Require + RsrcDecl + DeclSection,
 // VarDecl
-  '|' + Ident + '|' + VarList + ':' + Require + Type_ + VarInit + ';' + VarDecl,
+  '|' + Ident + '|' + VarList + ':' + Require + Type_ + VarInit + ';' + Mark + VarDecl,
 // VarList
   '|,|' + Ident + VarList,
 // VarInit
@@ -74,13 +74,13 @@ const
   '|'+ IntConst + '|' + Require + SubRange +
   '|'+ CharConst + '|' + Require + SubRange +
   '|(|' + Ident + EnumList + ')' +
-  '|+|' + Ident + Require + SubRange +
-  '|-|' + Ident + Require + SubRange +
+  '|+|' + Ident + Expression + Require + SubRange +
+  '|-|' + Ident + Expression + Require + SubRange +
   '|^|' + Ident +
   '|RECORD|' + FieldDecl + 'END' +
-  '|CLASS|' + ForwardClass + ClassHerit + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark +
+  '|CLASS|' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
   '|OBJECT|' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
-  '|INTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' + Mark +
+  '|INTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
   '|SET|' + 'OF' + Require + OrdinalType +
   '|PROCEDURE|' + FormalParams + OfObject + Directives +
   '|FUNCTION|' + FormalParams + ':' + Ident + OfObject + Directives +
@@ -136,7 +136,7 @@ const
   '|INITIALIZATION|' + Statement + StmtList + FinSection +
   '|END|',
 // TypeDecl
-  '|' + Ident + '|' + '=' + Require + Type_ + ';' + TypeDecl,
+  '|' + Ident + '|' + '=' + Require + Type_ + ';' + Mark + TypeDecl,
 // StringLength
   '|[|' + Require + IntConst + ']',
 // ArrayDim
@@ -186,7 +186,7 @@ const
   '|' + Ident + '|' + ConstType + '=' + Require + Expression + ';' + ConstDecl,
 // ConstType
   '|:|' + Require + Type_,
-// Ordinal
+// Ordinal NÃO USADO
   '|' + IntConst + '|' +
   '|' + CharConst + '|' +
   '|' + Ident + '|' +
@@ -256,7 +256,7 @@ const
   '|' + Ident + '|' +
   '|' + IntConst + '|',
 // SubRange
-  '|..|' + Require + Ordinal,
+  '|..|' + Require + Expression, //Ordinal,
 // FileOf
   '|OF|' + Require + TypeId,
 // ForStmt
@@ -298,7 +298,7 @@ const
 // PackedDecl
   '|ARRAY|' + ArrayDim + 'OF' + Require + Type_ +
   '|RECORD|' + FieldDecl + 'END' +
-  '|CLASS|' + ForwardClass + ClassHerit + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark + // Forwardclass
+  '|CLASS|' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark + // Forwardclass
   '|OBJECT|' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '|SET|' + 'OF' + Require + OrdinalType +
   '|FILE|' + FileOf,
@@ -322,9 +322,9 @@ const
 // MetCall
   '|' + Ident + '|' + QualId, 
 // Directives
-  '|FORWARD|;' + Pop +
-  '|FAR|;' + Directives + '|NEAR|;' + Directives + '|EXPORT|;' + Directives + // Deprecateds
-  '|CDECL|;' + '|SAFECALL|;' + '|STDCALL|;' + '|REGISTER|;' + '|PASCAL|;' + '|INLINE|;'
+  '|FORWARD|' + Pop +
+  '|FAR|' + Directives + '|NEAR|' + Directives + '|EXPORT|' + Directives + // Deprecateds
+  '|CDECL|' + '|SAFECALL|' + '|STDCALL|' + '|REGISTER|' + '|PASCAL|' + '|INLINE|'
   );
 
 implementation
