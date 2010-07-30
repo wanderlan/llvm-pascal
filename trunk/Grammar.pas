@@ -13,7 +13,7 @@ const
   FormalParams = #158; FormalList   = #159; FormalParam  = #160; ParamInit    = #161; ParamSpec    = #162;
   ConstDecl    = #163; ConstType    = #164; StaticDecl   = #165; OrdinalType  = #166; ArrayOfType  = #167;
   TypeId       = #168; ParamType    = #169; PropInterf   = #170; PropIndex    = #171; PropRead     = #172;
-  PropWrite    = #173; PropStored   = #174; PropDef      = #175; PropImplem   = #176; RelOp        = #177;
+  PropWrite    = #173; PropStored   = #174; PropDefault  = #175; PropImplem   = #176; RelOp        = #177;
   MetId        = #178; AssignStmt   = #179; ElseBranch   = #180; ExprList     = #181; CaseList     = #182;
   EndCaseList  = #183; SetList      = #184; InterDecl    = #185; LabelId      = #186; SubRange     = #187;
   FileOf       = #188; ForStmt      = #189; PropParams   = #190; IdentDir     = #191; NameDir      = #192;
@@ -21,7 +21,7 @@ const
   InterfMet    = #198; InterDir     = #199; AbstractDir  = #200; FinSection   = #201; RaiseStmt    = #202;
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; MethodDir    = #210; ExternalDir  = #211; MetCall      = #212;
-  Directives   = #213;
+  DefProp      = #213; Directives   = #214;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -169,7 +169,7 @@ const
   '|FUNCTION|'    + Ident + FormalParams + ':' + Ident + ';' + MethodDir + Directives + MethodDecl +
   '|CONSTRUCTOR|' + Ident + FormalParams + ';' + MethodDir + Directives + MethodDecl +
   '|DESTRUCTOR|'  + Ident + FormalParams + ';' + MethodDir + Directives + MethodDecl +
-  '|PROPERTY|'    + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDef + PropImplem + ';' + MethodDecl,
+  '|PROPERTY|'    + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp + MethodDecl,
 // FormalParams
   '|(|' + FormalParam + FormalList + ')',
 // FormalList
@@ -191,7 +191,7 @@ const
   '|VAR|' + Require + FieldDecl +
   '|PROCEDURE|' + Ident + FormalParams + ';' + MethodDir + Directives +
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + MethodDir + Directives +
-  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDef + PropImplem + ';',
+  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp,
 // OrdinalType
   '|' + Ident + '|' + SubRange +
   '|' + IntConst + '|' + Require + SubRange +
@@ -284,7 +284,7 @@ const
 // InterfMet
   '|PROCEDURE|' + Ident + FormalParams + ';' + InterDir + InterfMet +
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + InterDir + InterfMet +
-  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDef + ';' + InterfMet,
+  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + ';' + DefProp + InterfMet,
 // InterDir
   '|CDECL|;' + '|SAFECALL|;' + '|STDCALL|;' + '|REGISTER|;' + '|PASCAL|;',
 // AbstractDir
@@ -309,7 +309,8 @@ const
   '|PROTECTED|' + FieldDecl + MethodDecl + ObjDecl +
   '|PUBLIC|' + FieldDecl + MethodDecl + ObjDecl,
 // ForwardClass
-  '|;|' + Pop,
+  '|;|' + Pop +
+  '|OF|' + Ident + ';' + Pop,
 // RsrcDecl
   '|' + Ident + '|' + '=' + StringConst + ';' + RsrcDecl,
 // OfObject
@@ -320,7 +321,9 @@ const
 // ExternalDir
   '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop,
 // MetCall
-  '|' + Ident + '|' + QualId, 
+  '|' + Ident + '|' + QualId,
+// DefProp
+  '|DEFAULT|;',
 // Directives
   '|FORWARD|' + Pop +
   '|FAR|' + Directives + '|NEAR|' + Directives + '|EXPORT|' + Directives + // Deprecateds
