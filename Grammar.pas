@@ -28,7 +28,7 @@ const
   // Grammar commands
   Require = #253; Mark = #254; Pop = #255;
 
-  SimpleType = '|' + Ident + '|' + SubRange + '|INTEGER|' + '|BOOLEAN|' + '|BYTE|' + '|WORD|' + '|CARDINAL|' + '|LONGINT|' +
+  SimpleType = 'Type' + '|' + Ident + '|' + SubRange + '|INTEGER|' + '|BOOLEAN|' + '|BYTE|' + '|WORD|' + '|CARDINAL|' + '|LONGINT|' +
     '|INT64|' + '|UINT64|' + '|CHAR|' + '|WIDECHAR|' + '|WIDESTRING|' +'|LONGWORD|' + '|SHORTINT|' + '|SMALLINT|' +
     '|PCHAR|' + '|POINTER|' + '|REAL|' + '|SINGLE|' + '|DOUBLE|' + '|EXTENDED|' + '|CURRENCY|' + '|COMP|' +
     '|BYTEBOOL|' + '|WORDBOOL|'+ '|LONGBOOL|';
@@ -74,6 +74,8 @@ const
   '|'+ IntConst + '|' + Require + SubRange +
   '|'+ CharConst + '|' + Require + SubRange +
   '|(|' + Ident + EnumList + ')' +
+  '|+|' + Ident + Require + SubRange +
+  '|-|' + Ident + Require + SubRange +
   '|^|' + Ident +
   '|RECORD|' + FieldDecl + 'END' +
   '|CLASS|' + ForwardClass + ClassHerit + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark +
@@ -187,11 +189,14 @@ const
 // Ordinal
   '|' + IntConst + '|' +
   '|' + CharConst + '|' +
-  '|' + Ident + '|',
+  '|' + Ident + '|' +
+  '|+|' + Ident +
+  '|-|' + Ident,
 // OrdinalType
   '|' + Ident + '|' + SubRange +
   '|' + IntConst + '|' + Require + SubRange +
-  '|' + CharConst + '|' + Require + SubRange,
+  '|' + CharConst + '|' + Require + SubRange +
+  '|(|' + Ident + EnumList + ')',
 // ArrayOfType
   SimpleType +
   '|CONST|',
@@ -218,7 +223,8 @@ const
   '|IMPLEMENTS|' + Ident + IdentList,
 // RelOp
   '|>||<||>=||<=||<>||=||IN||IS||AS|' +
-  '|+||-||AND||OR|',
+  '|+||-||AND||OR|' +
+  '|*||/||DIV||MOD|',
 // MetId
   '|.|' + Ident,
 // AssignStmt
