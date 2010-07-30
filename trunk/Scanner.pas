@@ -147,34 +147,24 @@ end;
 procedure TScanner.DoDirective(DollarInc : integer);
 var
   I : integer;
+  L : string;
 begin
   inc(First, DollarInc + 1);
   if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+    L := FToken.Lexeme;
     SkipBlank;
-    case AnsiIndexText(FToken.Lexeme, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF']) of
-      0 : if pos('.' + FToken.Lexeme + '.', ConditionalSymbols) = 0 then ConditionalSymbols := ConditionalSymbols + FToken.Lexeme + '.';
+    ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF']) of
+      0 : if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + FToken.Lexeme + '.';
       1 : begin
         I := pos('.' + FToken.Lexeme + '.', ConditionalSymbols);
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
       end;
-      2 : begin
-        ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-        if pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols) = 0 then
-          FindEndComment('ENDIF' + FEndComment)
-        else
-          FindEndComment(FEndComment);
-      end;
-      3 : begin
-        ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-        if pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols) <> 0 then
-          FindEndComment('ENDIF' + FEndComment)
-        else
-          FindEndComment(FEndComment);
-      end;
-    else
-      FindEndComment(FEndComment);
+      2 : if not TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
+      3 : if     TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
     end;
+    FindEndComment(FEndComment);
   end
   else begin
     Error('Invalid compiler directive ''' + Line[First] + '''');
@@ -186,10 +176,10 @@ procedure TScanner.FindEndComment(EndComment : string);
 var
   PosEnd : integer;
 begin
+  FEndComment := EndComment;
   if Line[First + length(EndComment)] = '$' then
     DoDirective(length(EndComment))
   else begin
-    FEndComment := EndComment;
     PosEnd := PosEx(EndComment, Line, First);
     if PosEnd <> 0 then begin // End comment in same line
       First := PosEnd + length(EndComment);
@@ -209,7 +199,6 @@ function TScanner.TokenIn(S : string) : boolean; begin
   Result := pos('.' + FToken.Lexeme + '.', S) <> 0
 end;
 
-// Implementar {$, (*$
 procedure TScanner.NextToken;
 var
   Str : string;
@@ -238,7 +227,7 @@ begin
       ' ', #9 : SkipBlank;
       'A'..'Z', '_', 'a'..'z' : begin // Identifiers
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-        if (length(FToken.Lexeme) < 2) or (pos('.' + LowerCase(FToken.Lexeme) + '.', ReservedWords) = 0) then
+        if (length(FToken.Lexeme) < 2) or not TokenIn(ReservedWords) then
           FToken.Kind := tkIdentifier
         else
           FToken.Kind := tkReservedWord;
