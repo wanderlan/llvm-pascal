@@ -11,7 +11,7 @@ const
   TypeDecl     = #148; StringLength = #149; ArrayDim     = #150; ClassDecl    = #151; QualId       = #152;
   LabelAssign  = #153; LabelList    = #154; ClassHerit   = #155; FieldDecl    = #156; MethodDecl   = #157;
   FormalParams = #158; FormalList   = #159; FormalParam  = #160; ParamInit    = #161; ParamSpec    = #162;
-  ConstDecl    = #163; ConstType    = #164; Ordinal      = #165; OrdinalType  = #166; ArrayOfType  = #167;
+  ConstDecl    = #163; ConstType    = #164; StaticDecl   = #165; OrdinalType  = #166; ArrayOfType  = #167;
   TypeId       = #168; ParamType    = #169; PropInterf   = #170; PropIndex    = #171; PropRead     = #172;
   PropWrite    = #173; PropStored   = #174; PropDef      = #175; PropImplem   = #176; RelOp        = #177;
   MetId        = #178; AssignStmt   = #179; ElseBranch   = #180; ExprList     = #181; CaseList     = #182;
@@ -146,6 +146,7 @@ const
   '|PROTECTED|' + FieldDecl + MethodDecl + ClassDecl +
   '|PUBLIC|' + FieldDecl + MethodDecl + ClassDecl +
   '|PUBLISHED|' + FieldDecl + MethodDecl + ClassDecl +
+  '|CLASS|' + StaticDecl + FieldDecl + MethodDecl + ClassDecl +
   '|AUTOMATED|' + FieldDecl + MethodDecl + ClassDecl,
 // QualId
   '|.|' + Ident + QualId +
@@ -179,19 +180,18 @@ const
   '|CONST|' + Ident + IdentList + ParamSpec + ParamInit +
   '|OUT|' + Ident + IdentList + Require + ParamSpec,
 // ParamInit
-  '|=|' + Ident,
+  '|=|' + Expression,
 // ParamSpec
   '|:|' + Require + ParamType,
 // ConstDecl
   '|' + Ident + '|' + ConstType + '=' + Require + Expression + ';' + ConstDecl,
 // ConstType
   '|:|' + Require + Type_,
-// Ordinal NÃO USADO
-  '|' + IntConst + '|' +
-  '|' + CharConst + '|' +
-  '|' + Ident + '|' +
-  '|+|' + Ident +
-  '|-|' + Ident,
+// StaticDecl
+  '|VAR|' + Require + FieldDecl +
+  '|PROCEDURE|' + Ident + FormalParams + ';' + MethodDir + Directives +
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + MethodDir + Directives +
+  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDef + PropImplem + ';',
 // OrdinalType
   '|' + Ident + '|' + SubRange +
   '|' + IntConst + '|' + Require + SubRange +
