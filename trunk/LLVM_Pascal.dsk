@@ -11,21 +11,23 @@ File_8=TSourceModule,'C:\Trabalho\ExtPascal\ExtPascal.pas',0,1,1586,1,1608,0,0,,
 File_9=TSourceModule,'C:\Trabalho\SGI_RDM\Fase 3 - Construcao\Implementar Projeto\Codigo Fonte\ExtFormUtils.pas',0,1,157,20,54,0,0,,
 
 [Modules]
-Module0=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\Classes.pas
-Module1=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
+Module0=C:\Trabalho\LLVM-Pascal\Grammar.pas
+Module1=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\Classes.pas
 Module2=C:\Trabalho\LLVM-Pascal\Parser.pas
 Module3=C:\Trabalho\LLVM-Pascal\Scanner.pas
-Module4=C:\Trabalho\LLVM-Pascal\Grammar.pas
+Module4=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
 Count=5
 EditWindowCount=1
+
+[C:\Trabalho\LLVM-Pascal\Grammar.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
 
 [C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\Classes.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
-
-[C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
-ModuleType=TBaseProject
 
 [C:\Trabalho\LLVM-Pascal\Parser.pas]
 ModuleType=TSourceModule
@@ -37,14 +39,12 @@ ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
-[C:\Trabalho\LLVM-Pascal\Grammar.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
+[C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
+ModuleType=TBaseProject
 
 [EditWindow0]
 ViewCount=5
-CurrentEditView=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\Classes.pas
+CurrentEditView=C:\Trabalho\LLVM-Pascal\Grammar.pas
 View0=0
 View1=1
 View2=2
@@ -89,9 +89,9 @@ EditViewName=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
 [View1]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Parser.pas
-CursorX=1
-CursorY=71
-TopLine=44
+CursorX=25
+CursorY=24
+TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -100,9 +100,9 @@ EditViewName=C:\Trabalho\LLVM-Pascal\Parser.pas
 [View2]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Scanner.pas
-CursorX=1
-CursorY=75
-TopLine=42
+CursorX=89
+CursorY=355
+TopLine=347
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -122,9 +122,9 @@ EditViewName=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\Cl
 [View4]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Grammar.pas
-CursorX=1
-CursorY=24
-TopLine=1
+CursorX=143
+CursorY=57
+TopLine=29
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -367,8 +367,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-27
-Top=-2070
+Left=-395
+Top=-18454
 Width=280
 Height=371
 MaxLeft=-1
@@ -453,8 +453,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-27
-Top=-2070
+Left=-395
+Top=-18454
 Width=1905
 Height=3676
 MaxLeft=-1
@@ -472,8 +472,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-27
-Top=-2070
+Left=-395
+Top=-18454
 Width=4327
 Height=314
 MaxLeft=-1

@@ -44,7 +44,7 @@ type
   public
     constructor Create(MaxErrors : integer = 10);
     destructor Destroy; override;
-    procedure Error(Msg : string);
+    procedure Error(Msg : string); virtual;
     procedure ErrorExpected(Expected, Found : string);
     procedure MatchToken(TokenExpected : string);
     procedure MatchTerminal(KindExpected : TTokenKind);
@@ -67,7 +67,7 @@ const
   ReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
     'file.finalization.finally.for.function.goto.if.implementation.in.inherited.initialization.inline.interface.is.label.library.mod.nil.' +
     'not.object.of.or.out.packed.private.procedure.program.property.protected.public.published.raise.record.repeat.resourcestring.set.shl.shr.' +
-    'then.threadvar.to.try.type.unit.until.uses.var.while.with.xor.';
+    'strict.then.threadvar.to.try.type.unit.until.uses.var.while.with.xor.';
   Kinds : array[TTokenKind] of string = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant', 'Real Constant', 'Constant Expression',
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.';
@@ -177,7 +177,7 @@ var
   PosEnd : integer;
 begin
   FEndComment := EndComment;
-  if Line[First + length(EndComment)] = '$' then
+  if ((First + length(EndComment)) <= length(Line)) and (Line[First + length(EndComment)] = '$') then
     DoDirective(length(EndComment))
   else begin
     PosEnd := PosEx(EndComment, Line, First);
