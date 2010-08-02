@@ -45,6 +45,11 @@ procedure TParser.PopSymbol; begin
         dec(Top);
         Symbol := Symbols[Top];
       end;
+      Skip : begin
+        dec(Top);
+        Symbol := Symbols[Top];
+        while Token.Lexeme <> Symbol do NextToken;
+      end;
     end;
   end
 end;
@@ -81,7 +86,7 @@ var
   I : integer;
 begin
   inherited;
-  for I := min(Top, high(Symbols)) downto 1 do
+  for I := min(Top, high(Symbols)) downto 2 do
     if Symbols[I][1] in [#0..#127] then
       writeln(I, ': ',  Symbols[I]) // Terminal
     else

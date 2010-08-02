@@ -22,12 +22,12 @@ const
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
-  CallConv     = #218;
+  InternalDecl = #218; CallConv     = #219;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
   // Grammar commands
-  Require = #253; Mark = #254; Pop = #255;
+  Skip = #252; Require = #253; Mark = #254; Pop = #255;
 
   SimpleType = 'Type' + '|' + Ident + '|' + Expression + SubRange + '|INTEGER|' + '|BOOLEAN|' + '|BYTE|' + '|WORD|' + '|CARDINAL|' + '|LONGINT|' +
     '|INT64|' + '|UINT64|' + '|CHAR|' + '|WIDECHAR|' + '|WIDESTRING|' +'|LONGWORD|' + '|SHORTINT|' + '|SMALLINT|' +
@@ -54,10 +54,10 @@ const
   '|CONST|'       + Require + ConstDecl + DeclSection +
   '|TYPE|'        + Require + TypeDecl + DeclSection +
   '|LABEL|'       + Require + LabelId + LabelList + DeclSection +
-  '|PROCEDURE|'   + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '|FUNCTION|'    + Ident + MetId + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '|CONSTRUCTOR|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + InterDecl + Require + CompoundStmt + ';' + DeclSection +
-  '|DESTRUCTOR|'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + InterDecl + Require + CompoundStmt + ';' + DeclSection +
+  '|PROCEDURE|'   + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|FUNCTION|'    + Ident + MetId + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|CONSTRUCTOR|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
+  '|DESTRUCTOR|'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
   '|CLASS|'       + ClassMet +
   '|THREADVAR|'   + Require + VarDecl + DeclSection +
   '|EXPORTS|'     + Ident + FormalParams + PropIndex + NameDir + ExportsList + DeclSection +
@@ -93,7 +93,8 @@ const
 // EnumList
   '|,|' + Ident + EnumList,
 // CompoundStmt
-  '|BEGIN|' + Statement + StmtList + 'END',
+  '|BEGIN|' + Statement + StmtList + 'END' +
+  '|ASM|' + Skip + 'END',
 // Statement
   '|' + Ident + '|' + LabelAssign + AssignStmt + Mark +
   '|BEGIN|' + Statement + StmtList + 'END' +
@@ -108,7 +109,7 @@ const
   '|INHERITED|' + MetCall +
   '|RAISE|' + RaiseStmt +
   '|' + IntConst + '|' + ':' + Statement +
-  '|ASM|' + (*AsmStatement +*) 'END',
+  '|ASM|' + Skip + 'END',
 // StmtList
   '|;|' + Statement + StmtList,
 // Expression
@@ -247,13 +248,13 @@ const
   '|,|' + Require + Expression + SetList +
   '|..|' + Require + Expression + ExprList,
 // InterDecl
-  'Declaration Section' +
+  'Declaration Section for Interface' +
   '|VAR|' + Require + VarDecl + InterDecl +
   '|CONST|' + Require + ConstDecl + InterDecl +
   '|TYPE|' + Require + TypeDecl + InterDecl +
   '|LABEL|' + Require + LabelId + LabelList + InterDecl +
   '|PROCEDURE|' + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl +
-  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + 
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // LabelId
   '|' + Ident + '|' +
@@ -322,7 +323,8 @@ const
   '|REINTRODUCE|;' + Directives + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|OVERRIDE|;' + Mark +
   '|MESSAGE|;' + LabelId + '|DYNAMIC|;',
 // ExternalDir
-  '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop,
+  '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop +
+  '|ASSEMBLER|;',
 // MetCall
   '|' + Ident + '|' + QualId,
 // DefProp
@@ -335,8 +337,17 @@ const
 // Delegation
   '|.|' + Ident + '=' + Ident + ';' + Pop,
 // ClassMet
-  '|PROCEDURE|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '|FUNCTION|'  + Ident + MetId + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + CompoundStmt + ';' + Mark + DeclSection,
+  '|PROCEDURE|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|FUNCTION|'  + Ident + MetId + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection,
+// InternalDecl
+  'Internal Declaration Section' +
+  '|VAR|' + Require + VarDecl + InternalDecl +
+  '|CONST|' + Require + ConstDecl + InternalDecl +
+  '|TYPE|' + Require + TypeDecl + InternalDecl +
+  '|LABEL|' + Require + LabelId + LabelList + InternalDecl +
+  '|PROCEDURE|' + Ident + FormalParams + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl + 
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl + 
+  '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // CallConv
   '|FORWARD|' +  Pop +
   '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
