@@ -24,12 +24,13 @@ type
     procedure RecoverFromError(Expected, Found : string); override;
   public
     procedure Compile(Source : string);
+    procedure Error(Msg : string); override;
   end;
 
 implementation
 
 uses
-  SysUtils, StrUtils, Grammar;
+  SysUtils, StrUtils, Math, Grammar;
 
 procedure TParser.PopSymbol; begin
   dec(Top);
@@ -73,6 +74,18 @@ procedure TParser.Compile(Source : string); begin
     on E : EAbort do exit;
     on E : Exception do Error(E.Message);
   end;
+end;
+
+procedure TParser.Error(Msg : string);
+var
+  I : integer;
+begin
+  inherited;
+  for I := min(Top, high(Symbols)) downto 1 do
+    if Symbols[I][1] in [#0..#127] then
+      writeln(I, ': ',  Symbols[I]) // Terminal
+    else
+      writeln(I, ': ',  Ord(Symbols[I][1])); // Production
 end;
 
 procedure TParser.ExpandProduction(T : string);
