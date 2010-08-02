@@ -155,11 +155,13 @@ const
 // QualId
   '|.|' + Ident + QualId +
   '|(|' + Expression + ExprList + ')' + QualId +
-  '|[|' + Require + Expression + ExprList + ']' + QualId,
+  '|[|' + Require + Expression + ExprList + ']' + QualId +
+  '|^|' + QualId,
 // LabelAssign
   '|.|' + Ident + QualId +
   '|(|' + Expression + ExprList + ')' + QualId +
   '|[|' + Require + Expression + ExprList + ']' + QualId +
+  '|^|' + QualId + 
   '|:|' + Statement + Pop,
 // LabelList
   '|,|' + Require + LabelId + LabelList,
