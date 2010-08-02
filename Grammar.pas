@@ -21,7 +21,8 @@ const
   InterfMet    = #198; InterDir     = #199; AbstractDir  = #200; FinSection   = #201; RaiseStmt    = #202;
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
-  DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; CallConv     = #217;
+  DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
+  CallConv     = #218;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -57,6 +58,7 @@ const
   '|FUNCTION|'    + Ident + MetId + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + CompoundStmt + ';' + Mark + DeclSection +
   '|CONSTRUCTOR|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + InterDecl + Require + CompoundStmt + ';' + DeclSection +
   '|DESTRUCTOR|'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + InterDecl + Require + CompoundStmt + ';' + DeclSection +
+  '|CLASS|'       + ClassMet +
   '|THREADVAR|'   + Require + VarDecl + DeclSection +
   '|EXPORTS|'     + Ident + FormalParams + PropIndex + NameDir + ExportsList + DeclSection +
   '|RESOURCESTRING|' + Require + RsrcDecl + DeclSection,
@@ -250,8 +252,8 @@ const
   '|CONST|' + Require + ConstDecl + InterDecl +
   '|TYPE|' + Require + TypeDecl + InterDecl +
   '|LABEL|' + Require + LabelId + LabelList + InterDecl +
-  '|PROCEDURE|' + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + Require + CompoundStmt + ';' + InterDecl +
-  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + Require + CompoundStmt + ';' + InterDecl +
+  '|PROCEDURE|' + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl +
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + 
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // LabelId
   '|' + Ident + '|' +
@@ -332,6 +334,9 @@ const
   '|PROTECTED|' + FieldDecl + MethodDecl + ClassDecl,
 // Delegation
   '|.|' + Ident + '=' + Ident + ';' + Pop,
+// ClassMet
+  '|PROCEDURE|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|FUNCTION|'  + Ident + MetId + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl + CompoundStmt + ';' + Mark + DeclSection,
 // CallConv
   '|FORWARD|' +  Pop +
   '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
