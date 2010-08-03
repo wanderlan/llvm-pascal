@@ -229,7 +229,7 @@ const
   '|IMPLEMENTS|' + Ident + IdentList,
 // RelOp
   '|>||<||>=||<=||<>||=||IN||IS||AS|' +
-  '|+||-||AND||OR|' +
+  '|+||-||AND||OR||SHR||SHL|' +
   '|*||/||DIV||MOD|',
 // MetId
   '|.|' + Ident,
