@@ -24,7 +24,6 @@ type
     Line        : string;
     FToken      : TToken;
     FEndComment : string;
-    FEndSource  : boolean;
     LenLine     : integer;
     FElapsed    : TDateTime;
     procedure NextChar(C : TSetChar);
@@ -34,6 +33,7 @@ type
     procedure SkipBlank; inline;
     function TokenIn(S : string) : boolean; inline;
   protected
+    FEndSource : boolean;
     FLineNumber, FTotalLines, Top, First, FErrors, FMaxErrors : integer;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
@@ -110,7 +110,7 @@ begin
 end;
 
 procedure TScanner.SetFSourceName(const Value : string); begin
-  if FErrors >= FMaxErrors  then Abort;
+  if FErrors >= FMaxErrors then Abort;
   if FileExists(SourceName) then close(Arq);
   FSourceName := Value;
   FLineNumber := 0;
@@ -158,7 +158,7 @@ begin
     case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF']) of
       0 : if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + FToken.Lexeme + '.';
       1 : begin
-        I := pos('.' + FToken.Lexeme + '.', ConditionalSymbols);
+        I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
       end;
       2 : if not TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
@@ -196,7 +196,7 @@ procedure TScanner.SkipBlank; begin
 end;
 
 function TScanner.TokenIn(S : string) : boolean; begin
-  Result := pos('.' + FToken.Lexeme + '.', S) <> 0
+  Result := pos('.' + LowerCase(FToken.Lexeme) + '.', S) <> 0
 end;
 
 procedure TScanner.NextToken;
@@ -270,7 +270,7 @@ begin
           dec(First);
           SetLength(FToken.Lexeme, length(FToken.Lexeme)-1);
         end;
-        if (pos('.', FToken.Lexeme) <> 0) or (pos('E', FToken.Lexeme) <> 0) then
+        if (pos('.', FToken.Lexeme) <> 0) or (pos('E', UpperCase(FToken.Lexeme)) <> 0) then
           FToken.Kind := tkRealConstant
         else
           if length(FToken.Lexeme) > 18 then

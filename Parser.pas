@@ -85,6 +85,7 @@ procedure TParser.Error(Msg : string);
 var
   I : integer;
 begin
+  if Top = 1 then FEndSource := true;
   inherited;
   for I := min(Top, high(Symbols)) downto 2 do
     if Symbols[I][1] in [#0..#127] then
