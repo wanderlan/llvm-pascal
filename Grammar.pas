@@ -125,7 +125,7 @@ const
   '|(|' + Expression + RecordConst + ExprList + Mark + ')' + (*Mark +*) RelOp + Expression +
   '|NIL|' +
   '|@|' + Expression +
-  '|[|' + Expression + SetList + ']' + Expression +
+  '|[|' + Expression + SetList + ']' + RelOp + Expression +
   '|INHERITED|' + Expression,
 // ToOrDownto
   '|TO||DOWNTO|',
