@@ -22,7 +22,7 @@ const
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
-  InternalDecl = #218; CallConv     = #219;
+  InternalDecl = #218; RecordConst  = #219; FieldList    = #220; CallConv     = #221;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -122,7 +122,7 @@ const
   '|+|' + Expression +
   '|-|' + Expression +
   '|NOT|' + Expression +
-  '|(|' + Expression + ExprList + ')' + RelOp + Expression +
+  '|(|' + Expression + RecordConst + ExprList + Mark + ')' + (*Mark +*) RelOp + Expression +
   '|NIL|' +
   '|@|' + Expression +
   '|[|' + Expression + SetList + ']' + Expression +
@@ -162,7 +162,7 @@ const
   '|.|' + Ident + QualId +
   '|(|' + Expression + ExprList + ')' + QualId +
   '|[|' + Require + Expression + ExprList + ']' + QualId +
-  '|^|' + QualId + 
+  '|^|' + QualId +
   '|:|' + Statement + Pop,
 // LabelList
   '|,|' + Require + LabelId + LabelList,
@@ -352,8 +352,13 @@ const
   '|PROCEDURE|' + Ident + FormalParams + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl + 
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl + 
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
+// RecordConst
+  '|:|' + Expression + FieldList + Pop,
+// FieldList
+  '|;|' + Ident + ':' + Expression + FieldList +
+  '|^|' + FieldList,
 // CallConv
-  '|FORWARD|' +  Pop +
+  '|FORWARD|;' + Pop +
   '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;'// Deprecateds
   );
