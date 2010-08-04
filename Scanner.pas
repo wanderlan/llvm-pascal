@@ -32,7 +32,7 @@ type
     function TokenIn(S : string) : boolean; inline;
   protected
     FEndSource : boolean;
-    FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
+    FLineNumber, FTotalLines, First, FErrors, FMaxErrors, NestedIf : integer;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -113,6 +113,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   FLineNumber := 0;
   FEndSource  := false;
   LenLine     := 0;
+  NestedIf    := 0;
   if FileExists(SourceName) then begin
     assign(Arq, SourceName);
     SetTextBuf(Arq, Buf);
@@ -158,8 +159,15 @@ begin
         I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
       end;
-      2 : if not TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
-      3 : if     TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
+      2 : begin
+        if not TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
+        inc(NestedIf);
+      end;
+      3 : begin
+        if TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
+        inc(NestedIf);
+      end;
+      4 : inc(NestedIf);
     end;
     FindEndComment(FEndComment);
   end
@@ -177,10 +185,12 @@ begin
   if ((First + length(EndComment)) <= length(Line)) and (Line[First + length(EndComment)] = '$') then
     DoDirective(length(EndComment))
   else begin
+    if PosEx('{$IF', Line, First) <> 0 then inc(NestedIf);
     PosEnd := PosEx(EndComment, Line, First);
     if PosEnd <> 0 then begin // End comment in same line
       First := PosEnd + length(EndComment);
-      FEndComment := '';
+      if NestedIf > 0 then dec(NestedIf);
+      if NestedIf = 0 then FEndComment := '';
     end
     else
       First := MAXINT;
