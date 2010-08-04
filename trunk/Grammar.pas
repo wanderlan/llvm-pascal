@@ -239,7 +239,8 @@ const
 // ElseBranch
   '|ELSE|' + Statement,
 // ExprList
-  '|,|' + Require + Expression + SetList,
+  '|,|' + Require + Expression + SetList +
+  '|^|' + ExprList,
 // CaseList
   '|;|' + EndCaseList + Require + Expression + SetList + ':' + Statement + CaseList +
   '|ELSE|' + Statement + StmtList + 'END' +
@@ -280,7 +281,7 @@ const
 // GUID
   '|[|' + IdentDir + ']',
 // ExceptFin
-  '|EXCEPT|' + ExceptHand + Statement + StmtList + Mark + 
+  '|EXCEPT|' + ExceptHand + Statement + StmtList + 'END' + Mark +   
   '|FINALLY|' + Statement + StmtList + 'END',
 // ExceptHand
   '|ON|' + Ident + ExceptType + 'DO' + Statement + ExceptList + EndCaseList + Pop,

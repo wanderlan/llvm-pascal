@@ -21,6 +21,7 @@ type
     procedure ExpandProduction(T : string);
     procedure PopSymbol;
   protected
+    Top : integer;
     procedure RecoverFromError(Expected, Found : string); override;
   public
     procedure Compile(Source : string);
@@ -55,9 +56,17 @@ procedure TParser.PopSymbol; begin
 end;
 
 procedure TParser.RecoverFromError(Expected, Found : string); begin
-  inherited RecoverFromError(Expected, Found);
-  while (Symbol <> ';') and (Top > 1) do PopSymbol;
-  inc(Top);
+  inherited;
+  if Top = 1 then
+    FEndSource := true
+  else begin
+    while (Symbol <> ';') and (Top > 1) do
+      if ((Symbol[1] in [Start..CallConv]) and (pos('|;|', Productions[Symbol[1]]) <> 0)) then
+        break
+      else
+        PopSymbol;
+    inc(Top);
+  end;
 end;
 
 procedure TParser.Compile(Source : string); begin
@@ -68,8 +77,8 @@ procedure TParser.Compile(Source : string); begin
     Top        := 1;
     repeat
       case Symbol[1] of
-        #0..#127           : MatchToken(Symbol); // Terminal
-        Start..pred(Ident) : ExpandProduction(Token.Lexeme) // Production
+        #0..#127        : MatchToken(Symbol); // Terminal
+        Start..CallConv : ExpandProduction(Token.Lexeme) // Production
       else // Other Terminal
         MatchTerminal(CharToTokenKind(Symbol[1]));
       end;
@@ -85,11 +94,8 @@ procedure TParser.Error(Msg : string);
 var
   I : integer;
 begin
-  if Top = 1 then
-    FEndSource := true
-  else
-    inherited;
-  exit;
+  inherited;
+  //exit;
   for I := min(Top, high(Symbols)) downto 2 do
     if Symbols[I][1] in [#0..#127] then
       writeln(I, ': ',  Symbols[I]) // Terminal
