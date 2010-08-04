@@ -18,14 +18,12 @@ type
   TSetChar = set of char;
   TScanner = class
   private
-    Buf : array[1..32768] of char;
-    Arq : text;
-    FSourceName,
-    Line        : string;
-    FToken      : TToken;
-    FEndComment : string;
-    LenLine     : integer;
-    FElapsed    : TDateTime;
+    Buf      : array[1..32768] of char;
+    Arq      : text;
+    FToken   : TToken;
+    LenLine  : integer;
+    FElapsed : TDateTime;
+    FSourceName, FEndComment, Line : string;
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(EndComment: string);
     procedure SetFSourceName(const Value : string);
@@ -34,7 +32,7 @@ type
     function TokenIn(S : string) : boolean; inline;
   protected
     FEndSource : boolean;
-    FLineNumber, FTotalLines, Top, First, FErrors, FMaxErrors : integer;
+    FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -48,14 +46,14 @@ type
     procedure ErrorExpected(Expected, Found : string);
     procedure MatchToken(TokenExpected : string);
     procedure MatchTerminal(KindExpected : TTokenKind);
-    property SourceName : string read FSourceName write SetFSourceName;
-    property LineNumber : integer read FLineNumber;
-    property TotalLines : integer read FTotalLines;
-    property ColNumber : integer read First;
-    property Token : TToken read FToken;
-    property EndSource : boolean read FEndSource;
-    property Errors : integer read FErrors;
-    property Elapsed : TDateTime read FElapsed;
+    property SourceName : string    read FSourceName write SetFSourceName;
+    property LineNumber : integer   read FLineNumber;
+    property TotalLines : integer   read FTotalLines;
+    property ColNumber  : integer   read First;
+    property Token      : TToken    read FToken;
+    property EndSource  : boolean   read FEndSource;
+    property Errors     : integer   read FErrors;
+    property Elapsed    : TDateTime read FElapsed;
   end;
 
 implementation
@@ -356,9 +354,7 @@ end;
 
 procedure TScanner.RecoverFromError(Expected, Found : string); begin
   ErrorExpected(Expected, Found);
-  repeat
-    NextToken
-  until (FToken.Lexeme = ';') or EndSource;
+  while (FToken.Lexeme <> ';') and not EndSource do NextToken;
 end;
 
 procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
