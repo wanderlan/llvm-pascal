@@ -85,8 +85,11 @@ procedure TParser.Error(Msg : string);
 var
   I : integer;
 begin
-  if Top = 1 then FEndSource := true;
-  inherited;
+  if Top = 1 then
+    FEndSource := true
+  else
+    inherited;
+  exit;
   for I := min(Top, high(Symbols)) downto 2 do
     if Symbols[I][1] in [#0..#127] then
       writeln(I, ': ',  Symbols[I]) // Terminal

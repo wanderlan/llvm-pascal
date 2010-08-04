@@ -19,7 +19,7 @@ begin
   writeln('(c)2010 by'^M^J,
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^M^J,
           'New BSD license'^M^J,
-          'http://llvm-pascal.googlecode.com'^M^J);
+          'http://llvm-pascal.googlecode.com');
   with TParser.Create do
     try
       if FindFirst(ParamStr(1), faAnyFile, F) = 0 then

@@ -79,12 +79,11 @@ constructor TScanner.Create(MaxErrors : integer = 10); begin
 end;
 
 destructor TScanner.Destroy; begin
-  if Errors <> 0 then
-    writeln(Errors, ' error(s).')
-  else
-    writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Now-Elapsed), 'seconds.');
   inherited;
   FToken.Free;
+  writeln;
+  if Errors <> 0 then writeln(Errors, ' error(s).');
+  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Now-Elapsed), 'seconds.');
 end;
 
 procedure TScanner.ScanChars(Chars : array of TSetChar; Tam : array of integer; Optional : boolean = false);
@@ -119,7 +118,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   if FileExists(SourceName) then begin
     assign(Arq, SourceName);
     SetTextBuf(Arq, Buf);
-    writeln(SourceName);
+    writeln(^M^J, SourceName);
     reset(Arq);
     First := 1;
     FToken := TToken.Create;
@@ -191,7 +190,6 @@ begin
 end;
 
 procedure TScanner.SkipBlank; begin
-  inc(First);
   while (First <= LenLine) and (Line[First] in [' ', #9]) do inc(First);
 end;
 
