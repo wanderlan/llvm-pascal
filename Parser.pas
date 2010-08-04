@@ -95,7 +95,7 @@ var
   I : integer;
 begin
   inherited;
-  //exit;
+  exit;
   for I := min(Top, high(Symbols)) downto 2 do
     if Symbols[I][1] in [#0..#127] then
       writeln(I, ': ',  Symbols[I]) // Terminal
