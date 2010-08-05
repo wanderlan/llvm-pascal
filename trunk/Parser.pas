@@ -10,7 +10,7 @@ uses
   Scanner;
 
 type
-  TSymbol = string[15];
+  TSymbol = string[20];
   TStack  = array[1..100] of TSymbol;
   TParser = class(TScanner)
   private

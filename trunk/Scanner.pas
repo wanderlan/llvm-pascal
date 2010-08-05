@@ -24,7 +24,7 @@ type
     FInitTime : TDateTime;
     FSourceName, FEndComment, Line : string;
     procedure NextChar(C : TSetChar);
-    procedure FindEndComment(EndComment: string);
+    procedure FindEndComment(EndComment : string);
     procedure SetFSourceName(const Value : string);
     procedure DoDirective(DollarInc : integer);
     procedure SkipBlank; inline;
@@ -129,7 +129,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
 end;
 
 procedure TScanner.NextChar(C : TSetChar); begin
-  if (First < length(Line)) and (Line[First + 1] in C) then begin
+  if (First < LenLine) and (Line[First + 1] in C) then begin
     FToken.Lexeme := copy(Line, First, 2);
     inc(First, 2);
   end
@@ -180,7 +180,7 @@ var
   PosEnd : integer;
 begin
   FEndComment := EndComment;
-  if ((First + length(EndComment)) <= length(Line)) and (Line[First + length(EndComment)] = '$') then
+  if ((First + length(EndComment)) <= LenLine) and (Line[First + length(EndComment)] = '$') then
     DoDirective(length(EndComment))
   else begin
     if PosEx('{$IF', Line, First) <> 0 then inc(NestedIf);
@@ -288,7 +288,7 @@ begin
         exit;
       end;
       '(' :
-        if (length(Line) > First) and (Line[First + 1] = '*') then // Comment Style (*
+        if (LenLine > First) and (Line[First + 1] = '*') then // Comment Style (*
           FindEndComment('*)')
         else begin
           FToken.Lexeme := '(';
@@ -297,7 +297,7 @@ begin
           exit
         end;
       '/' :
-        if (length(Line) > First) and (Line[First + 1] = '/') then // Comment Style //
+        if (LenLine > First) and (Line[First + 1] = '/') then // Comment Style //
           First := MAXINT
         else begin
           FToken.Lexeme := '/';
