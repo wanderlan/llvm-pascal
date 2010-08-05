@@ -97,10 +97,16 @@ begin
   inherited;
   exit;
   for I := min(Top, high(Symbols)) downto 2 do
-    if Symbols[I][1] in [#0..#127] then
-      writeln(I, ': ',  Symbols[I]) // Terminal
+    case Symbols[I][1] of
+      #0..#127        : writeln(I, ': ', Symbols[I]); // Terminal
+      Start..CallConv : writeln(I, ': #', Ord(Symbols[I][1]), ', ', GetProductionName(Productions[Symbols[I][1]])); // Production
+      Skip    : writeln(I, ': Skip');
+      Require : writeln(I, ': Require');
+      Mark    : writeln(I, ': Mark');
+      Pop     : writeln(I, ': Pop');
     else
-      writeln(I, ': ',  Ord(Symbols[I][1])); // Production
+      writeln(I, ': ', Symbols[I], ': TRASH');
+    end;
 end;
 
 procedure TParser.ExpandProduction(T : string);
