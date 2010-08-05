@@ -19,7 +19,7 @@ type
     Production : string;
     function GetProductionName(P : string) : string;
     procedure ExpandProduction(T : string);
-    procedure PopSymbol;
+    procedure PopSymbol; inline;
   protected
     Top : integer;
     procedure RecoverFromError(Expected, Found : string); override;
@@ -38,7 +38,7 @@ procedure TParser.PopSymbol; begin
   if Top >= 1 then begin
     Symbol := Symbols[Top];
     case Symbol[1] of
-      Require, Mark : PopSymbol;
+      Mark, Require : PopSymbol;
       Pop : begin
         repeat
           dec(Top);
