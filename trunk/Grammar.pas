@@ -23,17 +23,16 @@ const
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
   InternalDecl = #218; RecordConst  = #219; FieldList    = #220; StringExpr   = #221; RecordCase   = #222;
-  CallConvType = #223; CallConv     = #224;
+  CallConvType = #223; WarnDir2     = #224; CallConv     = #225;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
   // Grammar commands
   Skip = #252; Require = #253; Mark = #254; Pop = #255;
 
-  SimpleType = 'Type' + '|' + Ident + '|' + Expression + SubRange + '|INTEGER|' + '|BOOLEAN|' + '|BYTE|' + '|WORD|' + '|CARDINAL|' + '|LONGINT|' +
-    '|INT64|' + '|UINT64|' + '|CHAR|' + '|WIDECHAR|' + '|WIDESTRING|' +'|LONGWORD|' + '|SHORTINT|' + '|SMALLINT|' +
-    '|PCHAR|' + '|POINTER|' + '|REAL|' + '|SINGLE|' + '|DOUBLE|' + '|EXTENDED|' + '|CURRENCY|' + '|COMP|' +
-    '|BYTEBOOL|' + '|WORDBOOL|'+ '|LONGBOOL|';
+  SimpleType = 'Type' + '|' + Ident + '|' + Expression + SubRange + '|INTEGER||BOOLEAN||BYTE||WORD||CARDINAL||LONGINT|' +
+    '|INT64||UINT64||CHAR||WIDECHAR||WIDESTRING||LONGWORD||SHORTINT||SMALLINT|' +
+    '|PCHAR||POINTER||REAL||SINGLE||DOUBLE||EXTENDED||CURRENCY||COMP||BYTEBOOL||WORDBOOL||LONGBOOL|';
 
   Productions : array[Start..CallConv] of string = (
 // Start
@@ -75,17 +74,16 @@ const
   '|ARRAY|'  + ArrayDim + 'OF' + Require + Type_ +
   '|STRING|' + StringLength +
   '|'+ IntConst + '|' + Require + SubRange +
-  '|+|' + IntConst + Require + SubRange +
-  '|-|' + IntConst + Require + SubRange +
   '|'+ CharConst + '|' + Require + SubRange +
   '|(|' + Ident + EnumList + ')' +
-  '|+|' + Ident + Expression + Require + SubRange +
-  '|-|' + Ident + Expression + Require + SubRange +
+  '|+|' + Expression + Require + SubRange +
+  '|-|' + Expression + Require + SubRange +
   '|^|' + Ident +
   '|RECORD|' + FieldDecl + RecordCase + 'END' +
   '|CLASS|' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
   '|OBJECT|' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '|INTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
+  '|DISPINTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
   '|SET|' + 'OF' + Require + OrdinalType +
   '|PROCEDURE|' + FormalParams + OfObject + CallConvType +
   '|FUNCTION|' + FormalParams + ':' + Ident + OfObject + CallConvType +
@@ -127,7 +125,7 @@ const
   '|+|' + Expression +
   '|-|' + Expression +
   '|NOT|' + Expression +
-  '|(|' + Expression + RecordConst + ExprList + Mark + ')' + QualId + (*Mark +*) RelOp + Expression +
+  '|(|' + Expression + RecordConst + ExprList + Mark + ')' + QualId + RelOp + Expression +
   '|NIL|' +
   '|@|' + Expression +
   '|[|' + Expression + SetList + ']' + RelOp + Expression +
@@ -269,7 +267,7 @@ const
   '|' + Ident + '|' +
   '|' + IntConst + '|',
 // SubRange
-  '|..|' + Require + Expression, //Ordinal,
+  '|..|' + Require + Expression,
 // FileOf
   '|OF|' + Require + TypeId,
 // ForStmt
@@ -304,7 +302,8 @@ const
 // AbstractDir
   '|ABSTRACT|;',
 // FinSection
-  '|FINALIZATION|' + Statement + StmtList + 'END',
+  '|FINALIZATION|' + Statement + StmtList + 'END' +
+  '|END|',
 // RaiseStmt
   '|' + Ident + '|' + QualId + RaiseAt,
 // RaiseAt
@@ -326,7 +325,7 @@ const
   '|;|' + Pop +
   '|OF|' + Ident + ';' + Pop,
 // RsrcDecl
-  '|' + Ident + '|' + '=' + StringConst + StringExpr + ';' + RsrcDecl,
+  '|' + Ident + '|' + '=' + IdentDir + StringExpr + WarnDir2 + ';' + RsrcDecl,
 // OfObject
   '|OF|' + 'OBJECT',
 // Directives
@@ -364,12 +363,14 @@ const
   '|;|' + Ident + ':' + Expression + FieldList +
   '|^|' + FieldList,
 // StringExpr
-  '|+|' + StringConst + StringExpr,
+  '|+|' + IdentDir + StringExpr,
 // RecordCase
   '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + Statement + CaseList + Mark,
 // CallConvType
   '|;|' + CallConv + Pop +
   '|CDECL||SAFECALL||STDCALL||REGISTER||PASCAL||INLINE|',
+// WarnDir2
+  '|PLATFORM||DEPRECATED||LIBRARY|',
 // CallConv
   '|FORWARD|;' + Pop +
   '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
@@ -377,5 +378,4 @@ const
   );
 
 implementation
-
 end.

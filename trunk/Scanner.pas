@@ -18,11 +18,10 @@ type
   TSetChar = set of char;
   TScanner = class
   private
-    Buf      : array[1..32768] of char;
-    Arq      : text;
-    FToken   : TToken;
-    LenLine  : integer;
-    FElapsed : TDateTime;
+    Arq       : text;
+    FToken    : TToken;
+    LenLine   : integer;
+    FInitTime : TDateTime;
     FSourceName, FEndComment, Line : string;
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(EndComment: string);
@@ -53,7 +52,7 @@ type
     property Token      : TToken    read FToken;
     property EndSource  : boolean   read FEndSource;
     property Errors     : integer   read FErrors;
-    property Elapsed    : TDateTime read FElapsed;
+    property InitTime   : TDateTime read FInitTime;
   end;
 
 implementation
@@ -71,17 +70,17 @@ const
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.';
 
 constructor TScanner.Create(MaxErrors : integer = 10); begin
-  FElapsed   := Now;
+  FInitTime  := Now;
   FMaxErrors := MaxErrors;
   DecimalSeparator := '.';
 end;
 
 destructor TScanner.Destroy; begin
-  inherited;
-  FToken.Free;
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
-  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Now-Elapsed), 'seconds.');
+  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Now-InitTime), 'seconds, ', TotalLines/1000/((Now-InitTime)*24*60*60):0:1, ' klps.');
+  inherited;
+  FToken.Free;
 end;
 
 procedure TScanner.ScanChars(Chars : array of TSetChar; Tam : array of integer; Optional : boolean = false);
@@ -116,7 +115,6 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   NestedIf    := 0;
   if FileExists(SourceName) then begin
     assign(Arq, SourceName);
-    SetTextBuf(Arq, Buf);
     writeln(^M^J, SourceName);
     reset(Arq);
     First := 1;
@@ -286,7 +284,7 @@ begin
         if FToken.Kind = tkRealConstant then
           FToken.RealValue := StrToFloat(FToken.Lexeme)
         else
-          FToken.IntegerValue := StrToInt(FToken.Lexeme);
+          FToken.IntegerValue := StrToInt64(FToken.Lexeme);
         exit;
       end;
       '(' :
@@ -330,7 +328,7 @@ begin
       '$' : begin // Hexadecimal
         ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 16]);
         FToken.Kind := tkIntegerConstant;
-        FToken.IntegerValue := StrToInt(FToken.Lexeme);
+        FToken.IntegerValue := StrToInt64(FToken.Lexeme);
         exit;
       end;
     else
