@@ -23,7 +23,8 @@ const
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
   InternalDecl = #218; RecordConst  = #219; FieldList    = #220; StringExpr   = #221; RecordCase   = #222;
-  CallConvType = #223; WarnDir2     = #224; CallConv     = #225;
+  CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
+  CallConv     = #228;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -79,7 +80,7 @@ const
   '|+|' + Expression + Require + SubRange +
   '|-|' + Expression + Require + SubRange +
   '|^|' + Ident +
-  '|RECORD|' + FieldDecl + RecordCase + 'END' +
+  '|RECORD|' + FieldDecl + RecordCase + 'END' + Mark +
   '|CLASS|' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
   '|OBJECT|' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '|INTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
@@ -310,7 +311,7 @@ const
   '|AT|' + Require + Expression,
 // PackedDecl
   '|ARRAY|' + ArrayDim + 'OF' + Require + Type_ +
-  '|RECORD|' + FieldDecl + RecordCase + 'END' +
+  '|RECORD|' + FieldDecl + RecordCase + 'END' + Mark +
   '|CLASS|' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark + // Forwardclass
   '|OBJECT|' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '|SET|' + 'OF' + Require + OrdinalType +
@@ -365,12 +366,18 @@ const
 // StringExpr
   '|+|' + IdentDir + StringExpr,
 // RecordCase
-  '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + Statement + CaseList + Mark,
+  '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + RecFieldList + RecCaseList,
 // CallConvType
   '|;|' + CallConv + Pop +
   '|CDECL||SAFECALL||STDCALL||REGISTER||PASCAL||INLINE|',
 // WarnDir2
   '|PLATFORM||DEPRECATED||LIBRARY|',
+// RecFieldList
+  '|(|' + FieldDecl + RecordCase + ')',
+// RecCaseList
+  '|;|' + RecEndCase + Require + Expression + SetList + ':' + RecFieldList + RecCaseList,
+//RecEndCase
+  '|END|' + Pop,
 // CallConv
   '|FORWARD|;' + Pop +
   '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
