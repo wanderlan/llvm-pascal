@@ -294,11 +294,11 @@ const
 // ExceptList
   '|;|' + ExceptHand,
 // InterfMet
-  '|PROCEDURE|' + Ident + FormalParams + ';' + InterDir + InterfMet +
-  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + InterDir + InterfMet +
-  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + ';' + DefProp + InterfMet,
+  '|PROCEDURE|' + Ident + FormalParams + ';' + InterDir + Mark + InterfMet +
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + InterDir + Mark + InterfMet +
+  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + InterDir + ';' + Mark + DefProp + InterfMet,
 // InterDir
-  '|DISPID|' + IntConst + ';' +
+  '|DISPID|' + Expression + ';' + Pop + 
   '|CDECL|;' + Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;',
 // AbstractDir
   '|ABSTRACT|;',
@@ -383,6 +383,5 @@ const
   '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;'// Deprecateds
   );
-
 implementation
 end.
