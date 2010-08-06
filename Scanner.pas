@@ -24,25 +24,25 @@ type
     FInitTime : TDateTime;
     FSourceName, FEndComment, Line : string;
     procedure NextChar(C : TSetChar);
-    procedure FindEndComment(EndComment : string);
+    procedure FindEndComment(const EndComment : string);
     procedure SetFSourceName(const Value : string);
     procedure DoDirective(DollarInc : integer);
     procedure SkipBlank; inline;
-    function TokenIn(S : string) : boolean; inline;
+    function TokenIn(const S : string) : boolean; inline;
   protected
     FEndSource : boolean;
     FLineNumber, FTotalLines, First, FErrors, FMaxErrors, NestedIf : integer;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
-    procedure ScanChars(Chars: array of TSetChar; Tam : array of integer; Optional : boolean = false);
+    procedure ScanChars(const Chars: array of TSetChar; const Tam : array of integer; Optional : boolean = false);
     procedure NextToken;
-    procedure RecoverFromError(Expected, Found : string); virtual;
+    procedure RecoverFromError(const Expected, Found : string); virtual;
   public
     constructor Create(MaxErrors : integer = 10);
     destructor Destroy; override;
-    procedure Error(Msg : string); virtual;
-    procedure MatchToken(TokenExpected : string);
+    procedure Error(const Msg : string); virtual;
+    procedure MatchToken(const TokenExpected : string);
     procedure MatchTerminal(KindExpected : TTokenKind);
     property SourceName : string    read FSourceName write SetFSourceName;
     property LineNumber : integer   read FLineNumber;
@@ -82,7 +82,7 @@ destructor TScanner.Destroy; begin
   FToken.Free;
 end;
 
-procedure TScanner.ScanChars(Chars : array of TSetChar; Tam : array of integer; Optional : boolean = false);
+procedure TScanner.ScanChars(const Chars : array of TSetChar; const Tam : array of integer; Optional : boolean = false);
 var
   I, T, Last : integer;
 begin
@@ -174,7 +174,7 @@ begin
   end;
 end;
 
-procedure TScanner.FindEndComment(EndComment : string);
+procedure TScanner.FindEndComment(const EndComment : string);
 var
   PosEnd : integer;
 begin
@@ -198,7 +198,7 @@ procedure TScanner.SkipBlank; begin
   while (First <= LenLine) and (Line[First] in [' ', #9]) do inc(First);
 end;
 
-function TScanner.TokenIn(S : string) : boolean; begin
+function TScanner.TokenIn(const S : string) : boolean; begin
   Result := pos('.' + LowerCase(FToken.Lexeme) + '.', S) <> 0
 end;
 
@@ -337,13 +337,13 @@ begin
   end;
 end;
 
-procedure TScanner.Error(Msg : string); begin
+procedure TScanner.Error(const Msg : string); begin
   writeln('[Error] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
   inc(FErrors);
   if FErrors >= FMaxErrors then FEndSource := true;
 end;
 
-function ReplaceSpecialChars(S : string) : string;
+function ReplaceSpecialChars(const S : string) : string;
 var
   I : integer;
 begin
@@ -355,7 +355,7 @@ begin
       Result := Result + '#' + IntToStr(byte(S[I]));
 end;
 
-procedure TScanner.RecoverFromError(Expected, Found : string); begin
+procedure TScanner.RecoverFromError(const Expected, Found : string); begin
   Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
   while (FToken.Lexeme <> ';') and not EndSource do NextToken;
 end;
@@ -367,7 +367,7 @@ procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
     RecoverFromError(Kinds[KindExpected], FToken.Lexeme)
 end;
 
-procedure TScanner.MatchToken(TokenExpected : string); begin
+procedure TScanner.MatchToken(const TokenExpected : string); begin
   if TokenExpected = UpperCase(FToken.Lexeme) then
     NextToken
   else

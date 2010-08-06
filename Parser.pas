@@ -17,15 +17,15 @@ type
     Symbol     : TSymbol;
     Symbols    : TStack;
     Production : string;
-    function GetProductionName(P : string) : string;
-    procedure ExpandProduction(T : string);
+    function GetProductionName(const P : string) : string;
+    procedure ExpandProduction(const T : string);
     procedure PopSymbol; inline;
   protected
     Top : integer;
-    procedure RecoverFromError(Expected, Found : string); override;
+    procedure RecoverFromError(const Expected, Found : string); override;
   public
-    procedure Compile(Source : string);
-    procedure Error(Msg : string); override;
+    procedure Compile(const Source : string);
+    procedure Error(const Msg : string); override;
   end;
 
 implementation
@@ -55,7 +55,7 @@ procedure TParser.PopSymbol; begin
   end
 end;
 
-procedure TParser.RecoverFromError(Expected, Found : string); begin
+procedure TParser.RecoverFromError(const Expected, Found : string); begin
   inherited;
   if Top = 1 then
     FEndSource := true
@@ -69,7 +69,7 @@ procedure TParser.RecoverFromError(Expected, Found : string); begin
   end;
 end;
 
-procedure TParser.Compile(Source : string); begin
+procedure TParser.Compile(const Source : string); begin
   try
     SourceName := Source;
     Symbols[1] := Start;
@@ -90,7 +90,7 @@ procedure TParser.Compile(Source : string); begin
   end;
 end;
 
-procedure TParser.Error(Msg : string);
+procedure TParser.Error(const Msg : string);
 var
   I : integer;
 begin
@@ -109,11 +109,10 @@ begin
     end;
 end;
 
-procedure TParser.ExpandProduction(T : string);
+procedure TParser.ExpandProduction(const T : string);
 var
-  P, TopAux : integer;
-  Aux  : TStack;
-  LenT : integer;
+  P, TopAux, LenT : integer;
+  Aux : TStack;
 begin
   Production := Productions[Symbol[1]];
   if (T <> '') and not(Token.Kind in [tkStringConstant, tkCharConstant]) then
@@ -162,7 +161,7 @@ begin
       RecoverFromError(GetProductionName(Production), Token.Lexeme);
 end;
 
-function TParser.GetProductionName(P : string) : string;
+function TParser.GetProductionName(const P : string) : string;
 var
   I, J : integer;
   S : string;
