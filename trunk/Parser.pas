@@ -95,7 +95,7 @@ var
   I : integer;
 begin
   inherited;
-  exit;
+  exit; // Comment this line to debug the compiler
   for I := min(Top, high(Symbols)) downto 2 do
     case Symbols[I][1] of
       #0..#127        : writeln(I, ': ', Symbols[I]); // Terminal

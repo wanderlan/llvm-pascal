@@ -42,7 +42,6 @@ type
     constructor Create(MaxErrors : integer = 10);
     destructor Destroy; override;
     procedure Error(Msg : string); virtual;
-    procedure ErrorExpected(Expected, Found : string);
     procedure MatchToken(TokenExpected : string);
     procedure MatchTerminal(KindExpected : TTokenKind);
     property SourceName : string    read FSourceName write SetFSourceName;
@@ -229,7 +228,7 @@ begin
     end;
     case Line[First] of
       ' ', #9 : SkipBlank;
-      'A'..'Z', '_', 'a'..'z' : begin // Identifiers
+      'A'..'Z', 'a'..'z', '_' : begin // Identifiers
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
         if (length(FToken.Lexeme) < 2) or not TokenIn(ReservedWords) then
           FToken.Kind := tkIdentifier
@@ -356,27 +355,23 @@ begin
       Result := Result + '#' + IntToStr(byte(S[I]));
 end;
 
-procedure TScanner.ErrorExpected(Expected, Found : string); begin
-  Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found')
-end;
-
 procedure TScanner.RecoverFromError(Expected, Found : string); begin
-  ErrorExpected(Expected, Found);
+  Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
   while (FToken.Lexeme <> ';') and not EndSource do NextToken;
 end;
 
 procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
-  if KindExpected <> FToken.Kind then
-    RecoverFromError(Kinds[KindExpected], FToken.Lexeme)
+  if KindExpected = FToken.Kind then
+    NextToken
   else
-    NextToken;
+    RecoverFromError(Kinds[KindExpected], FToken.Lexeme)
 end;
 
 procedure TScanner.MatchToken(TokenExpected : string); begin
-  if TokenExpected <> UpperCase(FToken.Lexeme) then
-    RecoverFromError('''' + TokenExpected + '''', FToken.Lexeme)
+  if TokenExpected = UpperCase(FToken.Lexeme) then
+    NextToken
   else
-    NextToken;
+    RecoverFromError('''' + TokenExpected + '''', FToken.Lexeme)
 end;
 
 function TScanner.CharToTokenKind(N : char) : TTokenKind; begin
