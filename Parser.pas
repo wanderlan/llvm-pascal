@@ -115,16 +115,24 @@ var
   Production : string;
 begin
   Production := Productions[Symbol[1]];
-  if Token.Kind in [tkStringConstant, tkCharConstant] then
-    P := 0
-  else
-    P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
-  if (P = 0) and (Token.Kind <> tkUndefined) then begin
-    P := pos('|' + TokenKindToChar(Token.Kind) + '|', Production);
-    LenT := 1
-  end
-  else
-    LenT := length(T);
+  case Token.Kind of
+    tkIdentifier : begin
+      P := pos('|' + Ident + '|', Production);
+      if P = 0 then begin
+        P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
+        LenT := length(T);
+      end
+      else
+        LenT := 1
+    end;
+    tkReservedWord, tkSpecialSymbol : begin
+      P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
+      LenT := length(T);
+    end;
+    else // tkStringConstant..tkRealConstant
+      P := pos('|' + TokenKindToChar(Token.Kind) + '|', Production);
+      LenT := 1;
+  end;
   if P <> 0 then begin
     dec(Top);
     TopAux := 1;
