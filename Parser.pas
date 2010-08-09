@@ -10,13 +10,12 @@ uses
   Scanner;
 
 type
-  TSymbol = string[20];
+  TSymbol = string[15];
   TStack  = array[1..100] of TSymbol;
   TParser = class(TScanner)
   private
-    Symbol     : TSymbol;
-    Symbols    : TStack;
-    Production : string;
+    Symbol  : TSymbol;
+    Symbols : TStack;
     function GetProductionName(const P : string) : string;
     procedure ExpandProduction(const T : string);
     procedure PopSymbol; inline;
@@ -113,12 +112,13 @@ procedure TParser.ExpandProduction(const T : string);
 var
   P, TopAux, LenT : integer;
   Aux : TStack;
+  Production : string;
 begin
   Production := Productions[Symbol[1]];
-  if (T <> '') and not(Token.Kind in [tkStringConstant, tkCharConstant]) then
-    P := pos('|' + UpperCase(T) + '|', Production) // find FIRST or FOLLOW terminal
+  if Token.Kind in [tkStringConstant, tkCharConstant] then
+    P := 0
   else
-    P := 0;
+    P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
   if (P = 0) and (Token.Kind <> tkUndefined) then begin
     P := pos('|' + TokenKindToChar(Token.Kind) + '|', Production);
     LenT := 1
