@@ -110,34 +110,32 @@ end;
 
 procedure TParser.ExpandProduction(const T : string);
 var
-  P, TopAux, LenT : integer;
-  Aux : TStack;
   Production : string;
+  P, TopAux, LenToken : integer;
+  Aux : TStack;
 begin
   Production := Productions[Symbol[1]];
+  LenToken := 1;
   case Token.Kind of
     tkIdentifier : begin
       P := pos('|' + Ident + '|', Production);
       if P = 0 then begin
         P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
-        LenT := length(T);
+        LenToken := length(T);
       end
-      else
-        LenT := 1
     end;
     tkReservedWord, tkSpecialSymbol : begin
       P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
-      LenT := length(T);
+      LenToken := length(T);
     end;
     else // tkStringConstant..tkRealConstant
       P := pos('|' + TokenKindToChar(Token.Kind) + '|', Production);
-      LenT := 1;
   end;
   if P <> 0 then begin
     dec(Top);
     TopAux := 1;
-    Aux[1] := copy(Production, P + 1, LenT);
-    inc(P, LenT + 2);
+    Aux[1] := copy(Production, P + 1, LenToken);
+    inc(P, LenToken + 2);
     for P := P to length(Production) do
       case Production[P] of
         Start..#255 : begin // Nonterminal

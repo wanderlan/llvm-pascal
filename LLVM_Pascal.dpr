@@ -15,7 +15,7 @@ uses
 var
   F : TSearchrec;
 begin
-  writeln('LLVM-Pascal Version 2010.7 - scanner/parser');
+  writeln('LLVM-Pascal Version 2010.8 - scanner/parser');
   writeln('(c)2010 by'^M^J,
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^M^J,
           'New BSD license'^M^J,
