@@ -330,8 +330,8 @@ const
 // OfObject
   '|OF|' + 'OBJECT',
 // Directives
-  '|REINTRODUCE|;' + Directives + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|OVERRIDE|;' + Mark +
-  '|MESSAGE|;' + LabelId + '|DYNAMIC|;',
+  '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|REINTRODUCE|;' + Directives + 
+  '|MESSAGE|;' + LabelId + '|DYNAMIC|;' + Mark,
 // ExternalDir
   '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop +
   '|ASSEMBLER|;',
@@ -369,7 +369,7 @@ const
   '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + RecFieldList + RecCaseList,
 // CallConvType
   '|;|' + CallConv + Pop +
-  '|CDECL||SAFECALL||STDCALL||REGISTER||PASCAL||INLINE|',
+  '|STDCALL||CDECL||SAFECALL||REGISTER||PASCAL||INLINE|',
 // WarnDir2
   '|PLATFORM||DEPRECATED||LIBRARY|',
 // RecFieldList
@@ -379,8 +379,8 @@ const
 //RecEndCase
   '|END|' + Pop,
 // CallConv
+  '|STDCALL|;' + Mark + '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +
-  '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;'// Deprecateds
   );
 implementation

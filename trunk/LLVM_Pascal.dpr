@@ -16,9 +16,9 @@ var
   F : TSearchrec;
 begin
   writeln('LLVM-Pascal Version 2010.8 - scanner/parser');
-  writeln('(c)2010 by'^M^J,
-          'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^M^J,
-          'New BSD license'^M^J,
+  writeln('(c)2010 by'^J,
+          'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
+          'New BSD license'^J,
           'http://llvm-pascal.googlecode.com');
   with TParser.Create(300) do
     try
