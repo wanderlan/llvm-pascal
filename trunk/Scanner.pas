@@ -115,7 +115,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   NestedIf    := 0;
   if FileExists(SourceName) then begin
     assign(Arq, SourceName);
-    writeln(^J, SourceName);
+    writeln(^J, ExtractFileName(SourceName));
     reset(Arq);
     First := 1;
     FToken := TToken.Create;
