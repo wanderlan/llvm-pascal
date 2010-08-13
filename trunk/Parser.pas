@@ -10,6 +10,12 @@ uses
   Scanner;
 
 type
+(*  TPoly = record
+    Neg, Pos, DNeg, DPos: Extended;
+    case integer of
+      0:
+  end;
+*)
   TSymbol = string[15];
   TStack  = array[1..100] of TSymbol;
   TParser = class(TScanner)

@@ -22,9 +22,9 @@ const
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
-  InternalDecl = #218; RecordConst  = #219; FieldList    = #220; StringExpr   = #221; RecordCase   = #222;
+  InternalDecl = #218; RecordConst  = #219; CteFieldList = #220; StringExpr   = #221; RecordCase   = #222;
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
-  CallConv     = #228;
+  FieldList    = #228; CallConv     = #229;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -174,7 +174,7 @@ const
   '|(|' + Ident + IdentList + ')' +
   '|OF|' + Ident + Pop,
 // FieldDecl
-  '|' + Ident + '|' + VarList + ':' + Require + Type_ + ';' + FieldDecl,
+  '|' + Ident + '|' + VarList + ':' + Require + Type_ + FieldList,
 // MethodDecl
   '|PROCEDURE|'   + Ident + Delegation + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
   '|FUNCTION|'    + Ident + Delegation + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
@@ -359,14 +359,14 @@ const
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // RecordConst
-  '|:|' + Expression + FieldList + Pop,
-// FieldList
-  '|;|' + Ident + ':' + Expression + FieldList +
-  '|^|' + FieldList,
+  '|:|' + Expression + CteFieldList + Pop,
+// CteFieldList
+  '|;|' + Ident + ':' + Expression + CteFieldList +
+  '|^|' + CteFieldList,
 // StringExpr
   '|+|' + IdentDir + StringExpr,
 // RecordCase
-  '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + RecFieldList + RecCaseList,
+  '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + Require + RecFieldList + RecCaseList,
 // CallConvType
   '|;|' + CallConv + Pop +
   '|STDCALL||CDECL||SAFECALL||REGISTER||PASCAL||INLINE|',
@@ -378,6 +378,8 @@ const
   '|;|' + RecEndCase + Require + Expression + SetList + ':' + RecFieldList + RecCaseList,
 //RecEndCase
   '|END|' + Pop,
+// FieldList
+  '|;|' + FieldDecl,
 // CallConv
   '|STDCALL|;' + Mark + '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +
