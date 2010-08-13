@@ -32,6 +32,7 @@ type
   protected
     FEndSource : boolean;
     FLineNumber, FTotalLines, First, FErrors, FMaxErrors, NestedIf : integer;
+    RecoverLexeme : string;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -357,7 +358,8 @@ end;
 
 procedure TScanner.RecoverFromError(const Expected, Found : string); begin
   Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
-  while (FToken.Lexeme <> ';') and not EndSource do NextToken;
+  while (FToken.Lexeme <> ';') and (UpperCase(FToken.Lexeme) <> 'END') and not EndSource do NextToken;
+  RecoverLexeme := UpperCase(FToken.Lexeme);
 end;
 
 procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin

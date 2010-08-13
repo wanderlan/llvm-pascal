@@ -10,12 +10,6 @@ uses
   Scanner;
 
 type
-(*  TPoly = record
-    Neg, Pos, DNeg, DPos: Extended;
-    case integer of
-      0:
-  end;
-*)
   TSymbol = string[15];
   TStack  = array[1..100] of TSymbol;
   TParser = class(TScanner)
@@ -65,8 +59,8 @@ procedure TParser.RecoverFromError(const Expected, Found : string); begin
   if Top = 1 then
     FEndSource := true
   else begin
-    while (Symbol <> ';') and (Top > 1) do
-      if ((Symbol[1] in [Start..CallConv]) and (pos('|;|', Productions[Symbol[1]]) <> 0)) then
+    while (Symbol <> RecoverLexeme) and (Top > 1) do
+      if ((Symbol[1] in [Start..CallConv]) and (pos('|' + RecoverLexeme + '|', Productions[Symbol[1]]) <> 0)) then
         break
       else
         PopSymbol;
