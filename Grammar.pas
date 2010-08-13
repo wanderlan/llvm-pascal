@@ -31,7 +31,7 @@ const
   // Grammar commands
   Skip = #252; Require = #253; Mark = #254; Pop = #255;
 
-  SimpleType = 'Type' + '|' + Ident + '|' + Expression + SubRange + '|INTEGER||BOOLEAN||BYTE||WORD||CARDINAL||LONGINT|' +
+  SimpleType = 'Type' + '|' + Ident + '|' + QualId + SubRange + '|INTEGER||BOOLEAN||BYTE||WORD||CARDINAL||LONGINT|' +
     '|INT64||UINT64||CHAR||WIDECHAR||WIDESTRING||LONGWORD||SHORTINT||SMALLINT|' +
     '|PCHAR||POINTER||REAL||SINGLE||DOUBLE||EXTENDED||CURRENCY||COMP||BYTEBOOL||WORDBOOL||LONGBOOL|';
 
@@ -222,9 +222,11 @@ const
 // PropIndex
   '|INDEX|' + IntConst,
 // PropRead
-  '|READ|' + Ident,
+  '|READ|' + Ident + Mark +
+  '|READONLY|',
 // PropWrite
-  '|WRITE|' + Ident,
+  '|WRITE|' + Ident + Mark +
+  '|WRITEONLY|',
 // PropStored
   '|STORED|' + Ident,
 // PropDefault
