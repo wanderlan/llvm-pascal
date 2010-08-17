@@ -75,10 +75,15 @@ constructor TScanner.Create(MaxErrors : integer = 10); begin
   DecimalSeparator := '.';
 end;
 
-destructor TScanner.Destroy; begin
+destructor TScanner.Destroy;
+var
+  Elapsed : TDateTime;
+begin
+  Elapsed := Now-InitTime;
+  if Elapsed = 0 then Elapsed := 0.00000005;
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
-  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Now-InitTime), 'seconds, ', TotalLines/1000/((Now-InitTime)*24*60*60):0:1, ' klps.');
+  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Elapsed), 'seconds, ', TotalLines/1000/((Elapsed)*24*60*60):0:1, ' klps.');
   inherited;
   FToken.Free;
 end;
@@ -115,7 +120,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   NestedIf    := 0;
   if FileExists(SourceName) then begin
     assign(Arq, SourceName);
-    writeln(^J, ExtractFileName(SourceName));
+    writeln(IfThen(Errors = 0, '', ^J), ExtractFileName(SourceName));
     reset(Arq);
     First := 1;
     FToken := TToken.Create;
@@ -273,15 +278,25 @@ begin
           Str := Str + FToken.Lexeme;
           repeat
             ScanChars([['^'], ['@'..'Z']], [1, 1], true);
-            if length(FToken.Lexeme) = 2 then
-              Str := copy(Str, 1, length(Str)-1) + char(byte(FToken.Lexeme[2]) - ord('@')) + '''';
+            case length(FToken.Lexeme) of
+              1 : begin
+                FToken.Kind := tkSpecialSymbol;
+                exit;
+              end;
+              2 : Str := copy(Str, 1, length(Str)-1) + char(byte(FToken.Lexeme[2]) - ord('@')) + ''''
+            end;
           until FToken.Lexeme = '';
           repeat
             ScanChars([['#'], ['0'..'9']], [1, 3], true);
-            if length(FToken.Lexeme) >= 2 then
-              Str := copy(Str, 1, length(Str)-1) + char(StrToIntDef(copy(FToken.Lexeme, 2, 100), 0)) + '''';
+            case length(FToken.Lexeme) of
+              1 : begin
+                FToken.Kind := tkSpecialSymbol;
+                exit;
+              end;
+              2..6 : Str := copy(Str, 1, length(Str)-1) + char(StrToIntDef(copy(FToken.Lexeme, 2, 100), 0)) + ''''
+            end;
           until FToken.Lexeme = '';
-        until Line[First] <> '''';
+        until (First >= length(Line)) or (Line[First] <> '''');
         FToken.Lexeme := copy(Str, 1, length(Str)-1);
         if length(FToken.Lexeme) = 1 then
           FToken.Kind := tkCharConstant
@@ -291,7 +306,7 @@ begin
       end;
       '0'..'9': begin // Numbers
         ScanChars([['0'..'9'], ['.', 'E', 'e']], [28, 1], true);
-        Str := UpperCase(FToken.Lexeme);
+        Str := FToken.Lexeme;
         case Str[length(Str)] of
           '.' : begin
             ScanChars([['0'..'9'], ['E', 'e'], ['+', '-'], ['0'..'9']], [27, 1, 1, 4], true);
@@ -299,7 +314,7 @@ begin
             FToken.Lexeme := '';
             if Str[length(Str)] = 'E' then ScanChars([['0'..'9']], [4]);
           end;
-          'E' : begin
+          'E', 'e' : begin
             ScanChars([['+', '-'], ['0'..'9']], [1, 4]);
             Str := Str + FToken.Lexeme;
             FToken.Lexeme := '';

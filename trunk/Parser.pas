@@ -59,6 +59,8 @@ procedure TParser.RecoverFromError(const Expected, Found : string); begin
   if Top = 1 then
     FEndSource := true
   else begin
+    inc(Top);
+    Symbol := Symbols[Top];
     while (Symbol <> RecoverLexeme) and (Top > 1) do
       if ((Symbol[1] in [Start..CallConv]) and (pos('|' + RecoverLexeme + '|', Productions[Symbol[1]]) <> 0)) then
         break
@@ -95,7 +97,7 @@ var
 begin
   inherited;
   exit; // Comment this line to debug the compiler
-  for I := min(Top, high(Symbols)) downto 2 do
+  for I := min(Top+1, high(Symbols)) downto 2 do
     case Symbols[I][1] of
       #0..#127        : writeln(I, ': ', Symbols[I]); // Terminal
       Start..CallConv : writeln(I, ': #', Ord(Symbols[I][1]), ', ', GetProductionName(Productions[Symbols[I][1]])); // Production
