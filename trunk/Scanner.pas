@@ -384,7 +384,9 @@ begin
       end;
     else
       Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
-      First := MAXINT;
+      inc(First);
+      RecoverFromError('', '');
+      exit;
     end;
   end;
 end;
@@ -408,7 +410,7 @@ begin
 end;
 
 procedure TScanner.RecoverFromError(const Expected, Found : string); begin
-  Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
+  if Expected <> '' then Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
   while (FToken.Lexeme <> ';') and (UpperCase(FToken.Lexeme) <> 'END') and not EndSource do NextToken;
   RecoverLexeme := UpperCase(FToken.Lexeme);
 end;
