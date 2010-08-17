@@ -205,7 +205,8 @@ end;
 
 procedure TScanner.NextToken;
 var
-  Str : string;
+  Str  : string;
+  FAnt : integer;
 begin
   while not FEndSource do begin
     while First > LenLine do begin
@@ -237,10 +238,31 @@ begin
           FToken.Kind := tkReservedWord;
         exit;
       end;
-      ';', ',', '=', ')', '[', ']', '+', '-', '^', '@' : begin
+      ';', ',', '=', ')', '[', ']', '+', '-', '@' : begin
         FToken.Lexeme := Line[First];
         FToken.Kind   := tkSpecialSymbol;
         inc(First);
+        exit;
+      end;
+      '^' : begin
+        Str  := '';
+        FAnt := First;
+        repeat
+          ScanChars([['^'], ['@'..'Z', 'a'..'z']], [1, 2], true);
+          if length(FToken.Lexeme) = 2 then
+            Str := Str + char(byte(FToken.Lexeme[2]) - ord('@'));
+        until length(FToken.Lexeme) <> 2;
+        FToken.Lexeme := Str;
+        case length(FToken.Lexeme) of
+          0 : begin
+            First         := FAnt + 1;
+            FToken.Lexeme := Line[First-1];
+            FToken.Kind   := tkSpecialSymbol;
+          end;
+          1 : FToken.Kind := tkCharConstant
+        else
+          FToken.Kind := tkStringConstant;
+        end;
         exit;
       end;
       '''': begin // strings
@@ -268,8 +290,22 @@ begin
         exit;
       end;
       '0'..'9': begin // Numbers
-        ScanChars([['0'..'9'], ['.'], ['0'..'9'], ['E', 'e'], ['+', '-'], ['0'..'9']], [28, 1, 27, 1, 1, 3], true);
-        FToken.Lexeme := UpperCase(FToken.Lexeme);
+        ScanChars([['0'..'9'], ['.', 'E', 'e']], [28, 1], true);
+        Str := UpperCase(FToken.Lexeme);
+        case Str[length(Str)] of
+          '.' : begin
+            ScanChars([['0'..'9'], ['E', 'e'], ['+', '-'], ['0'..'9']], [27, 1, 1, 4], true);
+            Str := Str + UpperCase(FToken.Lexeme);
+            FToken.Lexeme := '';
+            if Str[length(Str)] = 'E' then ScanChars([['0'..'9']], [4]);
+          end;
+          'E' : begin
+            ScanChars([['+', '-'], ['0'..'9']], [1, 4]);
+            Str := Str + FToken.Lexeme;
+            FToken.Lexeme := '';
+          end;
+        end;
+        FToken.Lexeme := Str + UpperCase(FToken.Lexeme);
         if FToken.Lexeme[length(FToken.Lexeme)] in ['.', 'E', '+', '-'] then begin
           dec(First);
           SetLength(FToken.Lexeme, length(FToken.Lexeme)-1);

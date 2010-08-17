@@ -118,18 +118,18 @@ const
   '|;|' + Statement + StmtList,
 // Expression
   'Expression' +
-  '|' + Ident + '|' + QualId + RelOp + Expression +
-  '|' + IntConst + '|' + RelOp + Expression +
-  '|' + StringConst + '|' + RelOp + Expression +
-  '|' + CharConst + '|' + RelOp + Expression +
-  '|' + RealConst + '|' + RelOp + Expression +
+  '|' + Ident + '|' + QualId + RelOp +
+  '|' + IntConst + '|' + RelOp +
+  '|' + StringConst + '|' + RelOp +
+  '|' + CharConst + '|' + RelOp +
+  '|' + RealConst + '|' + RelOp +
   '|+|' + Expression +
   '|-|' + Expression +
   '|NOT|' + Expression +
-  '|(|' + Expression + RecordConst + ExprList + Mark + ')' + QualId + RelOp + Expression +
+  '|(|' + Expression + RecordConst + ExprList + Mark + ')' + QualId + RelOp +
   '|NIL|' +
   '|@|' + Expression +
-  '|[|' + Expression + SetList + ']' + RelOp + Expression +
+  '|[|' + Expression + SetList + ']' + RelOp +
   '|INHERITED|' + Expression,
 // ToOrDownto
   '|TO||DOWNTO|',
@@ -235,9 +235,26 @@ const
 // PropImplem
   '|IMPLEMENTS|' + Ident + IdentList,
 // RelOp
-  '|>||<||>=||<=||<>||=||IN||IS||AS|' +
-  '|+||-||AND||OR||XOR||SHR||SHL|' +
-  '|*||/||DIV||MOD|',
+  '|>|' + Require + Expression +
+  '|<|' + Require + Expression +
+  '|>=|' + Require + Expression +
+  '|<=|' + Require + Expression +
+  '|<>|' + Require + Expression +
+  '|=|' + Require + Expression +
+  '|IN|' + Require + Expression +
+  '|IS|' + Require + Expression +
+  '|AS|' + Require + Expression +
+  '|+|' + Require + Expression +
+  '|-|' + Require + Expression +
+  '|AND|' + Require + Expression +
+  '|OR|' + Require + Expression +
+  '|XOR|' + Require + Expression +
+  '|SHR|' + Require + Expression +
+  '|SHL|' + Require + Expression +
+  '|*|' + Require + Expression +
+  '|/|' + Require + Expression +
+  '|DIV|' + Require + Expression +
+  '|MOD|' + Require + Expression,
 // MetId
   '|.|' + Ident,
 // AssignStmt
@@ -245,7 +262,8 @@ const
 // ElseBranch
   '|ELSE|' + Statement,
 // ExprList
-  '|,|' + Require + Expression + SetList +
+  '|,|' + Require + Expression + ExprList +
+  '|:|' + Expression + ExprList +
   '|^|' + ExprList,
 // CaseList
   '|;|' + EndCaseList + Require + Expression + SetList + ':' + Statement + CaseList +
@@ -256,7 +274,7 @@ const
   '|END|' + Pop,
 // SetList
   '|,|' + Require + Expression + SetList +
-  '|..|' + Require + Expression + ExprList,
+  '|..|' + Require + Expression + SetList,
 // InterDecl
   'Declaration Section for Interface' +
   '|VAR|' + Require + VarDecl + InterDecl +
