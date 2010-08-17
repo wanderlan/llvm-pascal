@@ -19,7 +19,7 @@ begin
   writeln('(c)2010 by'^J,
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
           'New BSD license'^J,
-          'http://llvm-pascal.googlecode.com');
+          'http://llvm-pascal.googlecode.com'^J);
   with TParser.Create(30) do
     try
       if FindFirst(ParamStr(1), faAnyFile, F) = 0 then
@@ -27,8 +27,8 @@ begin
           Compile(ExtractFilePath(ParamStr(1)) + F.Name);
         until FindNext(F) <> 0;
     finally
-      FindClose(F);
       Free;
+      FindClose(F);
       readln;
     end;
 end.
