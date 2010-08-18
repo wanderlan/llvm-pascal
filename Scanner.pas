@@ -176,7 +176,7 @@ begin
   end
   else begin
     Error('Invalid compiler directive ''' + Line[First] + '''');
-    First := MAXINT;
+    inc(First);
   end;
 end;
 
@@ -385,8 +385,6 @@ begin
     else
       Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
-      RecoverFromError('', '');
-      exit;
     end;
   end;
 end;
