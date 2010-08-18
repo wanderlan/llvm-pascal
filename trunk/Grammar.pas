@@ -39,8 +39,8 @@ const
 // Start
   '|PROGRAM|' + Ident + ParIdentList + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
   '|UNIT|'    + Ident + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
-  '|LIBRARY|' + Ident + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
-  '|PACKAGE|' + Ident + ';' + 'REQUIRES' + Ident + IdentList + 'CONTAINS' + Ident + IdentList + 'END.',
+  '|LIBRARY|' + Ident + ';' + UsesClause + DeclSection + ';' + Require + CompoundStmt  + '.' +
+  '|PACKAGE|' + Ident + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
 // ParIdentList
   '|(|' + Ident + IdentList + ')',
 // IdentList
