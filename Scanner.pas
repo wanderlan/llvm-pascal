@@ -31,7 +31,8 @@ type
     function TokenIn(const S : string) : boolean; inline;
   protected
     FEndSource : boolean;
-    FLineNumber, FTotalLines, First, FErrors, FMaxErrors, NestedIf : integer;
+    FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
+    NestedIf : shortstring;
     RecoverLexeme : string;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
@@ -117,7 +118,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   FLineNumber := 0;
   FEndSource  := false;
   LenLine     := 0;
-  NestedIf    := 0;
+  NestedIf    := '';
   if FileExists(SourceName) then begin
     assign(Arq, SourceName);
     writeln(IfThen(Errors = 0, '', ^J), ExtractFileName(SourceName));
@@ -162,15 +163,32 @@ begin
         I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
       end;
-      2 : begin
-        if not TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
-        inc(NestedIf);
+      2 :
+        if TokenIn(ConditionalSymbols) then
+          NestedIf := NestedIf + 'T'
+        else begin
+          FEndComment := 'ENDIF' + FEndComment;
+          NestedIf := NestedIf + 'F'
+        end;
+      3 :
+        if not TokenIn(ConditionalSymbols) then begin
+          FEndComment := 'ENDIF' + FEndComment;
+          NestedIf := NestedIf + 'F';
+        end
+        else
+          NestedIf := NestedIf + 'T';
+      4 : begin
+        if UpperCase(FToken.Lexeme) = 'DEFINED' then begin
+          ScanChars([['(']], [1]);
+          ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+          if TokenIn(ConditionalSymbols) then
+            NestedIf := NestedIf + 'T'
+          else begin
+            FEndComment := 'IFEND' + FEndComment;
+            NestedIf := NestedIf + 'F'
+          end;
+        end;
       end;
-      3 : begin
-        if TokenIn(ConditionalSymbols) then FEndComment := 'ENDIF' + FEndComment;
-        inc(NestedIf);
-      end;
-      4 : inc(NestedIf);
     end;
     FindEndComment(FEndComment);
   end
@@ -188,12 +206,12 @@ begin
   if ((First + length(EndComment)) <= LenLine) and (Line[First + length(EndComment)] = '$') then
     DoDirective(length(EndComment))
   else begin
-    if PosEx('{$IF', Line, First) <> 0 then inc(NestedIf);
     PosEnd := PosEx(EndComment, Line, First);
+    if (PosEnd = 0) and (length(EndComment) > 2) then PosEnd := PosEx('$ELSE', Line, First);
     if PosEnd <> 0 then begin // End comment in same line
       First := PosEnd + length(EndComment);
-      if NestedIf > 0 then dec(NestedIf);
-      if NestedIf = 0 then FEndComment := '';
+      if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
+      if NestedIf  = '' then FEndComment := '';
     end
     else
       First := MAXINT;

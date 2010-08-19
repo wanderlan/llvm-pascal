@@ -39,9 +39,7 @@ procedure TParser.PopSymbol; begin
     case Symbol[1] of
       Mark, Require : PopSymbol;
       Pop : begin
-        repeat
-          dec(Top);
-        until (Symbols[Top] = Mark) or (Top <= 2);
+        while (Symbols[Top] <> Mark) and (Top > 2) do dec(Top);
         dec(Top);
         Symbol := Symbols[Top];
       end;
@@ -79,7 +77,12 @@ procedure TParser.Compile(const Source : string); begin
     repeat
       case Symbol[1] of
         #0..#127        : MatchToken(Symbol); // Terminal
-        Start..CallConv : ExpandProduction(Token.Lexeme) // Production
+        Start..CallConv : ExpandProduction(Token.Lexeme); // Production
+        InsertSemi      : begin
+          dec(First, length(Token.Lexeme));
+          Token.Lexeme := ';';
+          Token.Kind   := tkSpecialSymbol;
+        end
       else // Other Terminal
         MatchTerminal(CharToTokenKind(Symbol[1]));
       end;
