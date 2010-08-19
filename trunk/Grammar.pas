@@ -29,7 +29,7 @@ const
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
   // Grammar commands
-  Skip = #252; Require = #253; Mark = #254; Pop = #255;
+  InsertSemi = #251; Skip = #252; Require = #253; Mark = #254; Pop = #255;
 
   SimpleType = 'Type' + '|' + Ident + '|' + QualId + SubRange + '|INTEGER||BOOLEAN||BYTE||WORD||CARDINAL||LONGINT|' +
     '|INT64||UINT64||CHAR||WIDECHAR||WIDESTRING||LONGWORD||SHORTINT||SMALLINT|' +
@@ -64,7 +64,7 @@ const
   '|EXPORTS|'     + Ident + FormalParams + PropIndex + NameDir + ExportsList + DeclSection +
   '|RESOURCESTRING|' + Require + RsrcDecl + DeclSection,
 // VarDecl
-  '|' + Ident + '|' + VarList + ':' + Require + Type_ + VarInit + ';' + Mark + VarDecl,
+  '|' + Ident + '|' + VarList + ':' + Require + Type_ + WarnDir2 + VarInit + ';' + Mark + VarDecl,
 // VarList
   '|,|' + Ident + VarList,
 // VarInit
@@ -85,7 +85,7 @@ const
   '|OBJECT|' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '|SET|' + 'OF' + Require + OrdinalType +
   '|PROCEDURE|' + FormalParams + OfObject + CallConvType +
-  '|FUNCTION|' + FormalParams + ':' + Ident + OfObject + CallConvType +
+  '|FUNCTION|' + FormalParams + ':' + Ident + OfObject + CallConvType + 
   '|PACKED|' + PackedDecl +
   '|FILE|' + FileOf +
   '|TEXT|' +
@@ -144,18 +144,18 @@ const
   '|INITIALIZATION|' + Statement + StmtList + FinSection +
   '|END|',
 // TypeDecl
-  '|' + Ident + '|' + '=' + Require + Type_ + ';' + Mark + TypeDecl,
+  '|' + Ident + '|' + '=' + Require + Type_ + WarnDir2 + ';' + Mark + TypeDecl,
 // StringLength
   '|[|' + Require + IntConst + ']',
 // ArrayDim
   '|[|' + Require + Expression + SetList + ']',
 // ClassDecl
-  '|PRIVATE|' + FieldDecl + MethodDecl + ClassDecl +
+  '|PRIVATE|'   + FieldDecl + MethodDecl + ClassDecl +
   '|PROTECTED|' + FieldDecl + MethodDecl + ClassDecl +
-  '|PUBLIC|' + FieldDecl + MethodDecl + ClassDecl +
+  '|PUBLIC|'    + FieldDecl + MethodDecl + ClassDecl +
   '|PUBLISHED|' + FieldDecl + MethodDecl + ClassDecl +
-  '|STRICT|' + StrictDecl + ClassDecl +
-  '|CLASS|' + StaticDecl + FieldDecl + MethodDecl + ClassDecl +
+  '|STRICT|'    + StrictDecl + ClassDecl +
+  '|CLASS|'     + StaticDecl + FieldDecl + MethodDecl + ClassDecl +
   '|AUTOMATED|' + FieldDecl + MethodDecl + ClassDecl,
 // QualId
   '|.|' + Ident + QualId +
@@ -171,10 +171,10 @@ const
 // LabelList
   '|,|' + Require + LabelId + LabelList,
 // ClassHerit
-  '|(|' + Ident + IdentList + ')' +
+  '|(|'  + Ident + IdentList + ')' +
   '|OF|' + Ident + Pop,
 // FieldDecl
-  '|' + Ident + '|' + VarList + ':' + Require + Type_ + FieldList,
+  '|' + Ident + '|' + VarList + ':' + Require + Type_ + WarnDir2 + FieldList,
 // MethodDecl
   '|PROCEDURE|'   + Ident + Delegation + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
   '|FUNCTION|'    + Ident + Delegation + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
@@ -195,7 +195,7 @@ const
 // ParamSpec
   '|:|' + Require + ParamType,
 // ConstDecl
-  '|' + Ident + '|' + ConstType + '=' + Require + Expression + ';' + ConstDecl,
+  '|' + Ident + '|' + ConstType + '=' + Require + Expression + WarnDir2 + ';' + ConstDecl,
 // ConstType
   '|:|' + Require + Type_,
 // StaticDecl
@@ -235,19 +235,19 @@ const
 // PropImplem
   '|IMPLEMENTS|' + Ident + IdentList,
 // RelOp
-  '|>|' + Require + Expression +
-  '|<|' + Require + Expression +
+  '|>|'  + Require + Expression +
+  '|<|'  + Require + Expression +
   '|>=|' + Require + Expression +
   '|<=|' + Require + Expression +
   '|<>|' + Require + Expression +
-  '|=|' + Require + Expression +
+  '|=|'  + Require + Expression +
   '|IN|' + Require + Expression +
   '|IS|' + Require + Expression +
   '|AS|' + Require + Expression +
-  '|+|' + Require + Expression +
-  '|-|' + Require + Expression +
+  '|+|'  + Require + Expression +
+  '|-|'  + Require + Expression +
   '|AND|' + Require + Expression +
-  '|OR|' + Require + Expression +
+  '|OR|'  + Require + Expression +
   '|XOR|' + Require + Expression +
   '|SHR|' + Require + Expression +
   '|SHL|' + Require + Expression +
@@ -308,7 +308,7 @@ const
   '|EXCEPT|' + ExceptHand + Statement + StmtList + 'END' + Mark +   
   '|FINALLY|' + Statement + StmtList + 'END',
 // ExceptHand
-  '|ON|' + Ident + ExceptType + 'DO' + Statement + ExceptList + EndCaseList + Pop,
+  '|ON|' + Ident + QualId + ExceptType + 'DO' + Statement + ExceptList + EndCaseList + Pop,
 // ExceptType
   '|:|' + Ident,
 // ExceptList
@@ -350,7 +350,7 @@ const
 // OfObject
   '|OF|' + 'OBJECT',
 // Directives
-  '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|REINTRODUCE|;' + Directives + 
+  '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|REINTRODUCE|;' + Directives +
   '|MESSAGE|;' + LabelId + '|DYNAMIC|;' + Mark,
 // ExternalDir
   '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop +
@@ -360,7 +360,7 @@ const
 // DefProp
   '|DEFAULT|;',
 // WarnDir
-  '|PLATFORM|;' + Mark + '|DEPRECATED|;' + Mark + '|LIBRARY|;',
+  '|PLATFORM|;' + WarnDir + '|DEPRECATED|;' + WarnDir + '|LIBRARY|;' + WarnDir,
 // StrictDecl
   '|PRIVATE|' + FieldDecl + MethodDecl + ClassDecl +
   '|PROTECTED|' + FieldDecl + MethodDecl + ClassDecl,
@@ -388,10 +388,10 @@ const
 // RecordCase
   '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + Require + RecFieldList + RecCaseList,
 // CallConvType
-  '|;|' + CallConv + Pop +
+  '|;|' + CallConv + InsertSemi +
   '|STDCALL||CDECL||SAFECALL||REGISTER||PASCAL||INLINE|',
 // WarnDir2
-  '|PLATFORM||DEPRECATED||LIBRARY|',
+  '|PLATFORM|' + WarnDir2 + '|DEPRECATED|' + WarnDir2 + '|LIBRARY|' + WarnDir2,
 // RecFieldList
   '|(|' + FieldDecl + RecordCase + ')',
 // RecCaseList
@@ -401,9 +401,9 @@ const
 // FieldList
   '|;|' + FieldDecl,
 // CallConv
-  '|STDCALL|;' + Mark + '|CDECL|;'+ Mark + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
+  '|STDCALL|;' + Mark + '|CDECL|'+ CallConv + ';' + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;'// Deprecateds
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|' + CallConv// Deprecateds
   );
 implementation
 end.
