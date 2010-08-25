@@ -22,9 +22,10 @@ type
     FToken    : TToken;
     LenLine   : integer;
     FInitTime : TDateTime;
-    FSourceName, FEndComment, Line : string;
+    FSourceName, Line : string;
+    FStartComment, FEndComment : string[10];
     procedure NextChar(C : TSetChar);
-    procedure FindEndComment(const EndComment : string);
+    procedure FindEndComment(const StartComment, EndComment : shortstring);
     procedure SetFSourceName(const Value : string);
     procedure DoDirective(DollarInc : integer);
     procedure SkipBlank; inline;
@@ -73,7 +74,8 @@ const
 constructor TScanner.Create(MaxErrors : integer = 10); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
-  DecimalSeparator := '.';
+  DecimalSeparator  := '.';
+  ThousandSeparator := ',';
 end;
 
 destructor TScanner.Destroy;
@@ -81,7 +83,7 @@ var
   Elapsed : TDateTime;
 begin
   Elapsed := Now-InitTime;
-  if Elapsed = 0 then Elapsed := 0.00000005;
+  if Elapsed = 0 then Elapsed := 5E-9;
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
   writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Elapsed), 'seconds, ', TotalLines/1000/((Elapsed)*24*60*60):0:1, ' klps.');
@@ -151,15 +153,15 @@ var
   I : integer;
   L : string;
 begin
-  inc(First, DollarInc + 1);
+  First := DollarInc + 1;
   if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
     L := FToken.Lexeme;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'ENDIF', 'IFEND']) of
       0 : if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + FToken.Lexeme + '.';
-      1 : begin
+      1 :begin
         I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
       end;
@@ -177,7 +179,7 @@ begin
         end
         else
           NestedIf := NestedIf + 'T';
-      4 : begin
+      4 :
         if UpperCase(FToken.Lexeme) = 'DEFINED' then begin
           ScanChars([['(']], [1]);
           ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
@@ -188,9 +190,9 @@ begin
             NestedIf := NestedIf + 'F'
           end;
         end;
-      end;
+      5, 6 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
     end;
-    FindEndComment(FEndComment);
+    FindEndComment(FStartComment, FEndComment);
   end
   else begin
     Error('Invalid compiler directive ''' + Line[First] + '''');
@@ -198,23 +200,25 @@ begin
   end;
 end;
 
-procedure TScanner.FindEndComment(const EndComment : string);
+procedure TScanner.FindEndComment(const StartComment, EndComment : shortstring);
 var
-  PosEnd : integer;
+  P : integer;
 begin
+  FStartComment := StartComment;
   FEndComment := EndComment;
-  if ((First + length(EndComment)) <= LenLine) and (Line[First + length(EndComment)] = '$') then
-    DoDirective(length(EndComment))
+  P := PosEx(FStartComment + '$', Line, First);
+  if (P <> 0) and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
+    DoDirective(P + length(FStartComment))
   else begin
-    PosEnd := PosEx(EndComment, Line, First);
-    if (PosEnd = 0) and (length(EndComment) > 2) then PosEnd := PosEx('$ELSE', Line, First);
-    if PosEnd <> 0 then begin // End comment in same line
-      First := PosEnd + length(EndComment);
-      if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
-      if NestedIf  = '' then FEndComment := '';
+    P := PosEx(EndComment, Line, First);
+    if (P = 0) and (length(EndComment) > 2) then P := PosEx('$ELSE', Line, First);
+    if P <> 0 then begin // End comment in same line
+      First := P + length(EndComment);
+      if (NestedIf <> '') and (length(FEndComment) > 2) then SetLength(NestedIf, length(NestedIf)-1);
+      if (NestedIf  = '') or (length(FEndComment) <= 2) then FEndComment := '';
     end
     else
-      First := MAXINT;
+      First := LenLine + 1;
   end;
 end;
 
@@ -235,11 +239,12 @@ begin
     while First > LenLine do begin
       readln(Arq, Line);
       LenLine := length(Line);
-      if EOF(Arq) and (LenLine = 0) then begin
+      if EOF(Arq) and ((LenLine = 0) or (Line = ^Z)) then begin
         if FToken.Lexeme = 'End of Source' then
           FEndSource := true
         else
           FToken.Lexeme := 'End of Source';
+        FEndComment := '';
         exit;
       end;
       inc(FLineNumber);
@@ -248,7 +253,7 @@ begin
     end;
     // End comment across many lines
     if FEndComment <> '' then begin
-      FindEndComment(FEndComment);
+      FindEndComment(FStartComment, FEndComment);
       continue;
     end;
     case Line[First] of
@@ -358,7 +363,7 @@ begin
       end;
       '(' :
         if (LenLine > First) and (Line[First + 1] = '*') then // Comment Style (*
-          FindEndComment('*)')
+          FindEndComment('(*', '*)')
         else begin
           FToken.Lexeme := '(';
           FToken.Kind   := tkSpecialSymbol;
@@ -374,7 +379,7 @@ begin
           inc(First);
           exit
         end;
-      '{' : FindEndComment('}');
+      '{' : FindEndComment('{', '}');
       '.' : begin NextChar(['.']); exit; end;
       '*' : begin NextChar(['*']); exit; end;
       '>',
@@ -401,7 +406,7 @@ begin
         exit;
       end;
     else
-      Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
+      if not EOF(Arq) then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
     end;
   end;
