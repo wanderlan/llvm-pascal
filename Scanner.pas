@@ -86,7 +86,7 @@ begin
   if Elapsed = 0 then Elapsed := 5E-9;
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
-  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Elapsed), 'seconds, ', TotalLines/1000/((Elapsed)*24*60*60):0:1, ' klps.');
+  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Elapsed), 'seconds, ', TotalLines/1000.0/(Elapsed*24*60*60):0:1, ' klps.');
   inherited;
   FToken.Free;
 end;
