@@ -208,7 +208,7 @@ end;
 
 procedure TScanner.FindEndComment(const StartComment, EndComment : shortstring);
 var
-  P : integer;
+  P, FAnt : integer;
 begin
   FStartComment := StartComment;
   FEndComment   := EndComment;
@@ -217,6 +217,7 @@ begin
     DoDirective(P + length(FStartComment))
   else begin
     if (P <> 0) and ((NestedIf <> '') and (NestedIf[length(NestedIf)] = 'F')) then begin
+      FAnt := First;
       First := P + length(FStartComment) + 1;
       if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
@@ -224,12 +225,14 @@ begin
           0..3 : begin
             FEndComment := 'ENDIF' + FEndComment;
             NestedIf := NestedIf + 'F';
+            exit;
           end;
           4, 5 : begin
-            SetLength(NestedIf, length(NestedIf)-1);
             FEndComment := copy(FEndComment, 6, 100);
             dec(First, 5);
           end;
+        else
+          First := FAnt;
         end;
       end;
     end;
@@ -237,8 +240,8 @@ begin
     if (P = 0) and (length(EndComment) > 2) then P := PosEx('$ELSE', Line, First);
     if P <> 0 then begin // End comment in same line
       First := P + length(EndComment);
-      if (NestedIf <> '') and (length(FEndComment) > 2) then SetLength(NestedIf, length(NestedIf)-1);
-      if (NestedIf  = '') or (length(FEndComment) <= 2) then FEndComment := '';
+      if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
+      if NestedIf  = '' then FEndComment := '';
     end
     else
       First := LenLine + 1;
