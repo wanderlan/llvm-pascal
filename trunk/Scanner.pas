@@ -23,7 +23,8 @@ type
     LenLine   : integer;
     FInitTime : TDateTime;
     FSourceName, Line : string;
-    FStartComment, FEndComment : string[10];
+    FStartComment : string[10];
+    FEndComment   : string[100];
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(const StartComment, EndComment : shortstring);
     procedure SetFSourceName(const Value : string);
@@ -83,10 +84,11 @@ var
   Elapsed : TDateTime;
 begin
   Elapsed := Now-InitTime;
-  if Elapsed = 0 then Elapsed := 5E-9;
+  if Elapsed = 0 then Elapsed := 3E-9;
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
-  writeln(TotalLines, ' lines,', FormatDateTime(' s.z ', Elapsed), 'seconds, ', TotalLines/1000.0/(Elapsed*24*60*60):0:1, ' klps.');
+  writeln(TotalLines, ' lines, ', IfThen(FormatDateTime('n', Elapsed) = '0', '', FormatDateTime('n:', Elapsed)),
+    FormatDateTime('s.z ', Elapsed), 'seconds, ', TotalLines/1000.0/(Elapsed*24*60*60):0:1, ' klps.');
   inherited;
   FToken.Free;
 end;
@@ -159,9 +161,9 @@ begin
     L := FToken.Lexeme;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'ENDIF', 'IFEND']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND']) of
       0 : if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + FToken.Lexeme + '.';
-      1 :begin
+      1 : begin
         I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
       end;
@@ -180,7 +182,7 @@ begin
         else
           NestedIf := NestedIf + 'T';
       4 :
-        if UpperCase(FToken.Lexeme) = 'DEFINED' then begin
+        if AnsiIndexText(FToken.Lexeme, ['DEFINED', 'DECLARED']) <> -1 then begin
           ScanChars([['(']], [1]);
           ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
           if TokenIn(ConditionalSymbols) then
@@ -190,7 +192,11 @@ begin
             NestedIf := NestedIf + 'F'
           end;
         end;
-      5, 6 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
+      5 : begin
+        FEndComment := 'ENDIF' + FEndComment;
+        NestedIf := NestedIf + 'F';
+      end;
+      6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
     end;
     FindEndComment(FStartComment, FEndComment);
   end
@@ -205,11 +211,28 @@ var
   P : integer;
 begin
   FStartComment := StartComment;
-  FEndComment := EndComment;
+  FEndComment   := EndComment;
   P := PosEx(FStartComment + '$', Line, First);
   if (P <> 0) and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
     DoDirective(P + length(FStartComment))
   else begin
+    if (P <> 0) and ((NestedIf <> '') and (NestedIf[length(NestedIf)] = 'F')) then begin
+      First := P + length(FStartComment) + 1;
+      if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
+        ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+        case AnsiIndexText(FToken.Lexeme, ['IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND']) of
+          0..3 : begin
+            FEndComment := 'ENDIF' + FEndComment;
+            NestedIf := NestedIf + 'F';
+          end;
+          4, 5 : begin
+            SetLength(NestedIf, length(NestedIf)-1);
+            FEndComment := copy(FEndComment, 6, 100);
+            dec(First, 5);
+          end;
+        end;
+      end;
+    end;
     P := PosEx(EndComment, Line, First);
     if (P = 0) and (length(EndComment) > 2) then P := PosEx('$ELSE', Line, First);
     if P <> 0 then begin // End comment in same line
