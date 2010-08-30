@@ -393,10 +393,11 @@ const
 // WarnDir2
   '|PLATFORM|' + WarnDir2 + '|DEPRECATED|' + WarnDir2 + '|LIBRARY|' + WarnDir2,
 // RecFieldList
-  '|(|' + FieldDecl + RecordCase + ')',
+  '|(|' + FieldDecl + RecordCase + ')' + Mark,
 // RecCaseList
   '|;|' + RecEndCase + Require + Expression + SetList + ':' + RecFieldList + RecCaseList,
 //RecEndCase
+  '|)|' + Pop +
   '|END|' + Pop,
 // FieldList
   '|;|' + FieldDecl,
