@@ -31,6 +31,7 @@ type
     procedure DoDirective(DollarInc : integer);
     procedure SkipBlank; inline;
     function TokenIn(const S : string) : boolean; inline;
+    procedure NextString;
   protected
     FEndSource : boolean;
     FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
@@ -268,6 +269,53 @@ function TScanner.TokenIn(const S : string) : boolean; begin
   Result := pos('.' + LowerCase(FToken.Lexeme) + '.', S) <> 0
 end;
 
+procedure TScanner.NextString;
+var
+  Str : string;
+begin
+  Str := '';
+  repeat
+    if Line[First] <> '#' then begin
+      inc(First);
+      ScanChars([[#0..#255] - [''''], ['''']], [500, 1]);
+      Str := Str + FToken.Lexeme;
+    end;
+    repeat
+      ScanChars([['^'], ['@'..'Z']], [1, 1], true);
+      case length(FToken.Lexeme) of
+        1 : begin
+          FToken.Kind := tkSpecialSymbol;
+          exit;
+        end;
+        2 : Str := copy(Str, 1, length(Str)-1) + char(byte(FToken.Lexeme[2]) - ord('@')) + ''''
+      end;
+    until FToken.Lexeme = '';
+    repeat
+      ScanChars([['#'], ['0'..'9']], [1, 3], true);
+      case length(FToken.Lexeme) of
+        1 :
+          if Line[First] = '$' then begin
+            ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 4]);
+            Str := Str + char(StrToIntDef(FToken.Lexeme, 0));
+          end
+          else begin
+            FToken.Kind := tkSpecialSymbol;
+            exit;
+          end;
+        2..6 : Str := copy(Str, 1, length(Str)-1) + char(StrToIntDef(copy(FToken.Lexeme, 2, 100), 0)) + ''''
+      end;
+    until FToken.Lexeme = '';
+  until (First >= length(Line)) or (Line[First] <> '''');
+  if (length(Str) > 0) and (Str[length(Str)] = '''') then
+    FToken.Lexeme := copy(Str, 1, length(Str)-1)
+  else
+    FToken.Lexeme := Str;
+  if length(FToken.Lexeme) = 1 then
+    FToken.Kind := tkCharConstant
+  else
+    FToken.Kind := tkStringConstant;
+end;
+
 procedure TScanner.NextToken(Skip : boolean = false);
 var
   Str  : string;
@@ -331,40 +379,7 @@ begin
         end;
         exit;
       end;
-      '''': begin // strings
-        Str := '';
-        repeat
-          inc(First);
-          ScanChars([[#0..#255] - [''''], ['''']], [500, 1]);
-          Str := Str + FToken.Lexeme;
-          repeat
-            ScanChars([['^'], ['@'..'Z']], [1, 1], true);
-            case length(FToken.Lexeme) of
-              1 : begin
-                FToken.Kind := tkSpecialSymbol;
-                exit;
-              end;
-              2 : Str := copy(Str, 1, length(Str)-1) + char(byte(FToken.Lexeme[2]) - ord('@')) + ''''
-            end;
-          until FToken.Lexeme = '';
-          repeat
-            ScanChars([['#'], ['0'..'9']], [1, 3], true);
-            case length(FToken.Lexeme) of
-              1 : begin
-                FToken.Kind := tkSpecialSymbol;
-                exit;
-              end;
-              2..6 : Str := copy(Str, 1, length(Str)-1) + char(StrToIntDef(copy(FToken.Lexeme, 2, 100), 0)) + ''''
-            end;
-          until FToken.Lexeme = '';
-        until (First >= length(Line)) or (Line[First] <> '''');
-        FToken.Lexeme := copy(Str, 1, length(Str)-1);
-        if length(FToken.Lexeme) = 1 then
-          FToken.Kind := tkCharConstant
-        else
-          FToken.Kind := tkStringConstant;
-        exit;
-      end;
+      '''': begin NextString; exit; end; // strings
       '0'..'9': begin // Numbers
         ScanChars([['0'..'9'], ['.', 'E', 'e']], [28, 1], true);
         Str := FToken.Lexeme;
@@ -423,31 +438,7 @@ begin
       '>',
       ':' : begin NextChar(['=']); exit; end;
       '<' : begin NextChar(['=', '>']); exit; end;
-      '#' : begin
-        Str := '';
-        repeat
-          ScanChars([['#'], ['0'..'9']], [1, 4], true);
-          case length(FToken.Lexeme) of
-            1 :
-              if Line[First] = '$' then begin
-                ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 4]);
-                Str := Str + char(StrToIntDef(FToken.Lexeme, 0));
-              end
-              else begin
-                FToken.Lexeme := Str;
-                FToken.Kind := tkSpecialSymbol;
-                exit;
-              end;
-            2..6 : Str := Str + char(StrToIntDef(copy(FToken.Lexeme, 2, 4), 0))
-          end;
-        until FToken.Lexeme = '';
-        FToken.Lexeme := Str;
-        if length(FToken.Lexeme) = 1 then
-          FToken.Kind := tkCharConstant
-        else
-          FToken.Kind := tkStringConstant;
-        exit;
-      end;
+      '#' : begin NextString; exit; end;
       '$' : begin // Hexadecimal
         ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 16]);
         FToken.Kind := tkIntegerConstant;
