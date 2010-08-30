@@ -17,7 +17,7 @@ const
   MetId        = #178; AssignStmt   = #179; ElseBranch   = #180; ExprList     = #181; CaseList     = #182;
   EndCaseList  = #183; SetList      = #184; InterDecl    = #185; LabelId      = #186; SubRange     = #187;
   FileOf       = #188; ForStmt      = #189; PropParams   = #190; IdentDir     = #191; NameDir      = #192;
-  GUID         = #193; ExceptFin    = #194; ExceptHand   = #195; ExceptType   = #196; ExceptList   = #197;
+  GUID         = #193; ExceptFin    = #194; ExceptHand   = #195; IdentType     = #196; ExceptList   = #197;
   InterfMet    = #198; InterDir     = #199; AbstractDir  = #200; FinSection   = #201; RaiseStmt    = #202;
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
@@ -39,7 +39,7 @@ const
 // Start
   '|PROGRAM|' + Ident + ParIdentList + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
   '|UNIT|'    + Ident + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
-  '|LIBRARY|' + Ident + ';' + UsesClause + DeclSection + ';' + Require + CompoundStmt  + '.' +
+  '|LIBRARY|' + Ident + ';' + UsesClause + InterDecl + ';' + Require + CompoundStmt  + '.' +
   '|PACKAGE|' + Ident + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
 // ParIdentList
   '|(|' + Ident + IdentList + ')',
@@ -55,7 +55,7 @@ const
   '|CONST|'       + Require + ConstDecl + DeclSection +
   '|TYPE|'        + Require + TypeDecl + DeclSection +
   '|PROCEDURE|'   + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '|FUNCTION|'    + Ident + MetId + FormalParams + ':' + Ident + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|FUNCTION|'    + Ident + MetId + FormalParams + IdentType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '|CONSTRUCTOR|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
   '|DESTRUCTOR|'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
   '|CLASS|'       + ClassMet +
@@ -309,8 +309,8 @@ const
   '|EXCEPT|' + ExceptHand + Statement + StmtList + 'END' + Mark +   
   '|FINALLY|' + Statement + StmtList + 'END',
 // ExceptHand
-  '|ON|' + Ident + QualId + ExceptType + 'DO' + Statement + ExceptList + EndCaseList + Pop,
-// ExceptType
+  '|ON|' + Ident + QualId + IdentType + 'DO' + Statement + ExceptList + EndCaseList + Pop,
+// IdentType
   '|:|' + Ident,
 // ExceptList
   '|;|' + ExceptHand,
