@@ -76,7 +76,7 @@ const
   '|ARRAY|'  + ArrayDim + 'OF' + Require + Type_ +
   '|'+ IntConst + '|' + Require + SubRange +
   '|'+ CharConst + '|' + Require + SubRange +
-  '|(|' + Ident + EnumList + ')' +
+  '|(|' + Ident + ParamInit + EnumList + ')' +
   '|+|' + Expression + Require + SubRange +
   '|-|' + Expression + Require + SubRange +
   '|^|' + Ident +
@@ -93,7 +93,7 @@ const
   '|DISPINTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
   '|TYPE|' + Ident,
 // EnumList
-  '|,|' + Ident + EnumList,
+  '|,|' + Ident + ParamInit + EnumList,
 // CompoundStmt
   '|BEGIN|' + Statement + StmtList + 'END' +
   '|ASM|' + Skip + 'END',
@@ -104,7 +104,7 @@ const
   '|REPEAT|' + Statement + StmtList + 'UNTIL' + Require + Expression +
   '|WHILE|' + Require + Expression + 'DO' + Statement +
   '|FOR|' + Ident + QualId + Require + ForStmt + 'DO' + Statement +
-  '|WITH|' + Ident + QualId + WithList + 'DO' + Statement +
+  '|WITH|' + Ident + QualId + RelOp + WithList + 'DO' + Statement +
   '|CASE|' + Require + Expression + 'OF' + Require + Expression + SetList + ':' + Statement + CaseList + Mark +
   '|TRY|' + Statement + StmtList + Require + ExceptFin +
   '|INHERITED|' + MetCall + AssignStmt +
@@ -134,7 +134,7 @@ const
 // ToOrDownto
   '|TO||DOWNTO|',
 // WithList
-  '|,|' + Ident + QualId + WithList,
+  '|,|' + Ident + QualId + RelOp + WithList,
 // IntSection
   '|INTERFACE|' + UsesClause + InterDecl,
 // ImplSection
@@ -204,7 +204,7 @@ const
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir +
   '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp,
 // OrdinalType
-  '|' + Ident + '|' + SubRange +
+  '|' + Ident + '|' + QualId + SubRange +
   '|' + IntConst + '|' + Require + SubRange +
   '|' + CharConst + '|' + Require + SubRange +
   '|(|' + Ident + EnumList + ')',
@@ -220,7 +220,7 @@ const
 // PropInterf
   '|:|' + Require + TypeId,
 // PropIndex
-  '|INDEX|' + IntConst,
+  '|INDEX|' + Expression,
 // PropRead
   '|READ|' + Ident + Mark +
   '|READONLY|',
@@ -280,9 +280,10 @@ const
   '|VAR|' + Require + VarDecl + InterDecl +
   '|CONST|' + Require + ConstDecl + InterDecl +
   '|TYPE|' + Require + TypeDecl + InterDecl +
-  '|PROCEDURE|' + Ident + FormalParams + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl +
-  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InterDecl +
-  '|LABEL|' + Require + LabelId + LabelList + InterDecl +
+  '|PROCEDURE|' + Ident + FormalParams + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
+  '|THREADVAR|' + Require + VarDecl + InterDecl +
+  '|LABEL|' + Require + LabelId + LabelList + ';' + InterDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // LabelId
   '|' + Ident + '|' +
@@ -351,7 +352,7 @@ const
   '|OF|' + 'OBJECT',
 // Directives
   '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|REINTRODUCE|;' + Directives +
-  '|MESSAGE|;' + LabelId + '|DYNAMIC|;' + Mark,
+  '|MESSAGE|' + Ident + ';' + '|DYNAMIC|;' + Mark,
 // ExternalDir
   '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop +
   '|ASSEMBLER|;',
@@ -360,7 +361,7 @@ const
 // DefProp
   '|DEFAULT|;',
 // WarnDir
-  '|PLATFORM|;' + WarnDir + '|DEPRECATED|;' + WarnDir + '|LIBRARY|;' + WarnDir,
+  '|PLATFORM|;' + WarnDir + '|DEPRECATED|;' + WarnDir + '|LIBRARY|;' + WarnDir + '|INLINE|;' + WarnDir + '|LOCAL|;' + WarnDir,
 // StrictDecl
   '|PRIVATE|' + FieldDecl + MethodDecl + ClassDecl +
   '|PROTECTED|' + FieldDecl + MethodDecl + ClassDecl,
@@ -374,7 +375,7 @@ const
   '|VAR|' + Require + VarDecl + InternalDecl +
   '|CONST|' + Require + ConstDecl + InternalDecl +
   '|TYPE|' + Require + TypeDecl + InternalDecl +
-  '|LABEL|' + Require + LabelId + LabelList + InternalDecl +
+  '|LABEL|' + Require + LabelId + LabelList + ';' + InternalDecl +
   '|PROCEDURE|' + Ident + FormalParams + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
@@ -389,7 +390,7 @@ const
   '|CASE|' + Ident + PropInterf + 'OF' + Require + Expression + SetList + ':' + Require + RecFieldList + RecCaseList,
 // CallConvType
   '|;|' + CallConv + InsertSemi +
-  '|STDCALL||CDECL||SAFECALL||REGISTER||PASCAL||INLINE|',
+  '|STDCALL||CDECL||SAFECALL||REGISTER||PASCAL|',
 // WarnDir2
   '|PLATFORM|' + WarnDir2 + '|DEPRECATED|' + WarnDir2 + '|LIBRARY|' + WarnDir2,
 // RecFieldList

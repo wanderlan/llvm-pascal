@@ -46,7 +46,7 @@ procedure TParser.PopSymbol; begin
       Skip : begin
         dec(Top);
         Symbol := Symbols[Top];
-        while UpperCase(Token.Lexeme) <> Symbol do NextToken;
+        while UpperCase(Token.Lexeme) <> Symbol do NextToken(true);
       end;
     end;
   end
