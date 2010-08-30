@@ -39,7 +39,7 @@ const
 // Start
   '|PROGRAM|' + Ident + ParIdentList + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
   '|UNIT|'    + Ident + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
-  '|LIBRARY|' + Ident + ';' + UsesClause + InterDecl + ';' + Require + CompoundStmt  + '.' +
+  '|LIBRARY|' + Ident + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
   '|PACKAGE|' + Ident + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
 // ParIdentList
   '|(|' + Ident + IdentList + ')',
@@ -61,7 +61,6 @@ const
   '|CLASS|'       + ClassMet +
   '|THREADVAR|'   + Require + VarDecl + DeclSection +
   '|LABEL|'       + Require + LabelId + LabelList + DeclSection +
-  '|EXPORTS|'     + Ident + FormalParams + PropIndex + NameDir + ExportsList + DeclSection +
   '|RESOURCESTRING|' + Require + RsrcDecl + DeclSection,
 // VarDecl
   '|' + Ident + '|' + VarList + ':' + Require + Type_ + WarnDir2 + VarInit + ';' + Mark + VarDecl,
@@ -284,6 +283,7 @@ const
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
   '|THREADVAR|' + Require + VarDecl + InterDecl +
   '|LABEL|' + Require + LabelId + LabelList + ';' + InterDecl +
+  '|EXPORTS|' + Ident + FormalParams + PropIndex + NameDir + ExportsList + ';' + InterDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // LabelId
   '|' + Ident + '|' +
