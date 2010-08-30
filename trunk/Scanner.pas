@@ -198,7 +198,7 @@ begin
       end;
       6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
     end;
-    FindEndComment(FStartComment, FEndComment);
+    //FindEndComment(FStartComment, FEndComment);
   end
   else begin
     Error('Invalid compiler directive ''' + Line[First] + '''');
@@ -221,15 +221,25 @@ begin
       First := P + length(FStartComment) + 1;
       if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-        case AnsiIndexText(FToken.Lexeme, ['IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND']) of
-          0..3 : begin
+        case AnsiIndexText(FToken.Lexeme, ['IFDEF', 'IFNDEF', 'IFOPT', 'IF', 'ENDIF', 'IFEND']) of
+          0..2 : begin
             FEndComment := 'ENDIF' + FEndComment;
             NestedIf := NestedIf + 'F';
             exit;
           end;
-          4, 5 : begin
+          3 : begin
+            FEndComment := 'IFEND' + FEndComment;
+            NestedIf := NestedIf + 'F';
+            exit;
+          end;
+          4 : begin
             FEndComment := copy(FEndComment, 6, 100);
             dec(First, 5);
+          end;
+          5 : begin
+            FEndComment := copy(FEndComment, 6, 100);
+            if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
+            if NestedIf  = '' then FEndComment := '';
           end;
         else
           First := FAnt;
@@ -237,7 +247,7 @@ begin
       end;
     end;
     P := PosEx(EndComment, Line, First);
-    if (P = 0) and (length(EndComment) > 2) then P := PosEx('$ELSE', Line, First);
+    if (P = 0) and (length(NestedIf) = 1) then P := PosEx('$ELSE', Line, First);
     if P <> 0 then begin // End comment in same line
       First := P + length(EndComment);
       if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
