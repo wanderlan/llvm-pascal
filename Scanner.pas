@@ -40,7 +40,7 @@ type
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
     procedure ScanChars(const Chars: array of TSetChar; const Tam : array of integer; Optional : boolean = false);
-    procedure NextToken;
+    procedure NextToken(Skip : boolean = false);
     procedure RecoverFromError(const Expected, Found : string); virtual;
   public
     constructor Create(MaxErrors : integer = 10);
@@ -168,8 +168,10 @@ begin
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
       end;
       2 :
-        if TokenIn(ConditionalSymbols) then
-          NestedIf := NestedIf + 'T'
+        if TokenIn(ConditionalSymbols) then begin
+          NestedIf := NestedIf + 'T';
+          FStartComment := '$';
+        end
         else begin
           FEndComment := 'ENDIF' + FEndComment;
           NestedIf := NestedIf + 'F'
@@ -198,7 +200,7 @@ begin
       end;
       6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
     end;
-    //FindEndComment(FStartComment, FEndComment);
+    FindEndComment(FStartComment, FEndComment);
   end
   else begin
     Error('Invalid compiler directive ''' + Line[First] + '''');
@@ -266,7 +268,7 @@ function TScanner.TokenIn(const S : string) : boolean; begin
   Result := pos('.' + LowerCase(FToken.Lexeme) + '.', S) <> 0
 end;
 
-procedure TScanner.NextToken;
+procedure TScanner.NextToken(Skip : boolean = false);
 var
   Str  : string;
   FAnt : integer;
@@ -422,13 +424,24 @@ begin
       ':' : begin NextChar(['=']); exit; end;
       '<' : begin NextChar(['=', '>']); exit; end;
       '#' : begin
-        ScanChars([['#'], ['0'..'9']], [1, 5]);
-        if (FToken.Lexeme = '#') and (Line[First] = '$') then begin
-          ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 4]);
-          FToken.Lexeme := char(StrToInt(FToken.Lexeme));
-        end
-        else
-          FToken.Lexeme := char(StrToInt(copy(FToken.Lexeme, 2, 5)));
+        Str := '';
+        repeat
+          ScanChars([['#'], ['0'..'9']], [1, 4], true);
+          case length(FToken.Lexeme) of
+            1 :
+              if Line[First] = '$' then begin
+                ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 4]);
+                Str := Str + char(StrToIntDef(FToken.Lexeme, 0));
+              end
+              else begin
+                FToken.Lexeme := Str;
+                FToken.Kind := tkSpecialSymbol;
+                exit;
+              end;
+            2..6 : Str := Str + char(StrToIntDef(copy(FToken.Lexeme, 2, 4), 0))
+          end;
+        until FToken.Lexeme = '';
+        FToken.Lexeme := Str;
         if length(FToken.Lexeme) = 1 then
           FToken.Kind := tkCharConstant
         else
@@ -442,7 +455,7 @@ begin
         exit;
       end;
     else
-      if not EOF(Arq) then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
+      if not EOF(Arq) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
     end;
   end;
