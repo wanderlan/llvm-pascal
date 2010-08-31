@@ -33,6 +33,7 @@ type
     function TokenIn(const S : string) : boolean; inline;
     procedure NextString;
     procedure DoIf(Condition : boolean);
+    procedure PopIf;
   protected
     FEndSource : boolean;
     FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
@@ -163,6 +164,11 @@ procedure TScanner.DoIf(Condition : boolean); begin
   end;
 end;
 
+procedure TScanner.PopIf; begin
+  if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
+  if NestedIf  = '' then FEndComment := '';
+end;
+
 procedure TScanner.DoDirective(DollarInc : integer);
 var
   I : integer;
@@ -189,10 +195,7 @@ begin
           DoIf(TokenIn(ConditionalSymbols));
         end;
       5 : DoIf(false);
-      6, 7 : begin
-        if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
-        if NestedIf  = '' then FEndComment := '';
-      end;
+      6, 7 : PopIf;
       8 : DoIf(not((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')));
     end;
     FindEndComment(FStartComment, FEndComment);
@@ -221,14 +224,12 @@ begin
           0..3 : begin DoIf(false); exit; end;
           4..5 : begin
             FEndComment := copy(FEndComment, 6, 100);
-            if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
-            if NestedIf  = '' then FEndComment := '';
+            PopIf;
             dec(First, 5);
           end;
           6 : if (NestedIf = 'F') or (NestedIf[length(NestedIf)-1] = 'T') then begin
             FEndComment := copy(FEndComment, 6, 100);
-            if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
-            if NestedIf  = '' then FEndComment := '';
+            PopIf;
             dec(First, 5);
           end;
         end;
