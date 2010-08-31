@@ -1,62 +1,29 @@
 [Closed Files]
-File_0=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\DelphiMM.pas',0,1,16,75,20,0,0,,
-File_1=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\Windows.pas',0,1,16255,57,16272,0,0,,
-File_2=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\ShlObj.pas',0,1,3655,84,3657,0,0,,
-File_3=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\CommCtrl.pas',0,1,1243,95,1251,0,0,,
-File_4=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test14.pas',0,1,1,51,5,0,0,,
-File_5=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test13.pas',0,1,1,58,5,0,0,,
-File_6=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test12.pas',0,1,1,43,3,0,0,,
-File_7=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test11.pas',0,1,1,56,2,0,0,,
-File_8=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test10.pas',0,1,1,24,9,0,0,,
-File_9=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test09.pas',0,1,1,57,1,0,0,,
+File_0=TSourceModule,'C:\Trabalho\LLVM-Pascal\Grammar.pas',0,1,209,63,214,0,0,,
+File_1=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\vcl\FileCtrl.pas',0,1,379,65,379,0,0,,
+File_2=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\vcl\ComCtrls.pas',0,1,1975,71,1975,0,0,,
+File_3=TSourceModule,'C:\Trabalho\LLVM-Pascal\Parser.pas',0,1,62,21,67,0,0,,
+File_4=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\ActiveX.pas',0,1,6678,75,6680,0,0,,
+File_5=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\Samples\Source\CollPanl.pas',0,1,42,72,44,0,0,,
+File_6=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\xml\oxmldom.pas',0,1,1675,66,1681,0,0,,
+File_7=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\xml\xmldom.pas',0,1,433,65,439,0,0,,
+File_8=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\xml\xercesxmldom.pas',0,1,109,87,112,0,0,,
+File_9=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\xml\XMLDoc.pas',0,1,109,82,110,0,0,,
 
 [Modules]
 Module0=C:\Trabalho\LLVM-Pascal\Scanner.pas
-Module1=C:\Trabalho\LLVM-Pascal\Teste Case\Test06.pas
-Module2=C:\Trabalho\LLVM-Pascal\Parser.pas
-Module3=C:\Trabalho\LLVM-Pascal\Grammar.pas
-Module4=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysUtils.pas
-Module5=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\ActiveX.pas
-Module6=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\VarUtils.pas
-Module7=C:\Trabalho\LLVM-Pascal\Teste Case\Test04.pas
-Module8=C:\Trabalho\LLVM-Pascal\Teste Case\Test03.pas
-Module9=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas
-Module10=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
-Module11=C:\lazarus\fpc\2.4.0\source\packages\fcl-passrc\src\pscanner.pas
-Count=12
+Module1=C:\Trabalho\LLVM-Pascal\Teste Case\Test04.pas
+Module2=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\VarUtils.pas
+Module3=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
+Module4=C:\Trabalho\LLVM-Pascal\Teste Case\Test03.pas
+Module5=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysInit.pas
+Module6=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas
+Module7=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysUtils.pas
+Module8=C:\lazarus\fpc\2.4.0\source\packages\fcl-passrc\src\pscanner.pas
+Count=9
 EditWindowCount=1
 
 [C:\Trabalho\LLVM-Pascal\Scanner.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
-[C:\Trabalho\LLVM-Pascal\Teste Case\Test06.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
-[C:\Trabalho\LLVM-Pascal\Parser.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
-[C:\Trabalho\LLVM-Pascal\Grammar.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
-[C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysUtils.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
-[C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\ActiveX.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
-[C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\VarUtils.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
@@ -66,7 +33,20 @@ ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
+[C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\VarUtils.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
+[C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
+ModuleType=TBaseProject
+
 [C:\Trabalho\LLVM-Pascal\Teste Case\Test03.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
+[C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysInit.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
@@ -76,8 +56,10 @@ ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
-[C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
-ModuleType=TBaseProject
+[C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysUtils.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
 
 [C:\lazarus\fpc\2.4.0\source\packages\fcl-passrc\src\pscanner.pas]
 ModuleType=TSourceModule
@@ -85,7 +67,7 @@ FormState=0
 FormOnTop=0
 
 [EditWindow0]
-ViewCount=12
+ViewCount=9
 CurrentEditView=C:\Trabalho\LLVM-Pascal\Scanner.pas
 View0=0
 View1=1
@@ -96,9 +78,6 @@ View5=5
 View6=6
 View7=7
 View8=8
-View9=9
-View10=10
-View11=11
 PercentageSizes=1
 Create=1
 Visible=1
@@ -119,9 +98,9 @@ TopPanelSize=0
 LeftPanelSize=0
 RightPanelSize=0
 BottomPanelSize=0
-BottomMiddlePanelSize=1514
+BottomMiddlePanelSize=1581
 BottomMiddlePanelClients=DockSite0
-BottomMiddelPanelData=00000800010100000000B2030000000000000157260000000000000100000000EA05000009000000446F636B5369746530FFFFFFFF
+BottomMiddelPanelData=00000800010100000000DC0300000000000001572600000000000001000000002D06000009000000446F636B5369746530FFFFFFFF
 TabDockLeftClients=DockSite1=0
 
 [View0]
@@ -137,71 +116,38 @@ EditViewName=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
 
 [View1]
 CustomEditViewType=TEditView
-Module=C:\Trabalho\LLVM-Pascal\Grammar.pas
-CursorX=56
-CursorY=279
-TopLine=279
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=C:\Trabalho\LLVM-Pascal\Grammar.pas
-
-[View2]
-CustomEditViewType=TEditView
-Module=C:\Trabalho\LLVM-Pascal\Parser.pas
-CursorX=5
-CursorY=1
-TopLine=1
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=C:\Trabalho\LLVM-Pascal\Parser.pas
-
-[View3]
-CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Scanner.pas
-CursorX=18
-CursorY=305
-TopLine=269
+CursorX=21
+CursorY=186
+TopLine=160
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Trabalho\LLVM-Pascal\Scanner.pas
 
-[View4]
+[View2]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Teste Case\Test03.pas
-CursorX=9
-CursorY=7
+CursorX=20
+CursorY=6
 TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Trabalho\LLVM-Pascal\Teste Case\Test03.pas
 
-[View5]
+[View3]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Teste Case\Test04.pas
-CursorX=35
-CursorY=4
+CursorX=17
+CursorY=15
 TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Trabalho\LLVM-Pascal\Teste Case\Test04.pas
 
-[View6]
-CustomEditViewType=TEditView
-Module=C:\Trabalho\LLVM-Pascal\Teste Case\Test06.pas
-CursorX=98
-CursorY=11
-TopLine=1
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=C:\Trabalho\LLVM-Pascal\Teste Case\Test06.pas
-
-[View7]
+[View4]
 CustomEditViewType=TEditView
 Module=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas
 CursorX=61
@@ -212,40 +158,40 @@ Elisions=
 Bookmarks=
 EditViewName=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas
 
-[View8]
+[View5]
+CustomEditViewType=TEditView
+Module=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysInit.pas
+CursorX=7
+CursorY=267
+TopLine=237
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysInit.pas
+
+[View6]
 CustomEditViewType=TEditView
 Module=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysUtils.pas
-CursorX=64
-CursorY=13413
-TopLine=13412
+CursorX=23
+CursorY=10073
+TopLine=10064
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysUtils.pas
 
-[View9]
+[View7]
 CustomEditViewType=TEditView
 Module=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\VarUtils.pas
-CursorX=70
-CursorY=227
-TopLine=223
+CursorX=63
+CursorY=203
+TopLine=199
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\VarUtils.pas
 
-[View10]
-CustomEditViewType=TEditView
-Module=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\ActiveX.pas
-CursorX=95
-CursorY=35
-TopLine=1
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\ActiveX.pas
-
-[View11]
+[View8]
 CustomEditViewType=TEditView
 Module=C:\lazarus\fpc\2.4.0\source\packages\fcl-passrc\src\pscanner.pas
 CursorX=5
@@ -274,21 +220,18 @@ State=0
 Left=0
 Top=0
 Width=9768
-Height=962
+Height=1029
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=9768
-ClientHeight=962
+ClientHeight=1029
 TBDockHeight=7200
 LRDockWidth=2595
 Dockable=1
 StayOnTop=0
 
 [Breakpoints]
-Count=3
-Breakpoint0='C:\Trabalho\LLVM-Pascal\Scanner.pas',276,'',0,1,'',1,0,0,'',1,'','','',0
-Breakpoint1='C:\Trabalho\LLVM-Pascal\Scanner.pas',288,'',0,1,'',1,0,0,'',1,'','','',0
-Breakpoint2='C:\Trabalho\LLVM-Pascal\Scanner.pas',303,'',0,1,'',1,0,0,'',1,'','','',0
+Count=0
 
 [AddressBreakpoints]
 Count=0
@@ -400,11 +343,11 @@ State=0
 Left=0
 Top=0
 Width=9768
-Height=962
+Height=1029
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=9768
-ClientHeight=962
+ClientHeight=1029
 TBDockHeight=8867
 LRDockWidth=2595
 Dockable=1
@@ -419,11 +362,11 @@ State=0
 Left=0
 Top=0
 Width=9768
-Height=962
+Height=1029
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=9768
-ClientHeight=962
+ClientHeight=1029
 TBDockHeight=1867
 LRDockWidth=2595
 Dockable=1
@@ -500,8 +443,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-6099
-Top=-258815
+Left=-6283
+Top=-271384
 Width=280
 Height=371
 MaxLeft=-1
@@ -564,11 +507,11 @@ State=0
 Left=0
 Top=0
 Width=9768
-Height=962
+Height=1029
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=9768
-ClientHeight=962
+ClientHeight=1029
 TBDockHeight=2086
 LRDockWidth=6399
 Dockable=1
@@ -586,8 +529,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-6099
-Top=-258815
+Left=-6283
+Top=-271384
 Width=1905
 Height=3676
 MaxLeft=-1
@@ -605,8 +548,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-6099
-Top=-258815
+Left=-6283
+Top=-271384
 Width=4327
 Height=314
 MaxLeft=-1
@@ -650,12 +593,12 @@ State=0
 Left=0
 Top=23
 Width=9815
-Height=1295
+Height=1362
 MaxLeft=-1
 MaxTop=-1
 ClientWidth=9815
-ClientHeight=1295
-TBDockHeight=1295
+ClientHeight=1362
+TBDockHeight=1362
 LRDockWidth=1726
 Dockable=1
 StayOnTop=0
@@ -671,7 +614,7 @@ Visible=0
 Docked=1
 State=0
 Left=27
-Top=887
+Top=880
 Width=1726
 Height=1010
 MaxLeft=-1
