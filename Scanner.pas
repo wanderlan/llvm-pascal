@@ -280,7 +280,7 @@ begin
       repeat
         ScanChars([[#0..#255] - ['''']], [5000]);
         Str := Str + FToken.Lexeme;
-        if Line[First+1] = '''' then begin
+        if (First < LenLine) and (Line[First + 1] = '''') then begin
           Str := Str + '''';
           inc(First, 2);
         end;
@@ -348,8 +348,8 @@ begin
     end;
     case Line[First] of
       ' ', #9 : SkipBlank;
-      'A'..'Z', 'a'..'z', '_' : begin // Identifiers
-        ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+      'A'..'Z', 'a'..'z', '_', '&' : begin // Identifiers
+        ScanChars([['A'..'Z', 'a'..'z', '_', '&', '0'..'9']], [255]);
         if (length(FToken.Lexeme) < 2) or not TokenIn(ReservedWords) then
           FToken.Kind := tkIdentifier
         else
