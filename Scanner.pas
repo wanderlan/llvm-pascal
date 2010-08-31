@@ -162,7 +162,7 @@ begin
     L := FToken.Lexeme;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE']) of
       0 : if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + FToken.Lexeme + '.';
       1 : begin
         I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
@@ -200,6 +200,11 @@ begin
         NestedIf := NestedIf + 'F';
       end;
       6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
+      8 :
+        if ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then begin
+          FEndComment := 'ENDIF' + FEndComment;
+          NestedIf := NestedIf + 'F';
+        end;
     end;
     FindEndComment(FStartComment, FEndComment);
   end
@@ -250,7 +255,6 @@ begin
       end;
     end;
     P := PosEx(EndComment, Line, First);
-    if (P = 0) and (length(NestedIf) = 1) then P := PosEx('$ELSE', Line, First);
     if P <> 0 then begin // End comment in same line
       First := P + length(EndComment);
       if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);

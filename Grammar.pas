@@ -38,9 +38,9 @@ const
   Productions : array[Start..CallConv] of string = (
 // Start
   '|PROGRAM|' + Ident + ParIdentList + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
-  '|UNIT|'    + Ident + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
-  '|LIBRARY|' + Ident + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
-  '|PACKAGE|' + Ident + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
+  '|UNIT|'    + Ident + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
+  '|LIBRARY|' + Ident + WarnDir2 + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
+  '|PACKAGE|' + Ident + WarnDir2 + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
 // ParIdentList
   '|(|' + Ident + IdentList + ')',
 // IdentList
@@ -54,8 +54,8 @@ const
   '|VAR|'         + Require + VarDecl + DeclSection +
   '|CONST|'       + Require + ConstDecl + DeclSection +
   '|TYPE|'        + Require + TypeDecl + DeclSection +
-  '|PROCEDURE|'   + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '|FUNCTION|'    + Ident + MetId + FormalParams + IdentType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|PROCEDURE|'   + Ident + MetId + FormalParams + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|FUNCTION|'    + Ident + MetId + FormalParams + IdentType + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '|CONSTRUCTOR|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
   '|DESTRUCTOR|'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
   '|CLASS|'       + ClassMet +
