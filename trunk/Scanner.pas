@@ -277,8 +277,15 @@ begin
   repeat
     if Line[First] <> '#' then begin
       inc(First);
-      ScanChars([[#0..#255] - [''''], ['''']], [500, 1]);
-      Str := Str + FToken.Lexeme;
+      repeat
+        ScanChars([[#0..#255] - ['''']], [5000]);
+        Str := Str + FToken.Lexeme;
+        if Line[First+1] = '''' then begin
+          Str := Str + '''';
+          inc(First, 2);
+        end;
+      until Line[First] = '''';
+      inc(First);
     end;
     repeat
       ScanChars([['^'], ['@'..'Z']], [1, 1], true);
@@ -287,7 +294,7 @@ begin
           FToken.Kind := tkSpecialSymbol;
           exit;
         end;
-        2 : Str := copy(Str, 1, length(Str)-1) + char(byte(FToken.Lexeme[2]) - ord('@')) + ''''
+        2 : Str := Str + char(byte(FToken.Lexeme[2]) - ord('@'))
       end;
     until FToken.Lexeme = '';
     repeat
@@ -302,14 +309,11 @@ begin
             FToken.Kind := tkSpecialSymbol;
             exit;
           end;
-        2..6 : Str := copy(Str, 1, length(Str)-1) + char(StrToIntDef(copy(FToken.Lexeme, 2, 100), 0)) + ''''
+        2..6 : Str := Str + char(StrToIntDef(copy(FToken.Lexeme, 2, 100), 0))
       end;
     until FToken.Lexeme = '';
   until (First >= length(Line)) or (Line[First] <> '''');
-  if (length(Str) > 0) and (Str[length(Str)] = '''') then
-    FToken.Lexeme := copy(Str, 1, length(Str)-1)
-  else
-    FToken.Lexeme := Str;
+  FToken.Lexeme := Str;
   if length(FToken.Lexeme) = 1 then
     FToken.Kind := tkCharConstant
   else
@@ -379,8 +383,8 @@ begin
         end;
         exit;
       end;
-      '''': begin NextString; exit; end; // strings
-      '0'..'9': begin // Numbers
+      '''', '#': begin NextString; exit; end; // strings
+      '0'..'9' : begin // Numbers
         ScanChars([['0'..'9'], ['.', 'E', 'e']], [28, 1], true);
         Str := FToken.Lexeme;
         case Str[length(Str)] of
@@ -438,7 +442,6 @@ begin
       '>',
       ':' : begin NextChar(['=']); exit; end;
       '<' : begin NextChar(['=', '>']); exit; end;
-      '#' : begin NextString; exit; end;
       '$' : begin // Hexadecimal
         ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 16]);
         FToken.Kind := tkIntegerConstant;
