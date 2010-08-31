@@ -17,7 +17,7 @@ const
   MetId        = #178; AssignStmt   = #179; ElseBranch   = #180; ExprList     = #181; CaseList     = #182;
   EndCaseList  = #183; SetList      = #184; InterDecl    = #185; LabelId      = #186; SubRange     = #187;
   FileOf       = #188; ForStmt      = #189; PropParams   = #190; IdentDir     = #191; NameDir      = #192;
-  GUID         = #193; ExceptFin    = #194; ExceptHand   = #195; IdentType     = #196; ExceptList   = #197;
+  GUID         = #193; ExceptFin    = #194; ExceptHand   = #195; IdentType    = #196; ExceptList   = #197;
   InterfMet    = #198; InterDir     = #199; AbstractDir  = #200; FinSection   = #201; RaiseStmt    = #202;
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
@@ -90,7 +90,7 @@ const
   '|TEXT|' +
   '|INTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
   '|DISPINTERFACE|' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
-  '|TYPE|' + Ident,
+  '|TYPE|' + Ident + QualId,
 // EnumList
   '|,|' + Ident + ParamInit + EnumList,
 // CompoundStmt
@@ -103,7 +103,7 @@ const
   '|REPEAT|' + Statement + StmtList + 'UNTIL' + Require + Expression +
   '|WHILE|' + Require + Expression + 'DO' + Statement +
   '|FOR|' + Ident + QualId + Require + ForStmt + 'DO' + Statement +
-  '|WITH|' + Ident + QualId + RelOp + WithList + 'DO' + Statement +
+  '|WITH|' + Expression + WithList + 'DO' + Statement +
   '|CASE|' + Require + Expression + 'OF' + Require + Expression + SetList + ':' + Statement + CaseList + Mark +
   '|TRY|' + Statement + StmtList + Require + ExceptFin +
   '|INHERITED|' + MetCall + AssignStmt +
@@ -133,7 +133,7 @@ const
 // ToOrDownto
   '|TO||DOWNTO|',
 // WithList
-  '|,|' + Ident + QualId + RelOp + WithList,
+  '|,|' + Expression + WithList,
 // IntSection
   '|INTERFACE|' + UsesClause + InterDecl,
 // ImplSection
@@ -221,10 +221,10 @@ const
 // PropIndex
   '|INDEX|' + Expression,
 // PropRead
-  '|READ|' + Ident + Mark +
+  '|READ|' + Ident + QualId + Mark +
   '|READONLY|',
 // PropWrite
-  '|WRITE|' + Ident + Mark +
+  '|WRITE|' + Ident + QualId + Mark +
   '|WRITEONLY|',
 // PropStored
   '|STORED|' + Ident,
@@ -319,8 +319,8 @@ const
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + ';' + InterDir + Mark + InterfMet +
   '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + InterDir + ';' + Mark + DefProp + InterfMet,
 // InterDir
-  '|DISPID|' + Expression + ';' + Pop + 
-  '|CDECL|;' + Mark + '|SAFECALL|;' + Mark + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;',
+  '|DISPID|' + Expression + ';' + Pop +  '|OVERLOAD|;' + InterDir + 
+  '|CDECL|;' + Mark + '|SAFECALL|;' + InterDir + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;',
 // AbstractDir
   '|ABSTRACT|;',
 // FinSection
