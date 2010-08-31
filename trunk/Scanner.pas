@@ -284,7 +284,7 @@ begin
           Str := Str + '''';
           inc(First, 2);
         end;
-      until Line[First] = '''';
+      until (Line[First] = '''') or (First >= LenLine);
       inc(First);
     end;
     repeat
