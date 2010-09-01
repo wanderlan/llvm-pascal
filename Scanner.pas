@@ -63,7 +63,7 @@ type
 implementation
 
 uses
-  SysUtils, StrUtils, Grammar;
+  SysUtils, StrUtils, Math, Grammar;
 
 const
   ReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
@@ -297,7 +297,7 @@ end;
 procedure TScanner.NextToken(Skip : boolean = false);
 var
   Str  : string;
-  FAnt : integer;
+  FAnt, I : integer;
 begin
   while not FEndSource do begin
     while First > LenLine do begin
@@ -422,6 +422,15 @@ begin
         FToken.IntegerValue := StrToInt64(FToken.Lexeme);
         exit;
       end;
+      '%' : begin // Binary
+        ScanChars([['%'], ['0', '1']], [1, 32]);
+        FToken.Kind := tkIntegerConstant;
+        FToken.IntegerValue := 0;
+        for I := length(FToken.Lexeme) downto 2 do
+          if FToken.Lexeme[I] = '1' then
+            inc(FToken.IntegerValue, trunc(Power(2, length(FToken.Lexeme) - I)));
+        exit;
+      end;
     else
       if not EOF(Arq) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
@@ -450,6 +459,7 @@ end;
 procedure TScanner.RecoverFromError(const Expected, Found : string); begin
   if Expected <> '' then Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
   while (FToken.Lexeme <> ';') and (UpperCase(FToken.Lexeme) <> 'END') and not EndSource do NextToken;
+  NextToken;
   RecoverLexeme := UpperCase(FToken.Lexeme);
 end;
 
