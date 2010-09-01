@@ -354,7 +354,7 @@ const
   '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|REINTRODUCE|;' + Directives +
   '|MESSAGE|' + Ident + ';' + '|DYNAMIC|;' + Mark,
 // ExternalDir
-  '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + Pop +
+  '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + CallConv + Pop +
   '|ASSEMBLER|;',
 // MetCall
   '|' + Ident + '|' + QualId,
@@ -403,9 +403,9 @@ const
 // FieldList
   '|;|' + FieldDecl,
 // CallConv
-  '|STDCALL|;' + Mark + '|CDECL|'+ CallConv + ';' + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
+  '|STDCALL|;' + Mark + '|CDECL|;'+ CallConv + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|' + CallConv// Deprecateds
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv // Deprecateds
   );
 implementation
 end.
