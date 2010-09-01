@@ -6,6 +6,9 @@ License: <extlink http://www.opensource.org/licenses/bsd-license.php>BSD</extlin
 }
 interface
 
+uses
+  Classes;
+  
 type
   TTokenKind = (tkUndefined, tkIdentifier, tkStringConstant, tkCharConstant, tkIntegerConstant, tkRealConstant, tkConstantExpression,
                 tkLabelIdentifier, tkTypeIdentifier, tkClassIdentifier, tkReservedWord, tkSpecialSymbol);
@@ -22,6 +25,7 @@ type
     FToken    : TToken;
     LenLine   : integer;
     FInitTime : TDateTime;
+    Macros    : TStringList;
     FSourceName, Line : string;
     FStartComment : string[10];
     FEndComment   : string[100];
@@ -33,6 +37,7 @@ type
     function TokenIn(const S : string) : boolean; inline;
     procedure NextString;
     procedure DoIf(Condition : boolean);
+    procedure CreateMacro;
   protected
     FEndSource : boolean;
     FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
@@ -93,6 +98,7 @@ begin
     FormatDateTime('s.z ', Elapsed), 'seconds, ', TotalLines/1000.0/(Elapsed*24*60*60):0:1, ' klps.');
   inherited;
   FToken.Free;
+  FreeAndNil(Macros);
 end;
 
 procedure TScanner.ScanChars(const Chars : array of TSetChar; const Tam : array of integer; Optional : boolean = false);
@@ -131,6 +137,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
     reset(Arq);
     First := 1;
     FToken := TToken.Create;
+    FreeAndNil(Macros);
     NextToken;
   end
   else begin
@@ -175,7 +182,10 @@ begin
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
     case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF']) of
-      0 : if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + LowerCase(FToken.Lexeme) + '.';
+      0 : begin
+        if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + LowerCase(FToken.Lexeme) + '.';
+        CreateMacro;
+      end;
       1 : begin
         I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
         if I <> 0 then delete(ConditionalSymbols, I, length(FToken.Lexeme) + 1);
@@ -328,13 +338,13 @@ begin
           FToken.Kind := tkIdentifier
         else
           FToken.Kind := tkReservedWord;
-        exit;
+        break;
       end;
       ';', ',', '=', ')', '[', ']', '+', '-', '@' : begin
         FToken.Lexeme := Line[First];
         FToken.Kind   := tkSpecialSymbol;
         inc(First);
-        exit;
+        break;
       end;
       '^' : begin
         Str  := '';
@@ -355,9 +365,9 @@ begin
         else
           FToken.Kind := tkStringConstant;
         end;
-        exit;
+        break;
       end;
-      '''', '#': begin NextString; exit; end; // strings
+      '''', '#': begin NextString; break; end; // strings
       '0'..'9' : begin // Numbers
         ScanChars([['0'..'9'], ['.', 'E', 'e']], [28, 1], true);
         Str := FToken.Lexeme;
@@ -390,7 +400,7 @@ begin
           FToken.RealValue := StrToFloat(FToken.Lexeme)
         else
           FToken.IntegerValue := StrToInt64(FToken.Lexeme);
-        exit;
+        break;
       end;
       '(' :
         if (LenLine > First) and (Line[First + 1] = '*') then // Comment Style (*
@@ -399,7 +409,7 @@ begin
           FToken.Lexeme := '(';
           FToken.Kind   := tkSpecialSymbol;
           inc(First);
-          exit
+          break
         end;
       '/' :
         if (LenLine > First) and (Line[First + 1] = '/') then // Comment Style //
@@ -408,19 +418,19 @@ begin
           FToken.Lexeme := '/';
           FToken.Kind   := tkSpecialSymbol;
           inc(First);
-          exit
+          break
         end;
       '{' : FindEndComment('{', '}');
-      '.' : begin NextChar(['.']); exit; end;
-      '*' : begin NextChar(['*']); exit; end;
+      '.' : begin NextChar(['.']); break; end;
+      '*' : begin NextChar(['*']); break; end;
       '>',
-      ':' : begin NextChar(['=']); exit; end;
-      '<' : begin NextChar(['=', '>']); exit; end;
+      ':' : begin NextChar(['=']); break; end;
+      '<' : begin NextChar(['=', '>']); break; end;
       '$' : begin // Hexadecimal
         ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 16]);
         FToken.Kind := tkIntegerConstant;
         FToken.IntegerValue := StrToInt64(FToken.Lexeme);
-        exit;
+        break;
       end;
       '%' : begin // Binary
         ScanChars([['%'], ['0', '1']], [1, 32]);
@@ -429,13 +439,16 @@ begin
         for I := length(FToken.Lexeme) downto 2 do
           if FToken.Lexeme[I] = '1' then
             inc(FToken.IntegerValue, trunc(Power(2, length(FToken.Lexeme) - I)));
-        exit;
+        break;
       end;
     else
       if not EOF(Arq) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
     end;
   end;
+  if Macros <> nil then
+    for I := 0 to Macros.Count - 1 do
+      FToken.Lexeme := AnsiReplaceStr(FToken.Lexeme, Macros.Names[I], Macros.ValueFromIndex[I]);
 end;
 
 procedure TScanner.Error(const Msg : string); begin
@@ -460,6 +473,7 @@ procedure TScanner.RecoverFromError(const Expected, Found : string); begin
   if Expected <> '' then Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
   while (FToken.Lexeme <> ';') and (UpperCase(FToken.Lexeme) <> 'END') and not EndSource do NextToken;
   NextToken;
+  while (FToken.Lexeme = ';') and not EndSource do NextToken;
   RecoverLexeme := UpperCase(FToken.Lexeme);
 end;
 
@@ -487,6 +501,21 @@ end;
 
 function TScanner.GetNonTerminalName(N : char): string; begin
   Result := Kinds[CharToTokenKind(N)]
+end;
+
+procedure TScanner.CreateMacro;
+var
+  Macro : string;
+begin
+  Macro := FToken.Lexeme;
+  SkipBlank;
+  ScanChars([[':'], ['=']], [1, 1]);
+  if FToken.Lexeme <> '' then begin
+    SkipBlank;
+    ScanChars([[#0..#255]-['}']], [500]);
+    if Macros = nil then Macros := TStringList.Create;
+    Macros.Add(Macro + '=' + FToken.Lexeme);
+  end;
 end;
 
 end.

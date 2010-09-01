@@ -406,7 +406,7 @@ const
 // CallConv
   '|STDCALL|;' + Mark + '|CDECL|;'+ CallConv + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|NOSTACKFRAME|'// Deprecateds
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|NOSTACKFRAME|' // Deprecateds
   );
 implementation
 end.
