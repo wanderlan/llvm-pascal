@@ -180,7 +180,7 @@ const
   '|FUNCTION|'    + Ident + Delegation + FormalParams + ':' + Ident + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
   '|CONSTRUCTOR|' + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
   '|DESTRUCTOR|'  + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
-  '|PROPERTY|'    + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp + MethodDecl,
+  '|PROPERTY|'    + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp + WarnDir + MethodDecl,
 // FormalParams
   '|(|' + FormalParam + FormalList + ')',
 // FormalList
@@ -353,9 +353,9 @@ const
   '|OF|' + 'OBJECT',
 // Directives
   '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Directives + '|REINTRODUCE|;' + Directives +
-  '|MESSAGE|' + Ident + ';' + '|DYNAMIC|;' + Mark,
+  '|MESSAGE|' + Ident + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark,
 // ExternalDir
-  '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + CallConv + Pop +
+  '|EXTERNAL|' + PropIndex + NameDir + IdentDir + ';' + CallConv + Pop +
   '|ASSEMBLER|;',
 // MetCall
   '|' + Ident + '|' + QualId,
