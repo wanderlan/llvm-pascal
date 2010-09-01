@@ -68,7 +68,7 @@ const
   '|,|' + Ident + VarList,
 // VarInit
   '|=|' + Require + Expression +
-  '|ABSOLUTE|' + Ident,
+  '|ABSOLUTE|' + Ident + QualId,
 // Type_
   SimpleType +
   '|STRING|' + StringLength +
@@ -141,6 +141,7 @@ const
 // InitSection
   '|BEGIN|' + Statement + StmtList + 'END' +
   '|INITIALIZATION|' + Statement + StmtList + FinSection +
+  '|FINALIZATION|' + Statement + StmtList + 'END' +
   '|END|',
 // TypeDecl
   '|' + Ident + '|' + '=' + Require + Type_ + WarnDir2 + ';' + Mark + TypeDecl,
@@ -351,7 +352,7 @@ const
 // OfObject
   '|OF|' + 'OBJECT',
 // Directives
-  '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Mark + '|REINTRODUCE|;' + Directives +
+  '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Directives + '|REINTRODUCE|;' + Directives +
   '|MESSAGE|' + Ident + ';' + '|DYNAMIC|;' + Mark,
 // ExternalDir
   '|EXTERNAL|' + IdentDir + PropIndex + NameDir + ';' + CallConv + Pop +
@@ -405,7 +406,7 @@ const
 // CallConv
   '|STDCALL|;' + Mark + '|CDECL|;'+ CallConv + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv // Deprecateds
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|NOSTACKFRAME|'// Deprecateds
   );
 implementation
 end.
