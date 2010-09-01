@@ -109,7 +109,7 @@ const
   '|INHERITED|' + MetCall + AssignStmt +
   '|RAISE|' + RaiseStmt +
   '|' + IntConst + '|' + ':' + Statement +
-  '|@|' + Ident + AssignStmt +
+  '|@|' + Ident + QualId + AssignStmt +
   '|(|' + Expression + ')' + QualId + AssignStmt +
   '|GOTO|' + Require + LabelId +
   '|ASM|' + Skip + 'END',
