@@ -106,7 +106,7 @@
 			<Compiler Name="CodePage"></Compiler>
 		</Compiler>
 		<Linker>
-			<Linker Name="MapFile">3</Linker>
+			<Linker Name="MapFile">0</Linker>
 			<Linker Name="OutputObjs">0</Linker>
 			<Linker Name="GenerateHpps">False</Linker>
 			<Linker Name="ConsoleApp">1</Linker>
@@ -120,7 +120,7 @@
 		</Linker>
 		<Directories>
 			<Directories Name="OutputDir"></Directories>
-			<Directories Name="UnitOutputDir"></Directories>
+			<Directories Name="UnitOutputDir">C:\Trabalho\LLVM-Pascal\dcu</Directories>
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
 			<Directories Name="SearchPath">C:\Trabalho\ExtPascal;C:\Trabalho\ExtPascal\ExtJSWrapper;C:\Trabalho\ExtendDialer\Zeos\packages\delphi10\build;C:\Trabalho\SGI_RDM\Fase 3 - Construcao\Implementar Projeto\Codigo Fonte;C:\Trabalho\ExtPascal\Indy\Core;C:\Trabalho\ExtPascal\Indy\Protocols;C:\Trabalho\ExtPascal\Indy\SuperCore;C:\Trabalho\ExtPascal\Indy\System</Directories>
@@ -130,7 +130,7 @@
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">*.pas</Parameters>
+			<Parameters Name="RunParams">C:\lazarus\lcl\*.pas</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
@@ -145,7 +145,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">0</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">84</VersionInfo>
+			<VersionInfo Name="Build">88</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -157,7 +157,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">pitinnu</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.0.0.84</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.0.0.88</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">pitBrowser</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">2007</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
