@@ -33,7 +33,6 @@ type
     function TokenIn(const S : string) : boolean; inline;
     procedure NextString;
     procedure DoIf(Condition : boolean);
-    procedure PopIf;
   protected
     FEndSource : boolean;
     FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
@@ -164,11 +163,6 @@ procedure TScanner.DoIf(Condition : boolean); begin
   end;
 end;
 
-procedure TScanner.PopIf; begin
-  if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
-  if NestedIf  = '' then FEndComment := '';
-end;
-
 procedure TScanner.DoDirective(DollarInc : integer);
 var
   I : integer;
@@ -188,14 +182,13 @@ begin
       end;
       2 : DoIf(TokenIn(ConditionalSymbols));
       3 : DoIf(not TokenIn(ConditionalSymbols));
-      4 :
-        if AnsiIndexText(FToken.Lexeme, ['DEFINED', 'DECLARED']) <> -1 then begin
-          ScanChars([['(']], [1]);
-          ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-          DoIf(TokenIn(ConditionalSymbols));
-        end;
+      4 : if AnsiIndexText(FToken.Lexeme, ['DEFINED', 'DECLARED']) <> -1 then begin
+        ScanChars([['(']], [1]);
+        ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
+        DoIf(TokenIn(ConditionalSymbols));
+      end;
       5 : DoIf(false);
-      6, 7 : PopIf;
+      6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
       8 : DoIf(not((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')));
     end;
     FindEndComment(FStartComment, FEndComment);
@@ -207,6 +200,11 @@ begin
 end;
 
 procedure TScanner.FindEndComment(const StartComment, EndComment : shortstring);
+  procedure DoEndIf; begin
+    FEndComment := copy(FEndComment, 6, 100);
+    if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
+    dec(First, 5);
+  end;
 var
   P : integer;
 begin
@@ -222,16 +220,8 @@ begin
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
         case AnsiIndexText(FToken.Lexeme, ['IFDEF', 'IFNDEF', 'IFOPT', 'IF', 'ENDIF', 'IFEND', 'ELSE']) of
           0..3 : begin DoIf(false); exit; end;
-          4..5 : begin
-            FEndComment := copy(FEndComment, 6, 100);
-            PopIf;
-            dec(First, 5);
-          end;
-          6 : if (NestedIf = 'F') or (NestedIf[length(NestedIf)-1] = 'T') then begin
-            FEndComment := copy(FEndComment, 6, 100);
-            PopIf;
-            dec(First, 5);
-          end;
+          4..5 : DoEndIf;
+          6    : if (NestedIf = 'F') or (NestedIf[length(NestedIf)-1] = 'T') then DoEndIf;
         end;
       end;
     end;
