@@ -174,7 +174,7 @@ begin
     L := FToken.Lexeme;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF']) of
       0 : if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + LowerCase(FToken.Lexeme) + '.';
       1 : begin
         I := pos('.' + LowerCase(FToken.Lexeme) + '.', ConditionalSymbols);
@@ -182,7 +182,7 @@ begin
       end;
       2 : DoIf(TokenIn(ConditionalSymbols));
       3 : DoIf(not TokenIn(ConditionalSymbols));
-      4 : if AnsiIndexText(FToken.Lexeme, ['DEFINED', 'DECLARED']) <> -1 then begin
+      4, 9 : if AnsiIndexText(FToken.Lexeme, ['DEFINED', 'DECLARED']) <> -1 then begin
         ScanChars([['(']], [1]);
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
         DoIf(TokenIn(ConditionalSymbols));
@@ -218,10 +218,10 @@ begin
       First := P + length(FStartComment) + 1;
       if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-        case AnsiIndexText(FToken.Lexeme, ['IFDEF', 'IFNDEF', 'IFOPT', 'IF', 'ENDIF', 'IFEND', 'ELSE']) of
+        case AnsiIndexText(FToken.Lexeme, ['IFDEF', 'IFNDEF', 'IFOPT', 'IF', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF']) of
           0..3 : begin DoIf(false); exit; end;
           4..5 : DoEndIf;
-          6    : if (NestedIf = 'F') or (NestedIf[length(NestedIf)-1] = 'T') then DoEndIf;
+          6, 7 : if (NestedIf = 'F') or (NestedIf[length(NestedIf)-1] = 'T') then DoEndIf;
         end;
       end;
     end;

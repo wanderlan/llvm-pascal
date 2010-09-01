@@ -44,6 +44,7 @@ procedure TParser.PopSymbol; begin
         Symbol := Symbols[Top];
       end;
       Skip : begin
+        writeln('[Warning] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Symbols[Top + 1] + ' construct is ignored');
         dec(Top);
         Symbol := Symbols[Top];
         while UpperCase(Token.Lexeme) <> Symbol do NextToken(true);
