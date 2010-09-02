@@ -476,8 +476,6 @@ end;
 procedure TScanner.RecoverFromError(const Expected, Found : string); begin
   if Expected <> '' then Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
   while (FToken.Lexeme <> ';') and (UpperCase(FToken.Lexeme) <> 'END') and not EndSource do NextToken;
-  NextToken;
-  while (FToken.Lexeme = ';') and not EndSource do NextToken;
   RecoverLexeme := UpperCase(FToken.Lexeme);
 end;
 
