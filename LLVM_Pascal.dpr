@@ -20,7 +20,7 @@ begin
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
           'New BSD license'^J,
           'http://llvm-pascal.googlecode.com'^J);
-  with TParser.Create(3000) do
+  with TParser.Create(30) do
     try
       if FindFirst(ParamStr(1), faAnyFile, F) = 0 then
         repeat
