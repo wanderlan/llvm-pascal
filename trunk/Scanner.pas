@@ -306,7 +306,7 @@ end;
 
 procedure TScanner.NextToken(Skip : boolean = false);
 var
-  Str  : string;
+  Str : string;
   FAnt, I : integer;
 begin
   while not FEndSource do begin
@@ -324,6 +324,9 @@ begin
       inc(FLineNumber);
       inc(FTotalLines);
       First := 1;
+      if (Macros <> nil) and (LenLine <> 0) and (FEndComment = '') and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
+        for I := 0 to Macros.Count - 1 do // Replace macros
+          Line := AnsiReplaceStr(Line, Macros.Names[I], Macros.ValueFromIndex[I]);
     end;
     // End comment across many lines
     if FEndComment <> '' then begin
@@ -338,13 +341,13 @@ begin
           FToken.Kind := tkIdentifier
         else
           FToken.Kind := tkReservedWord;
-        break;
+        exit;
       end;
       ';', ',', '=', ')', '[', ']', '+', '-', '@' : begin
         FToken.Lexeme := Line[First];
         FToken.Kind   := tkSpecialSymbol;
         inc(First);
-        break;
+        exit;
       end;
       '^' : begin
         Str  := '';
@@ -365,9 +368,9 @@ begin
         else
           FToken.Kind := tkStringConstant;
         end;
-        break;
+        exit;
       end;
-      '''', '#': begin NextString; break; end; // strings
+      '''', '#': begin NextString; exit; end; // strings
       '0'..'9' : begin // Numbers
         ScanChars([['0'..'9'], ['.', 'E', 'e']], [28, 1], true);
         Str := FToken.Lexeme;
@@ -400,7 +403,7 @@ begin
           FToken.RealValue := StrToFloat(FToken.Lexeme)
         else
           FToken.IntegerValue := StrToInt64(FToken.Lexeme);
-        break;
+        exit;
       end;
       '(' :
         if (LenLine > First) and (Line[First + 1] = '*') then // Comment Style (*
@@ -409,7 +412,7 @@ begin
           FToken.Lexeme := '(';
           FToken.Kind   := tkSpecialSymbol;
           inc(First);
-          break
+          exit
         end;
       '/' :
         if (LenLine > First) and (Line[First + 1] = '/') then // Comment Style //
@@ -418,19 +421,19 @@ begin
           FToken.Lexeme := '/';
           FToken.Kind   := tkSpecialSymbol;
           inc(First);
-          break
+          exit
         end;
       '{' : FindEndComment('{', '}');
-      '.' : begin NextChar(['.']); break; end;
-      '*' : begin NextChar(['*']); break; end;
+      '.' : begin NextChar(['.']); exit; end;
+      '*' : begin NextChar(['*']); exit; end;
       '>',
-      ':' : begin NextChar(['=']); break; end;
-      '<' : begin NextChar(['=', '>']); break; end;
+      ':' : begin NextChar(['=']); exit; end;
+      '<' : begin NextChar(['=', '>']); exit; end;
       '$' : begin // Hexadecimal
         ScanChars([['$'], ['0'..'9', 'A'..'F', 'a'..'f']], [1, 16]);
         FToken.Kind := tkIntegerConstant;
         FToken.IntegerValue := StrToInt64(FToken.Lexeme);
-        break;
+        exit;
       end;
       '%' : begin // Binary
         ScanChars([['%'], ['0', '1']], [1, 32]);
@@ -439,16 +442,13 @@ begin
         for I := length(FToken.Lexeme) downto 2 do
           if FToken.Lexeme[I] = '1' then
             inc(FToken.IntegerValue, trunc(Power(2, length(FToken.Lexeme) - I)));
-        break;
+        exit;
       end;
     else
       if not EOF(Arq) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
     end;
   end;
-  if Macros <> nil then
-    for I := 0 to Macros.Count - 1 do
-      FToken.Lexeme := AnsiReplaceStr(FToken.Lexeme, Macros.Names[I], Macros.ValueFromIndex[I]);
 end;
 
 procedure TScanner.Error(const Msg : string); begin
@@ -512,7 +512,7 @@ begin
   ScanChars([[':'], ['=']], [1, 1]);
   if FToken.Lexeme <> '' then begin
     SkipBlank;
-    ScanChars([[#0..#255]-['}']], [500]);
+    ScanChars([[#0..#255] - ['}']], [50000]);
     if Macros = nil then Macros := TStringList.Create;
     Macros.Add(Macro + '=' + FToken.Lexeme);
   end;
