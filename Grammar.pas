@@ -39,7 +39,7 @@ const
 // Start
   '|PROGRAM|' + Ident + ParIdentList + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
   '|UNIT|'    + Ident + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
-  '|LIBRARY|' + Ident + WarnDir2 + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
+  '|LIBRARY|' + Ident + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + CompoundStmt  + '.' +
   '|PACKAGE|' + Ident + WarnDir2 + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
 // ParIdentList
   '|(|' + Ident + IdentList + ')',
@@ -358,7 +358,7 @@ const
   '|MESSAGE|' + Ident + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark,
 // ExternalDir
   '|EXTERNAL|' + IdentDir + NameDir + PropIndex + ';' + CallConv + Pop +
-  '|ASSEMBLER|;',
+  '|ASSEMBLER|;' + CallConv,
 // MetCall
   '|' + Ident + '|' + QualId,
 // DefProp
@@ -410,7 +410,7 @@ const
 // CteField
   '|' + Ident + '|' + ':' + Expression + CteFieldList,
 // CallConv
-  '|STDCALL|;' + Mark + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
+  '|STDCALL|;' + Directives + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Directives + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +  '|VARARGS|;' + Mark +
   '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|ALIAS|:' + StringConst + ';' + '|LOCAL|;' + Mark + '|NOSTACKFRAME|;' // Deprecateds & FPC
   );

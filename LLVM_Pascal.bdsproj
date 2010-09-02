@@ -130,7 +130,7 @@
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">C:\lazarus\lcl\interfaces\wince\*.pp</Parameters>
+			<Parameters Name="RunParams">"C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\win\*.pas"</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>

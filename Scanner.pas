@@ -357,7 +357,7 @@ begin
         Str  := '';
         FAnt := First;
         repeat
-          ScanChars([['^'], ['@'..'Z', 'a'..'z']], [1, 2], true);
+          ScanChars([['^'], ['@'..'Z', 'a'..'z', '_', '0'..'9']], [1, 2], true);
           if length(FToken.Lexeme) = 2 then
             Str := Str + char(byte(FToken.Lexeme[2]) - ord('@'));
         until length(FToken.Lexeme) <> 2;
