@@ -42,7 +42,7 @@ type
     FEndSource : boolean;
     FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
     NestedIf : shortstring;
-    RecoverLexeme : string;
+    ReservedWords, RecoverLexeme : string;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -71,10 +71,11 @@ uses
   SysUtils, StrUtils, Math, Grammar;
 
 const
-  ReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
+  DelphiReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
     'file.finalization.finally.for.function.goto.if.implementation.in.inherited.initialization.inline.interface.is.label.library.mod.nil.' +
-    'not.object.of.operator.or.out.packed.private.procedure.program.property.protected.public.published.raise.record.repeat.resourcestring.set.shl.shr.' +
+    'not.object.of.or.out.packed.private.procedure.program.property.protected.public.published.raise.record.repeat.resourcestring.set.shl.shr.' +
     'strict.then.threadvar.to.try.type.unit.until.uses.var.while.with.xor.';
+  FPCReservedWords = 'operator.';
   Kinds : array[TTokenKind] of string = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant', 'Real Constant', 'Constant Expression',
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.';
@@ -84,6 +85,7 @@ constructor TScanner.Create(MaxErrors : integer = 10); begin
   FMaxErrors := MaxErrors;
   DecimalSeparator  := '.';
   ThousandSeparator := ',';
+  ReservedWords := DelphiReservedWords;
 end;
 
 destructor TScanner.Destroy;
@@ -181,7 +183,7 @@ begin
     L := FToken.Lexeme;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE']) of
       0 : begin
         if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + LowerCase(FToken.Lexeme) + '.';
         CreateMacro;
@@ -200,6 +202,7 @@ begin
       5 : DoIf(false);
       6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
       8 : DoIf(not((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')));
+      10 : ReservedWords := IfThen(pos('FPC', UpperCase(FToken.Lexeme)) = 0 , DelphiReservedWords, DelphiReservedWords + FPCReservedWords);
     end;
     FindEndComment(FStartComment, FEndComment);
   end
@@ -224,7 +227,7 @@ begin
   if (P <> 0) and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
     DoDirective(P + length(FStartComment))
   else begin
-    if (P <> 0) and ((NestedIf <> '') and (NestedIf[length(NestedIf)] = 'F')) then begin
+    while (P <> 0) and ((NestedIf <> '') and (NestedIf[length(NestedIf)] = 'F')) do begin
       First := P + length(FStartComment) + 1;
       if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
         ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
@@ -234,8 +237,9 @@ begin
           6, 7 : if (NestedIf = 'F') or (NestedIf[length(NestedIf)-1] = 'T') then DoEndIf;
         end;
       end;
+      P := PosEx(FStartComment + '$', Line, First);
     end;
-    P := PosEx(FEndComment, Line, First);
+    P := PosEx(FEndComment, UpperCase(Line), First);
     if P <> 0 then begin // End comment in same line
       First := P + length(FEndComment);
       if length(FEndComment) <= 2 then FEndComment := '';

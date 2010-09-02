@@ -357,14 +357,14 @@ const
   '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Directives + '|REINTRODUCE|;' + Directives +
   '|MESSAGE|' + Ident + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark,
 // ExternalDir
-  '|EXTERNAL|' + PropIndex + NameDir + IdentDir + ';' + CallConv + Pop +
+  '|EXTERNAL|' + IdentDir + NameDir + PropIndex + ';' + CallConv + Pop +
   '|ASSEMBLER|;',
 // MetCall
   '|' + Ident + '|' + QualId,
 // DefProp
   '|DEFAULT|;',
 // WarnDir
-  '|PLATFORM|;' + WarnDir + '|DEPRECATED|;' + WarnDir + '|LIBRARY|;' + WarnDir + '|INLINE|;' + WarnDir + '|LOCAL|;' + WarnDir,
+  '|PLATFORM|;' + WarnDir + '|DEPRECATED|;' + WarnDir + '|LIBRARY|;' + WarnDir + '|INLINE|;' + WarnDir + '|LOCAL|;' + WarnDir + '|EXPERIMENTAL|;' + WarnDir + '|UNIMPLEMENTED|;' + WarnDir,
 // StrictDecl
   '|PRIVATE|' + FieldDecl + MethodDecl + ClassDecl +
   '|PROTECTED|' + FieldDecl + MethodDecl + ClassDecl,
@@ -395,7 +395,7 @@ const
   '|;|' + CallConv + InsertSemi +
   '|STDCALL||CDECL||SAFECALL||REGISTER||PASCAL|',
 // WarnDir2
-  '|PLATFORM|' + WarnDir2 + '|DEPRECATED|' + WarnDir2 + '|LIBRARY|' + WarnDir2,
+  '|PLATFORM|' + WarnDir2 + '|DEPRECATED|' + WarnDir2 + '|LIBRARY|' + WarnDir2 + '|EXPERIMENTAL|' + WarnDir2 + '|UNIMPLEMENTED|' + WarnDir2,
 // RecFieldList
   '|(|' + FieldDecl + RecordCase + ')' + Mark,
 // RecCaseList
