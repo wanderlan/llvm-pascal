@@ -24,7 +24,7 @@ const
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
   InternalDecl = #218; RecordConst  = #219; CteFieldList = #220; StringExpr   = #221; RecordCase   = #222;
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
-  FieldList    = #228; Operator     = #229; CallConv     = #230;
+  FieldList    = #228; Operator     = #229; CteField     = #230; CallConv     = #231;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -247,15 +247,15 @@ const
   '|AS|' + Require + Expression +
   '|+|'  + Require + Expression +
   '|-|'  + Require + Expression +
-  '|AND|' + Require + Expression +
-  '|OR|'  + Require + Expression +
-  '|XOR|' + Require + Expression +
-  '|SHR|' + Require + Expression +
-  '|SHL|' + Require + Expression +
-  '|*|' + Require + Expression +
-  '|/|' + Require + Expression +
-  '|DIV|' + Require + Expression +
-  '|MOD|' + Require + Expression,
+  '|AND|'+ Require + Expression +
+  '|OR|' + Require + Expression +
+  '|XOR|'+ Require + Expression +
+  '|SHR|'+ Require + Expression +
+  '|SHL|'+ Require + Expression +
+  '|*|'  + Require + Expression +
+  '|/|'  + Require + Expression +
+  '|DIV|'+ Require + Expression +
+  '|MOD|'+ Require + Expression,
 // MetId
   '|.|' + Ident,
 // AssignStmt
@@ -385,7 +385,7 @@ const
 // RecordConst
   '|:|' + Expression + CteFieldList + Pop,
 // CteFieldList
-  '|;|' + Ident + ':' + Expression + CteFieldList +
+  '|;|' + CteField +
   '|^|' + CteFieldList,
 // StringExpr
   '|+|' + IdentDir + StringExpr,
@@ -407,10 +407,12 @@ const
   '|;|' + FieldDecl,
 // Operator
   'Operator|:=||>||<||>=||<=||<>||=||IN||IS||AS||+||-||AND||OR||XOR||SHR||SHL||*||/||DIV||MOD|',
+// CteField
+  '|' + Ident + '|' + ':' + Expression + CteFieldList,
 // CallConv
   '|STDCALL|;' + Mark + '|CDECL|;'+ CallConv + '|SAFECALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|NOSTACKFRAME|' // Deprecateds
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|NOSTACKFRAME|' // Deprecateds & FPC
   );
 implementation
 end.
