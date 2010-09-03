@@ -21,8 +21,9 @@ type
   TSetChar = set of char;
   TScanner = class
   private
-    Arq       : text;
+    Arq       : array[0..7] of text;
     FToken    : TToken;
+    Include,
     LenLine   : integer;
     FInitTime : TDateTime;
     Macros    : TStringList;
@@ -38,9 +39,10 @@ type
     procedure NextString;
     procedure DoIf(Condition : boolean);
     procedure CreateMacro;
+    procedure OpenInclude;
   protected
     FEndSource : boolean;
-    FLineNumber, FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop : integer;
+    FLineNumber, FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt : integer;
     NestedIf : shortstring;
     ReservedWords : string;
     function CharToTokenKind(N : char) : TTokenKind;
@@ -127,16 +129,17 @@ end;
 
 procedure TScanner.SetFSourceName(const Value : string); begin
   if FErrors >= FMaxErrors then Abort;
-  if FileExists(SourceName) then close(Arq);
+  if FileExists(SourceName) then close(Arq[Include]);
   FSourceName := Value;
   FLineNumber := 0;
   FEndSource  := false;
   LenLine     := 0;
+  Include     := 0;
   NestedIf    := '';
   if FileExists(SourceName) then begin
-    assign(Arq, SourceName);
+    assign(Arq[Include], SourceName);
     writeln(IfThen(Errors = 0, '', ^J), ExtractFileName(SourceName));
-    reset(Arq);
+    reset(Arq[Include]);
     First := 1;
     FToken := TToken.Create;
     FreeAndNil(Macros);
@@ -172,6 +175,23 @@ procedure TScanner.DoIf(Condition : boolean); begin
   end;
 end;
 
+procedure TScanner.OpenInclude; begin
+  First := FAnt;
+  SkipBlank;
+  ScanChars([['!'..#255] - ['}']], [255]);
+  FToken.Lexeme := ExtractFilePath(SourceName) + trim(FToken.Lexeme);
+  FToken.Lexeme := AnsiReplaceStr(FToken.Lexeme, '*', ExtractFileName(SourceName));
+  if FileExists(FToken.Lexeme) then begin
+    inc(Include);
+    assign(Arq[Include], FToken.Lexeme);
+    reset(Arq[Include]);
+    writeln('' : Include * 2, ExtractFileName(FToken.Lexeme));
+    First := LenLine + 1;
+  end
+  else
+    Error('Include file ''' + FToken.Lexeme + ''' not found');
+end;
+
 procedure TScanner.DoDirective(DollarInc : integer);
 var
   I : integer;
@@ -181,6 +201,7 @@ begin
   if Line[First] in ['A'..'Z', '_', 'a'..'z'] then begin
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
     L := FToken.Lexeme;
+    FAnt := First;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
     case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE', 'I', 'INCLUDE']) of
@@ -203,7 +224,7 @@ begin
       6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
       8 : DoIf(not((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')));
       10 : ReservedWords := IfThen(pos('FPC', UpperCase(FToken.Lexeme)) = 0 , DelphiReservedWords, DelphiReservedWords + FPCReservedWords);
-      11, 12 : ;
+      11, 12 : OpenInclude;
     end;
     FindEndComment(FStartComment, FEndComment);
   end
@@ -312,19 +333,27 @@ end;
 procedure TScanner.NextToken(Skip : boolean = false);
 var
   Str : string;
-  FAnt, I : integer;
+  I   : integer;
 begin
   while not FEndSource do begin
     while First > LenLine do begin
-      readln(Arq, Line);
+      readln(Arq[Include], Line);
       LenLine := length(Line);
-      if EOF(Arq) and ((LenLine = 0) or (Line = ^Z)) then begin
-        if FToken.Lexeme = 'End of Source' then
-          FEndSource := true
-        else
-          FToken.Lexeme := 'End of Source';
+      if EOF(Arq[Include]) and ((LenLine = 0) or (Line = ^Z)) then begin
         FEndComment := '';
-        exit;
+        if Include > 0 then begin
+          close(Arq[Include]);
+          dec(Include);
+          First := LenLine + 1;
+          continue;
+        end
+        else begin
+          if FToken.Lexeme = 'End of Source' then
+            FEndSource := true
+          else
+            FToken.Lexeme := 'End of Source';
+          exit;
+        end;
       end;
       inc(FLineNumber);
       inc(FTotalLines);
@@ -450,7 +479,7 @@ begin
         exit;
       end;
     else
-      if not EOF(Arq) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
+      if not EOF(Arq[Include]) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
     end;
   end;
@@ -517,7 +546,7 @@ begin
   ScanChars([[':'], ['=']], [1, 1]);
   if FToken.Lexeme <> '' then begin
     SkipBlank;
-    ScanChars([[#0..#255] - ['}']], [50000]);
+    ScanChars([[#1..#255] - ['}']], [50000]);
     if Macros = nil then Macros := TStringList.Create;
     Macros.Add(Macro + '=' + FToken.Lexeme);
   end;
