@@ -8,7 +8,7 @@ interface
 
 uses
   Classes;
-  
+
 type
   TTokenKind = (tkUndefined, tkIdentifier, tkStringConstant, tkCharConstant, tkIntegerConstant, tkRealConstant, tkConstantExpression,
                 tkLabelIdentifier, tkTypeIdentifier, tkClassIdentifier, tkReservedWord, tkSpecialSymbol);
@@ -40,9 +40,9 @@ type
     procedure CreateMacro;
   protected
     FEndSource : boolean;
-    FLineNumber, FTotalLines, First, FErrors, FMaxErrors : integer;
+    FLineNumber, FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop : integer;
     NestedIf : shortstring;
-    ReservedWords, RecoverLexeme : string;
+    ReservedWords : string;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -78,7 +78,7 @@ const
   FPCReservedWords = 'operator.';
   Kinds : array[TTokenKind] of string = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant', 'Real Constant', 'Constant Expression',
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
-  ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.';
+  ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
 constructor TScanner.Create(MaxErrors : integer = 10); begin
   FInitTime  := Now;
@@ -183,7 +183,7 @@ begin
     L := FToken.Lexeme;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE', 'I', 'INCLUDE']) of
       0 : begin
         if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + LowerCase(FToken.Lexeme) + '.';
         CreateMacro;
@@ -203,6 +203,7 @@ begin
       6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
       8 : DoIf(not((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')));
       10 : ReservedWords := IfThen(pos('FPC', UpperCase(FToken.Lexeme)) = 0 , DelphiReservedWords, DelphiReservedWords + FPCReservedWords);
+      11, 12 : ;
     end;
     FindEndComment(FStartComment, FEndComment);
   end
@@ -340,7 +341,7 @@ begin
     case Line[First] of
       ' ', #9 : SkipBlank;
       'A'..'Z', 'a'..'z', '_', '&' : begin // Identifiers
-        ScanChars([['A'..'Z', 'a'..'z', '_', '&', '0'..'9']], [255]);
+        ScanChars([['A'..'Z', 'a'..'z', '_', '&', '0'..'9'], ['A'..'Z', 'a'..'z', '_', '0'..'9']], [1, 254]);
         if (length(FToken.Lexeme) < 2) or not TokenIn(ReservedWords) then
           FToken.Kind := tkIdentifier
         else
@@ -475,20 +476,22 @@ end;
 
 procedure TScanner.RecoverFromError(const Expected, Found : string); begin
   if Expected <> '' then Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
-//  while (FToken.Lexeme <> ';') and (UpperCase(FToken.Lexeme) <> 'END') and not EndSource do NextToken;
-  RecoverLexeme := UpperCase(FToken.Lexeme);
 end;
 
 procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
-  if KindExpected = FToken.Kind then
+  if KindExpected = FToken.Kind then begin
+    LastGoodTop := Top;
     NextToken
+  end
   else
     RecoverFromError(Kinds[KindExpected], FToken.Lexeme)
 end;
 
 procedure TScanner.MatchToken(const TokenExpected : string); begin
-  if TokenExpected = UpperCase(FToken.Lexeme) then
+  if TokenExpected = UpperCase(FToken.Lexeme) then begin
+    LastGoodTop := Top;
     NextToken
+  end
   else
     RecoverFromError('''' + TokenExpected + '''', FToken.Lexeme)
 end;
