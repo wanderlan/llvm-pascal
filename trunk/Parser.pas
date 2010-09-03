@@ -20,7 +20,6 @@ type
     procedure ExpandProduction(const T : string);
     procedure PopSymbol; inline;
   protected
-    Top : integer;
     procedure RecoverFromError(const Expected, Found : string); override;
   public
     procedure Compile(const Source : string);
@@ -59,14 +58,16 @@ procedure TParser.RecoverFromError(const Expected, Found : string); begin
     FEndSource := true
   else begin
     repeat
-      inc(Top);
-    until Symbols[Top][1] <= CallConv;
-    Symbol := Symbols[Top];
-    while (Symbol <> RecoverLexeme) and (Top > 1) do
-      if ((Symbol[1] in [Start..CallConv]) and (pos('|' + RecoverLexeme + '|', Productions[Symbol[1]]) <> 0)) then
-        break
-      else
-        PopSymbol;
+      Top := LastGoodTop;
+      Symbol := Symbols[Top];
+      Token.Lexeme := UpperCase(Token.Lexeme);
+      while (Symbol <> Token.Lexeme) and (Top > 1) do
+        if ((Symbol[1] in [Start..CallConv]) and (pos('|' + Token.Lexeme + '|', Productions[Symbol[1]]) <> 0)) then
+          break
+        else
+          PopSymbol;
+        if (Top = 1) and not EndSource then NextToken;
+    until (Top <> 1) or EndSource;
     inc(Top);
   end;
 end;
