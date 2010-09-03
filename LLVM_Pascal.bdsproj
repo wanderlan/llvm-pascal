@@ -130,7 +130,7 @@
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">"C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\*.pas"</Parameters>
+			<Parameters Name="RunParams">"C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\*.pas"</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
@@ -145,7 +145,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">0</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">93</VersionInfo>
+			<VersionInfo Name="Build">94</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -157,7 +157,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">pitinnu</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.0.0.93</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.0.0.94</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">pitBrowser</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">2007</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>

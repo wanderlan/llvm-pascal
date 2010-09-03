@@ -24,7 +24,7 @@ const
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
   InternalDecl = #218; RecordConst  = #219; CteFieldList = #220; StringExpr   = #221; RecordCase   = #222;
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
-  FieldList    = #228; Operator     = #229; CteField     = #230; CallConv     = #231;
+  FieldList    = #228; Operators    = #229; CteField     = #230; CallConv     = #231;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -58,7 +58,7 @@ const
   '|FUNCTION|'    + Ident + MetId + FormalParams + IdentType + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '|CONSTRUCTOR|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
   '|DESTRUCTOR|'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
-  '|OPERATOR|'    + Require + Operator + Require + FormalParams + ':' + Ident + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|OPERATOR|'    + Require + Operators + Require + FormalParams + ':' + Ident + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '|CLASS|'       + ClassMet +
   '|THREADVAR|'   + Require + VarDecl + DeclSection +
   '|LABEL|'       + Require + LabelId + LabelList + DeclSection +
@@ -286,7 +286,7 @@ const
   '|THREADVAR|' + Require + VarDecl + InterDecl +
   '|LABEL|' + Require + LabelId + LabelList + ';' + InterDecl +
   '|EXPORTS|' + Ident + FormalParams + PropIndex + NameDir + ExportsList + ';' + InterDecl +
-  '|OPERATOR|' + Require + Operator + Require + FormalParams + ':' + Ident + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
+  '|OPERATOR|' + Require + Operators + Require + FormalParams + ':' + Ident + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // LabelId
   '|' + Ident + '|' +
@@ -405,7 +405,7 @@ const
   '|END|' + Pop,
 // FieldList
   '|;|' + FieldDecl,
-// Operator
+// Operators
   'Operator|:=||>||<||>=||<=||<>||=||IN||IS||AS||+||-||AND||OR||XOR||SHR||SHL||*||/||DIV||MOD|',
 // CteField
   '|' + Ident + '|' + ':' + Expression + CteFieldList,
