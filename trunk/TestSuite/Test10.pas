@@ -11,7 +11,7 @@ end;
 
 procedure PrTest10B;
 begin
-  PrTest10A('', ); //seems like a delphi parser bug
+  PrTest10A('', ); // Erro no compilador Delphi. LLVM-Pascal pega este erro.
 end;
 
 end.
