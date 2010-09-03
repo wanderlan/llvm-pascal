@@ -24,7 +24,7 @@
 			<Compiler Name="F">0</Compiler>
 			<Compiler Name="G">1</Compiler>
 			<Compiler Name="H">1</Compiler>
-			<Compiler Name="I">1</Compiler>
+			<Compiler Name="I">0</Compiler>
 			<Compiler Name="J">1</Compiler>
 			<Compiler Name="K">0</Compiler>
 			<Compiler Name="L">1</Compiler>
@@ -32,8 +32,8 @@
 			<Compiler Name="N">1</Compiler>
 			<Compiler Name="O">1</Compiler>
 			<Compiler Name="P">1</Compiler>
-			<Compiler Name="Q">1</Compiler>
-			<Compiler Name="R">1</Compiler>
+			<Compiler Name="Q">0</Compiler>
+			<Compiler Name="R">0</Compiler>
 			<Compiler Name="S">0</Compiler>
 			<Compiler Name="T">0</Compiler>
 			<Compiler Name="U">0</Compiler>
@@ -145,7 +145,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">0</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">94</VersionInfo>
+			<VersionInfo Name="Build">95</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -157,7 +157,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">pitinnu</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.0.0.94</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.0.0.95</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">pitBrowser</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">2007</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
