@@ -63,7 +63,7 @@ procedure TParser.RecoverFromError(const Expected, Found : string); begin
     until Symbols[Top][1] <= CallConv;
     Symbol := Symbols[Top];
     while (Symbol <> RecoverLexeme) and (Top > 1) do
-      if ((Symbol[1] in [Start..CallConv]) and (pos(RecoverLexeme, Productions[Symbol[1]]) <> 0)) then
+      if ((Symbol[1] in [Start..CallConv]) and (pos('|' + RecoverLexeme + '|', Productions[Symbol[1]]) <> 0)) then
         break
       else
         PopSymbol;
