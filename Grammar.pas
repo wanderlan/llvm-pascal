@@ -24,7 +24,7 @@ const
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
   InternalDecl = #218; RecordConst  = #219; CteFieldList = #220; StringExpr   = #221; RecordCase   = #222;
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
-  FieldList    = #228; Operators    = #229; CteField     = #230; CallConv     = #231;
+  FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; CallConv     = #232;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -305,11 +305,11 @@ const
   '|' + StringConst + '|' +
   '|' + CharConst + '|',
 // NameDir
-  '|NAME|' + Require + IdentDir,
+  '|NAME|' + Require + IdentDir + StringExpr,
 // GUID
   '|[|' + IdentDir + ']',
 // ExceptFin
-  '|EXCEPT|' + ExceptHand + Statement + StmtList + 'END' + Mark +   
+  '|EXCEPT|' + ExceptHand + Statement + StmtList + 'END' + Mark +
   '|FINALLY|' + Statement + StmtList + 'END',
 // ExceptHand
   '|ON|' + Ident + QualId + IdentType + 'DO' + Statement + ExceptList + EndCaseList + Pop,
@@ -318,12 +318,12 @@ const
 // ExceptList
   '|;|' + ExceptHand,
 // InterfMet
-  '|PROCEDURE|' + Ident + FormalParams + ';' + InterDir + Mark + InterfMet +
-  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + QualId + ';' + InterDir + Mark + InterfMet +
-  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + InterDir + ';' + Mark + DefProp + InterfMet,
+  '|PROCEDURE|' + Ident + FormalParams + DispId + ';' + InterDir + WarnDir + InterfMet +
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + QualId + DispId + ';' + InterDir + WarnDir + InterfMet +
+  '|PROPERTY|'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + DispId + ';' + InterDir + WarnDir + Mark + DefProp + InterfMet,
 // InterDir
-  '|DISPID|' + Expression + ';' + Pop +  '|OVERLOAD|;' + InterDir + 
-  '|CDECL|;' + Mark + '|SAFECALL|;' + InterDir + '|STDCALL|;' + Mark + '|REGISTER|;' + Mark + '|PASCAL|;',
+  '|DISPID|' + Expression + ';' + InterDir +
+  '|OVERLOAD|;' + InterDir + '|CDECL|;' + InterDir + '|SAFECALL|;' + InterDir + '|STDCALL|;' + InterDir + '|REGISTER|;' + InterDir + '|PASCAL|;' + InterDir,
 // AbstractDir
   '|ABSTRACT|;',
 // FinSection
@@ -355,7 +355,7 @@ const
   '|OF|' + 'OBJECT',
 // Directives
   '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Directives + '|REINTRODUCE|;' + Directives +
-  '|MESSAGE|' + Ident + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark,
+  '|MESSAGE|' + Ident + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark + '|STATIC|;',
 // ExternalDir
   '|EXTERNAL|' + IdentDir + NameDir + PropIndex + ';' + CallConv + Pop +
   '|ASSEMBLER|;' + CallConv,
@@ -409,6 +409,8 @@ const
   'Operator|:=||>||<||>=||<=||<>||=||IN||IS||AS||+||-||AND||OR||XOR||SHR||SHL||*||/||DIV||MOD|',
 // CteField
   '|' + Ident + '|' + ':' + Expression + CteFieldList,
+// DispId
+  '|DISPID|' + Expression,
 // CallConv
   '|STDCALL|;' + Directives + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Directives + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +  '|VARARGS|;' + Mark +
