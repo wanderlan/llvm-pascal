@@ -45,6 +45,7 @@ type
     function GetFSourceName : string;
     procedure SetFLineNumber(const Value: integer);
     function TestIncludePaths: boolean;
+    procedure EmitMessage;
   protected
     FEndSource : boolean;
     FLineNumber : array[0..7] of integer;
@@ -224,6 +225,28 @@ procedure TScanner.OpenInclude; begin
     Error('Include file ''' + FToken.Lexeme + ''' not found');
 end;
 
+procedure TScanner.EmitMessage;
+var
+  L : string;
+begin
+  L := FToken.Lexeme;
+  SkipBlank;
+  ScanChars([[#1..#255]-['}']], [100]);
+  case AnsiIndexText(L, ['HINT', 'WARN', 'ERROR', 'FATAL']) of
+    0, 1 : writeln('[' + UpperCase(L) + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + FToken.Lexeme);
+    2 : Error(FToken.Lexeme);
+    3 : begin
+      Error(FToken.Lexeme);
+      Abort;
+    end;
+  else
+    First := FAnt;
+    SkipBlank;
+    ScanChars([[#1..#255]-['}']], [100]);
+    writeln('[HINT] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + FToken.Lexeme);
+  end;
+end;
+
 procedure TScanner.DoDirective(DollarInc : integer);
 var
   I : integer;
@@ -236,7 +259,7 @@ begin
     FAnt := First;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE', 'I', 'INCLUDE']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE', 'I', 'INCLUDE', 'MESSAGE']) of
       0 : begin
         if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + LowerCase(FToken.Lexeme) + '.';
         CreateMacro;
@@ -257,6 +280,7 @@ begin
       8 : DoIf(not((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')));
       10 : ReservedWords := IfThen(pos('FPC', UpperCase(FToken.Lexeme)) = 0 , DelphiReservedWords, DelphiReservedWords + FPCReservedWords);
       11, 12 : OpenInclude;
+      13 : EmitMessage;
     end;
     FindEndComment(FStartComment, FEndComment);
   end
