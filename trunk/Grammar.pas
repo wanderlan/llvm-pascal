@@ -44,9 +44,9 @@ const
 // ParIdentList
   '|(|' + Ident + IdentList + ')',
 // IdentList
-  '|,|' + Ident + IdentList,
+  '|,|' + Ident + QualId + IdentList,
 // UsesClause
-  '|USES|' + Ident + IdentList + ';',
+  '|USES|' + Ident + QualId + IdentList + ';',
 // ExportsList
   '|,|' + Ident + FormalParams + PropIndex + NameDir + ExportsList,
 // DeclSection
@@ -414,7 +414,7 @@ const
 // CallConv
   '|STDCALL|;' + Directives + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Directives + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +  '|VARARGS|;' + Mark +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|ALIAS|:' + StringConst + ';' + '|LOCAL|;' + Mark + '|NOSTACKFRAME|;' // Deprecateds & FPC
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|ALIAS|:' + StringConst + ';' + '|LOCAL|;' + Mark + '|NOSTACKFRAME|;' + Mark + '|MWPASCAL|;' // Deprecateds & FPC
   );
 implementation
 end.
