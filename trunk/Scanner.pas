@@ -44,12 +44,14 @@ type
     function GetFLineNumber : integer;
     function GetFSourceName : string;
     procedure SetFLineNumber(const Value: integer);
+    function TestIncludePaths: boolean;
   protected
     FEndSource : boolean;
     FLineNumber : array[0..7] of integer;
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt : integer;
     NestedIf : shortstring;
     ReservedWords : string;
+    IncludePath : TStringList;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -57,7 +59,7 @@ type
     procedure NextToken(Skip : boolean = false);
     procedure RecoverFromError(const Expected, Found : string); virtual;
   public
-    constructor Create(MaxErrors : integer = 10);
+    constructor Create(MaxErrors : integer = 10; Includes : string = '');
     destructor Destroy; override;
     procedure Error(const Msg : string); virtual;
     procedure MatchToken(const TokenExpected : string);
@@ -87,12 +89,16 @@ const
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
-constructor TScanner.Create(MaxErrors : integer = 10); begin
+constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
-  DecimalSeparator  := '.';
+  DecimalSeparator  := '.';       
   ThousandSeparator := ',';
   ReservedWords := DelphiReservedWords;
+  IncludePath := TStringList.Create;
+  IncludePath.Delimiter := ';';
+  IncludePath.StrictDelimiter := true;
+  IncludePath.DelimitedText := ';' + Includes;
 end;
 
 destructor TScanner.Destroy;
@@ -103,10 +109,11 @@ begin
   if Elapsed = 0 then Elapsed := 3E-9;
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
-  writeln(TotalLines, ' lines, ', IfThen(FormatDateTime('n', Elapsed) = '0', '', FormatDateTime('n ', Elapsed) + 'minutes and '),
+  writeln(TotalLines, ' lines, ', IfThen(FormatDateTime('n', Elapsed) = '0', '', FormatDateTime('n ', Elapsed) + 'minute(s) and '),
     FormatDateTime('s.z ', Elapsed), 'seconds, ', TotalLines/1000.0/(Elapsed*24*60*60):0:1, ' klps.');
   inherited;
   FToken.Free;
+  IncludePath.Free;
   FreeAndNil(Macros);
 end;
 
@@ -184,20 +191,34 @@ procedure TScanner.DoIf(Condition : boolean); begin
   end;
 end;
 
+function TScanner.TestIncludePaths : boolean;
+var
+  F : string;
+  I : integer;
+begin
+  Result := false;
+  for I := 0 to IncludePath.Count-1 do begin
+    F := AnsiReplaceStr(ExtractFilePath(FSourceName[0]) + IncludePath[I] + trim(FToken.Lexeme), '*', ExtractFileName(SourceName));
+    Result := FileExists(F);
+    if Result then begin
+      FToken.Lexeme := F;
+      exit;
+    end;
+  end;
+end;
+
 procedure TScanner.OpenInclude; begin
   First := FAnt;
   SkipBlank;
   ScanChars([['!'..#255] - ['}', '-', '+']], [255]);
-  if FToken.Lexeme = '' then exit;  
-  FToken.Lexeme := ExtractFilePath(SourceName) + trim(FToken.Lexeme);
-  FToken.Lexeme := AnsiReplaceStr(FToken.Lexeme, '*', ExtractFileName(SourceName));
-  if FileExists(FToken.Lexeme) then begin
+  if FToken.Lexeme = '' then exit;
+  if TestIncludePaths then begin
     inc(Include);
     assign(Arq[Include], FToken.Lexeme);
     reset(Arq[Include]);
     LineNumber := 0;
-    FSourceName[Include] := ExtractFileName(FToken.Lexeme);
-    writeln('' : Include * 2, SourceName);
+    FSourceName[Include] := FToken.Lexeme;
+    writeln('' : Include * 2, ExtractFileName(SourceName));
   end
   else
     Error('Include file ''' + FToken.Lexeme + ''' not found');
@@ -319,7 +340,7 @@ begin
       end;
     until FToken.Lexeme = '';
     repeat
-      ScanChars([['#'], ['0'..'9']], [1, 5], true);
+      ScanChars([['#'], ['0'..'9']], [1, 3], true);
       case length(FToken.Lexeme) of
         1 :
           if Line[First] = '$' then begin
@@ -499,10 +520,21 @@ begin
   end;
 end;
 
-procedure TScanner.Error(const Msg : string); begin
-  writeln('[Error] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
-  inc(FErrors);
-  if FErrors >= FMaxErrors then FEndSource := true;
+procedure TScanner.Error(const Msg : string);
+const
+  LastColNumber  : integer = 0;
+  LastLineNumber : integer = 0;
+begin
+  if (LastColNumber = ColNumber) and (LastLineNumber = LineNumber) then
+    NextToken
+  else begin
+    writeln('[Error] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
+    inc(FErrors);
+    if FErrors >= FMaxErrors then FEndSource := true;
+    writeln(Line, ^J, '^' : ColNumber - 1);
+    LastColNumber  := ColNumber;
+    LastLineNumber := LineNumber;
+  end;
 end;
 
 function ReplaceSpecialChars(const S : string) : string;

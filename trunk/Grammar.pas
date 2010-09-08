@@ -24,7 +24,8 @@ const
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
   InternalDecl = #218; RecordConst  = #219; CteFieldList = #220; StringExpr   = #221; RecordCase   = #222;
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
-  FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; CallConv     = #232;
+  FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; AbsoluteAddr = #232;
+  CallConv     = #233;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -69,7 +70,7 @@ const
   '|,|' + Ident + VarList,
 // VarInit
   '|=|' + Require + Expression +
-  '|ABSOLUTE|' + Ident + QualId,
+  '|ABSOLUTE|' + AbsoluteAddr,
 // Type_
   SimpleType +
   '|STRING|' + StringLength +
@@ -411,10 +412,14 @@ const
   '|' + Ident + '|' + ':' + Expression + CteFieldList,
 // DispId
   '|DISPID|' + Expression,
+// AbsoluteAddr
+  '|' + Ident + '|' + QualId +
+  '|' + IntConst + '|',
 // CallConv
   '|STDCALL|;' + Directives + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Directives + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +  '|VARARGS|;' + Mark +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|ALIAS|:' + StringConst + ';' + '|LOCAL|;' + Mark + '|NOSTACKFRAME|;' + Mark + '|MWPASCAL|;' // Deprecateds & FPC
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|ALIAS|:' + StringConst + ';' + '|LOCAL|;' + Mark + '|NOSTACKFRAME|;' + Mark +
+  '|MWPASCAL|;' + Mark + '|COMPILERPROC|;' // Deprecateds & FPC
   );
 implementation
 end.
