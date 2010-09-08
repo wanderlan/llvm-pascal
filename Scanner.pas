@@ -27,7 +27,8 @@ type
     LenLine   : integer;
     FInitTime : TDateTime;
     Macros    : TStringList;
-    FSourceName, Line : string;
+    Line      : string;
+    FSourceName   : array[0..7] of string;
     FStartComment : string[10];
     FEndComment   : string[100];
     procedure NextChar(C : TSetChar);
@@ -40,9 +41,13 @@ type
     procedure DoIf(Condition : boolean);
     procedure CreateMacro;
     procedure OpenInclude;
+    function GetFLineNumber : integer;
+    function GetFSourceName : string;
+    procedure SetFLineNumber(const Value: integer);
   protected
     FEndSource : boolean;
-    FLineNumber, FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt : integer;
+    FLineNumber : array[0..7] of integer;
+    FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt : integer;
     NestedIf : shortstring;
     ReservedWords : string;
     function CharToTokenKind(N : char) : TTokenKind;
@@ -57,8 +62,8 @@ type
     procedure Error(const Msg : string); virtual;
     procedure MatchToken(const TokenExpected : string);
     procedure MatchTerminal(KindExpected : TTokenKind);
-    property SourceName : string    read FSourceName write SetFSourceName;
-    property LineNumber : integer   read FLineNumber;
+    property SourceName : string    read GetFSourceName write SetFSourceName;
+    property LineNumber : integer   read GetFLineNumber write SetFLineNumber;
     property TotalLines : integer   read FTotalLines;
     property ColNumber  : integer   read First;
     property Token      : TToken    read FToken;
@@ -127,15 +132,19 @@ begin
   end;
 end;
 
+procedure TScanner.SetFLineNumber(const Value: integer); begin
+  FLineNumber[Include] := Value
+end;
+
 procedure TScanner.SetFSourceName(const Value : string); begin
   if FErrors >= FMaxErrors then Abort;
   if FileExists(SourceName) then close(Arq[Include]);
-  FSourceName := Value;
-  FLineNumber := 0;
-  FEndSource  := false;
-  LenLine     := 0;
-  Include     := 0;
-  NestedIf    := '';
+  Include    := 0;
+  LineNumber := 0;
+  FEndSource := false;
+  LenLine    := 0;
+  NestedIf   := '';
+  FSourceName[Include] := Value;
   if FileExists(SourceName) then begin
     assign(Arq[Include], SourceName);
     writeln(IfThen(Errors = 0, '', ^J), ExtractFileName(SourceName));
@@ -178,15 +187,17 @@ end;
 procedure TScanner.OpenInclude; begin
   First := FAnt;
   SkipBlank;
-  ScanChars([['!'..#255] - ['}']], [255]);
+  ScanChars([['!'..#255] - ['}', '-', '+']], [255]);
+  if FToken.Lexeme = '' then exit;  
   FToken.Lexeme := ExtractFilePath(SourceName) + trim(FToken.Lexeme);
   FToken.Lexeme := AnsiReplaceStr(FToken.Lexeme, '*', ExtractFileName(SourceName));
   if FileExists(FToken.Lexeme) then begin
     inc(Include);
     assign(Arq[Include], FToken.Lexeme);
     reset(Arq[Include]);
-    writeln('' : Include * 2, ExtractFileName(FToken.Lexeme));
-    First := LenLine + 1;
+    LineNumber := 0;
+    FSourceName[Include] := ExtractFileName(FToken.Lexeme);
+    writeln('' : Include * 2, SourceName);
   end
   else
     Error('Include file ''' + FToken.Lexeme + ''' not found');
@@ -308,7 +319,7 @@ begin
       end;
     until FToken.Lexeme = '';
     repeat
-      ScanChars([['#'], ['0'..'9']], [1, 3], true);
+      ScanChars([['#'], ['0'..'9']], [1, 5], true);
       case length(FToken.Lexeme) of
         1 :
           if Line[First] = '$' then begin
@@ -319,7 +330,8 @@ begin
             FToken.Kind := tkSpecialSymbol;
             exit;
           end;
-        2..6 : Str := Str + char(StrToIntDef(copy(FToken.Lexeme, 2, 100), 0))
+        2..3 : Str := Str + char(StrToIntDef(copy(FToken.Lexeme, 2, 3), 0));
+        4..5 : Str := Str + widechar(StrToIntDef(copy(FToken.Lexeme, 2, 5), 0));
       end;
     until FToken.Lexeme = '';
   until (First >= length(Line)) or (Line[First] <> '''');
@@ -355,7 +367,7 @@ begin
           exit;
         end;
       end;
-      inc(FLineNumber);
+      LineNumber := LineNumber + 1;
       inc(FTotalLines);
       First := 1;
       if (Macros <> nil) and (LenLine <> 0) and (FEndComment = '') and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
@@ -413,13 +425,15 @@ begin
             ScanChars([['0'..'9'], ['E', 'e'], ['+', '-'], ['0'..'9']], [27, 1, 1, 4], true);
             Str := Str + UpperCase(FToken.Lexeme);
             FToken.Lexeme := '';
-            if Str[length(Str)] = 'E' then ScanChars([['0'..'9']], [4]);
+            if upcase(Str[length(Str)]) = 'E' then ScanChars([['0'..'9']], [4]);
           end;
           'E', 'e' : begin
             ScanChars([['+', '-'], ['0'..'9']], [1, 4]);
             Str := Str + FToken.Lexeme;
             FToken.Lexeme := '';
           end;
+        else
+          FToken.Lexeme := '';
         end;
         FToken.Lexeme := Str + UpperCase(FToken.Lexeme);
         if FToken.Lexeme[length(FToken.Lexeme)] in ['.', 'E', '+', '-'] then begin
@@ -531,6 +545,14 @@ end;
 
 function TScanner.TokenKindToChar(T : TTokenKind) : char; begin
   Result := char(byte(T) + byte(pred(Ident)))
+end;
+
+function TScanner.GetFLineNumber: integer; begin
+  Result := FLineNumber[Include]
+end;
+
+function TScanner.GetFSourceName: string; begin
+  Result := FSourceName[Include]
 end;
 
 function TScanner.GetNonTerminalName(N : char): string; begin
