@@ -37,7 +37,7 @@ begin
   if pos('*', Tree) <> 0 then begin
     Path := ExtractFilePath(Tree);
     Ext  := ExtractFileName(Tree);
-    writeln(^J, Path); 
+    writeln(^J, Path);
   end;
   CompilePath(Tree);
   if pos('*', Tree) <> 0 then begin
@@ -55,17 +55,25 @@ begin
   end;
 end;
 
+var
+  Include : string;
 begin
   writeln('LLVM-Pascal Version 2010.9 pre-Alpha scanner/parser');
   writeln('(c)2010 by'^J,
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
           'New BSD license'^J,
           'http://llvm-pascal.googlecode.com'^J);
-  Parser := TParser.Create(300);
-  try
-    CompileTree(ParamStr(1));
-  finally
-    Parser.Free;
-    readln;
+  if (ParamCount = 0) or FindCmdLineSwitch('h') or FindCmdLineSwitch('?') then
+    writeln('Usage: LLVM_Pascal <path or source-name> [-Fi <include-paths separated by ;>]')
+  else begin
+    Include := '';
+    if FindCmdLineSwitch('I') or FindCmdLineSwitch('Fi') then Include := Paramstr(3);
+    Parser := TParser.Create(3000, Include);
+    try
+      CompileTree(ParamStr(1));
+    finally
+      Parser.Free;
+      readln;
+    end;
   end;
 end.
