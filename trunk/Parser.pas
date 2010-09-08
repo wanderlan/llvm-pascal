@@ -58,7 +58,7 @@ procedure TParser.RecoverFromError(const Expected, Found : string); begin
     FEndSource := true
   else begin
     repeat
-      Top := LastGoodTop;
+      Top := LastGoodTop + 1;
       Symbol := Symbols[Top];
       Token.Lexeme := UpperCase(Token.Lexeme);
       while (Symbol <> Token.Lexeme) and (Top > 1) do
@@ -104,7 +104,7 @@ var
 begin
   inherited;
   exit; // Comment this line to debug the compiler
-  for I := min(Top+5, high(Symbols)) downto 2 do
+  for I := min(Top + 5, high(Symbols)) downto 2 do
     case Symbols[I][1] of
       #0..#127        : writeln(I, ': ', Symbols[I]); // Terminal
       Start..CallConv : writeln(I, ': #', Ord(Symbols[I][1]), ', ', GetProductionName(Productions[Symbols[I][1]])); // Production

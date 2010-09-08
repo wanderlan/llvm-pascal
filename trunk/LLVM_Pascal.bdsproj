@@ -5,7 +5,7 @@
 			<Option Name="Personality">Delphi.Personality</Option>
 			<Option Name="ProjectType">VCLApplication</Option>
 			<Option Name="Version">1.0</Option>
-			<Option Name="GUID">{0942CD71-A974-4108-9E67-6B2D9309AB1B}</Option>
+			<Option Name="GUID">{F4BCB2DF-0E28-4179-A381-C0C6A4CDAA72}</Option>
 		</Option>
 	</PersonalityInfo>
 	<Delphi.Personality>
@@ -18,7 +18,7 @@
 		<Compiler>
 			<Compiler Name="A">1</Compiler>
 			<Compiler Name="B">0</Compiler>
-			<Compiler Name="C">0</Compiler>
+			<Compiler Name="C">1</Compiler>
 			<Compiler Name="D">1</Compiler>
 			<Compiler Name="E">0</Compiler>
 			<Compiler Name="F">0</Compiler>
@@ -40,7 +40,7 @@
 			<Compiler Name="V">0</Compiler>
 			<Compiler Name="W">0</Compiler>
 			<Compiler Name="X">1</Compiler>
-			<Compiler Name="Y">2</Compiler>
+			<Compiler Name="Y">1</Compiler>
 			<Compiler Name="Z">1</Compiler>
 			<Compiler Name="ShowHints">True</Compiler>
 			<Compiler Name="ShowWarnings">True</Compiler>
@@ -48,7 +48,7 @@
 			<Compiler Name="NamespacePrefix"></Compiler>
 			<Compiler Name="GenerateDocumentation">False</Compiler>
 			<Compiler Name="DefaultNamespace"></Compiler>
-			<Compiler Name="SymbolDeprecated">False</Compiler>
+			<Compiler Name="SymbolDeprecated">True</Compiler>
 			<Compiler Name="SymbolLibrary">True</Compiler>
 			<Compiler Name="SymbolPlatform">True</Compiler>
 			<Compiler Name="SymbolExperimental">True</Compiler>
@@ -120,17 +120,17 @@
 		</Linker>
 		<Directories>
 			<Directories Name="OutputDir"></Directories>
-			<Directories Name="UnitOutputDir">C:\Trabalho\LLVM-Pascal\dcu</Directories>
+			<Directories Name="UnitOutputDir"></Directories>
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
-			<Directories Name="SearchPath">C:\Trabalho\ExtPascal;C:\Trabalho\ExtPascal\ExtJSWrapper;C:\Trabalho\ExtendDialer\Zeos\packages\delphi10\build;C:\Trabalho\SGI_RDM\Fase 3 - Construcao\Implementar Projeto\Codigo Fonte;C:\Trabalho\ExtPascal\Indy\Core;C:\Trabalho\ExtPascal\Indy\Protocols;C:\Trabalho\ExtPascal\Indy\SuperCore;C:\Trabalho\ExtPascal\Indy\System</Directories>
-			<Directories Name="Packages">vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;dclOfficeXP;Rave50CLX;Rave50VCL;rvActionsRunD7;SUIPackD7;CPortLib7;DJcl;JvStdCtrlsD7R;JvAppFrmD7R;JvCoreD7R;JvBandsD7R;JvBDED7R;JvDBD7R;JvDlgsD7R;JvCmpD7R;JvCryptD7R;JvCtrlsD7R;JvCustomD7R;JvDockingD7R;JvDotNetCtrlsD7R;JvEDID7R;qrpt70;JvGlobusD7R;JvHMID7R;JvInspectorD7R;JvInterpreterD7R;JvJansD7R;JvManagedThreadsD7R;JvMMD7R;JvNetD7R;JvPageCompsD7R;JvPluginD7R;JvPrintPreviewD7R;JvSystemD7R;JvTimeFrameworkD7R;JvUIBD7R;JvValidatorsD7R;JvWizardD7R;JvXPCtrlsD7R;cxLibraryVCLD7;cxEditorsVCLD7;dxThemeD7;cxDataD7;cxExtEditorsVCLD7;cxPageControlVCLD7;cxGridVCLD7;dxmdsD7;dxPSCoreD7;dxComnD7;dxPSTeeChartD7;dxPSLnksD7;dxPSDBTeeChartD7;dxPScxPCProdD7;dxPScxCommonD7;dxPScxExtCommonD7;dxPScxGridLnkD7;dxForumLibD7;PolySoft</Directories>
+			<Directories Name="SearchPath"></Directories>
+			<Directories Name="Packages"></Directories>
 			<Directories Name="Conditionals"></Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">C:\lazarus\zeos\src\dbc\*.pas</Parameters>
+			<Parameters Name="RunParams"></Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
@@ -141,28 +141,28 @@
 		</Parameters>
 		<VersionInfo>
 			<VersionInfo Name="IncludeVerInfo">False</VersionInfo>
-			<VersionInfo Name="AutoIncBuild">True</VersionInfo>
+			<VersionInfo Name="AutoIncBuild">False</VersionInfo>
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">0</VersionInfo>
 			<VersionInfo Name="Release">0</VersionInfo>
-			<VersionInfo Name="Build">96</VersionInfo>
+			<VersionInfo Name="Build">0</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
 			<VersionInfo Name="Private">False</VersionInfo>
 			<VersionInfo Name="DLL">False</VersionInfo>
-			<VersionInfo Name="Locale">1033</VersionInfo>
+			<VersionInfo Name="Locale">1046</VersionInfo>
 			<VersionInfo Name="CodePage">1252</VersionInfo>
 		</VersionInfo>
 		<VersionInfoKeys>
-			<VersionInfoKeys Name="CompanyName">pitinnu</VersionInfoKeys>
+			<VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.0.0.96</VersionInfoKeys>
-			<VersionInfoKeys Name="InternalName">pitBrowser</VersionInfoKeys>
-			<VersionInfoKeys Name="LegalCopyright">2007</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
+			<VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
-			<VersionInfoKeys Name="OriginalFilename">pitBrowser</VersionInfoKeys>
-			<VersionInfoKeys Name="ProductName">pitBrowser</VersionInfoKeys>
+			<VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
+			<VersionInfoKeys Name="ProductName"></VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>

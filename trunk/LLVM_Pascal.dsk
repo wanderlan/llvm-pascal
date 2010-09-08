@@ -1,33 +1,47 @@
 [Closed Files]
-File_0=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysUtils.pas',0,1,16039,43,16040,0,0,,
-File_1=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\ComObj.pas',0,1,1,27,2,0,0,,
-File_2=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\common\Registry.pas',0,1,1,35,3,0,0,,
-File_3=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\SysInit.pas',0,1,237,46,239,0,0,,
-File_4=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\VarUtils.pas',0,1,199,61,202,0,0,,
-File_5=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test04.pas',0,1,1,18,3,0,0,,
-File_6=TSourceModule,'C:\Trabalho\LLVM-Pascal\Teste Case\Test03.pas',0,1,1,15,4,0,0,,
-File_7=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\vcl\FileCtrl.pas',0,1,379,65,379,0,0,,
-File_8=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\vcl\ComCtrls.pas',0,1,1975,71,1975,0,0,,
+File_0=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\Internet\HTTPD2.pas',0,1,3514,61,3521,0,0,,
+File_1=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\soap\OPConvert.pas',0,1,35,60,42,0,0,,
+File_2=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\vcl\AxCtrls.pas',0,1,86,55,92,0,0,,
+File_3=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\vcl\ComCtrls.pas',0,1,1627,76,1631,0,0,,
+File_4=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\xml\oxmldom.pas',0,1,1678,76,1681,0,0,,
+File_5=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\ToolsAPI\VCLEditors.pas',0,1,352,74,355,0,0,,
+File_6=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\vcl\Graphics.pas',0,1,3084,70,3086,0,0,,
+File_7=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\Internet\MSHTML.pas',0,1,34550,17,34563,0,0,,
+File_8=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\db\DBXpress.pas',0,1,391,26,392,0,0,,
 
 [Modules]
-Module0=C:\Users\Wanderlan\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
-Module1=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas
-Count=2
+Module0=C:\Trabalho\LLVM-Pascal\Parser.pas
+Module1=C:\Trabalho\LLVM-Pascal\Grammar.pas
+Module2=C:\Trabalho\LLVM-Pascal\Scanner.pas
+Module3=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
+Count=4
 EditWindowCount=1
 
-[C:\Users\Wanderlan\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
-ModuleType=TBaseProject
-
-[C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas]
+[C:\Trabalho\LLVM-Pascal\Parser.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
+[C:\Trabalho\LLVM-Pascal\Grammar.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
+[C:\Trabalho\LLVM-Pascal\Scanner.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
+[C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
+ModuleType=TBaseProject
+
 [EditWindow0]
-ViewCount=2
-CurrentEditView=C:\Users\Wanderlan\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
+ViewCount=4
+CurrentEditView=C:\Trabalho\LLVM-Pascal\Parser.pas
 View0=0
 View1=1
+View2=2
+View3=3
 PercentageSizes=1
 Create=1
 Visible=1
@@ -50,33 +64,55 @@ LeftPanelClients=DockSite1
 LeftPanelData=0000080001000100000009000000446F636B5369746531862200000000000000EA0B000000000000FFFFFFFF
 RightPanelSize=0
 BottomPanelSize=0
-BottomPanelClients=ToDo List,DockSite2,DockSite0
-BottomPanelData=000008000102030000000E000000546F446F4C69737457696E646F7709000000446F636B536974653209000000446F636B53697465307C30000000000000026C07000000000000FFFFFFFF
+BottomPanelClients=ToDo List,DockSite0,DockSite2
+BottomPanelData=000008000102030000000E000000546F446F4C69737457696E646F7709000000446F636B536974653009000000446F636B53697465327C30000000000000026C07000000000000FFFFFFFF
 BottomMiddlePanelSize=0
 BottomMiddlePanelClients=DockSite3
 BottomMiddelPanelData=0000080001000100000009000000446F636B53697465330000000000000000000000000000000000FFFFFFFF
 
 [View0]
 CustomEditViewType=TEditView
-Module=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas
-CursorX=9
-CursorY=4034
-TopLine=4007
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\System.pas
-
-[View1]
-CustomEditViewType=TEditView
-Module=C:\Users\Wanderlan\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
-CursorX=72
-CursorY=22
+Module=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
+CursorX=1
+CursorY=19
 TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=C:\Users\Wanderlan\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
+EditViewName=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
+
+[View1]
+CustomEditViewType=TEditView
+Module=C:\Trabalho\LLVM-Pascal\Parser.pas
+CursorX=88
+CursorY=48
+TopLine=45
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Trabalho\LLVM-Pascal\Parser.pas
+
+[View2]
+CustomEditViewType=TEditView
+Module=C:\Trabalho\LLVM-Pascal\Grammar.pas
+CursorX=92
+CursorY=358
+TopLine=353
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Trabalho\LLVM-Pascal\Grammar.pas
+
+[View3]
+CustomEditViewType=TEditView
+Module=C:\Trabalho\LLVM-Pascal\Scanner.pas
+CursorX=1
+CursorY=91
+TopLine=65
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\Trabalho\LLVM-Pascal\Scanner.pas
 
 [Watches]
 Count=4
@@ -107,8 +143,7 @@ Dockable=1
 StayOnTop=0
 
 [Breakpoints]
-Count=1
-Breakpoint0='C:\Trabalho\LLVM-Pascal\Parser.pas',48,'',0,1,'',1,0,0,'',1,'','','',0
+Count=0
 
 [AddressBreakpoints]
 Count=0
@@ -320,8 +355,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-17
-Top=-110
+Left=-5
+Top=4222
 Width=273
 Height=362
 MaxLeft=-1
@@ -425,8 +460,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-17
-Top=-818
+Left=-8
+Top=-26
 Width=4328
 Height=2238
 MaxLeft=-1
@@ -490,7 +525,7 @@ Visible=0
 Docked=1
 State=0
 Left=-9
-Top=-84
+Top=-56
 Width=1812
 Height=6312
 MaxLeft=-1
@@ -502,8 +537,8 @@ LRDockWidth=1812
 Dockable=1
 StayOnTop=0
 TabPosition=1
-ActiveTabID=ToolForm
-TabDockClients=ProjectManager,DataExplorer,ToolForm,StructureView,TemplateView,PropertyInspector
+ActiveTabID=DataExplorer
+TabDockClients=StructureView,TemplateView,ProjectManager,DataExplorer,ToolForm,PropertyInspector
 
 [DockSite2]
 DockSiteType=1
@@ -512,8 +547,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-9
-Top=-792
+Left=0
+Top=0
 Width=3828
 Height=5050
 MaxLeft=-1
@@ -526,7 +561,7 @@ Dockable=1
 StayOnTop=0
 TabPosition=1
 ActiveTabID=LocalVarsWindow
-TabDockClients=BreakpointWindow,CallStackWindow,WatchWindow,ThreadStatusWindow,DebugLogView,LocalVarsWindow
+TabDockClients=BreakpointWindow,WatchWindow,ThreadStatusWindow,DebugLogView,CallStackWindow,LocalVarsWindow
 
 [DockSite3]
 DockSiteType=1
@@ -535,8 +570,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-9
-Top=-792
+Left=0
+Top=0
 Width=2336
 Height=2312
 MaxLeft=-1
