@@ -420,10 +420,8 @@ begin
           continue;
         end
         else begin
-          if FToken.Lexeme = 'End of Source' then
-            FEndSource := true
-          else
-            FToken.Lexeme := 'End of Source';
+          FEndSource := true;
+          FToken.Lexeme := 'End of Source';
           exit;
         end;
       end;
@@ -570,7 +568,8 @@ begin
     ShowMessage('Error', Msg);
     inc(FErrors);
     if FErrors >= FMaxErrors then FEndSource := true;
-    if not FSilentMode and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
+    //if not FSilentMode and (Line <> '') then
+    writeln(Line, ^J, '^' : ColNumber - 1);
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
   end;
