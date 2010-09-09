@@ -52,11 +52,11 @@ type
   protected
     FEndSource, FSilentMode : boolean;
     FLineNumber : array[0..MaxIncludeLevel] of integer;
-    FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt : integer;
+    FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment : integer;
     NestedIf : shortstring;
     ReservedWords : string;
     IncludePath : TStringList;
-    procedure ShowMessage(Kind, Msg : string);
+    procedure ShowMessage(Kind, Msg : shortstring);
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -231,10 +231,10 @@ procedure TScanner.OpenInclude; begin
     Error('Include file ''' + FToken.Lexeme + ''' not found');
 end;
 
-procedure TScanner.ShowMessage(Kind, Msg : string); begin
+procedure TScanner.ShowMessage(Kind, Msg : shortstring); begin
+  Kind := UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10));
   if not FSilentMode or (Kind = 'Error') or (Kind = 'Fatal') then
-    writeln('[' + UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10)) + '] ' + ExtractFileName(SourceName) +
-            '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
+    writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
 end;
 
 procedure TScanner.EmitMessage;
@@ -311,6 +311,7 @@ procedure TScanner.FindEndComment(const StartComment, EndComment : shortstring);
 var
   P : integer;
 begin
+  if FEndComment = '' then LineComment := LineNumber;
   FStartComment := StartComment;
   FEndComment   := EndComment;
   P := PosEx(FStartComment + '$', Line, First);
@@ -409,6 +410,8 @@ begin
       readln(Arq[Include], Line);
       LenLine := length(Line);
       if EOF(Arq[Include]) and ((LenLine = 0) or (Line = ^Z)) then begin
+        if FEndComment <> '' then
+          Error('Unterminated ' + IfThen(pos('ENDIF', FEndComment) <> 0, 'compiler directive', 'comment') + ' started on line ' + IntToStr(LineComment));
         FEndComment := '';
         if Include > 0 then begin
           close(Arq[Include]);
@@ -567,7 +570,7 @@ begin
     ShowMessage('Error', Msg);
     inc(FErrors);
     if FErrors >= FMaxErrors then FEndSource := true;
-    if not FSilentMode then writeln(Line, ^J, '^' : ColNumber - 1);
+    if not FSilentMode and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
   end;

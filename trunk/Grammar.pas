@@ -356,7 +356,7 @@ const
   '|OF|' + 'OBJECT',
 // Directives
   '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Directives + '|REINTRODUCE|;' + Directives +
-  '|MESSAGE|' + Require + IdentDir + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark + '|STATIC|;' + Mark + '|[|' + Skip + '];',
+  '|MESSAGE|' + Require + IdentDir + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark + '|STATIC|;' + Mark + '|[|' + Skip + ']' + Mark + ';',
 // ExternalDir
   '|EXTERNAL|' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + CallConv + Pop +
   '|ASSEMBLER|;' + CallConv,
@@ -380,8 +380,8 @@ const
   '|CONST|' + Require + ConstDecl + InternalDecl +
   '|TYPE|' + Require + TypeDecl + InternalDecl +
   '|LABEL|' + Require + LabelId + LabelList + ';' + InternalDecl +
-  '|PROCEDURE|' + Ident + FormalParams + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
-  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + QualId + ';' + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
+  '|PROCEDURE|' + Ident + FormalParams + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
+  '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + QualId + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // RecordConst
   '|:|' + Expression + CteFieldList + Pop,

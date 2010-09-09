@@ -13,7 +13,7 @@ uses
   SysUtils, Parser;
 
 var
-  Parser : TParser;
+  Compiler : TParser;
 
 procedure CompilePath(Path : string);
 var
@@ -22,7 +22,7 @@ begin
   try
     if FindFirst(Path, faAnyFile, F) = 0 then
       repeat
-        Parser.Compile(ExtractFilePath(Path) + F.Name);
+        Compiler.Compile(ExtractFilePath(Path) + F.Name);
       until FindNext(F) <> 0;
   finally
     FindClose(F)
@@ -68,11 +68,11 @@ begin
   else begin
     Include := '';
     if FindCmdLineSwitch('I') or FindCmdLineSwitch('Fi') then Include := Paramstr(3);
-    Parser := TParser.Create(3000, Include, FindCmdLineSwitch('v0'));
+    Compiler := TParser.Create(3000, Include, FindCmdLineSwitch('v0'));
     try
       CompileTree(ParamStr(1));
     finally
-      Parser.Free;
+      Compiler.Free;
       readln;
     end;
   end;
