@@ -25,7 +25,7 @@ const
   InternalDecl = #218; RecordConst  = #219; CteFieldList = #220; StringExpr   = #221; RecordCase   = #222;
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
   FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; AbsoluteAddr = #232;
-  CallConv     = #233;
+  IdentOpc     = #233; CallConv     = #234;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -38,7 +38,7 @@ const
 
   Productions : array[Start..CallConv] of string = (
 // Start
-  '|PROGRAM|' + Ident + ParIdentList + ';' + UsesClause + InterDecl + Require + CompoundStmt  + '.' +
+  '|PROGRAM|' + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
   '|UNIT|'    + Ident + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
   '|LIBRARY|' + Ident + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + CompoundStmt  + '.' +
   '|PACKAGE|' + Ident + WarnDir2 + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
@@ -49,7 +49,7 @@ const
 // UsesClause
   '|USES|' + Ident + QualId + IdentList + ';',
 // ExportsList
-  '|,|' + Ident + FormalParams + PropIndex + NameDir + ExportsList,
+  '|,|' + Ident + FormalParams + PropIndex + NameDir + Mark + ExportsList,
 // DeclSection
   'Declaration Section' +
   '|VAR|'         + Require + VarDecl + DeclSection +
@@ -59,7 +59,7 @@ const
   '|FUNCTION|'    + Ident + MetId + FormalParams + IdentType + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '|CONSTRUCTOR|' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
   '|DESTRUCTOR|'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
-  '|OPERATOR|'    + Require + Operators + Require + FormalParams + ':' + Ident + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '|OPERATOR|'    + Require + Operators + Require + FormalParams + IdentOpc + ':' + Ident + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '|CLASS|'       + ClassMet +
   '|THREADVAR|'   + Require + VarDecl + DeclSection +
   '|LABEL|'       + Require + LabelId + LabelList + DeclSection +
@@ -86,7 +86,7 @@ const
   '|OBJECT|' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '|SET|' + 'OF' + Require + OrdinalType +
   '|PROCEDURE|' + FormalParams + OfObject + CallConvType +
-  '|FUNCTION|' + FormalParams + ':' + Ident + QualId + OfObject + CallConvType + 
+  '|FUNCTION|' + FormalParams + ':' + Ident + QualId + OfObject + CallConvType +
   '|PACKED|' + PackedDecl +
   '|FILE|' + FileOf +
   '|TEXT|' +
@@ -286,8 +286,8 @@ const
   '|FUNCTION|'  + Ident + FormalParams + ':' + Ident + QualId + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
   '|THREADVAR|' + Require + VarDecl + InterDecl +
   '|LABEL|' + Require + LabelId + LabelList + ';' + InterDecl +
-  '|EXPORTS|' + Ident + FormalParams + PropIndex + NameDir + ExportsList + ';' + InterDecl +
-  '|OPERATOR|' + Require + Operators + Require + FormalParams + ':' + Ident + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
+  '|EXPORTS|' + Ident + FormalParams + PropIndex + NameDir + Mark + ExportsList + ';' + InterDecl +
+  '|OPERATOR|' + Require + Operators + Require + FormalParams + IdentOpc + ':' + Ident + CallConvType + ';' + Mark + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + Mark + InterDecl +
   '|RESOURCESTRING|' + Require + RsrcDecl + InterDecl,
 // LabelId
   '|' + Ident + '|' +
@@ -306,7 +306,7 @@ const
   '|' + StringConst + '|' +
   '|' + CharConst + '|',
 // NameDir
-  '|NAME|' + Require + IdentDir + StringExpr,
+  '|NAME|' + Require + IdentDir + StringExpr + Pop,
 // GUID
   '|[|' + IdentDir + ']',
 // ExceptFin
@@ -356,9 +356,9 @@ const
   '|OF|' + 'OBJECT',
 // Directives
   '|OVERRIDE|;' + Mark + '|OVERLOAD|;' + Directives + '|VIRTUAL|;' + Directives + '|REINTRODUCE|;' + Directives +
-  '|MESSAGE|' + Ident + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark + '|STATIC|;',
+  '|MESSAGE|' + Require + IdentDir + ';' + '|ABSTRACT|;' + Directives + '|DYNAMIC|;' + Mark + '|STATIC|;' + Mark + '|[|' + Skip + '];',
 // ExternalDir
-  '|EXTERNAL|' + IdentDir + NameDir + PropIndex + ';' + CallConv + Pop +
+  '|EXTERNAL|' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + CallConv + Pop +
   '|ASSEMBLER|;' + CallConv,
 // MetCall
   '|' + Ident + '|' + QualId,
@@ -415,6 +415,8 @@ const
 // AbsoluteAddr
   '|' + Ident + '|' + QualId +
   '|' + IntConst + '|',
+// IdentOpc
+  '|' + Ident + '|',
 // CallConv
   '|STDCALL|;' + Directives + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Directives + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
   '|FORWARD|;' + Pop +  '|VARARGS|;' + Mark +
