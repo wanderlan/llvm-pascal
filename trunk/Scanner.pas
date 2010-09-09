@@ -9,6 +9,9 @@ interface
 uses
   Classes;
 
+const
+  MaxIncludeLevel = 16;
+
 type
   TTokenKind = (tkUndefined, tkIdentifier, tkStringConstant, tkCharConstant, tkIntegerConstant, tkRealConstant, tkConstantExpression,
                 tkLabelIdentifier, tkTypeIdentifier, tkClassIdentifier, tkReservedWord, tkSpecialSymbol);
@@ -21,14 +24,14 @@ type
   TSetChar = set of char;
   TScanner = class
   private
-    Arq       : array[0..7] of text;
+    Arq       : array[0..MaxIncludeLevel] of text;
     FToken    : TToken;
     Include,
     LenLine   : integer;
     FInitTime : TDateTime;
     Macros    : TStringList;
     Line      : string;
-    FSourceName   : array[0..7] of string;
+    FSourceName   : array[0..MaxIncludeLevel] of string;
     FStartComment : string[10];
     FEndComment   : string[100];
     procedure NextChar(C : TSetChar);
@@ -43,16 +46,17 @@ type
     procedure OpenInclude;
     function GetFLineNumber : integer;
     function GetFSourceName : string;
-    procedure SetFLineNumber(const Value: integer);
-    function TestIncludePaths: boolean;
+    procedure SetFLineNumber(const Value : integer);
+    function TestIncludePaths : boolean;
     procedure EmitMessage;
   protected
-    FEndSource : boolean;
-    FLineNumber : array[0..7] of integer;
+    FEndSource, FSilentMode : boolean;
+    FLineNumber : array[0..MaxIncludeLevel] of integer;
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt : integer;
     NestedIf : shortstring;
     ReservedWords : string;
     IncludePath : TStringList;
+    procedure ShowMessage(Kind, Msg : string);
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : string;
@@ -60,7 +64,7 @@ type
     procedure NextToken(Skip : boolean = false);
     procedure RecoverFromError(const Expected, Found : string); virtual;
   public
-    constructor Create(MaxErrors : integer = 10; Includes : string = '');
+    constructor Create(MaxErrors : integer = 10; Includes : string = ''; SilentMode : boolean = false);
     destructor Destroy; override;
     procedure Error(const Msg : string); virtual;
     procedure MatchToken(const TokenExpected : string);
@@ -90,12 +94,13 @@ const
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
-constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''); begin
+constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; SilentMode : boolean = false); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
-  DecimalSeparator  := '.';       
+  DecimalSeparator  := '.';
   ThousandSeparator := ',';
   ReservedWords := DelphiReservedWords;
+  FSilentMode := SilentMode;
   IncludePath := TStringList.Create;
   IncludePath.Delimiter := ';';
   IncludePath.StrictDelimiter := true;
@@ -155,9 +160,9 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   FSourceName[Include] := Value;
   if FileExists(SourceName) then begin
     assign(Arq[Include], SourceName);
-    writeln(IfThen(Errors = 0, '', ^J), ExtractFileName(SourceName));
+    if not FSilentMode then writeln(ExtractFileName(SourceName));
     reset(Arq[Include]);
-    First := 1;
+    First  := 1;
     FToken := TToken.Create;
     FreeAndNil(Macros);
     NextToken;
@@ -199,7 +204,7 @@ var
 begin
   Result := false;
   for I := 0 to IncludePath.Count-1 do begin
-    F := AnsiReplaceStr(ExtractFilePath(FSourceName[0]) + IncludePath[I] + trim(FToken.Lexeme), '*', ExtractFileName(SourceName));
+    F := AnsiReplaceStr(IfThen(I = 0, ExtractFilePath(FSourceName[0]), IncludePath[I]) + trim(FToken.Lexeme), '*', ExtractFileName(SourceName));
     Result := FileExists(F);
     if Result then begin
       FToken.Lexeme := F;
@@ -209,9 +214,10 @@ begin
 end;
 
 procedure TScanner.OpenInclude; begin
+  if Line[First] in ['+', '-'] then exit;  
   First := FAnt;
   SkipBlank;
-  ScanChars([['!'..#255] - ['}', '-', '+']], [255]);
+  ScanChars([['!'..#255] - ['}']], [255]);
   if FToken.Lexeme = '' then exit;
   if TestIncludePaths then begin
     inc(Include);
@@ -219,10 +225,16 @@ procedure TScanner.OpenInclude; begin
     reset(Arq[Include]);
     LineNumber := 0;
     FSourceName[Include] := FToken.Lexeme;
-    writeln('' : Include * 2, ExtractFileName(SourceName));
+    if not FSilentMode then writeln('' : Include * 2, ExtractFileName(SourceName));
   end
   else
     Error('Include file ''' + FToken.Lexeme + ''' not found');
+end;
+
+procedure TScanner.ShowMessage(Kind, Msg : string); begin
+  if not FSilentMode or (Kind = 'Error') or (Kind = 'Fatal') then
+    writeln('[' + UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10)) + '] ' + ExtractFileName(SourceName) +
+            '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
 end;
 
 procedure TScanner.EmitMessage;
@@ -233,17 +245,17 @@ begin
   SkipBlank;
   ScanChars([[#1..#255]-['}']], [100]);
   case AnsiIndexText(L, ['HINT', 'WARN', 'ERROR', 'FATAL']) of
-    0, 1 : writeln('[' + UpperCase(L) + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + FToken.Lexeme);
+    0, 1 : ShowMessage(L, FToken.Lexeme);
     2 : Error(FToken.Lexeme);
     3 : begin
-      Error(FToken.Lexeme);
+      ShowMessage('Fatal', FToken.Lexeme);
       Abort;
     end;
   else
     First := FAnt;
     SkipBlank;
     ScanChars([[#1..#255]-['}']], [100]);
-    writeln('[HINT] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + FToken.Lexeme);
+    ShowMessage('Hint', FToken.Lexeme);
   end;
 end;
 
@@ -538,8 +550,8 @@ begin
         exit;
       end;
     else
-      if not EOF(Arq[Include]) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
       inc(First);
+      if not EOF(Arq[Include]) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
     end;
   end;
 end;
@@ -552,10 +564,10 @@ begin
   if (LastColNumber = ColNumber) and (LastLineNumber = LineNumber) then
     NextToken
   else begin
-    writeln('[Error] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
+    ShowMessage('Error', Msg);
     inc(FErrors);
     if FErrors >= FMaxErrors then FEndSource := true;
-    writeln(Line, ^J, '^' : ColNumber - 1);
+    if not FSilentMode then writeln(Line, ^J, '^' : ColNumber - 1);
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
   end;

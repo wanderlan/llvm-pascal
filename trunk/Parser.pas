@@ -43,7 +43,7 @@ procedure TParser.PopSymbol; begin
         Symbol := Symbols[Top];
       end;
       Skip : begin
-        writeln('[Warning] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Symbols[Top + 1] + ' construct is ignored');
+        ShowMessage('Warning', Symbols[Top + 1] + ' construct is ignored');
         dec(Top);
         Symbol := Symbols[Top];
         while UpperCase(Token.Lexeme) <> Symbol do NextToken(true);
@@ -93,7 +93,7 @@ procedure TParser.Compile(const Source : string); begin
       PopSymbol;
     until EndSource or (Top < 1);
   except
-    on E : EAbort do exit;
+    on E : EAbort do Raise;
     on E : Exception do Error(E.Message);
   end;
 end;

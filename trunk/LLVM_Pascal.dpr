@@ -37,7 +37,7 @@ begin
   if pos('*', Tree) <> 0 then begin
     Path := ExtractFilePath(Tree);
     Ext  := ExtractFileName(Tree);
-    writeln(^J, Path);
+    if not FindCmdLineSwitch('v0') then writeln(Path);
   end;
   CompilePath(Tree);
   if pos('*', Tree) <> 0 then begin
@@ -68,7 +68,7 @@ begin
   else begin
     Include := '';
     if FindCmdLineSwitch('I') or FindCmdLineSwitch('Fi') then Include := Paramstr(3);
-    Parser := TParser.Create(3000, Include);
+    Parser := TParser.Create(3000, Include, FindCmdLineSwitch('v0'));
     try
       CompileTree(ParamStr(1));
     finally
