@@ -6,6 +6,8 @@ Author: Paulo Guilherme Freire, freire.brasilia@gmail.com
 Date: apr-2010
 License: <extlink http://www.opensource.org/licenses/bsd-license.php>BSD</extlink>
 Based on Dragon Book
+Tests:
+"C:\Arquivos de programas\Borland\BDS\4.0\source\*.pas" -fi "C:\Arquivos de programas\Borland\BDS\4.0\source\dunit\contrib\dunitwizard\source\common\" -v0
 }
 {$APPTYPE CONSOLE}
 
@@ -64,7 +66,7 @@ begin
           'New BSD license'^J,
           'http://llvm-pascal.googlecode.com'^J);
   if (ParamCount = 0) or FindCmdLineSwitch('h') or FindCmdLineSwitch('?') then
-    writeln('Usage: LLVM_Pascal <path or source-name> [-Fi <include-paths separated by ;>]')
+    writeln('Usage: LLVM_Pascal <path or source-name> [-Fi <include-paths separated by ;>] [-v0]')
   else begin
     Include := '';
     if FindCmdLineSwitch('I') or FindCmdLineSwitch('Fi') then Include := Paramstr(3);

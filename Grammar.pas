@@ -260,7 +260,11 @@ const
 // MetId
   '|.|' + Ident,
 // AssignStmt
-  '|:=|' + Require + Expression,
+  '|:=|' + Require + Expression +
+  '|+=|' + Require + Expression +
+  '|-=|' + Require + Expression +
+  '|*=|' + Require + Expression +
+  '|/=|' + Require + Expression,
 // ElseBranch
   '|ELSE|' + Statement,
 // ExprList
