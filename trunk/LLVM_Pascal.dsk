@@ -1,24 +1,33 @@
 [Closed Files]
-File_0=TSourceModule,'c:\arquivos de programas\borland\bds\4.0\source\Win32\rtl\sys\SysUtils.pas',0,1,1495,28,1497,0,0,,
-File_1=TSourceModule,'C:\lazarus\lcl\interfaces\gtk\gtkwinapi.inc',0,1,6134,35,6138,0,0,,
-File_2=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\dUnit\src\versioninfo.inc',0,1,1,41,3,0,0,,
-File_3=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\dUnit\src\DunitAbout.pas',0,1,40,34,44,0,0,,
-File_4=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\dUnit\src\NGUITestRunner.pas',0,1,382,52,390,0,0,,
-File_5=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\dUnit\tests\UnitTestFramework.pas',0,1,442,47,448,0,0,,
-File_6=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\xml\oxmldom.pas',0,1,1693,49,1698,0,0,,
-File_7=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\dUnit\Contrib\DUnitWizard\Source\DelphiExperts\Common\XP_OTACreators.pas',0,1,16,41,19,0,0,,
-File_8=TSourceModule,'C:\Arquivos de programas\Borland\BDS\4.0\source\dUnit\Contrib\DUnitWizard\Source\DelphiExperts\Common\XP_OTAUtils.pas',0,1,1,57,10,0,0,,
-File_9=TSourceModule,'C:\Program Files\Borland\BDS\4.0\source\Win32\Internet\HTTPD2.pas',0,1,3514,61,3521,0,0,,
+File_0=TSourceModule,'C:\lazarus\components\synedit\synhighlighterunixshellscript.pas',0,1,258,38,264,0,0,,
+File_1=TSourceModule,'C:\Trabalho\LLVM-Pascal\TestSuite\Test15.pas',0,1,1,29,10,0,0,,
+File_2=TSourceModule,'C:\lazarus\components\jcf2\Utils\FileUtils.pas',0,1,19,34,22,0,0,,
+File_3=TSourceModule,'c:\arquivos de programas\borland\bds\4.0\source\Win32\rtl\sys\System.pas',0,1,8839,31,8848,0,0,,
+File_4=TSourceModule,'C:\lazarus\components\jcf2\Utils\JcfSystemUtils.pas',0,1,31,27,44,0,0,,
+File_5=TSourceModule,'C:\lazarus\components\synedit\synbeautifier.pas',0,1,124,26,136,0,0,,
+File_6=TSourceModule,'C:\lazarus\components\synedit\test\testtrimspace.pas',0,1,433,13,441,0,0,,
+File_7=TSourceModule,'C:\lazarus\components\opengl\glgtkglxcontext.pas',0,1,130,44,135,0,0,,
+File_8=TSourceModule,'C:\lazarus\components\opengl\openglcontext.pas',0,1,43,46,49,0,0,,
+File_9=TSourceModule,'C:\lazarus\components\simpleideintf\examples\files\h2pastest.pas',0,1,1,46,5,0,0,,
 
 [Modules]
 Module0=C:\Trabalho\LLVM-Pascal\Scanner.pas
-Module1=C:\Trabalho\LLVM-Pascal\Parser.pas
-Module2=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
-Module3=C:\Trabalho\LLVM-Pascal\Grammar.pas
-Count=4
+Module1=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj
+Module2=C:\lazarus\aggpas\expat-pas\xmltok.pas
+Module3=C:\Trabalho\LLVM-Pascal\Parser.pas
+Module4=C:\Trabalho\LLVM-Pascal\Grammar.pas
+Count=5
 EditWindowCount=1
 
 [C:\Trabalho\LLVM-Pascal\Scanner.pas]
+ModuleType=TSourceModule
+FormState=0
+FormOnTop=0
+
+[C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
+ModuleType=TBaseProject
+
+[C:\lazarus\aggpas\expat-pas\xmltok.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
@@ -28,21 +37,19 @@ ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
-[C:\Trabalho\LLVM-Pascal\LLVM_Pascal.bdsproj]
-ModuleType=TBaseProject
-
 [C:\Trabalho\LLVM-Pascal\Grammar.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
 [EditWindow0]
-ViewCount=4
+ViewCount=5
 CurrentEditView=C:\Trabalho\LLVM-Pascal\Scanner.pas
 View0=0
 View1=1
 View2=2
 View3=3
+View4=4
 PercentageSizes=1
 Create=1
 Visible=1
@@ -65,15 +72,15 @@ RightPanelSize=0
 BottomPanelSize=0
 BottomMiddlePanelSize=1648
 BottomMiddlePanelClients=DockSite0
-BottomMiddelPanelData=00000800010200000000593D0000000000000270060000000000000100000000593D000009000000446F636B5369746530FFFFFFFF
+BottomMiddelPanelData=00000800010100000000060400000000000001572600000000000001000000007006000009000000446F636B5369746530FFFFFFFF
 TabDockLeftClients=DockSite1=0
 
 [View0]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
-CursorX=34
-CursorY=71
-TopLine=40
+CursorX=33
+CursorY=73
+TopLine=46
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -81,32 +88,43 @@ EditViewName=C:\Trabalho\LLVM-Pascal\LLVM_Pascal.dpr
 
 [View1]
 CustomEditViewType=TEditView
+Module=C:\lazarus\aggpas\expat-pas\xmltok.pas
+CursorX=13
+CursorY=239
+TopLine=229
+LeftCol=1
+Elisions=
+Bookmarks=
+EditViewName=C:\lazarus\aggpas\expat-pas\xmltok.pas
+
+[View2]
+CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Parser.pas
-CursorX=1
-CursorY=1
-TopLine=1
+CursorX=103
+CursorY=63
+TopLine=32
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Trabalho\LLVM-Pascal\Parser.pas
 
-[View2]
+[View3]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Scanner.pas
-CursorX=64
-CursorY=194
-TopLine=220
+CursorX=68
+CursorY=217
+TopLine=190
 LeftCol=1
 Elisions=
 Bookmarks=
 EditViewName=C:\Trabalho\LLVM-Pascal\Scanner.pas
 
-[View3]
+[View4]
 CustomEditViewType=TEditView
 Module=C:\Trabalho\LLVM-Pascal\Grammar.pas
-CursorX=30
-CursorY=73
-TopLine=46
+CursorX=15
+CursorY=169
+TopLine=24
 LeftCol=1
 Elisions=
 Bookmarks=
@@ -353,8 +371,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-1683
-Top=-69570
+Left=-8583
+Top=-352550
 Width=280
 Height=371
 MaxLeft=-1
@@ -439,8 +457,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-1683
-Top=-69570
+Left=-8583
+Top=-352550
 Width=1905
 Height=3676
 MaxLeft=-1
@@ -458,8 +476,8 @@ Create=1
 Visible=0
 Docked=1
 State=0
-Left=-1683
-Top=-69570
+Left=-8583
+Top=-352550
 Width=4327
 Height=314
 MaxLeft=-1
@@ -513,7 +531,7 @@ LRDockWidth=1726
 Dockable=1
 StayOnTop=0
 TabPosition=1
-ActiveTabID=StructureView
+ActiveTabID=CallStackWindow
 TabDockClients=TemplateView,StructureView,BreakpointWindow,CallStackWindow,LocalVarsWindow,WatchWindow,MessageView@EditWindow0
 
 [DockSite1]

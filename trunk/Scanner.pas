@@ -221,6 +221,9 @@ procedure TScanner.OpenInclude; begin
   ScanChars([['!'..#255] - ['}']], [255]);
   if FToken.Lexeme = '' then exit;
   if TestIncludePaths then begin
+    if length(trim(copy(Line, First, 100))) > 1 then
+      Error('Text after $Include directive, in the same line, is lost, break the line please.');
+    GotoEndComment;
     inc(Include);
     assign(Arq[Include], FToken.Lexeme);
     reset(Arq[Include]);

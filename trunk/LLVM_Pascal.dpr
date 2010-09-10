@@ -70,7 +70,7 @@ begin
   else begin
     Include := '';
     if FindCmdLineSwitch('I') or FindCmdLineSwitch('Fi') then Include := Paramstr(3);
-    Compiler := TParser.Create(200, Include, FindCmdLineSwitch('v0'));
+    Compiler := TParser.Create(3, Include, FindCmdLineSwitch('v0'));
     try
       CompileTree(ParamStr(1));
     finally
