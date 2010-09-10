@@ -49,6 +49,7 @@ type
     procedure SetFLineNumber(const Value : integer);
     function TestIncludePaths : boolean;
     procedure EmitMessage;
+    procedure GotoEndComment;
   protected
     FEndSource, FSilentMode : boolean;
     FLineNumber : array[0..MaxIncludeLevel] of integer;
@@ -228,7 +229,7 @@ procedure TScanner.OpenInclude; begin
     if not FSilentMode then writeln('' : Include * 2, ExtractFileName(SourceName));
   end
   else
-    Error('Include file ''' + FToken.Lexeme + ''' not found');
+    ;//Error('Include file ''' + FToken.Lexeme + ''' not found');
 end;
 
 procedure TScanner.ShowMessage(Kind, Msg : shortstring); begin
@@ -293,6 +294,9 @@ begin
       10 : ReservedWords := IfThen(pos('FPC', UpperCase(FToken.Lexeme)) = 0 , DelphiReservedWords, DelphiReservedWords + FPCReservedWords);
       11, 12 : OpenInclude;
       13 : EmitMessage;
+    else
+      GotoEndComment;
+      exit;
     end;
     FindEndComment(FStartComment, FEndComment);
   end
@@ -300,6 +304,19 @@ begin
     Error('Invalid compiler directive ''' + Line[First] + '''');
     inc(First);
   end;
+end;
+
+procedure TScanner.GotoEndComment;
+var
+  P : integer;
+begin
+  P := PosEx(FEndComment, UpperCase(Line), First);
+  if P <> 0 then begin // End comment in same line
+    First := P + length(FEndComment);
+    if length(FEndComment) <= 2 then FEndComment := '';
+  end
+  else
+    First := LenLine + 1;
 end;
 
 procedure TScanner.FindEndComment(const StartComment, EndComment : shortstring);
@@ -315,6 +332,7 @@ begin
   FStartComment := StartComment;
   FEndComment   := EndComment;
   P := PosEx(FStartComment + '$', Line, First);
+  if ((P - First) > 2) and (EndComment = '}') then P := 0;
   if (P <> 0) and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
     DoDirective(P + length(FStartComment))
   else begin
@@ -330,13 +348,7 @@ begin
       end;
       P := PosEx(FStartComment + '$', Line, First);
     end;
-    P := PosEx(FEndComment, UpperCase(Line), First);
-    if P <> 0 then begin // End comment in same line
-      First := P + length(FEndComment);
-      if length(FEndComment) <= 2 then FEndComment := '';
-    end
-    else
-      First := LenLine + 1;
+    GotoEndComment;
   end;
 end;
 
