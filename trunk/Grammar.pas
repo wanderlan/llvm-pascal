@@ -100,6 +100,7 @@ const
   '|BEGIN|' + Statement + StmtList + 'END' +
   '|ASM|' + Skip + 'END',
 // Statement
+  'Statement' +
   '|' + Ident + '|' + LabelAssign + AssignStmt + Mark +
   '|BEGIN|' + Statement + StmtList + 'END' +
   '|IF|' + Require + Expression + 'THEN' + Statement + ElseBranch +

@@ -37,11 +37,12 @@ procedure TParser.PopSymbol; begin
     Symbol := Symbols[Top];
     case Symbol[1] of
       Mark, Require : PopSymbol;
-      Pop : begin
-        while (Symbols[Top] <> Mark) and (Top > 2) do dec(Top);
-        dec(Top);
-        Symbol := Symbols[Top];
-      end;
+      Pop :
+        repeat
+          while (Symbols[Top] <> Mark) and (Top > 2) do dec(Top);
+          dec(Top);
+          Symbol := Symbols[Top];
+        until Symbol[1] <> Pop;
       Skip : begin
         ShowMessage('Warning', Symbols[Top + 1] + ' construct is ignored');
         dec(Top);
