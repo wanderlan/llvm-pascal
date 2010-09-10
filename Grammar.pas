@@ -25,7 +25,8 @@ const
   InternalDecl = #218; RecordConst  = #219; CteFieldList = #220; StringExpr   = #221; RecordCase   = #222;
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
   FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; AbsoluteAddr = #232;
-  IdentOpc     = #233; UsesList     = #234; UnitIn       = #235; EnumInit     = #236; CallConv     = #237;
+  IdentOpc     = #233; UsesList     = #234; UnitIn       = #235; EnumInit     = #236; ArithExpr    = #237;
+  ArithOp      = #238; CallConv     = #239;
 
   // Other non terminals
   Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
@@ -78,8 +79,8 @@ const
   '|'+ IntConst + '|' + Require + SubRange +
   '|'+ CharConst + '|' + Require + SubRange +
   '|(|' + Ident + EnumInit + EnumList + ')' +
-  '|+|' + Expression + Require + SubRange +
-  '|-|' + Expression + Require + SubRange +
+  '|+|' + ArithExpr + Require + SubRange +
+  '|-|' + ArithExpr + Require + SubRange +
   '|^|' + Ident +
   '|RECORD|' + FieldDecl + RecordCase + 'END' + Mark +
   '|CLASS|' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
@@ -237,34 +238,16 @@ const
 // PropImplem
   '|IMPLEMENTS|' + Ident + IdentList,
 // RelOp
-  '|>|'  + Require + Expression +
-  '|<|'  + Require + Expression +
-  '|>=|' + Require + Expression +
-  '|<=|' + Require + Expression +
-  '|<>|' + Require + Expression +
-  '|=|'  + Require + Expression +
-  '|IN|' + Require + Expression +
-  '|IS|' + Require + Expression +
-  '|AS|' + Require + Expression +
-  '|+|'  + Require + Expression +
-  '|-|'  + Require + Expression +
-  '|AND|'+ Require + Expression +
-  '|OR|' + Require + Expression +
-  '|XOR|'+ Require + Expression +
-  '|SHR|'+ Require + Expression +
-  '|SHL|'+ Require + Expression +
-  '|*|'  + Require + Expression +
-  '|/|'  + Require + Expression +
-  '|DIV|'+ Require + Expression +
-  '|MOD|'+ Require + Expression,
+  '|>|'  + Require + Expression + '|<|'  + Require + Expression + '|>=|' + Require + Expression + '|<=|' + Require + Expression +
+  '|<>|' + Require + Expression + '|=|'  + Require + Expression + '|IN|' + Require + Expression + '|IS|' + Require + Expression +
+  '|AS|' + Require + Expression + '|+|'  + Require + Expression + '|-|'  + Require + Expression + '|AND|'+ Require + Expression +
+  '|OR|' + Require + Expression + '|XOR|'+ Require + Expression + '|SHR|'+ Require + Expression + '|SHL|'+ Require + Expression +
+  '|*|'  + Require + Expression + '|/|'  + Require + Expression + '|DIV|'+ Require + Expression + '|MOD|'+ Require + Expression,
 // MetId
   '|.|' + Ident,
 // AssignStmt
   '|:=|' + Require + Expression +
-  '|+=|' + Require + Expression +
-  '|-=|' + Require + Expression +
-  '|*=|' + Require + Expression +
-  '|/=|' + Require + Expression,
+  '|+=|' + Require + Expression + '|-=|' + Require + Expression + '|*=|' + Require + Expression + '|/=|' + Require + Expression,
 // ElseBranch
   '|ELSE|' + Statement,
 // ExprList
@@ -297,7 +280,7 @@ const
   '|' + Ident + '|' +
   '|' + IntConst + '|',
 // SubRange
-  '|..|' + Require + Expression,
+  '|..|' + Require + ArithExpr,
 // FileOf
   '|OF|' + Require + TypeId,
 // ForStmt
@@ -411,7 +394,7 @@ const
 // FieldList
   '|;|' + FieldDecl,
 // Operators
-  'Operator|:=||>||<||>=||<=||<>||=||IN||IS||AS||+||-||AND||OR||XOR||SHR||SHL||*||/||DIV||MOD|',
+  'Operator|:=||>||<||>=||<=||<>||=||IN||IS||AS||+||-||AND||OR||XOR||SHR||SHL||*||/||DIV||MOD||+=||-=||*=||/=|',
 // CteField
   '|' + Ident + '|' + ':' + Expression + CteFieldList,
 // DispId
@@ -427,11 +410,21 @@ const
   '|IN|' + IdentDir + StringExpr,
 // EnumInit
   '|=|' + Expression + '|:=|' + Expression,
+// ArithExpr
+  'Arithmetic Expression' +
+  '|' + Ident + '|' + QualId + ArithOp +
+  '|' + IntConst + '|' + ArithOp +
+  '|+|' + ArithExpr + '|-|' + ArithExpr +
+  '|(|' + ArithExpr + ')' + QualId + RelOp,
+// ArithOp
+  '|+|'  + Require + ArithExpr + '|-|'  + Require + ArithExpr + '|AND|'+ Require + ArithExpr + '|OR|' + Require + ArithExpr +
+  '|XOR|'+ Require + ArithExpr + '|SHR|'+ Require + ArithExpr + '|SHL|'+ Require + ArithExpr + '|*|'  + Require + ArithExpr +
+  '|/|'  + Require + ArithExpr + '|DIV|'+ Require + ArithExpr + '|MOD|'+ Require + ArithExpr,
 // CallConv
-  '|STDCALL|;' + Directives + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Directives + '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark +
-  '|FORWARD|;' + Pop +  '|VARARGS|;' + Mark +
-  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|ALIAS|:' + StringConst + ';' + '|LOCAL|;' + Mark + '|NOSTACKFRAME|;' + Mark +
-  '|MWPASCAL|;' + Mark + '|COMPILERPROC|;' // Deprecateds & FPC
+  '|STDCALL|;' + Directives + '|CDECL|;'+ CallConv + Directives + '|SAFECALL|;' + Directives +
+  '|REGISTER|;' + Mark + '|PASCAL|;' + Mark + '|INLINE|;' + Mark + '|FORWARD|;' + Pop + '|VARARGS|;' + Mark +
+  '|FAR|;' + Mark + '|NEAR|;' + Mark + '|EXPORT|;' + CallConv + '|LOCAL|;' + Mark + // Deprecateds
+  '|ALIAS|:' + StringConst + ';' + '|NOSTACKFRAME|;' + Mark + '|MWPASCAL|;' + Mark + '|COMPILERPROC|;' // FPC only
   );
 implementation
 end.

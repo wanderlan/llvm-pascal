@@ -229,7 +229,7 @@ procedure TScanner.OpenInclude; begin
     if not FSilentMode then writeln('' : Include * 2, ExtractFileName(SourceName));
   end
   else
-    ;//Error('Include file ''' + FToken.Lexeme + ''' not found');
+    Error('Include file ''' + FToken.Lexeme + ''' not found');
 end;
 
 procedure TScanner.ShowMessage(Kind, Msg : shortstring); begin
