@@ -60,7 +60,7 @@ end;
 var
   Include : string;
 begin
-  writeln('LLVM-Pascal Version 2010.9 pre-Alpha scanner/parser');
+  writeln('LLVM-Pascal Version 2010.9.10 pre-Alpha scanner/parser');
   writeln('(c)2010 by'^J,
           'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
           'New BSD license'^J,
@@ -70,7 +70,7 @@ begin
   else begin
     Include := '';
     if FindCmdLineSwitch('I') or FindCmdLineSwitch('Fi') then Include := Paramstr(3);
-    Compiler := TParser.Create(200, Include, FindCmdLineSwitch('v0'));
+    Compiler := TParser.Create(400, Include, FindCmdLineSwitch('v0'));
     try
       CompileTree(ParamStr(1));
     finally
