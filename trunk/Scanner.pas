@@ -447,12 +447,13 @@ begin
           FToken.Kind := tkReservedWord;
         exit;
       end;
-      ';', ',', '=', ')', '[', ']', '+', '-', '@' : begin
+      ';', ',', '=', ')', '[', ']', '@' : begin
         FToken.Lexeme := Line[First];
         FToken.Kind   := tkSpecialSymbol;
         inc(First);
         exit;
       end;
+      '+', '-' : begin NextChar(['=']); exit; end;
       '^' : begin
         Str  := '';
         FAnt := First;
@@ -524,14 +525,12 @@ begin
         if (LenLine > First) and (Line[First + 1] = '/') then // Comment Style //
           First := MAXINT
         else begin
-          FToken.Lexeme := '/';
-          FToken.Kind   := tkSpecialSymbol;
-          inc(First);
+          NextChar(['=']);
           exit
         end;
       '{' : FindEndComment('{', '}');
       '.' : begin NextChar(['.']); exit; end;
-      '*' : begin NextChar(['*']); exit; end;
+      '*' : begin NextChar(['*', '=']); exit; end;
       '>',
       ':' : begin NextChar(['=']); exit; end;
       '<' : begin NextChar(['=', '>']); exit; end;
@@ -561,9 +560,10 @@ procedure TScanner.Error(const Msg : string);
 const
   LastColNumber  : integer = 0;
   LastLineNumber : integer = 0;
+  LastSourceName : string  = '';
 begin
-  if (LastColNumber = ColNumber) and (LastLineNumber = LineNumber) then
-    NextToken
+  if (LastColNumber = ColNumber) and (LastLineNumber = LineNumber) and (LastSourceName = SourceName) then
+    NextToken // Prevents locks in the same error
   else begin
     ShowMessage('Error', Msg);
     inc(FErrors);
@@ -572,6 +572,7 @@ begin
     writeln(Line, ^J, '^' : ColNumber - 1);
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
+    LastSourceName := SourceName;
   end;
 end;
 
