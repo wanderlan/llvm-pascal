@@ -1,6 +1,6 @@
-#Considerando compatibilidade total com Delphi 7#
+#sumary Considerando compatibilidade total com Delphi 7#
 
-||Recurso||Delphi XE||FreePascal 2.4||LLVM-Pascal||
+||*Recurso*||*Delphi XE*||*FreePascal 2.4*||*LLVM-Pascal*||
 ||Inline||Sim||Sim||Sim||
 ||Operator Overload||Sim||Dialeto FPC||Dialeto FPC||
 ||Class Helpers||Sim||Não||Previsto||
