@@ -3,8 +3,14 @@
 || *Recurso* || *Delphi XE* || *FreePascal 2.4* || *LLVM-Pascal* ||
 ||Inline||Sim||Sim||Sim||
 ||Operator Overload||Sim||Dialeto FPC||Dialeto FPC||
-||Class Helpers||Sim||Não||Previsto||
-||Strict private/protected||Sim||Sim||Sim||
-||Records with methods||Sim||Não||Não||
 ||for-in||Sim||Sim||Sim||
 ||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
+||Class Helpers||Sim||Não||Previsto||
+||Strict private/protected||Sim||Sim||Sim||
+||Assembler embutido||Sim||Sim||Não||
+||Anotações||Sim||Não||Previsto||
+||Classes aninhadas||Sim||Não||Previsto||
+||Records with methods||Sim||Não||Não||
+||Licença||US$900,00||GPL||BSD||
+||Linguagem||C-Ansi e Assembly X86||Pascal||Object Pascal||
+||Linhas de código||~150.000||212.000||4.000(previsão)||
