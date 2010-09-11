@@ -6,10 +6,10 @@
 ||Strict private/protected||Sim||Sim||Sim||
 ||Operator Overload||Sim||Dialeto FPC||Dialeto FPC||
 ||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
+||Assembler embutido||Sim||Sim||Não||
 ||Anotações||Sim||Não||Previsto||
 ||Class Helpers||Sim||Não||Previsto||
 ||Classes aninhadas||Sim||Não||Previsto||
-||Assembler embutido||Sim||Sim||Não||
 ||Records with methods||Sim||Não||Não||
 ||Licença||US$ 900,00||GPL||BSD||
 ||Linguagem||C-Ansi e Assembly X86||Pascal||Object Pascal||
