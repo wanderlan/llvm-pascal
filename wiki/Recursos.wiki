@@ -7,3 +7,4 @@
 ||Strict private/protected||Sim||Sim||Sim||
 ||Records with methods||Sim||Não||Não||
 ||for-in||Sim||Sim||Sim||
+||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
