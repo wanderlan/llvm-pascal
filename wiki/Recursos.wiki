@@ -11,6 +11,6 @@
 ||Classes aninhadas||Sim||Não||Previsto||
 ||Assembler embutido||Sim||Sim||Não||
 ||Records with methods||Sim||Não||Não||
-||Licença||US$900,00||GPL||BSD||
+||Licença||US$ 900,00||GPL||BSD||
 ||Linguagem||C-Ansi e Assembly X86||Pascal||Object Pascal||
-||Linhas de código||~150.000||212.000||4.000(previsão)||
+||Linhas de código||~150.000||212.000||4.000 (previsão)||
