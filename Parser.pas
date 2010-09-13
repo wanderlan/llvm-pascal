@@ -63,7 +63,7 @@ procedure TParser.RecoverFromError(const Expected, Found : string); begin
       Symbol := Symbols[Top];
       Token.Lexeme := UpperCase(Token.Lexeme);
       while (Symbol <> Token.Lexeme) and (Top > 1) do
-        if ((Symbol[1] in [Start..CallConv]) and (pos('|' + Token.Lexeme + '|', Productions[Symbol[1]]) <> 0)) then
+        if ((Symbol[1] in [Start..CallConv]) and (pos('{' + Token.Lexeme + '}', Productions[Symbol[1]]) <> 0)) then
           break
         else
           PopSymbol;
@@ -128,18 +128,18 @@ begin
   LenToken := 1;
   case Token.Kind of
     tkIdentifier : begin
-      P := pos('|' + Ident + '|', Production);
+      P := pos('{' + Ident + '}', Production);
       if P = 0 then begin
-        P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
+        P := pos('{' + UpperCase(T) + '}', Production); // find FIRST or FOLLOW terminal
         LenToken := length(T);
       end
     end;
     tkReservedWord, tkSpecialSymbol : begin
-      P := pos('|' + UpperCase(T) + '|', Production); // find FIRST or FOLLOW terminal
+      P := pos('{' + UpperCase(T) + '}', Production); // find FIRST or FOLLOW terminal
       LenToken := length(T);
     end;
     else // tkStringConstant..tkRealConstant
-      P := pos('|' + TokenKindToChar(Token.Kind) + '|', Production);
+      P := pos('{' + TokenKindToChar(Token.Kind) + '}', Production);
   end;
   if P <> 0 then begin
     dec(Top);
@@ -152,14 +152,14 @@ begin
           inc(TopAux);
           Aux[TopAux] := Production[P];
         end;
-        '|' : break; // End production
+        '{' : break; // End production
       else
         if (Aux[TopAux] <> '') and (Aux[TopAux][1] >= Start) then begin // begin terminal
           inc(TopAux);
           Aux[TopAux] := Production[P]
         end
         else begin // Terminal
-          if Production[P-1] = '|' then begin
+          if Production[P-1] = '}' then begin
             inc(TopAux);
             Aux[TopAux] := '';
           end;
@@ -183,10 +183,10 @@ var
   S : string;
 begin
   Result := '';
-  if P[1] = '|' then begin
+  if P[1] = '{' then begin
     I := 2;
     repeat
-      J := posex('|', P, I);
+      J := posex('}', P, I);
       S := copy(P, I, J-I);
       if S[1] > Start then
         S := GetNonTerminalName(S[1])
@@ -196,7 +196,7 @@ begin
         Result := S
       else
         Result := Result + ', ' + S;
-      I := posex('|', P, J+1)+1;
+      I := posex('{', P, J+1)+1;
     until I = 1;
     I := LastDelimiter(',', Result);
     if I <> 0 then begin
@@ -205,7 +205,7 @@ begin
     end;
   end
   else
-    Result := copy(P, 1, pos('|', P)-1);
+    Result := copy(P, 1, pos('{', P)-1);
 end;
 
 end.

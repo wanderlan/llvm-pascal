@@ -39,12 +39,11 @@
       <Unit0>
         <Filename Value="LLVM_Pascal.dpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="39"/>
-        <UsageCount Value="153"/>
+        <CursorPos X="102" Y="20"/>
+        <UsageCount Value="155"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -55,19 +54,20 @@
         <WindowIndex Value="0"/>
         <TopLine Value="61"/>
         <CursorPos X="40" Y="86"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="Parser.pas"/>
         <UnitName Value="Parser"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="10"/>
-        <CursorPos X="21" Y="32"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
         <SyntaxHighlighter Value="Delphi"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Text"/>
       </Unit2>
@@ -79,7 +79,7 @@
         <TopLine Value="150"/>
         <CursorPos X="16" Y="182"/>
         <SyntaxHighlighter Value="Delphi"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Text"/>
       </Unit3>
