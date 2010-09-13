@@ -83,7 +83,7 @@ type
 implementation
 
 uses
-  SysUtils, StrUtils, Math, Grammar;
+  SysUtils, StrUtils, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF};
 
 const
   DelphiReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
@@ -583,8 +583,7 @@ begin
     ShowMessage('Error', Msg);
     inc(FErrors);
     if FErrors >= FMaxErrors then FEndSource := true;
-    //if not FSilentMode and (Line <> '') then
-    writeln(Line, ^J, '^' : ColNumber - 1);
+    if not FSilentMode and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
     LastSourceName := SourceName;
