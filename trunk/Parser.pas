@@ -18,7 +18,7 @@ type
     Symbols : TStack;
     function GetProductionName(const P : string) : string;
     procedure ExpandProduction(const T : string);
-    procedure PopSymbol; //inline;
+    procedure PopSymbol; inline;
   protected
     procedure RecoverFromError(const Expected, Found : string); override;
   public
@@ -29,7 +29,7 @@ type
 implementation
 
 uses
-  SysUtils, StrUtils, Math, Grammar;
+  SysUtils, StrUtils, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF};
 
 procedure TParser.PopSymbol; begin
   dec(Top);

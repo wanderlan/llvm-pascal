@@ -1,4 +1,4 @@
-LLVM-Pascal 2010.9.3 Pre-Alpha
+LLVM-Pascal 2010.9.13 Pre-Alpha
 
 Principal implementação deste release: Scanner e Parser
 
@@ -11,10 +11,9 @@ License: BSD, http://www.opensource.org/licenses/bsd-license.php
 - Fonte extremamente pequeno e simples usando Orientação a Objetos com Object Pascal.
 - "Compila" fontes do Delphi até versão 2007, não suporta operator overload no dialeto Delphi.
 - "Compila" fontes do Lazarus até a versão 0.9.28.2 e Free Pascal até a versão 2.4, suporta macros, operator overload e literais binários.
-- "Compila" ~ 135 klps (mil linhas por segundo) em um Intel E2200 Dual Core II 2.2 GHz com 2 GB de RAM e Windows XP SP3, compilado com Turbo Delphi, com FPC 2.4 ~ 60 klps.
+- "Compila" ~ 140 klps (mil linhas por segundo) em um Intel E2200 Dual Core II 2.2 GHz com 2 GB de RAM e Windows XP SP3, compilado com Turbo Delphi, com FPC 2.4 ~ 60 klps.
 - Essa diferença se refere às funções Pos() e PosEx() que são extensivamente usadas no compilador, que em Delphi são implementadas em Assembly e em FPC são implementadas em Pascal.
-- Substituindo essas funções por versões otimizadas em Pascal do site FastCode o FPC vai para 105 klps e o Delphi cai para 125 klps, UpperCase é outra função candidata para substituir.
-- Includes serão suportados no próximo release.
+- O LLVM-Pascal substitui essas funções, apenas se compilado com FPC, por versões otimizadas em Pascal do site FastCode, o FPC então vai para 110 klps.
 - "Compile" seu projeto com LLVM-Pascal e reporte suas questões no fórum: http://groups.google.com/group/llvm-pascal
 
 Para "compilar" use:
