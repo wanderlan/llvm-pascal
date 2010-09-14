@@ -15,6 +15,7 @@
 ||Var em classes||Sim||Não||Sim||
 ||Classes aninhadas||Sim||Não||Sim||
 ||Métodos final||Sim||Não||Sim||
+||Class property||Sim||Não||Sim||
 ||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
 ||Assembler embutido||Sim||Sim||Não||
 ||Anotações||Sim||Não||Previsto||
