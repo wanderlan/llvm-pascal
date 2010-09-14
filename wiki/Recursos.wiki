@@ -15,8 +15,8 @@
 ||Class property||Sim||Não||Sim||
 ||Records with methods||Sim||Não||Sim||
 ||Anotações||Sim||Não||Sim||
-||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
 ||Class Helpers||Sim||Não||Previsto||
+||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
 ||Literais binários e octais||Não||Sim||Sim||
