@@ -1,5 +1,18 @@
 program Test15;
 
+type
+  C = record
+    var
+      s:integer;//=1;
+    type t = integer;
+    cc= class
+      y:integer;
+    end;
+    property X : integer;
+    procedure x3; final;
+  end;
+    //B = class  abstract of C;
+
 procedure TSynUNIXShellScriptSyn.MakeMethodTables;
 var
   I: Char;

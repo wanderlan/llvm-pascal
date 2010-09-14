@@ -222,7 +222,7 @@ procedure TScanner.OpenInclude; begin
   if FToken.Lexeme = '' then exit;
   if TestIncludePaths then begin
     if length(trim(copy(Line, First, 100))) > 1 then
-      Error('Text after $Include directive, in the same line, is lost, break the line please.');
+      ShowMessage('Warning', 'Text after $Include directive, in the same line, is lost, break the line please.');
     GotoEndComment;
     inc(Include);
     assign(Arq[Include], FToken.Lexeme);
@@ -456,10 +456,20 @@ begin
       ' ', #9 : SkipBlank;
       'A'..'Z', 'a'..'z', '_', '&' : begin // Identifiers
         ScanChars([['A'..'Z', 'a'..'z', '_', '&', '0'..'9'], ['A'..'Z', 'a'..'z', '_', '0'..'9']], [1, 254]);
-        if (length(FToken.Lexeme) < 2) or not TokenIn(ReservedWords) then
+        if length(FToken.Lexeme) = 1 then
           FToken.Kind := tkIdentifier
         else
-          FToken.Kind := tkReservedWord;
+          if TokenIn(ReservedWords) then
+            FToken.Kind := tkReservedWord
+          else
+            if (FToken.Lexeme[1] = '&') and (FToken.Lexeme[2] in ['0'..'7']) then begin // Octal
+              FToken.Kind := tkIntegerConstant;
+              FToken.IntegerValue := 0;
+              for I := length(FToken.Lexeme) downto 2 do
+                inc(FToken.IntegerValue, trunc((ord(FToken.Lexeme[I]) - 48) * Power(8, length(FToken.Lexeme) - I)));
+            end
+            else
+              FToken.Kind := tkIdentifier;
         exit;
       end;
       ';', ',', '=', ')', '[', ']', '@' : begin

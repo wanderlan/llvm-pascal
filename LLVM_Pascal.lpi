@@ -39,11 +39,12 @@
       <Unit0>
         <Filename Value="LLVM_Pascal.dpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1"/>
-        <CursorPos X="102" Y="20"/>
-        <UsageCount Value="155"/>
+        <TopLine Value="3"/>
+        <CursorPos X="10" Y="26"/>
+        <UsageCount Value="156"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -61,7 +62,6 @@
       <Unit2>
         <Filename Value="Parser.pas"/>
         <UnitName Value="Parser"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
@@ -84,7 +84,7 @@
         <DefaultSyntaxHighlighter Value="Text"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="8" HistoryIndex="7">
+    <JumpHistory Count="14" HistoryIndex="13">
       <Position1>
         <Filename Value="Scanner.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
@@ -117,6 +117,30 @@
         <Filename Value="LLVM_Pascal.dpr"/>
         <Caret Line="39" Column="1" TopLine="1"/>
       </Position8>
+      <Position9>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="24" Column="1" TopLine="1"/>
+      </Position9>
+      <Position10>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="21" Column="19" TopLine="1"/>
+      </Position10>
+      <Position11>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="23" Column="48" TopLine="1"/>
+      </Position11>
+      <Position12>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="21" Column="13" TopLine="1"/>
+      </Position12>
+      <Position13>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="23" Column="10" TopLine="1"/>
+      </Position13>
+      <Position14>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="25" Column="7" TopLine="1"/>
+      </Position14>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
