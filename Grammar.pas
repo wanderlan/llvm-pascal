@@ -26,14 +26,14 @@ const
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
   FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; AbsoluteAddr = #232;
   IdentOpc     = #233; UsesList     = #234; UnitIn       = #235; EnumInit     = #236; ArithExpr    = #237;
-  ArithOp      = #238; ClassDir     = #239; CallConv     = #240;
+  ArithOp      = #238; ClassDir     = #239; Generics     = #240; CallConv     = #241;
 
   // Other non terminals
   Ident = #246; StringConst = #247; CharConst = #248; IntConst = #249; RealConst = #250;
   // Grammar commands
   InsertSemi = #251; Skip = #252; Require = #253; Mark = #254; Pop = #255;
 
-  SimpleType = 'Type' + '{' + Ident + '}' + QualId + SubRange + '{INTEGER}{BOOLEAN}{BYTE}{WORD}{CARDINAL}{LONGINT}' +
+  SimpleType = 'Type' + '{' + Ident + '}' + Generics + QualId + Generics + SubRange + '{INTEGER}{BOOLEAN}{BYTE}{WORD}{CARDINAL}{LONGINT}' +
     '{INT64}{UINT64}{CHAR}{WIDECHAR}{WIDESTRING}{LONGWORD}{SHORTINT}{SMALLINT}' +
     '{PCHAR}{POINTER}{REAL}{SINGLE}{DOUBLE}{EXTENDED}{CURRENCY}{COMP}{BYTEBOOL}{WORDBOOL}{LONGBOOL}';
 
@@ -42,15 +42,15 @@ const
   '{PROGRAM}' + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
   '{UNIT}'    + Ident + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
   '{LIBRARY}' + Ident + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + InitSection  + '.' +
-  '{PACKAGE}' + Ident + WarnDir2 + ';' + 'REQUIRES' + Ident + IdentList + ';' + Mark + 'CONTAINS' + Ident + IdentList + 'END.',
+  '{PACKAGE}' + Ident + WarnDir2 + ';' + 'REQUIRES' + Ident + QualId + IdentList + ';' + Mark + 'CONTAINS' + Ident + QualId + IdentList + 'END.',
 // ParIdentList
-  '{(}' + Ident + IdentList + ')',
+  '{(}' + Ident + Generics + QualId + Generics + IdentList + ')',
 // IdentList
-  '{,}' + Ident + QualId + IdentList,
+  '{,}' + Ident + Generics + QualId + Generics + IdentList,
 // UsesClause
   '{USES}' + Ident + QualId + UnitIn + UsesList + ';',
 // ExportsList
-  '{,}' + Ident + QualId+ FormalParams + PropIndex + NameDir + Mark + ExportsList,
+  '{,}' + Ident + QualId + FormalParams + PropIndex + NameDir + Mark + ExportsList,
 // DeclSection
   'Declaration Section' +
   '{VAR}'         + Require + VarDecl + DeclSection +
@@ -148,7 +148,7 @@ const
   '{FINALIZATION}' + Statement + StmtList + 'END' +
   '{END}',
 // TypeDecl
-  '{' + Ident + '}' + '=' + Require + Type_ + WarnDir2 + ';' + Mark + TypeDecl +
+  '{' + Ident + '}' + Generics + '=' + Require + Type_ + WarnDir2 + ';' + Mark + TypeDecl +
   '{[}' + Ident + QualId + ']' + TypeDecl,
 // StringLength
   '{[}' + Require + IntConst + ']',
@@ -172,11 +172,12 @@ const
   '{(}' + Expression + ExprList + ')' + QualId +
   '{[}' + Require + Expression + ExprList + ']' + QualId +
   '{^}' + QualId +
-  '{:}' + Statement + Pop,
+  '{:}' + Statement + Pop +
+  '{<}' + Ident + VarList + '>' + QualId,
 // LabelList
   '{,}' + Require + LabelId + LabelList,
 // ClassHerit
-  '{(}'  + Ident + IdentList + ')' +
+  '{(}'  + Ident + Generics + QualId + Generics + IdentList + ')' +
   '{OF}' + Ident + Pop,
 // FieldDecl
   '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + FieldList +
@@ -185,10 +186,10 @@ const
   '{TYPE}'  + Require + TypeDecl + FieldDecl +
   '{[}' + Ident + QualId + ']' + FieldDecl,
 // MethodDecl
-  '{PROCEDURE}'   + Ident + Delegation + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
-  '{FUNCTION}'    + Ident + Delegation + FormalParams + ':' + Ident + QualId + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
-  '{CONSTRUCTOR}' + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
-  '{DESTRUCTOR}'  + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
+  '{PROCEDURE}'   + Ident + Generics + Delegation + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
+  '{FUNCTION}'    + Ident + Generics + Delegation + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
+  '{CONSTRUCTOR}' + Ident + Generics + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
+  '{DESTRUCTOR}'  + Ident + Generics + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
   '{PROPERTY}'    + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp + WarnDir + MethodDecl +
   '{[}' + Ident + QualId + ']' + MethodDecl,
 // FormalParams
@@ -196,10 +197,10 @@ const
 // FormalList
   '{;}' + FormalParam + FormalList,
 // FormalParam
-  '{' + Ident + '}' + IdentList + Require + ParamSpec + ParamInit +
-  '{VAR}' + Ident + IdentList + ParamSpec +
-  '{CONST}' + Ident + IdentList + ParamSpec + ParamInit +
-  '{OUT}' + Ident + IdentList + ParamSpec,
+  '{' + Ident + '}' + VarList + Require + ParamSpec + ParamInit +
+  '{VAR}' + Ident + VarList + ParamSpec +
+  '{CONST}' + Ident + VarList + ParamSpec + ParamInit +
+  '{OUT}' + Ident + VarList + ParamSpec,
 // ParamInit
   '{=}' + Expression,
 // ParamSpec
@@ -211,7 +212,7 @@ const
 // StaticDecl
   '{VAR}' + Require + FieldDecl +
   '{PROCEDURE}' + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir +
-  '{FUNCTION}'  + Ident + FormalParams + ':' + Ident + QualId + ';' + Directives + CallConv + AbstractDir + WarnDir +
+  '{FUNCTION}'  + Ident + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + AbstractDir + WarnDir +
   '{PROPERTY}'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp,
 // OrdinalType
   '{' + Ident + '}' + QualId + SubRange +
@@ -241,7 +242,7 @@ const
   '{DEFAULT}' + Expression +
   '{NODEFAULT}',
 // PropImplem
-  '{IMPLEMENTS}' + Ident + IdentList,
+  '{IMPLEMENTS}' + Ident + QualId + IdentList,
 // RelOp
   '{>}'  + Require + Expression + '{<}'  + Require + Expression + '{>=}' + Require + Expression + '{<=}' + Require + Expression +
   '{<>}' + Require + Expression + '{=}'  + Require + Expression + '{IN}' + Require + Expression + '{IS}' + Require + Expression +
@@ -249,7 +250,8 @@ const
   '{OR}' + Require + Expression + '{XOR}'+ Require + Expression + '{SHR}'+ Require + Expression + '{SHL}'+ Require + Expression +
   '{*}'  + Require + Expression + '{/}'  + Require + Expression + '{DIV}'+ Require + Expression + '{MOD}'+ Require + Expression,
 // MetId
-  '{.}' + Ident,
+  '{.}' + Ident + MetId +
+  '{<}' + Ident + VarList + '>' + MetId,
 // AssignStmt
   '{:=}' + Require + Expression +
   '{+=}' + Require + Expression + '{-=}' + Require + Expression + '{*=}' + Require + Expression + '{/=}' + Require + Expression,
@@ -307,12 +309,12 @@ const
 // ExceptHand
   '{ON}' + Ident + QualId + IdentType + 'DO' + Statement + ExceptList + EndCaseList + Pop,
 // IdentType
-  '{:}' + Ident + QualId,
+  '{:}' + Ident + Generics + QualId + Generics,
 // ExceptList
   '{;}' + ExceptHand,
 // InterfMet
   '{PROCEDURE}' + Ident + FormalParams + DispId + ';' + InterDir + WarnDir + InterfMet +
-  '{FUNCTION}'  + Ident + FormalParams + ':' + Ident + QualId + DispId + ';' + InterDir + WarnDir + InterfMet +
+  '{FUNCTION}'  + Ident + FormalParams + ':' + Ident + Generics + QualId + Generics + DispId + ';' + InterDir + WarnDir + InterfMet +
   '{PROPERTY}'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + DispId + ';' + InterDir + WarnDir + Mark + DefProp + InterfMet,
 // InterDir
   '{DISPID}' + Expression + ';' + InterDir +
@@ -365,7 +367,7 @@ const
   '{.}' + Ident + '=' + Ident + ';' + Pop,
 // ClassMet
   '{PROCEDURE}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '{FUNCTION}'  + Ident + MetId + FormalParams + ':' + Ident + QualId + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection,
+  '{FUNCTION}'  + Ident + MetId + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection,
 // InternalDecl
   'Internal Declaration Section' +
   '{VAR}' + Require + VarDecl + InternalDecl +
@@ -427,6 +429,8 @@ const
   '{/}'  + Require + ArithExpr + '{DIV}'+ Require + ArithExpr + '{MOD}'+ Require + ArithExpr,
 // ClassDir
   '{ABSTRACT}{SEALED}',
+// Generics
+  '{<}' + Ident + VarList + '>',
 // CallConv
   '{STDCALL};' + Directives + '{CDECL};'+ CallConv + Directives + '{SAFECALL};' + Directives +
   '{REGISTER};{PASCAL};{INLINE};{FORWARD};' + Pop + '{VARARGS};' +
