@@ -17,6 +17,7 @@
 ||Anotações||Sim||Não||Sim||
 ||Class Helpers||Sim||Não||Previsto||
 ||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
+||Métodos anônimos||Sim||Não||Previsto||
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
 ||Literais binários e octais||Não||Sim||Sim||
