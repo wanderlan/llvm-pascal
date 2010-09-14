@@ -26,10 +26,10 @@ const
   CallConvType = #223; WarnDir2     = #224; RecFieldList = #225; RecCaseList  = #226; RecEndCase   = #227;
   FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; AbsoluteAddr = #232;
   IdentOpc     = #233; UsesList     = #234; UnitIn       = #235; EnumInit     = #236; ArithExpr    = #237;
-  ArithOp      = #238; CallConv     = #239;
+  ArithOp      = #238; ClassDir     = #239; CallConv     = #240;
 
   // Other non terminals
-  Ident = #240; StringConst = #241; CharConst = #242; IntConst = #243; RealConst = #244;
+  Ident = #246; StringConst = #247; CharConst = #248; IntConst = #249; RealConst = #250;
   // Grammar commands
   InsertSemi = #251; Skip = #252; Require = #253; Mark = #254; Pop = #255;
 
@@ -82,8 +82,8 @@ const
   '{+}' + ArithExpr + Require + SubRange +
   '{-}' + ArithExpr + Require + SubRange +
   '{^}' + Ident +
-  '{RECORD}' + FieldDecl + RecordCase + 'END' + Mark +
-  '{CLASS}' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
+  '{RECORD}' + FieldDecl + MethodDecl + RecordCase + 'END' + Mark +
+  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
   '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '{SET}' + 'OF' + Require + OrdinalType +
   '{PROCEDURE}' + FormalParams + OfObject + CallConvType +
@@ -178,7 +178,10 @@ const
   '{(}'  + Ident + IdentList + ')' +
   '{OF}' + Ident + Pop,
 // FieldDecl
-  '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + FieldList,
+  '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + FieldList +
+  '{VAR}'   + Require + FieldDecl +
+  '{CONST}' + Require + ConstDecl + FieldDecl +
+  '{TYPE}'  + Require + TypeDecl + FieldDecl,
 // MethodDecl
   '{PROCEDURE}'   + Ident + Delegation + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
   '{FUNCTION}'    + Ident + Delegation + FormalParams + ':' + Ident + QualId + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
@@ -226,11 +229,9 @@ const
 // PropIndex
   '{INDEX}' + Expression,
 // PropRead
-  '{READ}' + Ident + QualId + Mark +
-  '{READONLY}',
+  '{READ}' + Ident + QualId + Mark,
 // PropWrite
-  '{WRITE}' + Ident + QualId + Mark +
-  '{WRITEONLY}',
+  '{WRITE}' + Ident + QualId + Mark,
 // PropStored
   '{STORED}' + Ident,
 // PropDefault
@@ -314,7 +315,7 @@ const
   '{DISPID}' + Expression + ';' + InterDir +
   '{OVERLOAD};' + InterDir + '{CDECL};' + InterDir + '{SAFECALL};' + InterDir + '{STDCALL};' + InterDir + '{REGISTER};' + InterDir + '{PASCAL};' + InterDir,
 // AbstractDir
-  '{ABSTRACT};',
+  '{ABSTRACT};{FINAL};',
 // FinSection
   '{FINALIZATION}' + Statement + StmtList + 'END' +
   '{END}',
@@ -325,7 +326,7 @@ const
 // PackedDecl
   '{ARRAY}' + ArrayDim + 'OF' + Require + Type_ +
   '{RECORD}' + FieldDecl + RecordCase + 'END' + Mark +
-  '{CLASS}' + ForwardClass + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark + // Forwardclass
+  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark +
   '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '{SET}' + 'OF' + Require + OrdinalType +
   '{FILE}' + FileOf,
@@ -344,7 +345,7 @@ const
   '{OF}' + 'OBJECT',
 // Directives
   '{OVERRIDE};{OVERLOAD};' + Directives + '{VIRTUAL};' + Directives + '{REINTRODUCE};' + Directives +
-  '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};' + Directives + '{DYNAMIC};{STATIC};{[}' + Skip + '];',
+  '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};' + Directives + '{DYNAMIC};{STATIC};{[}' + Skip + ']' + Mark + ';',
 // ExternalDir
   '{EXTERNAL}' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + CallConv + Pop +
   '{ASSEMBLER};' + CallConv,
@@ -399,7 +400,7 @@ const
 // CteField
   '{' + Ident + '}' + ':' + Expression + CteFieldList,
 // DispId
-  '{DISPID}' + Expression,
+  '{READONLY}' + DispId + '{WRITEONLY}' + DispId + '{DISPID}' + Expression,
 // AbsoluteAddr
   '{' + Ident + '}' + QualId +
   '{' + IntConst + '}',
@@ -421,6 +422,8 @@ const
   '{+}'  + Require + ArithExpr + '{-}'  + Require + ArithExpr + '{AND}'+ Require + ArithExpr + '{OR}' + Require + ArithExpr +
   '{XOR}'+ Require + ArithExpr + '{SHR}'+ Require + ArithExpr + '{SHL}'+ Require + ArithExpr + '{*}'  + Require + ArithExpr +
   '{/}'  + Require + ArithExpr + '{DIV}'+ Require + ArithExpr + '{MOD}'+ Require + ArithExpr,
+// ClassDir
+  '{ABSTRACT}{SEALED}',
 // CallConv
   '{STDCALL};' + Directives + '{CDECL};'+ CallConv + Directives + '{SAFECALL};' + Directives +
   '{REGISTER};{PASCAL};{INLINE};{FORWARD};' + Pop + '{VARARGS};' +

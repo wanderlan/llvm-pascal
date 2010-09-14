@@ -7,7 +7,7 @@ Date: apr-2010
 License: <extlink http://www.opensource.org/licenses/bsd-license.php>BSD</extlink>
 Based on Dragon Book
 Tests:
-"C:\Arquivos de programas\Borland\BDS\4.0\source\*.pas" -fi "C:\Arquivos de programas\Borland\BDS\4.0\source\dunit\contrib\dunitwizard\source\common\" -v0
+"C:\Arquivos de programas\Borland\BDS\4.0\source\*.pas" -fi"C:\Arquivos de programas\Borland\BDS\4.0\source\dunit\contrib\dunitwizard\source\common\" -v0
 }
 {$APPTYPE CONSOLE}
 
@@ -19,8 +19,8 @@ var
 
 begin
   if not FindCmdLineSwitch('v0') then begin
-    writeln('LLVM-Pascal Version 2010.9.13 pre-Alpha scanner/parser');
-    writeln('(c)2010 by'^J,
+    writeln('LLVM-Pascal Version 2010.9.13 pre-Alpha scanner/parser'^J,
+            '(c)2010 by'^J,
             'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
             'New BSD license'^J,
             'http://llvm-pascal.googlecode.com'^J);
