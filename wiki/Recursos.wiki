@@ -16,7 +16,7 @@
 ||Records with methods||Sim||Não||Sim||
 ||Anotações||Sim||Não||Sim||
 ||Class Helpers||Sim||Não||Previsto||
-||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
+||Generics||Sim||Dialeto FPC||Sim||
 ||Métodos anônimos||Sim||Não||Previsto||
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
