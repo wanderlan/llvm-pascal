@@ -5,7 +5,7 @@
 ||Inline||Sim||Sim||Sim||
 ||for-in||Sim||Sim||Sim||
 ||Strict private/protected||Sim||Sim||Sim||
-||Operator Overload||Sim||Dialeto FPC||Dialeto FPC||
+||Operator Overload||Sim||Sim (Dialeto FPC)||Sim (Dialeto FPC)||
 ||Classes abstract e sealed||Sim||Não||Sim||
 ||Const em classes||Sim||Não||Sim||
 ||Type em classes||Sim||Não||Sim||
@@ -16,7 +16,7 @@
 ||Records with methods||Sim||Não||Sim||
 ||Anotações||Sim||Não||Sim||
 ||Class Helpers||Sim||Não||Previsto||
-||Generics||Sim||Dialeto FPC||Sim||
+||Generics||Sim||Dialeto FPC||Sim (Dialeto Delphi)||
 ||Métodos anônimos||Sim||Não||Previsto||
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
