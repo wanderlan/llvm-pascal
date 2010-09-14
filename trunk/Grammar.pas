@@ -148,7 +148,8 @@ const
   '{FINALIZATION}' + Statement + StmtList + 'END' +
   '{END}',
 // TypeDecl
-  '{' + Ident + '}' + '=' + Require + Type_ + WarnDir2 + ';' + Mark + TypeDecl,
+  '{' + Ident + '}' + '=' + Require + Type_ + WarnDir2 + ';' + Mark + TypeDecl +
+  '{[}' + Ident + QualId + ']' + TypeDecl,
 // StringLength
   '{[}' + Require + IntConst + ']',
 // ArrayDim
@@ -181,13 +182,15 @@ const
   '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + FieldList +
   '{VAR}'   + Require + FieldDecl +
   '{CONST}' + Require + ConstDecl + FieldDecl +
-  '{TYPE}'  + Require + TypeDecl + FieldDecl,
+  '{TYPE}'  + Require + TypeDecl + FieldDecl +
+  '{[}' + Ident + QualId + ']' + FieldDecl,
 // MethodDecl
   '{PROCEDURE}'   + Ident + Delegation + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
   '{FUNCTION}'    + Ident + Delegation + FormalParams + ':' + Ident + QualId + ';' + Directives + CallConv + AbstractDir + WarnDir + Mark + MethodDecl +
   '{CONSTRUCTOR}' + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
   '{DESTRUCTOR}'  + Ident + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + MethodDecl +
-  '{PROPERTY}'    + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp + WarnDir + MethodDecl,
+  '{PROPERTY}'    + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp + WarnDir + MethodDecl +
+  '{[}' + Ident + QualId + ']' + MethodDecl,
 // FormalParams
   '{(}' + FormalParam + FormalList + ')',
 // FormalList
