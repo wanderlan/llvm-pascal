@@ -9,6 +9,11 @@
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
 ||Literais binários e octais||Não||Sim||Sim||
+||Classes abstract e sealed||Sim||Não||Sim||
+||Const em classes||Sim||Não||Sim||
+||Type em classes||Sim||Não||Sim||
+||Var em classes||Sim||Não||Sim||
+||Classes aninhadas|Sim||Não||Sim||
 ||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
 ||Assembler embutido||Sim||Sim||Não||
 ||Anotações||Sim||Não||Previsto||
