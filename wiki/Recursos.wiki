@@ -5,7 +5,6 @@
 ||Inline||Sim||Sim||Sim||
 ||for-in||Sim||Sim||Sim||
 ||Strict private/protected||Sim||Sim||Sim||
-||Operator Overload||Sim||Sim (Dialeto FPC)||Sim (Dialeto FPC)||
 ||Classes abstract e sealed||Sim||Não||Sim||
 ||Const em classes||Sim||Não||Sim||
 ||Type em classes||Sim||Não||Sim||
@@ -15,15 +14,16 @@
 ||Class property||Sim||Não||Sim||
 ||Records with methods||Sim||Não||Sim||
 ||Anotações||Sim||Não||Sim||
-||Class Helpers||Sim||Não||Previsto||
-||Generics||Sim||Dialeto FPC||Sim (Dialeto Delphi)||
-||Métodos anônimos||Sim||Não||Previsto||
+||Generics||Sim||Sim (Dialeto FPC)||Sim (Dialeto Delphi)||
+||Operator Overload||Sim||Sim (Dialeto FPC)||Sim (Dialeto FPC)||
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
 ||Literais binários e octais||Não||Sim||Sim||
 ||Multiplataforma||Não||Sim||Sim||
+||Class Helpers||Sim||Não||Previsto||
+||Métodos anônimos||Sim||Não||Previsto||
 ||Assembler embutido||Sim||Sim||Não||
 ||Licença||US$ 900,00||GPL||BSD||
-||Linguagem||C-Ansi e Assembly X86||Pascal||Object Pascal||
+||Linguagem||C-Ansi e Assembly x86||Pascal||Object Pascal||
 ||Linhas de código||~150.000||212.000||4.000 (previsão)||
  
