@@ -40,9 +40,9 @@ const
   Productions : array[Start..CallConv] of string = (
 // Start
   '{PROGRAM}' + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
-  '{UNIT}'    + Ident + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
-  '{LIBRARY}' + Ident + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + InitSection  + '.' +
-  '{PACKAGE}' + Ident + WarnDir2 + ';' + 'REQUIRES' + Ident + QualId + IdentList + ';' + Mark + 'CONTAINS' + Ident + QualId + IdentList + 'END.',
+  '{UNIT}'    + Ident + QualId + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
+  '{LIBRARY}' + Ident + QualId + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + InitSection  + '.' +
+  '{PACKAGE}' + Ident + QualId + WarnDir2 + ';' + 'REQUIRES' + Ident + QualId + IdentList + ';' + Mark + 'CONTAINS' + Ident + QualId + IdentList + 'END.',
 // ParIdentList
   '{(}' + Ident + Generics + QualId + Generics + IdentList + ')',
 // IdentList
@@ -82,7 +82,7 @@ const
   '{+}' + ArithExpr + Require + SubRange +
   '{-}' + ArithExpr + Require + SubRange +
   '{^}' + Ident +
-  '{RECORD}' + FieldDecl + MethodDecl + RecordCase + 'END' + Mark +
+  '{RECORD}' + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark +
   '{CLASS}' + ForwardClass + ClassDir + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
   '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '{SET}' + 'OF' + Require + OrdinalType +
@@ -330,7 +330,7 @@ const
   '{AT}' + Require + Expression,
 // PackedDecl
   '{ARRAY}' + ArrayDim + 'OF' + Require + Type_ +
-  '{RECORD}' + FieldDecl + RecordCase + 'END' + Mark +
+  '{RECORD}' + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark +
   '{CLASS}' + ForwardClass + ClassDir + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark +
   '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '{SET}' + 'OF' + Require + OrdinalType +
@@ -367,7 +367,9 @@ const
   '{.}' + Ident + '=' + Ident + ';' + Pop,
 // ClassMet
   '{PROCEDURE}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '{FUNCTION}'  + Ident + MetId + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection,
+  '{FUNCTION}'  + Ident + MetId + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + AbstractDir + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
+  '{CONSTRUCTOR}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
+  '{DESTRUCTOR}'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection,
 // InternalDecl
   'Internal Declaration Section' +
   '{VAR}' + Require + VarDecl + InternalDecl +

@@ -35,14 +35,13 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="4">
+    <Units Count="6">
       <Unit0>
         <Filename Value="LLVM_Pascal.dpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3"/>
+        <TopLine Value="1"/>
         <CursorPos X="10" Y="26"/>
         <UsageCount Value="156"/>
         <Loaded Value="True"/>
@@ -51,7 +50,8 @@
       <Unit1>
         <Filename Value="Scanner.pas"/>
         <UnitName Value="Scanner"/>
-        <EditorIndex Value="3"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="61"/>
         <CursorPos X="40" Y="86"/>
@@ -74,17 +74,35 @@
       <Unit3>
         <Filename Value="FPCTunning.pas"/>
         <UnitName Value="FPCTunning"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="150"/>
         <CursorPos X="16" Y="182"/>
         <SyntaxHighlighter Value="Delphi"/>
         <UsageCount Value="11"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Text"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\database\Borland.Data.AdoDbxClientProvider.pas"/>
+        <UnitName Value="Borland"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="3067"/>
+        <CursorPos X="66" Y="3110"/>
+        <SyntaxHighlighter Value="FreePascal"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Text"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\database\AdoDbxDb2ClientProvider.pas"/>
+        <UnitName Value="AdoDbxDb2ClientProvider"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="9"/>
+        <SyntaxHighlighter Value="FreePascal"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Text"/>
+      </Unit5>
     </Units>
-    <JumpHistory Count="14" HistoryIndex="13">
+    <JumpHistory Count="13" HistoryIndex="12">
       <Position1>
         <Filename Value="Scanner.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
@@ -110,37 +128,33 @@
         <Caret Line="32" Column="40" TopLine="1"/>
       </Position6>
       <Position7>
-        <Filename Value="FPCTunning.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="39" Column="1" TopLine="1"/>
       </Position7>
       <Position8>
         <Filename Value="LLVM_Pascal.dpr"/>
-        <Caret Line="39" Column="1" TopLine="1"/>
+        <Caret Line="24" Column="1" TopLine="1"/>
       </Position8>
       <Position9>
         <Filename Value="LLVM_Pascal.dpr"/>
-        <Caret Line="24" Column="1" TopLine="1"/>
+        <Caret Line="21" Column="19" TopLine="1"/>
       </Position9>
       <Position10>
         <Filename Value="LLVM_Pascal.dpr"/>
-        <Caret Line="21" Column="19" TopLine="1"/>
+        <Caret Line="23" Column="48" TopLine="1"/>
       </Position10>
       <Position11>
         <Filename Value="LLVM_Pascal.dpr"/>
-        <Caret Line="23" Column="48" TopLine="1"/>
+        <Caret Line="21" Column="13" TopLine="1"/>
       </Position11>
       <Position12>
         <Filename Value="LLVM_Pascal.dpr"/>
-        <Caret Line="21" Column="13" TopLine="1"/>
+        <Caret Line="23" Column="10" TopLine="1"/>
       </Position12>
       <Position13>
         <Filename Value="LLVM_Pascal.dpr"/>
-        <Caret Line="23" Column="10" TopLine="1"/>
-      </Position13>
-      <Position14>
-        <Filename Value="LLVM_Pascal.dpr"/>
         <Caret Line="25" Column="7" TopLine="1"/>
-      </Position14>
+      </Position13>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
