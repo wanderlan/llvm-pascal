@@ -1,13 +1,17 @@
 program Test15;
 
 type
+  [Teste]
   C = record
     var
       s:integer;//=1;
     type t = integer;
+    [Teste]
     cc= class
       y:integer;
     end;
+    [Teste]
+    [Teste.abc(123, 'asas')]
     property X : integer;
     procedure x3; final;
   end;
