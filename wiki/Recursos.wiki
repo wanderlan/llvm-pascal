@@ -1,4 +1,5 @@
 #summary Considerando compatibilidade total com Delphi 7
+#labels Featured
 
 || *Recurso* || *Delphi XE* || *FreePascal 2.4* || *LLVM-Pascal* ||
 ||Inline||Sim||Sim||Sim||
@@ -6,7 +7,8 @@
 ||Strict private/protected||Sim||Sim||Sim||
 ||Operator Overload||Sim||Dialeto FPC||Dialeto FPC||
 ||Macros||Não||Sim||Sim||
-||+=,-=,`*`=,/=||Não||Sim||Sim||
+||+=, -=, `*`=, /=||Não||Sim||Sim||
+||Literais binários e octais||Não||Sim||Sim||
 ||Generics||Sim||Dialeto FPC||Previsto Dialeto Delphi||
 ||Assembler embutido||Sim||Sim||Não||
 ||Anotações||Sim||Não||Previsto||
