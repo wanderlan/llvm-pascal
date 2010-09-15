@@ -51,9 +51,9 @@ type
     procedure EmitMessage;
     procedure GotoEndComment;
   protected
-    FEndSource, FSilentMode : boolean;
+    FEndSource : boolean;
     FLineNumber : array[0..MaxIncludeLevel] of integer;
-    FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment : integer;
+    FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment, FSilentMode : integer;
     NestedIf : shortstring;
     ReservedWords : string;
     IncludePath : TStringList;
@@ -65,7 +65,7 @@ type
     procedure NextToken(Skip : boolean = false);
     procedure RecoverFromError(const Expected, Found : string); virtual;
   public
-    constructor Create(MaxErrors : integer = 10; Includes : string = ''; SilentMode : boolean = false);
+    constructor Create(MaxErrors : integer = 10; Includes : string = ''; pSilentMode : integer = 2);
     destructor Destroy; override;
     procedure Error(const Msg : string); virtual;
     procedure MatchToken(const TokenExpected : string);
@@ -78,6 +78,7 @@ type
     property EndSource  : boolean   read FEndSource;
     property Errors     : integer   read FErrors;
     property InitTime   : TDateTime read FInitTime;
+    property SilentMode : integer   read FSilentMode;
   end;
 
 implementation
@@ -95,13 +96,13 @@ const
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
-constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; SilentMode : boolean = false); begin
+constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; pSilentMode : integer = 2); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
   DecimalSeparator  := '.';
   ThousandSeparator := ',';
   ReservedWords := DelphiReservedWords;
-  FSilentMode := SilentMode;
+  FSilentMode := pSilentMode;
   IncludePath := TStringList.Create;
   IncludePath.Delimiter := ';';
   IncludePath.StrictDelimiter := true;
@@ -161,7 +162,7 @@ procedure TScanner.SetFSourceName(const Value : string); begin
   FSourceName[Include] := Value;
   if FileExists(SourceName) then begin
     assign(Arq[Include], SourceName);
-    if not FSilentMode then writeln(ExtractFileName(SourceName));
+    if FSilentMode >= 2 then writeln(ExtractFileName(SourceName));
     reset(Arq[Include]);
     First  := 1;
     FToken := TToken.Create;
@@ -219,6 +220,7 @@ procedure TScanner.OpenInclude; begin
   First := FAnt;
   SkipBlank;
   ScanChars([['!'..#255] - ['}']], [255]);
+  FToken.Lexeme := AnsiDequotedStr(trim(FToken.Lexeme), '''');
   if FToken.Lexeme = '' then exit;
   if TestIncludePaths then begin
     if length(trim(copy(Line, First, 100))) > 1 then
@@ -229,15 +231,15 @@ procedure TScanner.OpenInclude; begin
     reset(Arq[Include]);
     LineNumber := 0;
     FSourceName[Include] := FToken.Lexeme;
-    if not FSilentMode then writeln('' : Include * 2, ExtractFileName(SourceName));
+    if FSilentMode >= 2 then writeln('' : Include * 2, ExtractFileName(SourceName));
   end
   else
-    Error('Include file ''' + FToken.Lexeme + ''' not found');
+    if FSilentMode >= 2 then Error('Include file ''' + FToken.Lexeme + ''' not found');
 end;
 
 procedure TScanner.ShowMessage(Kind, Msg : shortstring); begin
   Kind := UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10));
-  if not FSilentMode or (Kind = 'Error') or (Kind = 'Fatal') then
+  if (FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal') then
     writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
 end;
 
@@ -593,7 +595,7 @@ begin
     ShowMessage('Error', Msg);
     inc(FErrors);
     if FErrors >= FMaxErrors then FEndSource := true;
-    if not FSilentMode and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
+    if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
     LastSourceName := SourceName;
