@@ -92,7 +92,6 @@ const
     'not.object.of.or.out.packed.private.procedure.program.property.protected.public.published.raise.record.repeat.resourcestring.set.shl.shr.' +
     'strict.then.threadvar.to.try.type.unit.until.uses.var.while.with.xor.';
   FPCReservedWords = 'operator.';
-  DelphiXEReservedWords = 'reference.';
   Kinds : array[TTokenKind] of string = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant', 'Real Constant', 'Constant Expression',
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
@@ -108,10 +107,9 @@ constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; pS
   IncludePath.Delimiter := ';';
   IncludePath.StrictDelimiter := true;
   IncludePath.DelimitedText := ';' + Includes;
-  case AnsiIndexText(LanguageMode, ['XE', 'FPC', 'OBJFPC']) of
-    0    : ReservedWords := ReservedWords + DelphiXEReservedWords;
-    1, 2 : ReservedWords := ReservedWords + FPCReservedWords;
-  end;             
+  case AnsiIndexText(LanguageMode, ['FPC', 'OBJFPC']) of
+    0, 1 : ReservedWords := ReservedWords + FPCReservedWords;
+  end;
 end;
 
 destructor TScanner.Destroy;
