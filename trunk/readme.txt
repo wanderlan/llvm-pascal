@@ -18,3 +18,14 @@ License: BSD, http://www.opensource.org/licenses/bsd-license.php
 
 Para "compilar" use:
 LLVM_Pascal *.pas
+
+
+Are there any languages that target the LLVM that:
+
+    * Are statically typed
+    * Use type inference
+    * Are functional (i.e. lambda expressions, closures, list primitives, list comprehensions, etc.)
+    * Have first class object-oriented features (inheritance, polymorphism, mixins, etc.)
+    * Have a sophisticated type system (generics, covariance and contravariance, etc.)
+
+Scala is all of these, but only targets the JVM. F# (and to some extent C#) is most if not all of these, but only targets .NET. What similar language targets the LLVM?

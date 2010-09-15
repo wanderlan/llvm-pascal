@@ -18,7 +18,7 @@ const
   EndCaseList  = #183; SetList      = #184; InterDecl    = #185; LabelId      = #186; SubRange     = #187;
   FileOf       = #188; ForStmt      = #189; PropParams   = #190; IdentDir     = #191; NameDir      = #192;
   GUID         = #193; ExceptFin    = #194; ExceptHand   = #195; IdentType    = #196; ExceptList   = #197;
-  InterfMet    = #198; InterDir     = #199; FILLER       = #200; FinSection   = #201; RaiseStmt    = #202;
+  InterfMet    = #198; InterDir     = #199; ProcedType   = #200; FinSection   = #201; RaiseStmt    = #202;
   RaiseAt      = #203; PackedDecl   = #204; ObjHerit     = #205; ObjDecl      = #206; ForwardClass = #207;
   RsrcDecl     = #208; OfObject     = #209; Directives   = #210; ExternalDir  = #211; MetCall      = #212;
   DefProp      = #213; WarnDir      = #214; StrictDecl   = #215; Delegation   = #216; ClassMet     = #217;
@@ -36,7 +36,9 @@ const
   SimpleType = 'Type' + '{' + Ident + '}' + Generics + QualId + Generics + SubRange + '{INTEGER}{BOOLEAN}{BYTE}{WORD}{CARDINAL}{LONGINT}' +
     '{INT64}{UINT64}{CHAR}{WIDECHAR}{WIDESTRING}{LONGWORD}{SHORTINT}{SMALLINT}' +
     '{PCHAR}{POINTER}{REAL}{SINGLE}{DOUBLE}{EXTENDED}{CURRENCY}{COMP}{BYTEBOOL}{WORDBOOL}{LONGBOOL}';
-
+  ProceduralType = '{PROCEDURE}' + FormalParams + OfObject + CallConvType +
+    '{FUNCTION}' + FormalParams + ':' + Ident + QualId + OfObject + CallConvType;
+    
   Productions : array[Start..CallConv] of string = (
 // Start
   '{PROGRAM}' + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
@@ -86,14 +88,14 @@ const
   '{CLASS}' + ForwardClass + ClassDir + ClassHerit + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
   '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '{SET}' + 'OF' + Require + OrdinalType +
-  '{PROCEDURE}' + FormalParams + OfObject + CallConvType +
-  '{FUNCTION}' + FormalParams + ':' + Ident + QualId + OfObject + CallConvType +
+  ProceduralType +
   '{PACKED}' + PackedDecl +
   '{FILE}' + FileOf +
   '{TEXT}' +
   '{INTERFACE}' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
   '{DISPINTERFACE}' + ForwardClass + ParIdentList + GUID + InterfMet + 'END' +
-  '{TYPE}' + Ident + QualId,
+  '{TYPE}' + Ident + QualId +
+  '{REFERENCE}' + 'TO' + ProcedType,
 // EnumList
   '{,}' + Ident + EnumInit + EnumList,
 // CompoundStmt
@@ -319,8 +321,8 @@ const
 // InterDir
   '{DISPID}' + Expression + ';' + InterDir +
   '{OVERLOAD};' + InterDir + '{CDECL};' + InterDir + '{SAFECALL};' + InterDir + '{STDCALL};' + InterDir + '{REGISTER};' + InterDir + '{PASCAL};' + InterDir,
-// FILLER
-  '',
+// ProcedType
+  ProceduralType,
 // FinSection
   '{FINALIZATION}' + Statement + StmtList + 'END' +
   '{END}',
@@ -352,8 +354,8 @@ const
   '{OVERRIDE};{OVERLOAD};' + Directives + '{VIRTUAL};' + Directives + '{REINTRODUCE};' + Directives +
   '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};{FINAL};{STATIC};{DYNAMIC};' + Directives + '{[}' + Skip + ']' + Mark + ';',
 // ExternalDir
-  '{EXTERNAL}' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + CallConv + Pop +
-  '{ASSEMBLER};' + CallConv,
+  '{EXTERNAL}' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + Directives + CallConv + Pop +
+  '{ASSEMBLER};' + Directives + CallConv,
 // MetCall
   '{' + Ident + '}' + QualId,
 // DefProp

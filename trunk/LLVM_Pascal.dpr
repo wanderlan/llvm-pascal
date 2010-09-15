@@ -26,9 +26,13 @@ begin
             'http://llvm-pascal.googlecode.com'^J);
   end;
   if (ParamCount = 0) or FindCmdLineSwitch('h') or FindCmdLineSwitch('?') then
-    writeln('Usage: LLVM_Pascal <path or source-name> [-Fi<include-paths separated by ;>] [-v0] [-Se<max number of errors, default is 10>')
+    writeln('Usage: LLVM_Pascal <path or source-name>'^J,
+            '[-Fi<include-paths separated by ;>]'^J,
+            '[-v<compiler verbosity: 0, 1 or 2, default is 2>]'^J,
+            '[-Se<max number of errors, default is 10>]'^J,
+            '[-M<compiler version, XE or OBJFPC, default is Delphi 2007>]')
   else begin
-    Compiler := TParser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2));
+    Compiler := TParser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']));
     try
       CompileTree(Compiler, ParamStr(1));
     finally
