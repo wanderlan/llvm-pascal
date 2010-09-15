@@ -30,7 +30,7 @@ begin
             '[-Fi<include-paths separated by ;>]'^J,
             '[-v<compiler verbosity: 0, 1 or 2, default is 2>]'^J,
             '[-Se<max number of errors, default is 10>]'^J,
-            '[-M<compiler version, XE or OBJFPC, default is Delphi 2007>]')
+            '[-M<language mode, Delphi or OBJFPC, default is Delphi>]')
   else begin
     Compiler := TParser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']));
     try
