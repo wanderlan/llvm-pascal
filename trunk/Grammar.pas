@@ -359,8 +359,9 @@ const
 // DefProp
   '{DEFAULT};',
 // WarnDir
-  '{PLATFORM};' + WarnDir + Directives + CallConv + '{DEPRECATED};' + WarnDir + Directives + CallConv + '{LIBRARY};' + WarnDir + Directives + CallConv +
-  '{EXPERIMENTAL};' + WarnDir + Directives + CallConv + '{UNIMPLEMENTED};' + WarnDir + Directives + CallConv,
+  '{PLATFORM}' + IdentDir + ';' + WarnDir + Directives + CallConv + '{DEPRECATED}' + IdentDir + ';' + WarnDir + Directives + CallConv +
+  '{LIBRARY}' + IdentDir + ';' + WarnDir + Directives + CallConv + '{EXPERIMENTAL}' + IdentDir + ';' + WarnDir + Directives + CallConv +
+  '{UNIMPLEMENTED}' + IdentDir + ';' + WarnDir + Directives + CallConv,
 // StrictDecl
   '{PRIVATE}' + FieldDecl + MethodDecl + ClassDecl +
   '{PROTECTED}' + FieldDecl + MethodDecl + ClassDecl,
@@ -393,7 +394,8 @@ const
   '{;}' + CallConv + InsertSemi +
   '{STDCALL}{CDECL}{SAFECALL}{REGISTER}{PASCAL}',
 // WarnDir2
-  '{PLATFORM}' + WarnDir2 + '{DEPRECATED}' + WarnDir2 + '{LIBRARY}' + WarnDir2 + '{EXPERIMENTAL}' + WarnDir2 + '{UNIMPLEMENTED}' + WarnDir2,
+  '{PLATFORM}' + IdentDir + WarnDir2 + '{DEPRECATED}' + IdentDir + WarnDir2 + '{LIBRARY}' + IdentDir + WarnDir2 +
+  '{EXPERIMENTAL}' + IdentDir + WarnDir2 + '{UNIMPLEMENTED}' + IdentDir + WarnDir2,
 // RecFieldList
   '{(}' + FieldDecl + RecordCase + ')' + Mark,
 // RecCaseList
