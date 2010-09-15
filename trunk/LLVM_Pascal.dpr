@@ -19,7 +19,7 @@ var
 
 begin
   if not FindCmdLineSwitch('v0') then begin
-    writeln('LLVM-Pascal Version 2010.9.13 pre-Alpha scanner/parser'^J,
+    writeln('LLVM-Pascal Version 2010.9.15 pre-Alpha scanner/parser'^J,
             '(c)2010 by'^J,
             'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
             'New BSD license'^J,
@@ -28,7 +28,7 @@ begin
   if (ParamCount = 0) or FindCmdLineSwitch('h') or FindCmdLineSwitch('?') then
     writeln('Usage: LLVM_Pascal <path or source-name> [-Fi<include-paths separated by ;>] [-v0] [-Se<max number of errors, default is 10>')
   else begin
-    Compiler := TParser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), FindCmdLineSwitch('v0'));
+    Compiler := TParser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2));
     try
       CompileTree(Compiler, ParamStr(1));
     finally

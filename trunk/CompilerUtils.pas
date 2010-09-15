@@ -63,7 +63,7 @@ begin
   if pos('*', Tree) <> 0 then begin
     Path := ExtractFilePath(Tree);
     Ext  := ExtractFileName(Tree);
-    if not FindCmdLineSwitch('v0') then writeln(Path);
+    if Compiler.SilentMode >= 2 then writeln(Path);
   end;
   CompilePath(Compiler, Tree);
   if pos('*', Tree) <> 0 then begin
