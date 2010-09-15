@@ -108,7 +108,10 @@ constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; pS
   IncludePath.StrictDelimiter := true;
   IncludePath.DelimitedText := ';' + Includes;
   case AnsiIndexText(LanguageMode, ['FPC', 'OBJFPC']) of
-    0, 1 : ReservedWords := ReservedWords + FPCReservedWords;
+    0, 1 : begin
+      ReservedWords := ReservedWords + FPCReservedWords;
+      Productions[Directives] := Productions[Directives] + '{[}' + Skip + ']' + Mark + ';';
+    end;
   end;
 end;
 

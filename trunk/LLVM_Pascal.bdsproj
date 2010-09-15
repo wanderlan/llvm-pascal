@@ -130,7 +130,7 @@
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">"C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\Win32\rtl\sys\*.pas" -v1</Parameters>
+			<Parameters Name="RunParams">C:\lazarus\components\*.pas -v1 -se1000</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
