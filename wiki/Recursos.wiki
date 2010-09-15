@@ -1,7 +1,7 @@
-#summary Considerando compatibilidade total com Delphi 7
 #labels Featured
 
 || *Recurso* || *Delphi XE* || *FreePascal 2.4* || *LLVM-Pascal* ||
+||Compatível com Delphi 7||Sim||Sim||Sim||
 ||Inline||Sim||Sim||Sim||
 ||for-in||Sim||Sim||Sim||
 ||Strict private/protected||Sim||Sim||Sim||
@@ -20,8 +20,8 @@
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
 ||Literais binários e octais||Não||Sim||Sim||
 ||Multiplataforma||Não||Sim||Sim||
-||Class Helpers||Sim||Não||Previsto||
 ||Métodos anônimos||Sim||Não||Previsto||
+||Class Helpers||Sim||Não||Previsto||
 ||Assembler embutido||Sim||Sim||Não||
 ||Licença||US$ 900,00||GPL||BSD||
 ||Linguagem||C-Ansi e Assembly x86||Pascal||Object Pascal||
