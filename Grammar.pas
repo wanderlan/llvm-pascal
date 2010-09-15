@@ -67,7 +67,8 @@ const
   '{CLASS}'       + ClassMet +
   '{THREADVAR}'   + Require + VarDecl + DeclSection +
   '{LABEL}'       + Require + LabelId + LabelList + DeclSection +
-  '{RESOURCESTRING}' + Require + RsrcDecl + DeclSection,
+  '{RESOURCESTRING}' + Require + RsrcDecl + DeclSection +
+  '{[}' + Ident + QualId + IdentList + ']' + DeclSection,
 // VarDecl
   '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + VarInit + ';' + Mark + VarDecl,
 // VarList
@@ -151,7 +152,7 @@ const
   '{END}',
 // TypeDecl
   '{' + Ident + '}' + Generics + '=' + ReferTo + Require + Type_ + WarnDir2 + ';' + Mark + TypeDecl +
-  '{[}' + Ident + QualId + ']' + TypeDecl,
+  '{[}' + Ident + QualId + IdentList + ']' + TypeDecl,
 // StringLength
   '{[}' + Require + IntConst + ']',
 // ArrayDim
@@ -186,7 +187,7 @@ const
   '{VAR}'   + Require + FieldDecl +
   '{CONST}' + Require + ConstDecl + FieldDecl +
   '{TYPE}'  + Require + TypeDecl + FieldDecl +
-  '{[}' + Ident + QualId + ']' + FieldDecl,
+  '{[}' + Ident + QualId + IdentList + ']' + FieldDecl,
 // MethodDecl
   '{PROCEDURE}'   + Ident + Generics + Delegation + FormalParams + ';' + Directives + CallConv + WarnDir + Mark + MethodDecl +
   '{FUNCTION}'    + Ident + Generics + Delegation + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir + Mark + MethodDecl +
@@ -196,7 +197,7 @@ const
   '{VAR}'   + Require + MethodDecl +
   '{CONST}' + Require + ConstDecl + MethodDecl +
   '{TYPE}'  + Require + TypeDecl + MethodDecl +
-  '{[}' + Ident + QualId + ']' + MethodDecl,
+  '{[}' + Ident + QualId + IdentList + ']' + MethodDecl,
 // FormalParams
   '{(}' + FormalParam + FormalList + ')',
 // FormalList
@@ -320,7 +321,8 @@ const
 // InterfMet
   '{PROCEDURE}' + Ident + FormalParams + DispId + ';' + InterDir + WarnDir + InterfMet +
   '{FUNCTION}'  + Ident + FormalParams + ':' + Ident + Generics + QualId + Generics + DispId + ';' + InterDir + WarnDir + InterfMet +
-  '{PROPERTY}'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + DispId + ';' + InterDir + WarnDir + Mark + DefProp + InterfMet,
+  '{PROPERTY}'  + Ident + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropDefault + DispId + ';' + InterDir + WarnDir + Mark + DefProp + InterfMet +
+  '{[}' + Ident + QualId + IdentList + ']' + InterfMet,
 // InterDir
   '{DISPID}' + Expression + ';' + InterDir +
   '{OVERLOAD};' + InterDir + '{CDECL};' + InterDir + '{SAFECALL};' + InterDir + '{STDCALL};' + InterDir + '{REGISTER};' + InterDir + '{PASCAL};' + InterDir,
@@ -355,7 +357,7 @@ const
   '{OF}' + 'OBJECT',
 // Directives
   '{OVERRIDE};{OVERLOAD};' + Directives + '{VIRTUAL};' + Directives + '{REINTRODUCE};' + Directives +
-  '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};{FINAL};{STATIC};{DYNAMIC};' + Directives + '{[}' + Skip + ']' + Mark + ';',
+  '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};{FINAL};{STATIC};{DYNAMIC};' + Directives,
 // ExternalDir
   '{EXTERNAL}' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + Directives + CallConv + Pop +
   '{ASSEMBLER};' + Directives + CallConv,
