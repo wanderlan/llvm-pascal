@@ -54,7 +54,7 @@ type
     FEndSource, FPCMode : boolean;
     FLineNumber : array[0..MaxIncludeLevel] of integer;
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment, FSilentMode : integer;
-    ErrorCode,
+    ErrorCode, FNotShow,
     NestedIf : shortstring;
     ReservedWords : string;
     IncludePath : TStringList;
@@ -67,7 +67,7 @@ type
     procedure RecoverFromError(const Expected, Found : string); virtual;
     procedure ChangeLanguageMode(FPC : boolean);
   public
-    constructor Create(MaxErrors : integer = 10; Includes : string = ''; pSilentMode : integer = 2; LanguageMode : string = '');
+    constructor Create(MaxErrors : integer = 10; Includes : string = ''; pSilentMode : integer = 2; LanguageMode : string = ''; NotShow : string = '');
     destructor Destroy; override;
     procedure Error(const Msg : string); virtual;
     procedure MatchToken(const TokenExpected : string);
@@ -98,9 +98,10 @@ const
      'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
   ConditionalSymbols : string = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
-constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; pSilentMode : integer = 2; LanguageMode : string = ''); begin
+constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; pSilentMode : integer = 2; LanguageMode : string = ''; NotShow : string = ''); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
+  FNotShow   := NotShow;
   DecimalSeparator  := '.';
   ThousandSeparator := ',';
   FSilentMode := pSilentMode;
@@ -241,7 +242,7 @@ end;
 
 procedure TScanner.ShowMessage(Kind, Msg : shortstring); begin
   Kind := UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10));
-  if (FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal') then begin
+  if (pos(Kind[1] + ErrorCode, FNotShow) = 0) and ((FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal')) then begin
     writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' +
             Kind[1] + ErrorCode + IfThen(Msg[1] = '-', '', ' ') + Msg);
     if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);

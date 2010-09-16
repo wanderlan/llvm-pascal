@@ -130,7 +130,7 @@
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">C:\lazarus\components\*.pas  -se40</Parameters>
+			<Parameters Name="RunParams">C:\lazarus\components\*.pas  -se40 -vmW234,W210,E135,E158,E152,E145</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
