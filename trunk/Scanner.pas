@@ -51,9 +51,10 @@ type
     procedure EmitMessage;
     procedure GotoEndComment;
   protected
-    FEndSource : boolean;
+    FEndSource, FPCMode : boolean;
     FLineNumber : array[0..MaxIncludeLevel] of integer;
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment, FSilentMode : integer;
+    ErrorCode,
     NestedIf : shortstring;
     ReservedWords : string;
     IncludePath : TStringList;
@@ -64,6 +65,7 @@ type
     procedure ScanChars(const Chars: array of TSetChar; const Tam : array of integer; Optional : boolean = false);
     procedure NextToken(Skip : boolean = false);
     procedure RecoverFromError(const Expected, Found : string); virtual;
+    procedure ChangeLanguageMode(FPC : boolean);
   public
     constructor Create(MaxErrors : integer = 10; Includes : string = ''; pSilentMode : integer = 2; LanguageMode : string = '');
     destructor Destroy; override;
@@ -101,18 +103,12 @@ constructor TScanner.Create(MaxErrors : integer = 10; Includes : string = ''; pS
   FMaxErrors := MaxErrors;
   DecimalSeparator  := '.';
   ThousandSeparator := ',';
-  ReservedWords := DelphiReservedWords;
   FSilentMode := pSilentMode;
   IncludePath := TStringList.Create;
   IncludePath.Delimiter := ';';
   IncludePath.StrictDelimiter := true;
   IncludePath.DelimitedText := ';' + Includes;
-  case AnsiIndexText(LanguageMode, ['FPC', 'OBJFPC']) of
-    0, 1 : begin
-      ReservedWords := ReservedWords + FPCReservedWords;
-      Productions[Directives] := Productions[Directives] + '{[}' + Skip + ']' + Mark + ';';
-    end;
-  end;
+  ChangeLanguageMode(pos('FPC', UpperCase(LanguageMode)) <> 0);
 end;
 
 destructor TScanner.Destroy;
@@ -245,8 +241,11 @@ end;
 
 procedure TScanner.ShowMessage(Kind, Msg : shortstring); begin
   Kind := UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10));
-  if (FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal') then
-    writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' + Msg);
+  if (FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal') then begin
+    writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' +
+            Kind[1] + ErrorCode + IfThen(Msg[1] = '-', '', ' ') + Msg);
+    if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
+  end;
 end;
 
 procedure TScanner.EmitMessage;
@@ -302,7 +301,7 @@ begin
       5 : DoIf(false);
       6, 7 : if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
       8 : DoIf(not((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')));
-      10 : ReservedWords := IfThen(pos('FPC', UpperCase(FToken.Lexeme)) = 0 , DelphiReservedWords, DelphiReservedWords + FPCReservedWords);
+      10 : ChangeLanguageMode(pos('FPC', UpperCase(FToken.Lexeme)) <> 0);
       11, 12 : OpenInclude;
       13 : EmitMessage;
     else
@@ -476,8 +475,10 @@ begin
               for I := length(FToken.Lexeme) downto 2 do
                 inc(FToken.IntegerValue, trunc((ord(FToken.Lexeme[I]) - 48) * Power(8, length(FToken.Lexeme) - I)));
             end
-            else
+            else begin
               FToken.Kind := tkIdentifier;
+              if FPCMode and (pos('.' + LowerCase(FToken.Lexeme) + '.', '.generic.specialize.') <> 0) then NextToken;
+            end;
         exit;
       end;
       ';', ',', '=', ')', '[', ']', '@' : begin
@@ -491,11 +492,12 @@ begin
         Str  := '';
         FAnt := First;
         repeat
-          ScanChars([['^'], ['@'..'Z', 'a'..'z', '_', '0'..'9']], [1, 2], true);
+          ScanChars([['^'], ['@'..'Z', 'a'..'z']], [1, 2], true);
           if length(FToken.Lexeme) = 2 then
             Str := Str + char(byte(FToken.Lexeme[2]) - ord('@'));
         until length(FToken.Lexeme) <> 2;
         FToken.Lexeme := Str;
+        if ErrorCode >= '240' then FToken.Lexeme := '';
         case length(FToken.Lexeme) of
           0 : begin
             First         := FAnt + 1;
@@ -601,7 +603,6 @@ begin
     ShowMessage('Error', Msg);
     inc(FErrors);
     if FErrors >= FMaxErrors then FEndSource := true;
-    if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
     LastSourceName := SourceName;
@@ -630,7 +631,7 @@ procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
     NextToken
   end
   else
-    RecoverFromError(Kinds[KindExpected], FToken.Lexeme)
+    RecoverFromError('-' + IntToStr(byte(KindExpected)) + ' ' + Kinds[KindExpected], FToken.Lexeme)
 end;
 
 procedure TScanner.MatchToken(const TokenExpected : string); begin
@@ -639,7 +640,24 @@ procedure TScanner.MatchToken(const TokenExpected : string); begin
     NextToken
   end
   else
-    RecoverFromError('''' + TokenExpected + '''', FToken.Lexeme)
+    RecoverFromError('-' + IntToStr(byte(TokenExpected[1])) + ' ''' + TokenExpected + '''', FToken.Lexeme)
+end;
+
+procedure TScanner.ChangeLanguageMode(FPC: boolean);
+var
+  I : integer;
+begin
+  FPCMode := FPC;
+  if FPC then begin
+    ReservedWords := DelphiReservedWords + FPCReservedWords;
+    if pos('{[}', Productions[Directives]) = 0  then
+      Productions[Directives] := Productions[Directives] + '{[}' + Skip + ']' + Mark + ';';
+  end
+  else begin
+    ReservedWords := DelphiReservedWords;
+    I := pos('{[}', Productions[Directives]);
+    if I <> 0 then delete(Productions[Directives], I, 100);
+  end;
 end;
 
 function TScanner.CharToTokenKind(N : char) : TTokenKind; begin
