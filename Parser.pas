@@ -124,6 +124,7 @@ var
   P, TopAux, LenToken : integer;
   Aux : TStack;
 begin
+  ErrorCode  := IntToStr(ord(Symbol[1]));
   Production := Productions[Symbol[1]];
   LenToken := 1;
   case Token.Kind of
@@ -196,7 +197,7 @@ begin
         Result := S
       else
         Result := Result + ', ' + S;
-      I := posex('{', P, J+1)+1;
+      I := posex('{', P, J+1) + 1;
     until I = 1;
     I := LastDelimiter(',', Result);
     if I <> 0 then begin
