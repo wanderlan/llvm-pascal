@@ -70,7 +70,7 @@ const
   '{RESOURCESTRING}' + Require + RsrcDecl + DeclSection +
   '{[}' + Ident + QualId + IdentList + ']' + DeclSection,
 // VarDecl
-  '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + VarInit + ';' + Mark + VarDecl,
+  '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + VarInit + ';' + ExternalDir + Mark + VarDecl,
 // VarList
   '{,}' + Ident + VarList,
 // VarInit
@@ -455,5 +455,12 @@ const
   '{FAR};{NEAR};{EXPORT};' + CallConv + '{LOCAL};' + // Deprecateds
   '{ALIAS}:' + StringConst + ';' + '{NOSTACKFRAME};{MWPASCAL};{COMPILERPROC};' // FPC only
   );
+var
+  OrigExternalDir, OrigDirectives : string;
+
 implementation
+
+begin
+  OrigExternalDir := Productions[ExternalDir];
+  OrigDirectives  := Productions[Directives];
 end.

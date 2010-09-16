@@ -35,7 +35,7 @@
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
-    <Units Count="6">
+    <Units Count="7">
       <Unit0>
         <Filename Value="LLVM_Pascal.dpr"/>
         <IsPartOfProject Value="True"/>
@@ -83,7 +83,6 @@
       </Unit3>
       <Unit4>
         <Filename Value="C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\database\Borland.Data.AdoDbxClientProvider.pas"/>
-        <UnitName Value="Borland"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3067"/>
         <CursorPos X="66" Y="3110"/>
@@ -101,6 +100,15 @@
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="Text"/>
       </Unit5>
+      <Unit6>
+        <Filename Value="C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\Win32\rtl\sys\getmem.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2541"/>
+        <CursorPos X="72" Y="2556"/>
+        <SyntaxHighlighter Value="FreePascal"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Text"/>
+      </Unit6>
     </Units>
     <JumpHistory Count="13" HistoryIndex="12">
       <Position1>
