@@ -29,10 +29,11 @@ begin
     writeln('Usage: LLVM_Pascal <path or source-name>'^J,
             '[-Fi<include-paths separated by ;>]'^J,
             '[-v<compiler verbosity: 0, 1 or 2, default is 2>]'^J,
+            '[-vm<list of message codes which should not be shown>]'^J,
             '[-Se<max number of errors, default is 10>]'^J,
             '[-M<language mode, Delphi or OBJFPC, default is Delphi>]')
   else begin
-    Compiler := TParser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']));
+    Compiler := TParser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']), ReadSwitch(['vm']));
     try
       CompileTree(Compiler, ParamStr(1));
     finally
