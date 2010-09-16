@@ -644,20 +644,25 @@ procedure TScanner.MatchToken(const TokenExpected : string); begin
     RecoverFromError('-' + IntToStr(byte(TokenExpected[1])) + ' ''' + TokenExpected + '''', FToken.Lexeme)
 end;
 
-procedure TScanner.ChangeLanguageMode(FPC: boolean);
+procedure TScanner.ChangeLanguageMode(FPC : boolean);
 var
   I : integer;
 begin
   FPCMode := FPC;
   if FPC then begin
     ReservedWords := DelphiReservedWords + FPCReservedWords;
-    if pos('{[}', Productions[Directives]) = 0  then
-      Productions[Directives] := Productions[Directives] + '{[}' + Skip + ']' + Mark + ';';
+    if pos('{[}', Productions[Directives]) = 0 then begin
+      Productions[ExternalDir] := Productions[ExternalDir] + '{CVAR};' + ExternalDir;
+      Productions[Directives]  := Productions[Directives] + '{[}' + Skip + ']' + Mark + ';';
+    end;
   end
   else begin
     ReservedWords := DelphiReservedWords;
     I := pos('{[}', Productions[Directives]);
-    if I <> 0 then delete(Productions[Directives], I, 100);
+    if I <> 0 then begin
+      Productions[ExternalDir] := OrigExternalDir;
+      Productions[Directives]  := OrigDirectives;
+    end;
   end;
 end;
 
