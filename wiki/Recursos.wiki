@@ -13,7 +13,7 @@
 ||Class property||Sim||Não||Sim||
 ||Records with methods||Sim||Não||Sim||
 ||Anotações||Sim||Não||Sim||
-||Generics||Sim||Sim (Dialeto FPC)||Sim (Dialeto Delphi)||
+||Generics||Sim||Sim (Dialeto FPC)||Sim (ambos dialetos)||
 ||Operator Overload||Sim||Sim (Dialeto FPC)||Sim (Dialeto FPC)||
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
