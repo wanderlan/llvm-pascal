@@ -19,7 +19,7 @@ var
 
 begin
   if not FindCmdLineSwitch('v0') then begin
-    writeln('LLVM-Pascal Version 2010.9.15 pre-Alpha scanner/parser'^J,
+    writeln('LLVM-Pascal Version 2010.9.21 pre-Alpha III scanner/parser'^J,
             '(c)2010 by'^J,
             'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
             'New BSD license'^J,
@@ -29,7 +29,7 @@ begin
     writeln('Usage: LLVM_Pascal <path or source-name>'^J,
             '[-Fi<include-paths separated by ;>]'^J,
             '[-v<compiler verbosity: 0, 1 or 2, default is 2>]'^J,
-            '[-vm<list of message codes which should not be shown>]'^J,
+            '[-vm<list of message codes, e/or message prefixes, which should not be shown>]'^J,
             '[-Se<max number of errors, default is 10>]'^J,
             '[-M<language mode, Delphi or OBJFPC, default is Delphi>]')
   else begin
