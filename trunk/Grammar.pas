@@ -136,7 +136,9 @@ const
   '{NIL}' +
   '{@}' + Expression +
   '{[}' + Expression + SetList + ']' + RelOp +
-  '{INHERITED}' + Expression,
+  '{INHERITED}' + Expression +
+  '{PROCEDURE}' + FormalParams + ';' + InternalDecl + CompoundStmt +
+  '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + ';' + InternalDecl + CompoundStmt,
 // ToOrDownto
   '{TO}{DOWNTO}',
 // WithList
