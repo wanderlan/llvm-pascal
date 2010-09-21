@@ -126,6 +126,7 @@ begin
   inherited;
   FToken.Free;
   IncludePath.Free;
+  NotShow.Free;
   FreeAndNil(Macros);
 end;
 
