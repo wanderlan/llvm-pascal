@@ -5,17 +5,17 @@ interface
 uses
   Parser;
 
-function ReadSwitch(Switches : array of string) : string; overload;
-function ReadSwitch(Switches : array of string; Default : integer) : integer; overload;
-procedure CompilePath(Compiler : TParser; Path : string);
-procedure CompileTree(Compiler : TParser; Tree : string);
+function ReadSwitch(Switches : array of AnsiString) : AnsiString; overload;
+function ReadSwitch(Switches : array of AnsiString; Default : integer) : integer; overload;
+procedure CompilePath(Compiler : TParser; Path : AnsiString);
+procedure CompileTree(Compiler : TParser; Tree : AnsiString);
 
 implementation
 
 uses
   SysUtils;
 
-function ReadSwitch(Switches : array of string) : string;
+function ReadSwitch(Switches : array of AnsiString) : AnsiString;
 var
   I, J : integer;
 begin
@@ -28,7 +28,7 @@ begin
   Result := '';
 end;
 
-function ReadSwitch(Switches : array of string; Default : integer) : integer;
+function ReadSwitch(Switches : array of AnsiString; Default : integer) : integer;
 var
   I, J : integer;
 begin
@@ -41,7 +41,7 @@ begin
   Result := Default;
 end;
 
-procedure CompilePath(Compiler : TParser; Path : string);
+procedure CompilePath(Compiler : TParser; Path : AnsiString);
 var
   F : TSearchrec;
 begin
@@ -55,9 +55,9 @@ begin
   end;
 end;
 
-procedure CompileTree(Compiler : TParser; Tree : string);
+procedure CompileTree(Compiler : TParser; Tree : AnsiString);
 var
-  Path, Ext : string;
+  Path, Ext : AnsiString;
   F : TSearchrec;
 begin
   if pos('*', Tree) <> 0 then begin

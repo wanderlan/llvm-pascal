@@ -31,7 +31,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="&quot;C:\Arquivos de programas\Borland\BDS\4.0\source\Win32\rtl\sys\*.pas&quot;"/>
+        <CommandLineParams Value="&quot;C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\*.pas&quot; -se1000 -v1"/>
         <LaunchingApplication PathPlusParams="/usr/X11R6/bin/xterm -T 'Lazarus Run Output' -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </local>
     </RunParams>
@@ -39,10 +39,11 @@
       <Unit0>
         <Filename Value="LLVM_Pascal.dpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="10" Y="26"/>
+        <CursorPos X="83" Y="22"/>
         <UsageCount Value="156"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -50,11 +51,10 @@
       <Unit1>
         <Filename Value="Scanner.pas"/>
         <UnitName Value="Scanner"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="61"/>
-        <CursorPos X="40" Y="86"/>
+        <CursorPos X="41" Y="90"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -65,11 +65,10 @@
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="1" Y="1"/>
-        <SyntaxHighlighter Value="Delphi"/>
+        <CursorPos X="41" Y="33"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
-        <DefaultSyntaxHighlighter Value="Text"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
       <Unit3>
         <Filename Value="FPCTunning.pas"/>
@@ -77,18 +76,15 @@
         <WindowIndex Value="0"/>
         <TopLine Value="150"/>
         <CursorPos X="16" Y="182"/>
-        <SyntaxHighlighter Value="Delphi"/>
         <UsageCount Value="11"/>
-        <DefaultSyntaxHighlighter Value="Text"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
         <Filename Value="C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\database\Borland.Data.AdoDbxClientProvider.pas"/>
         <WindowIndex Value="0"/>
         <TopLine Value="3067"/>
         <CursorPos X="66" Y="3110"/>
-        <SyntaxHighlighter Value="FreePascal"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Text"/>
       </Unit4>
       <Unit5>
         <Filename Value="C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\database\AdoDbxDb2ClientProvider.pas"/>
@@ -96,21 +92,17 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="9"/>
-        <SyntaxHighlighter Value="FreePascal"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Text"/>
       </Unit5>
       <Unit6>
         <Filename Value="C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\Win32\rtl\sys\getmem.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="2541"/>
         <CursorPos X="72" Y="2556"/>
-        <SyntaxHighlighter Value="FreePascal"/>
         <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="Text"/>
       </Unit6>
     </Units>
-    <JumpHistory Count="13" HistoryIndex="12">
+    <JumpHistory Count="15" HistoryIndex="14">
       <Position1>
         <Filename Value="Scanner.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
@@ -163,6 +155,14 @@
         <Filename Value="LLVM_Pascal.dpr"/>
         <Caret Line="25" Column="7" TopLine="1"/>
       </Position13>
+      <Position14>
+        <Filename Value="Scanner.pas"/>
+        <Caret Line="80" Column="76" TopLine="61"/>
+      </Position14>
+      <Position15>
+        <Filename Value="LLVM_Pascal.dpr"/>
+        <Caret Line="26" Column="10" TopLine="1"/>
+      </Position15>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -184,9 +184,7 @@
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
       <Optimizations>
-        <VariablesInRegisters Value="True"/>
-        <UncertainOptimizations Value="True"/>
-        <OptimizationLevel Value="3"/>
+        <OptimizationLevel Value="2"/>
       </Optimizations>
     </CodeGeneration>
     <Linking>
