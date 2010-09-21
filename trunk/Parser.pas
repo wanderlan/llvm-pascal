@@ -10,20 +10,21 @@ uses
   Scanner;
 
 type
+  Char    = AnsiChar;
   TSymbol = string[15];
   TStack  = array[1..100] of TSymbol;
   TParser = class(TScanner)
   private
     Symbol  : TSymbol;
     Symbols : TStack;
-    function GetProductionName(const P : string) : string;
-    procedure ExpandProduction(const T : string);
+    function GetProductionName(const P : AnsiString) : AnsiString;
+    procedure ExpandProduction(const T : AnsiString);
     procedure PopSymbol; inline;
   protected
-    procedure RecoverFromError(const Expected, Found : string); override;
+    procedure RecoverFromError(const Expected, Found : AnsiString); override;
   public
-    procedure Compile(const Source : string);
-    procedure Error(const Msg : string); override;
+    procedure Compile(const Source : AnsiString);
+    procedure Error(const Msg : AnsiString); override;
   end;
 
 implementation
@@ -53,7 +54,7 @@ procedure TParser.PopSymbol; begin
   end
 end;
 
-procedure TParser.RecoverFromError(const Expected, Found : string); begin
+procedure TParser.RecoverFromError(const Expected, Found : AnsiString); begin
   inherited;
   if Top = 1 then
     FEndSource := true
@@ -73,7 +74,7 @@ procedure TParser.RecoverFromError(const Expected, Found : string); begin
   end;
 end;
 
-procedure TParser.Compile(const Source : string); begin
+procedure TParser.Compile(const Source : AnsiString); begin
   try
     SourceName := Source;
     Symbols[1] := Start;
@@ -99,7 +100,7 @@ procedure TParser.Compile(const Source : string); begin
   end;
 end;
 
-procedure TParser.Error(const Msg : string);
+procedure TParser.Error(const Msg : AnsiString);
 var
   I : integer;
 begin
@@ -118,9 +119,9 @@ begin
     end;
 end;
 
-procedure TParser.ExpandProduction(const T : string);
+procedure TParser.ExpandProduction(const T : AnsiString);
 var
-  Production : string;
+  Production : AnsiString;
   P, TopAux, LenToken : integer;
   Aux : TStack;
 begin
@@ -178,10 +179,10 @@ begin
       RecoverFromError(GetProductionName(Production), Token.Lexeme);
 end;
 
-function TParser.GetProductionName(const P : string) : string;
+function TParser.GetProductionName(const P : AnsiString) : AnsiString;
 var
   I, J : integer;
-  S : string;
+  S : AnsiString;
 begin
   Result := '';
   if P[1] = '{' then begin

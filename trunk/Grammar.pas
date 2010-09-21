@@ -40,7 +40,7 @@ const
   ProceduralType = '{PROCEDURE}' + FormalParams + OfObject + CallConvType +
                    '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + OfObject + CallConvType;
 
-  Productions : array[Start..CallConv] of string = (
+  Productions : array[Start..CallConv] of AnsiString = (
 // Start
   '{PROGRAM}' + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
   '{UNIT}'    + Ident + QualId + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
@@ -455,8 +455,9 @@ const
   '{FAR};{NEAR};{EXPORT};' + CallConv + '{LOCAL};' + // Deprecateds
   '{ALIAS}:' + StringConst + ';' + '{NOSTACKFRAME};{MWPASCAL};{COMPILERPROC};' // FPC only
   );
+
 var
-  OrigExternalDir, OrigDirectives : string;
+  OrigExternalDir, OrigDirectives : AnsiString;
 
 implementation
 

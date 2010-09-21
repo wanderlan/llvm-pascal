@@ -7,18 +7,18 @@ License: http://www.mozilla.org/MPL/
 
 interface
 
-function Pos(const SubStr, S : string) : Integer;
-function PosEx(const SubStr, S : string; Offset: Integer) : Integer;
-function UpperCase(const S : string) : string;
-function LowerCase(const S : string) : string;
+function Pos(const SubStr, S : AnsiString) : Integer;
+function PosEx(const SubStr, S : AnsiString; Offset: Integer) : Integer;
+function UpperCase(const S : AnsiString) : AnsiString;
+function LowerCase(const S : AnsiString) : AnsiString;
 
 implementation
 
-function Pos(const SubStr, S : string): Integer; begin
+function Pos(const SubStr, S : AnsiString): Integer; begin
   Result := PosEx(Substr, S, 1)
 end;
 
-function PosEx(const SubStr, S : string; Offset : Integer): Integer;
+function PosEx(const SubStr, S : AnsiString; Offset : Integer): Integer;
 var
   len, lenSub: integer;
   ch: char;
@@ -93,7 +93,7 @@ Ret:
 Exit:
 end;
 
-function UpperCase(const s : string) : string;
+function UpperCase(const s : AnsiString) : AnsiString;
 var
   ch1, ch2, ch3, dist: integer;
   p, q: pInteger;
@@ -142,7 +142,7 @@ LengthOK:
   end;
 end;
 
-function LowerCase(const s : string) : string;
+function LowerCase(const s : AnsiString) : AnsiString;
 var
   ch1, ch2, ch3, dist, term: integer;
   p: pchar;
