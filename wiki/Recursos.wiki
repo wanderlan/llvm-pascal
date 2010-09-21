@@ -13,14 +13,14 @@
 ||Class property||Sim||Não||Sim||
 ||Records with methods||Sim||Não||Sim||
 ||Anotações||Sim||Não||Sim||
+||Class Helpers||Sim||Não||Sim||
+||Métodos anônimos||Sim||Não||Sim||
 ||Generics||Sim||Sim (Dialeto FPC)||Sim (ambos dialetos)||
 ||Operator Overload||Sim||Sim (Dialeto FPC)||Sim (Dialeto FPC)||
 ||Macros||Não||Sim||Sim||
 ||+=, -=, `*`=, /=||Não||Sim||Sim||
 ||Literais binários e octais||Não||Sim||Sim||
 ||Multiplataforma||Não||Sim||Sim||
-||Class Helpers||Sim||Não||Sim||
-||Métodos anônimos||Sim||Não||Sim||
 ||Assembler embutido||Sim||Sim||Não||
 ||Licença||US$ 900,00||GPL||BSD||
 ||Linguagem||C-Ansi e Assembly x86||Pascal||Object Pascal||
