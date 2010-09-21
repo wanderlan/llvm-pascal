@@ -20,7 +20,7 @@
 ||Literais binários e octais||Não||Sim||Sim||
 ||Multiplataforma||Não||Sim||Sim||
 ||Class Helpers||Sim||Não||Sim||
-||Métodos anônimos||Sim||Não||Previsto||
+||Métodos anônimos||Sim||Não||Sim||
 ||Assembler embutido||Sim||Sim||Não||
 ||Licença||US$ 900,00||GPL||BSD||
 ||Linguagem||C-Ansi e Assembly x86||Pascal||Object Pascal||
