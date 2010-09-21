@@ -27,7 +27,7 @@ const
   FieldList    = #228; Operators    = #229; CteField     = #230; DispId       = #231; AbsoluteAddr = #232;
   IdentOpc     = #233; UsesList     = #234; UnitIn       = #235; EnumInit     = #236; ArithExpr    = #237;
   ArithOp      = #238; ClassDir     = #239; Generics     = #240; ReferTo      = #241; HelperFor    = #242;
-  GenConstr    = #243; CallConv     = #244;
+  GenConstr    = #243; GenTypConstr = #244; CallConv     = #245;
 
   // Other non terminals
   Ident = #246; StringConst = #247; CharConst = #248; IntConst = #249; RealConst = #250;
@@ -444,13 +444,15 @@ const
 // ClassDir
   '{ABSTRACT}{SEALED}',
 // Generics
-  '{<}' + Ident + GenConstr + Generics + VarList + '>',
+  '{<}' + Ident + Generics + GenConstr + VarList + '>',
 // ReferTo
   '{REFERENCE}' + 'TO' + Require + ProcedType + ';' + Pop,
 // HelperFor
   '{HELPER}FOR' + Ident,
 // GenConstr
-  '{:}CLASS',
+  '{:}' + Require + GenTypConstr,
+// GenTypeConstr
+  '{' + Ident + '}{CLASS}{RECORD}{CONSTRUCTOR}',
 // CallConv
   '{STDCALL};' + Directives + '{CDECL};'+ CallConv + Directives + '{SAFECALL};' + Directives + '{INLINE};' + Directives +
   '{REGISTER};{PASCAL};{FORWARD};' + Pop + '{VARARGS};' +
