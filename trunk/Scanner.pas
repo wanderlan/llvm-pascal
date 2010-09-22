@@ -11,6 +11,7 @@ uses
 
 const
   MaxIncludeLevel = 16;
+  Version = '2010.9.21 pre-Alpha III scanner/parser';
 
 type
   Char = AnsiChar;
@@ -590,13 +591,29 @@ begin
         FToken.IntegerValue := StrToInt64(FToken.Lexeme);
         exit;
       end;
-      '%' : begin // Binary
+      '%' : begin // Binary and Compiler Info
         ScanChars([['%'], ['0', '1']], [1, 32]);
-        FToken.Kind := tkIntegerConstant;
-        FToken.IntegerValue := 0;
-        for I := length(FToken.Lexeme) downto 2 do
-          if FToken.Lexeme[I] = '1' then
-            inc(FToken.IntegerValue, trunc(Power(2, length(FToken.Lexeme) - I)));
+        if length(FToken.Lexeme) > 1 then begin
+          FToken.Kind := tkIntegerConstant;
+          FToken.IntegerValue := 0;
+          for I := length(FToken.Lexeme) downto 2 do
+            if FToken.Lexeme[I] = '1' then
+              inc(FToken.IntegerValue, trunc(Power(2, length(FToken.Lexeme) - I)));
+        end
+        else begin // Compiler Info and Environment Variable
+          ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [254]);
+          case AnsiIndexText(FToken.Lexeme, ['FILE', 'LINE', 'DATE', 'TIME', 'VERSION', 'TARGETOS', 'TARGETCPU']) of
+           -1 : FToken.Lexeme := GetEnvironmentVariable(FToken.Lexeme);
+            0 : FToken.Lexeme := ExtractFileName(SourceName);
+            1 : FToken.Lexeme := IntToStr(LineNumber);
+            2 : FToken.Lexeme := FormatDateTime('ddddd', Date);
+            3 : FToken.Lexeme := FormatDateTime('tt', Now);
+            4 : FToken.Lexeme := Version;
+            5 : FToken.Lexeme := 'Windows';
+            6 : FToken.Lexeme := 'x86';
+          end;
+          FToken.Kind := tkStringConstant;
+        end;
         exit;
       end;
     else

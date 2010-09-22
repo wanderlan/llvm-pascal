@@ -12,14 +12,14 @@ Tests:
 {$APPTYPE CONSOLE}
 
 uses
-  SysUtils, Parser, CompilerUtils;
+  SysUtils, Scanner, Parser, CompilerUtils;
 
 var
   Compiler : TParser;
 
 begin
   if not FindCmdLineSwitch('v0') then begin
-    writeln('LLVM-Pascal Version 2010.9.21 pre-Alpha III scanner/parser'^J,
+    writeln('LLVM-Pascal Version ', Version, ^J,
             '(c)2010 by'^J,
             'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Paulo Guilherme Freire'^J,
             'New BSD license'^J,
