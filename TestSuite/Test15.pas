@@ -1,5 +1,7 @@
 program Test15;
 
+const
+  X = %date;
 type
   [Teste]
   C = record
