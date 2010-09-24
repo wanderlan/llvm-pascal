@@ -30,7 +30,7 @@ type
 implementation
 
 uses
-  SysUtils, StrUtils, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF};
+  SysUtils, StrUtils, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF}{$IFDEF UNICODE}, AnsiStrings{$ENDIF};
 
 procedure TParser.PopSymbol; begin
   dec(Top);

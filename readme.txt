@@ -18,7 +18,7 @@ License: BSD, http://www.opensource.org/licenses/bsd-license.php
   que em Delphi são implementadas em Assembly e em FPC são implementadas em Pascal.
 - O LLVM-Pascal substitui essas funções, apenas se compilado com FPC, por versões otimizadas em Pascal do site FastCode, 
   o FPC então vai para ~90 klps e o Turbo Delphi para ~120 klps usando FastCode.
-- A performance é ruim (~42 klps) em Delphi 2009/2010/XE e as rotinas Pascal do FastCode não funcionam nessas versões do Delphi. 
+- A performance não é tão boa (~75 klps) em Delphi 2009/2010/XE e as rotinas Pascal do FastCode não funcionam nessas versões do Delphi. 
 - A manipulação de strings nas versões Unicode do Delphi parece ter piorado consideravelmente... :(
 - "Compile" seu projeto com LLVM-Pascal e reporte suas questões no fórum: http://groups.google.com/group/llvm-pascal
 
