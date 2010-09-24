@@ -33,11 +33,12 @@ type
     FInitTime : TDateTime;
     Macros    : TStringList;
     Line      : AnsiString;
+    Buffer    : array[1..8*1024] of byte;
     FSourceName   : array[0..MaxIncludeLevel] of ShortString;
     FStartComment : string[10];
     FEndComment   : string[100];
     procedure NextChar(C : TSetChar);
-    procedure FindEndComment(const StartComment, EndComment : shortstring);
+    procedure FindEndComment(const StartComment, EndComment : AnsiString);
     procedure SetFSourceName(const Value : AnsiString);
     procedure DoDirective(DollarInc : integer);
     procedure SkipBlank; inline;
@@ -167,13 +168,14 @@ procedure TScanner.SetFSourceName(const Value : AnsiString); begin
   if FileExists(SourceName) then close(Arq[Include]);
   Include    := 0;
   LineNumber := 0;
-  FEndSource := false;
   LenLine    := 0;
   NestedIf   := '';
+  FEndSource := false;
   FSourceName[Include] := Value;
   if FileExists(SourceName) then begin
-    assign(Arq[Include], SourceName);
     if FSilentMode >= 2 then writeln(ExtractFileName(SourceName));
+    assign(Arq[Include], SourceName);
+    SetTextBuf(Arq[Include], Buffer);
     reset(Arq[Include]);
     First  := 1;
     FToken := TToken.Create;
@@ -227,7 +229,7 @@ begin
 end;
 
 procedure TScanner.OpenInclude; begin
-  if Line[First] in ['+', '-'] then exit;  
+  if Line[First] in ['+', '-'] then exit;
   First := FAnt;
   SkipBlank;
   ScanChars([['!'..#255] - ['}']], [255]);
@@ -258,10 +260,10 @@ procedure TScanner.ShowMessage(Kind, Msg : ShortString);
         Result := false;
         exit;
       end;
-    Result := true;      
+    Result := true;
   end;
 begin
-  if length(ErrorCode) = 1 then ErrorCode := IntToStr(ord(ErrorCode[1]));  
+  if length(ErrorCode) = 1 then ErrorCode := IntToStr(ord(ErrorCode[1]));
   Kind := UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10));
   if CanShowMessage and ((FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal')) then begin
     writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' +
@@ -351,7 +353,7 @@ begin
     First := LenLine + 1;
 end;
 
-procedure TScanner.FindEndComment(const StartComment, EndComment : shortstring);
+procedure TScanner.FindEndComment(const StartComment, EndComment : AnsiString);
   procedure DoEndIf; begin
     FEndComment := copy(FEndComment, 6, 100);
     if NestedIf <> '' then SetLength(NestedIf, length(NestedIf)-1);
@@ -446,7 +448,7 @@ end;
 
 procedure TScanner.NextToken(Skip : boolean = false);
 var
-  Str : ShortString;
+  Str : AnsiString;
   I   : integer;
 begin
   while not FEndSource do begin

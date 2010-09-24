@@ -130,7 +130,7 @@ begin
   LenToken   := 1;
   case Token.Kind of
     tkIdentifier : begin
-      P := pos('{' + Ident + '}', Production);
+      P := pos('{' + Ident, Production);
       if P = 0 then begin
         P := pos('{' + UpperCase(T) + '}', Production); // find FIRST or FOLLOW terminal
         LenToken := length(T);
@@ -140,8 +140,8 @@ begin
       P := pos('{' + UpperCase(T) + '}', Production); // find FIRST or FOLLOW terminal
       LenToken := length(T);
     end;
-    else // tkStringConstant..tkRealConstant
-      P := pos('{' + TokenKindToChar(Token.Kind) + '}', Production);
+  else // tkStringConstant..tkRealConstant
+    P := pos('{' + TokenKindToChar(Token.Kind) + '}', Production);
   end;
   if P <> 0 then begin
     dec(Top);
