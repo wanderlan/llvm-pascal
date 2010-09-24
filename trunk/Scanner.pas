@@ -57,8 +57,7 @@ type
     FLineNumber : array[0..MaxIncludeLevel] of integer;
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment, FSilentMode : integer;
     ErrorCode, NestedIf : ShortString;
-    ReservedWords : AnsiString;
-    IncludePath, NotShow : TStringList;
+    IncludePath, NotShow, ReservedWords : TStringList;
     procedure ShowMessage(Kind, Msg : ShortString);
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
@@ -73,15 +72,15 @@ type
     procedure Error(const Msg : AnsiString); virtual;
     procedure MatchToken(const TokenExpected : AnsiString); inline;
     procedure MatchTerminal(KindExpected : TTokenKind); inline;
-    property SourceName : AnsiString    read GetFSourceName write SetFSourceName;
-    property LineNumber : integer   read GetFLineNumber write SetFLineNumber;
-    property TotalLines : integer   read FTotalLines;
-    property ColNumber  : integer   read First;
-    property Token      : TToken    read FToken;
-    property EndSource  : boolean   read FEndSource;
-    property Errors     : integer   read FErrors;
-    property InitTime   : TDateTime read FInitTime;
-    property SilentMode : integer   read FSilentMode;
+    property SourceName : AnsiString read GetFSourceName write SetFSourceName;
+    property LineNumber : integer    read GetFLineNumber write SetFLineNumber;
+    property TotalLines : integer    read FTotalLines;
+    property ColNumber  : integer    read First;
+    property Token      : TToken     read FToken;
+    property EndSource  : boolean    read FEndSource;
+    property Errors     : integer    read FErrors;
+    property InitTime   : TDateTime  read FInitTime;
+    property SilentMode : integer    read FSilentMode;
   end;
 
 const
@@ -91,14 +90,14 @@ const
 implementation
 
 uses
-  SysUtils, StrUtils, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF}{$IFDEF UNICODE}, AnsiStrings{$ENDIF};
+  SysUtils, StrUtils, IniFiles, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF}{$IFDEF UNICODE}, AnsiStrings{$ENDIF};
 
 const
-  DelphiReservedWords = '.and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
+  DelphiReservedWords = 'and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
     'file.finalization.finally.for.function.goto.if.implementation.in.inherited.initialization.inline.interface.is.label.library.mod.nil.' +
     'not.object.of.or.out.packed.private.procedure.program.property.protected.public.published.raise.record.repeat.resourcestring.set.shl.shr.' +
-    'strict.then.threadvar.to.try.type.unit.until.uses.var.while.with.xor.';
-  FPCReservedWords = 'operator.';
+    'strict.then.threadvar.to.try.type.unit.until.uses.var.while.with.xor';
+  FPCReservedWords = '.operator';
   ConditionalSymbols : AnsiString = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
 constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''; pSilentMode : integer = 2; LanguageMode : AnsiString = ''; pNotShow : AnsiString = ''); begin
@@ -113,6 +112,9 @@ constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''
   IncludePath.DelimitedText := ';' + Includes;
   NotShow := TStringList.Create;
   NotShow.DelimitedText := pNotShow;
+  ReservedWords := THashedStringList.Create;
+  ReservedWords.Delimiter := '.';
+  ReservedWords.CaseSensitive := false;
   ChangeLanguageMode(pos('FPC', UpperCase(LanguageMode)) <> 0);
 end;
 
@@ -130,6 +132,7 @@ begin
   FToken.Free;
   IncludePath.Free;
   NotShow.Free;
+  ReservedWords.Free;
   FreeAndNil(Macros);
 end;
 
@@ -258,6 +261,7 @@ procedure TScanner.ShowMessage(Kind, Msg : ShortString);
     Result := true;      
   end;
 begin
+  if length(ErrorCode) = 1 then ErrorCode := IntToStr(ord(ErrorCode[1]));  
   Kind := UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10));
   if CanShowMessage and ((FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal')) then begin
     writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' +
@@ -484,7 +488,7 @@ begin
         if length(FToken.Lexeme) = 1 then
           FToken.Kind := tkIdentifier
         else
-          if TokenIn(ReservedWords) then
+          if ReservedWords.IndexOf({$IFDEF FPC}LowerCase{$ENDIF}(FToken.Lexeme)) <> -1  then
             FToken.Kind := tkReservedWord
           else
             if (FToken.Lexeme[1] = '&') and (FToken.Lexeme[2] in ['0'..'7']) then begin // Octal
@@ -515,7 +519,7 @@ begin
             Str := Str + char(byte(FToken.Lexeme[2]) - ord('@'));
         until length(FToken.Lexeme) <> 2;
         FToken.Lexeme := Str;
-        if ErrorCode >= '240' then FToken.Lexeme := '';
+        if ErrorCode >= Generics then FToken.Lexeme := '';
         case length(FToken.Lexeme) of
           0 : begin
             First         := FAnt + 1;
@@ -665,7 +669,7 @@ procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
     NextToken
   end
   else begin
-    ErrorCode := ErrorCode + '.' + IntToStr(byte(KindExpected));
+    ErrorCode := IntToStr(ord(ErrorCode[1])) + '.' + IntToStr(byte(KindExpected));
     RecoverFromError(Kinds[KindExpected], FToken.Lexeme)
   end;
 end;
@@ -676,7 +680,7 @@ procedure TScanner.MatchToken(const TokenExpected : AnsiString); begin
     NextToken
   end
   else begin
-    ErrorCode := ErrorCode + '.' + IntToStr(byte(TokenExpected[1]));
+    ErrorCode := IntToStr(ord(ErrorCode[1])) + '.' + IntToStr(byte(TokenExpected[1]));
     RecoverFromError('''' + TokenExpected + '''', FToken.Lexeme)
   end;
 end;
@@ -687,14 +691,14 @@ var
 begin
   FPCMode := FPC;
   if FPC then begin
-    ReservedWords := DelphiReservedWords + FPCReservedWords;
+    ReservedWords.DelimitedText := DelphiReservedWords + FPCReservedWords;
     if pos('{[}', Productions[Directives]) = 0 then begin
       Productions[ExternalDir] := Productions[ExternalDir] + '{CVAR};' + ExternalDir;
       Productions[Directives]  := Productions[Directives] + '{[}' + Skip + ']' + Mark + ';';
     end;
   end
   else begin
-    ReservedWords := DelphiReservedWords;
+    ReservedWords.DelimitedText := DelphiReservedWords;
     I := pos('{[}', Productions[Directives]);
     if I <> 0 then begin
       Productions[ExternalDir] := OrigExternalDir;
