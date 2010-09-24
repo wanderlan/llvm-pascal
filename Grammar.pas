@@ -87,7 +87,7 @@ const
   '{-}' + ArithExpr + Require + SubRange +
   '{^}' + Ident +
   '{RECORD}' + HelperFor + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark +
-  '{CLASS}' + ForwardClass + ClassHerit + HelperFor + ClassDir + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
+  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + HelperFor + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
   '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '{SET}' + 'OF' + Require + OrdinalType +
   ProceduralType +
@@ -340,7 +340,7 @@ const
 // PackedDecl
   '{ARRAY}' + ArrayDim + 'OF' + Require + Type_ +
   '{RECORD}' + HelperFor + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark +
-  '{CLASS}' + ForwardClass + ClassHerit + HelperFor + ClassDir + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark +
+  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + HelperFor + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark +
   '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
   '{SET}' + 'OF' + Require + OrdinalType +
   '{FILE}' + FileOf,
