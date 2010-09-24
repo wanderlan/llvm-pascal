@@ -125,9 +125,9 @@ var
   P, TopAux, LenToken : integer;
   Aux : TStack;
 begin
-  ErrorCode  := IntToStr(ord(Symbol[1]));
+  ErrorCode  := Symbol[1];
   Production := Productions[Symbol[1]];
-  LenToken := 1;
+  LenToken   := 1;
   case Token.Kind of
     tkIdentifier : begin
       P := pos('{' + Ident + '}', Production);

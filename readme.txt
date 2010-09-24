@@ -1,4 +1,4 @@
-LLVM-Pascal 2010.9.21 Pre-Alpha III
+LLVM-Pascal 2010.9.24 Pre-Alpha IV
 
 Principal implementação deste release: Scanner e Parser
 
@@ -12,18 +12,17 @@ License: BSD, http://www.opensource.org/licenses/bsd-license.php
 - "Compila" fontes do dialeto Delphi até a versão XE, não suporta operator overload no dialeto Delphi.
 - "Compila" fontes do Lazarus até a versão 0.9.28.2 e Free Pascal até a versão 2.4, 
    suporta macros, generics, operator overload e literais binários.
-- "Compila" ~123 klps (mil linhas por segundo) em um Intel E2200 Dual Core II 2.2 GHz com 2 GB de RAM e Windows XP SP3, 
-   compilado com Turbo Delphi, com FPC 2.4 ~50 klps.
-- Essa diferença se refere às funções Pos() e PosEx() que são extensivamente usadas no compilador, 
+- "Compila" ~136 klps (mil linhas por segundo) em um Intel E2200 Dual Core II 2.2 GHz com 2 GB de RAM e Windows XP SP3, 
+   compilado com Turbo Delphi, com FPC 2.4 ~98 klps.
+- Parte dessa diferença se refere às funções Pos, PosEx, UpperCase e LowerCase que são usadas no compilador, 
   que em Delphi são implementadas em Assembly e em FPC são implementadas em Pascal.
 - O LLVM-Pascal substitui essas funções, apenas se compilado com FPC, por versões otimizadas em Pascal do site FastCode, 
-  o FPC então vai para ~90 klps e o Turbo Delphi para ~120 klps usando FastCode.
-- A performance não é tão boa (~75 klps) em Delphi 2009/2010/XE e as rotinas Pascal do FastCode não funcionam nessas versões do Delphi. 
-- A manipulação de strings nas versões Unicode do Delphi parece ter piorado consideravelmente... :(
+  o FPC então vai para ~115 klps e o Turbo Delphi para ~135 klps usando FastCode.
+- A performance não é tão boa (~90 klps) em Delphi 2009/2010/XE, pois nosso compilador é baseado em AnsiStrings e não em Unicode, gerando muita conversão na VCL. 
 - "Compile" seu projeto com LLVM-Pascal e reporte suas questões no fórum: http://groups.google.com/group/llvm-pascal
 
 Para "compilar" use:
 LLVM_Pascal *.pas
 
 
-linha de comando para comparação de performance: llvm_pascal"C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\*.pas" -se1000 -v1
+linha de comando para comparação de performance: LLVM_Pascal "C:\Arquivos de programas\Borland\BDS\4.0\source\*.pas" -fi"C:\Arquivos de programas\Borland\BDS\4.0\source\dunit\contrib\dunitwizard\source\common\" -v1 -vmE130,E139
