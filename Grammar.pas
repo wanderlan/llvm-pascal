@@ -256,7 +256,8 @@ const
   '{<>}' + Require + Expression + '{=}'  + Require + Expression + '{IN}' + Require + Expression + '{IS}' + Require + Expression +
   '{AS}' + Require + Expression + '{+}'  + Require + Expression + '{-}'  + Require + Expression + '{AND}'+ Require + Expression +
   '{OR}' + Require + Expression + '{XOR}'+ Require + Expression + '{SHR}'+ Require + Expression + '{SHL}'+ Require + Expression +
-  '{*}'  + Require + Expression + '{/}'  + Require + Expression + '{DIV}'+ Require + Expression + '{MOD}'+ Require + Expression,
+  '{*}'  + Require + Expression + '{/}'  + Require + Expression + '{DIV}'+ Require + Expression + '{MOD}'+ Require + Expression +
+  '{**}' + Require + Expression,
 // MetId
   '{.}' + Ident + MetId +
   '{<}' + Ident + VarList + '>' + MetId,
