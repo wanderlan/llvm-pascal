@@ -18,7 +18,7 @@ type
     Symbol  : TSymbol;
     Symbols : TStack;
     function GetProductionName(const P : AnsiString) : AnsiString;
-    procedure ExpandProduction(const T : AnsiString);
+    procedure ExpandProduction(const T : AnsiString); inline;
     procedure PopSymbol; inline;
   protected
     procedure RecoverFromError(const Expected, Found : AnsiString); override;

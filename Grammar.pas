@@ -416,7 +416,7 @@ const
 // FieldList
   '{;}' + FieldDecl,
 // Operators
-  'Operator{:=}{>}{<}{>=}{<=}{<>}{=}{IN}{IS}{AS}{+}{-}{AND}{OR}{XOR}{SHR}{SHL}{*}{/}{DIV}{MOD}{+=}{-=}{*=}{/=}',
+  'Operator{:=}{>}{<}{>=}{<=}{<>}{=}{IN}{IS}{AS}{+}{-}{AND}{OR}{XOR}{SHR}{SHL}{*}{/}{DIV}{MOD}{+=}{-=}{*=}{/=}{**}',
 // CteField
   '{' + Ident + '}' + ':' + Expression + CteFieldList,
 // DispId
