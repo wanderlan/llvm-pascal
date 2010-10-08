@@ -694,17 +694,17 @@ begin
   FPCMode := FPC;
   if FPC then begin
     ReservedWords.DelimitedText := DelphiReservedWords + FPCReservedWords;
-    if pos('{[}', Productions[Directives]) = 0 then begin
-      Productions[ExternalDir] := Productions[ExternalDir] + '{CVAR};' + ExternalDir;
-      Productions[Directives]  := Productions[Directives] + '{[}' + Skip + ']' + Mark + ';';
+    if pos('{[}', Productions[Directives[1]]) = 0 then begin
+      Productions[ExternalDir[1]] := Productions[ExternalDir[1]] + '{CVAR};' + ExternalDir;
+      Productions[Directives[1]]  := Productions[Directives[1]] + '{[}' + Skip + ']' + Mark + ';';
     end;
   end
   else begin
     ReservedWords.DelimitedText := DelphiReservedWords;
-    I := pos('{[}', Productions[Directives]);
+    I := pos('{[}', Productions[Directives[1]]);
     if I <> 0 then begin
-      Productions[ExternalDir] := OrigExternalDir;
-      Productions[Directives]  := OrigDirectives;
+      Productions[ExternalDir[1]] := OrigExternalDir;
+      Productions[Directives[1]]  := OrigDirectives;
     end;
   end;
 end;

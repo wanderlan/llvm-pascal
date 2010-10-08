@@ -124,13 +124,13 @@
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
 			<Directories Name="SearchPath"></Directories>
-			<Directories Name="Packages"></Directories>
+			<Directories Name="Packages">vclx;vcl;rtl;dbrtl;vcldb;dbxcds;dbexpress;dsnap;bdertl;teeui;teedb;tee;vcldbx;vclactnband;SignalLabGenericBasicPkgD10;SignalLabBasicPkgD10;OpenWirePkgD10;AudioLabGenericBasicPkgD10;AudioLabBasicPkgD10;SignalLabAdditionalPkgD10;SignalLabScopePkgD10;TimingLabBasicPkgD10;MediaLabBasicPkgD10;AudioLabEssentialPkgD10;AudioLabPkgD10;xmlrtl;AudioLabDsnD10</Directories>
 			<Directories Name="Conditionals"></Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">"C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\*.pas" -se1000 -v0 -vmE245</Parameters>
+			<Parameters Name="RunParams">"C:\Arquivos de programas\CodeGear\RAD Studio\6.0\source\*.pas" -se255 -v1 -vmE245W139</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
