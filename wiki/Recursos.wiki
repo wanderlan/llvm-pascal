@@ -18,7 +18,7 @@
 ||Generics||Sim||Sim (Dialeto FPC)||Sim (ambos dialetos)||
 ||Operator Overload||Sim||Sim (Dialeto FPC)||Sim (Dialeto FPC)||
 ||Macros||Não||Sim||Sim||
-||+=, -=, `*`=, /=||Não||Sim||Sim||
+||+=, -=, `*`=, /=, `*``*`||Não||Sim||Sim||
 ||Literais binários e octais||Não||Sim||Sim||
 ||Multiplataforma||Não||Sim||Sim||
 ||Assembler embutido||Sim||Sim||Não||
