@@ -521,7 +521,7 @@ begin
             Str := Str + char(byte(FToken.Lexeme[2]) - ord('@'));
         until length(FToken.Lexeme) <> 2;
         FToken.Lexeme := Str;
-        if ErrorCode >= Generics then FToken.Lexeme := '';
+        if ErrorCode >= Generics[2] then FToken.Lexeme := '';
         case length(FToken.Lexeme) of
           0 : begin
             First         := FAnt + 1;
