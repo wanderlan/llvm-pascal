@@ -189,7 +189,7 @@ const
   '{OF}' + Ident + Pop,
 // FieldDecl
   '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + FieldList +
-  '{VAR}'   + Require + FieldDecl +
+  '{VAR}'   + FieldDecl +
   '{CONST}' + Require + ConstDecl + FieldDecl +
   '{TYPE}'  + Require + TypeDecl + FieldDecl +
   '{[}' + Ident + QualId + IdentList + ']' + FieldDecl,
@@ -221,7 +221,7 @@ const
 // ConstType
   '{:}' + Require + Type_,
 // StaticDecl
-  '{VAR}' + Require + FieldDecl +
+  '{VAR}' + FieldDecl +
   '{PROCEDURE}' + Ident + Generics + FormalParams + ';' + Directives + CallConv + WarnDir +
   '{FUNCTION}'  + Ident + Generics + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir +
   '{PROPERTY}'  + Ident + Generics + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp,
@@ -362,7 +362,7 @@ const
 // OfObject
   '{OF}' + 'OBJECT',
 // Directives
-  '{OVERRIDE};{OVERLOAD};' + Directives + '{VIRTUAL};' + Directives + '{REINTRODUCE};' + Directives +
+  '{OVERRIDE};' + Directives + '{OVERLOAD};' + Directives + '{VIRTUAL};' + Directives + '{REINTRODUCE};' + Directives +
   '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};{FINAL};{STATIC};{DYNAMIC};' + Directives,
 // ExternalDir
   '{EXTERNAL}' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + Directives + CallConv + Pop +
