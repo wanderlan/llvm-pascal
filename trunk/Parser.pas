@@ -148,7 +148,6 @@ begin
     TopAux := 1;
     Aux[1] := copy(Production, P + 1, LenToken);
     inc(P, LenToken + 2);
-//    for P := P to length(Production) do
     while P <= length(Production) do begin
       case Production[P] of
         Syntatic..Generator : begin // Nonterminal
