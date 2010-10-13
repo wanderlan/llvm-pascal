@@ -7,30 +7,30 @@ const
   Syntatic = #128; Semantic = #129; Generator = #130;
 
   // Productions id
-  Start        = Syntatic + #128; ParIdentList = Syntatic + #129; IdentList    = Syntatic + #130; UsesClause   = Syntatic + #131; ExportsList  = Syntatic + #132;
-  DeclSection  = Syntatic + #133; VarDecl      = Syntatic + #134; VarList      = Syntatic + #135; VarInit      = Syntatic + #136; Type_        = Syntatic + #137;
-  EnumList     = Syntatic + #138; CompoundStmt = Syntatic + #139; Statement    = Syntatic + #140; StmtList     = Syntatic + #141; Expression   = Syntatic + #142;
-  ToOrDownto   = Syntatic + #143; WithList     = Syntatic + #144; IntSection   = Syntatic + #145; ImplSection  = Syntatic + #146; InitSection  = Syntatic + #147;
-  TypeDecl     = Syntatic + #148; StringLength = Syntatic + #149; ArrayDim     = Syntatic + #150; ClassDecl    = Syntatic + #151; QualId       = Syntatic + #152;
-  LabelAssign  = Syntatic + #153; LabelList    = Syntatic + #154; ClassHerit   = Syntatic + #155; FieldDecl    = Syntatic + #156; MethodDecl   = Syntatic + #157;
-  FormalParams = Syntatic + #158; FormalList   = Syntatic + #159; FormalParam  = Syntatic + #160; ParamInit    = Syntatic + #161; ParamSpec    = Syntatic + #162;
-  ConstDecl    = Syntatic + #163; ConstType    = Syntatic + #164; StaticDecl   = Syntatic + #165; OrdinalType  = Syntatic + #166; ArrayOfType  = Syntatic + #167;
-  TypeId       = Syntatic + #168; ParamType    = Syntatic + #169; PropInterf   = Syntatic + #170; PropIndex    = Syntatic + #171; PropRead     = Syntatic + #172;
-  PropWrite    = Syntatic + #173; PropStored   = Syntatic + #174; PropDefault  = Syntatic + #175; PropImplem   = Syntatic + #176; RelOp        = Syntatic + #177;
-  MetId        = Syntatic + #178; AssignStmt   = Syntatic + #179; ElseBranch   = Syntatic + #180; ExprList     = Syntatic + #181; CaseList     = Syntatic + #182;
-  EndCaseList  = Syntatic + #183; SetList      = Syntatic + #184; InterDecl    = Syntatic + #185; LabelId      = Syntatic + #186; SubRange     = Syntatic + #187;
-  FileOf       = Syntatic + #188; ForStmt      = Syntatic + #189; PropParams   = Syntatic + #190; IdentDir     = Syntatic + #191; NameDir      = Syntatic + #192;
-  GUID         = Syntatic + #193; ExceptFin    = Syntatic + #194; ExceptHand   = Syntatic + #195; IdentType    = Syntatic + #196; ExceptList   = Syntatic + #197;
-  InterfMet    = Syntatic + #198; InterDir     = Syntatic + #199; ProcedType   = Syntatic + #200; FinSection   = Syntatic + #201; RaiseStmt    = Syntatic + #202;
-  RaiseAt      = Syntatic + #203; PackedDecl   = Syntatic + #204; ObjHerit     = Syntatic + #205; ObjDecl      = Syntatic + #206; ForwardClass = Syntatic + #207;
-  RsrcDecl     = Syntatic + #208; OfObject     = Syntatic + #209; Directives   = Syntatic + #210; ExternalDir  = Syntatic + #211; MetCall      = Syntatic + #212;
-  DefProp      = Syntatic + #213; WarnDir      = Syntatic + #214; StrictDecl   = Syntatic + #215; Delegation   = Syntatic + #216; ClassMet     = Syntatic + #217;
-  InternalDecl = Syntatic + #218; RecordConst  = Syntatic + #219; CteFieldList = Syntatic + #220; StringExpr   = Syntatic + #221; RecordCase   = Syntatic + #222;
-  CallConvType = Syntatic + #223; WarnDir2     = Syntatic + #224; RecFieldList = Syntatic + #225; RecCaseList  = Syntatic + #226; RecEndCase   = Syntatic + #227;
-  FieldList    = Syntatic + #228; Operators    = Syntatic + #229; CteField     = Syntatic + #230; DispId       = Syntatic + #231; AbsoluteAddr = Syntatic + #232;
-  IdentOpc     = Syntatic + #233; UsesList     = Syntatic + #234; UnitIn       = Syntatic + #235; EnumInit     = Syntatic + #236; ArithExpr    = Syntatic + #237;
-  ArithOp      = Syntatic + #238; ClassDir     = Syntatic + #239; Generics     = Syntatic + #240; ReferTo      = Syntatic + #241; HelperFor    = Syntatic + #242;
-  GenConstr    = Syntatic + #243; GenTypConstr = Syntatic + #244; CallConv     = Syntatic + #245;
+  Start        = Syntatic + #000; ParIdentList = Syntatic + #001; IdentList    = Syntatic + #002; UsesClause   = Syntatic + #003; ExportsList  = Syntatic + #004;
+  DeclSection  = Syntatic + #005; VarDecl      = Syntatic + #006; VarList      = Syntatic + #007; VarInit      = Syntatic + #008; Type_        = Syntatic + #009;
+  EnumList     = Syntatic + #010; CompoundStmt = Syntatic + #011; Statement    = Syntatic + #012; StmtList     = Syntatic + #013; Expression   = Syntatic + #014;
+  ToOrDownto   = Syntatic + #015; WithList     = Syntatic + #016; IntSection   = Syntatic + #017; ImplSection  = Syntatic + #018; InitSection  = Syntatic + #019;
+  TypeDecl     = Syntatic + #020; StringLength = Syntatic + #021; ArrayDim     = Syntatic + #022; ClassDecl    = Syntatic + #023; QualId       = Syntatic + #024;
+  LabelAssign  = Syntatic + #025; LabelList    = Syntatic + #026; ClassHerit   = Syntatic + #027; FieldDecl    = Syntatic + #028; MethodDecl   = Syntatic + #029;
+  FormalParams = Syntatic + #030; FormalList   = Syntatic + #031; FormalParam  = Syntatic + #032; ParamInit    = Syntatic + #033; ParamSpec    = Syntatic + #034;
+  ConstDecl    = Syntatic + #035; ConstType    = Syntatic + #036; StaticDecl   = Syntatic + #037; OrdinalType  = Syntatic + #038; ArrayOfType  = Syntatic + #039;
+  TypeId       = Syntatic + #040; ParamType    = Syntatic + #041; PropInterf   = Syntatic + #042; PropIndex    = Syntatic + #043; PropRead     = Syntatic + #044;
+  PropWrite    = Syntatic + #045; PropStored   = Syntatic + #046; PropDefault  = Syntatic + #047; PropImplem   = Syntatic + #048; RelOp        = Syntatic + #049;
+  MetId        = Syntatic + #050; AssignStmt   = Syntatic + #051; ElseBranch   = Syntatic + #052; ExprList     = Syntatic + #053; CaseList     = Syntatic + #054;
+  EndCaseList  = Syntatic + #055; SetList      = Syntatic + #056; InterDecl    = Syntatic + #057; LabelId      = Syntatic + #058; SubRange     = Syntatic + #059;
+  FileOf       = Syntatic + #060; ForStmt      = Syntatic + #061; PropParams   = Syntatic + #062; IdentDir     = Syntatic + #063; NameDir      = Syntatic + #064;
+  GUID         = Syntatic + #065; ExceptFin    = Syntatic + #066; ExceptHand   = Syntatic + #067; IdentType    = Syntatic + #068; ExceptList   = Syntatic + #069;
+  InterfMet    = Syntatic + #070; InterDir     = Syntatic + #071; ProcedType   = Syntatic + #072; FinSection   = Syntatic + #073; RaiseStmt    = Syntatic + #074;
+  RaiseAt      = Syntatic + #075; PackedDecl   = Syntatic + #076; ObjHerit     = Syntatic + #077; ObjDecl      = Syntatic + #078; ForwardClass = Syntatic + #079;
+  RsrcDecl     = Syntatic + #080; OfObject     = Syntatic + #081; Directives   = Syntatic + #082; ExternalDir  = Syntatic + #083; MetCall      = Syntatic + #084;
+  DefProp      = Syntatic + #085; WarnDir      = Syntatic + #086; StrictDecl   = Syntatic + #087; Delegation   = Syntatic + #088; ClassMet     = Syntatic + #089;
+  InternalDecl = Syntatic + #090; RecordConst  = Syntatic + #091; CteFieldList = Syntatic + #092; StringExpr   = Syntatic + #093; RecordCase   = Syntatic + #094;
+  CallConvType = Syntatic + #095; WarnDir2     = Syntatic + #096; RecFieldList = Syntatic + #097; RecCaseList  = Syntatic + #098; RecEndCase   = Syntatic + #099;
+  FieldList    = Syntatic + #100; Operators    = Syntatic + #101; CteField     = Syntatic + #102; DispId       = Syntatic + #103; AbsoluteAddr = Syntatic + #104;
+  IdentOpc     = Syntatic + #105; UsesList     = Syntatic + #106; UnitIn       = Syntatic + #107; EnumInit     = Syntatic + #108; ArithExpr    = Syntatic + #109;
+  ArithOp      = Syntatic + #110; ClassDir     = Syntatic + #111; Generics     = Syntatic + #112; ReferTo      = Syntatic + #113; HelperFor    = Syntatic + #114;
+  GenConstr    = Syntatic + #115; GenTypConstr = Syntatic + #116; Delayed      = Syntatic + #117; CallConv     = Syntatic + #118;
 
   // Other non terminals
   Ident = #246; StringConst = #247; CharConst = #248; IntConst = #249; RealConst = #250;
@@ -43,7 +43,7 @@ const
   ProceduralType = '{PROCEDURE}' + FormalParams + OfObject + CallConvType +
                    '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + OfObject + CallConvType;
 
-  Productions : array[#128..#245] of AnsiString = (
+  Productions : array[#0..#118] of AnsiString = (
 // Start
   '{PROGRAM}' + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
   '{UNIT}'    + Ident + QualId + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
@@ -140,8 +140,8 @@ const
   '{@}' + Expression +
   '{[}' + Expression + SetList + ']' + RelOp +
   '{INHERITED}' + Expression +
-  '{PROCEDURE}' + FormalParams + ';' + InternalDecl + CompoundStmt +
-  '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + ';' + InternalDecl + CompoundStmt,
+  '{PROCEDURE}' + FormalParams + InternalDecl + CompoundStmt +
+  '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + InternalDecl + CompoundStmt,
 // ToOrDownto
   '{TO}{DOWNTO}',
 // WithList
@@ -224,7 +224,9 @@ const
   '{VAR}' + FieldDecl +
   '{PROCEDURE}' + Ident + Generics + FormalParams + ';' + Directives + CallConv + WarnDir +
   '{FUNCTION}'  + Ident + Generics + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir +
-  '{PROPERTY}'  + Ident + Generics + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp,
+  '{PROPERTY}'  + Ident + Generics + PropParams + PropInterf + PropIndex + PropRead + PropWrite + PropStored + PropDefault + PropImplem + ';' + DefProp +
+  '{OPERATOR}'  + Ident + Generics + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir +
+  '{THREADVAR}' + FieldDecl,
 // OrdinalType
   '{' + Ident + '}' + QualId + SubRange +
   '{' + IntConst + '}' + Require + SubRange +
@@ -312,7 +314,7 @@ const
   '{' + StringConst + '}' +
   '{' + CharConst + '}',
 // NameDir
-  '{NAME}' + Require + IdentDir + StringExpr + Pop,
+  '{NAME}' + Require + IdentDir + StringExpr + Delayed + Pop,
 // GUID
   '{[}' + IdentDir + ']',
 // ExceptFin
@@ -384,7 +386,8 @@ const
   '{PROCEDURE}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '{FUNCTION}'  + Ident + MetId + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
   '{CONSTRUCTOR}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
-  '{DESTRUCTOR}'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection,
+  '{DESTRUCTOR}'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
+  '{OPERATOR}' + Ident + MetId + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection,
 // InternalDecl
   'Internal Declaration Section' +
   '{VAR}' + Require + VarDecl + InternalDecl +
@@ -457,6 +460,8 @@ const
   '{:}' + Require + GenTypConstr,
 // GenTypeConstr
   '{' + Ident + '}{CLASS}{RECORD}{CONSTRUCTOR}',
+// Delayed
+  '{DELAYED}',
 // CallConv
   '{STDCALL};' + Directives + '{CDECL};'+ CallConv + Directives + '{SAFECALL};' + Directives + '{INLINE};' + Directives +
   '{REGISTER};{PASCAL};{FORWARD};' + Pop + '{VARARGS};' +
