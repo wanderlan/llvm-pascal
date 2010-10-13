@@ -64,7 +64,7 @@ procedure TParser.RecoverFromError(const Expected, Found : AnsiString); begin
       Symbol := Symbols[Top];
       Token.Lexeme := UpperCase(Token.Lexeme);
       while (Symbol <> Token.Lexeme) and (Top > 1) do
-        if ((Symbol[1] = Syntatic(*in [Start..CallConv]*)) and (pos('{' + Token.Lexeme + '}', Productions[Symbol[2]]) <> 0)) then
+        if (Symbol[1] = Syntatic) and (pos('{' + Token.Lexeme + '}', Productions[Symbol[2]]) <> 0) then
           break
         else
           PopSymbol;
@@ -82,9 +82,9 @@ procedure TParser.Compile(const Source : AnsiString); begin
     Top        := 1;
     repeat
       case Symbol[1] of
-        #0..#127        : MatchToken(Symbol); // Terminal
-        Syntatic(*Start..CallConv*) : ExpandProduction(Token.Lexeme); // Production
-        InsertSemi      : begin
+        #0..#127   : MatchToken(Symbol); // Terminal
+        Syntatic   : ExpandProduction(Token.Lexeme); // Production
+        InsertSemi : begin
           dec(First, length(Token.Lexeme));
           Token.Lexeme := ';';
           Token.Kind   := tkSpecialSymbol;
@@ -108,12 +108,12 @@ begin
   exit; // Comment this line to debug the compiler
   for I := min(Top + 5, high(Symbols)) downto 2 do
     case Symbols[I][1] of
-      #0..#127        : writeln(I, ': ', Symbols[I]); // Terminal
-      Syntatic(*Start..CallConv*) : writeln(I, ': #', Ord(Symbols[I][2]), ', ', GetProductionName(Productions[Symbols[I][2]])); // Production
-      Skip    : writeln(I, ': Skip');
-      Require : writeln(I, ': Require');
-      Mark    : writeln(I, ': Mark');
-      Pop     : writeln(I, ': Pop');
+      #0..#127 : writeln(I, ': ', Symbols[I]); // Terminal
+      Syntatic : writeln(I, ': #', Ord(Symbols[I][2]), ', ', GetProductionName(Productions[Symbols[I][2]])); // Production
+      Skip     : writeln(I, ': Skip');
+      Require  : writeln(I, ': Require');
+      Mark     : writeln(I, ': Mark');
+      Pop      : writeln(I, ': Pop');
     else
       writeln(I, ': ', Symbols[I], ': TRASH');
     end;
@@ -151,18 +151,18 @@ begin
 //    for P := P to length(Production) do
     while P <= length(Production) do begin
       case Production[P] of
-        Syntatic..Generator(*Start..#255*) : begin // Nonterminal
+        Syntatic..Generator : begin // Nonterminal
           inc(TopAux);
           Aux[TopAux] := Production[P] + Production[P+1];
           inc(P);
         end;
-        succ(Generator)(*Start*)..#255 : begin // Nonterminal
+        Ident..Pop : begin // Nonterminal
           inc(TopAux);
           Aux[TopAux] := Production[P];
         end;
         '{' : break; // End production
       else
-        if (Aux[TopAux] <> '') and (Aux[TopAux][1] >= Syntatic(*Start*)) then begin // begin terminal
+        if (Aux[TopAux] <> '') and (Aux[TopAux][1] >= Syntatic) then begin // begin terminal
           inc(TopAux);
           Aux[TopAux] := Production[P]
         end
