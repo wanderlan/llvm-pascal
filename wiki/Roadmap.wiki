@@ -1,6 +1,5 @@
 #labels Featured,Phase-Requirements
-  * 1/2010 - Scanner e Parser completos. OK.
-  * 2/2010 - Analisador semântico completo com AST (Abstract Syntax Tree, Árvore de Análise Sintática).
-  * 1/2011 - Gerador de código para LLVM bitcode, self hosting, compilação da RTL, FCL e aplicações console. Debugger integrado no Lazarus.
-  * 2/2011 - Compilação do Lazarus em Windows e Linux, redação do TG.
-  * 1/2012 - Mais TG.
+  * 2/2010 - Scanner e Parser completos. OK.
+  * 1/2011 - Analisador semântico completo com AST (Abstract Syntax Tree, Árvore de Análise Sintática).
+  * 2/2011 - Gerador de código para LLVM bitcode, self hosting, compilação da RTL, FCL e aplicações console. Debugger integrado no Lazarus.
+  * 1/2012 - Compilação do Lazarus em Windows e Linux, redação do TG.
