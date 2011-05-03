@@ -23,6 +23,7 @@
 ||Multiplataforma||Não||Sim||Sim||
 ||Assembler embutido||Sim||Sim||Não||
 ||Framework||VCL||FCL/LCL||FCL/LCL||
+||IDE||Delphi||Lazarus||Lazarus||
 ||Licença||US$ 899,00||GPL||BSD||
 ||Linguagem||C-Ansi e Assembly x86||Pascal||Object Pascal||
 ||Linhas de código||~150.000||212.000||4.000 (previsão)||
