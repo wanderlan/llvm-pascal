@@ -1,10 +1,10 @@
 #labels Featured
-|| *Recurso* || *Delphi XE* || *FreePascal 2.4* || *LLVM-Pascal* ||
+|| *Recurso* || *Delphi XE* || *FreePascal 2.4.2* || *LLVM-Pascal* ||
 ||Compatível com Delphi 7||Sim||Sim||Sim||
 ||Inline||Sim||Sim||Sim||
 ||for-in||Sim||Sim||Sim||
 ||Strict private/protected||Sim||Sim||Sim||
-||Classes abstract e sealed||Sim||Não||Sim||
+||Classes abstract e sealed||Sim||Sim||Sim||
 ||Const em classes||Sim||Não||Sim||
 ||Type em classes||Sim||Não||Sim||
 ||Var em classes||Sim||Não||Sim||
