@@ -5,4 +5,4 @@
   * 1/2012 - Compilação do Lazarus em Windows e Linux, redação do TG.
 
 
-[https://app.gantter.com/handler.ashx?googledocopen=0Ak8ajqV2Vw5fdEFvRTZBaGVYb0RycmlNQ1Q3NW9peXc&hl=en_US&domain=google.com Cronograma Gantt] *Requer instalação do [http://gantter.com/google-docs-integration plugin do Gantter para Firefox ou Chrome]*
+[https://app.gantter.com/handler.ashx?googledocopen=0Ak8ajqV2Vw5fdEFvRTZBaGVYb0RycmlNQ1Q3NW9peXc&hl=en_US&domain=google.com Cronograma Gantt] *Requer Firefox ou Chrome
