@@ -66,18 +66,20 @@ begin
     if Compiler.SilentMode >= 2 then writeln(Path);
   end;
   CompilePath(Compiler, Tree);
-  if pos('*', Tree) <> 0 then begin
-    try
-      if FindFirst(Path + '*', faDirectory, F) = 0 then begin
-        while pos('.', F.Name) <> 0 do
-          if FindNext(F) <> 0 then exit;
-        repeat
-          if pos('.', F.Name) = 0 then CompileTree(Compiler, Path + F.Name + PathDelim + Ext);
-        until FindNext(F) <> 0;
+  try
+    if pos('*', Tree) <> 0 then
+      try
+        if FindFirst(Path + '*', faDirectory, F) = 0 then begin
+          while pos('.', F.Name) <> 0 do
+            if FindNext(F) <> 0 then exit;
+          repeat
+            if pos('.', F.Name) = 0 then CompileTree(Compiler, Path + F.Name + PathDelim + Ext);
+          until FindNext(F) <> 0;
+        end;
+      finally
+        FindClose(F)
       end;
-    finally
-      FindClose(F)
-    end;
+  except
   end;
 end;
 

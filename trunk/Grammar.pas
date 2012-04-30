@@ -32,7 +32,10 @@ const
   ArithOp      = Syntatic + #110; ClassDir     = Syntatic + #111; Generics     = Syntatic + #112; ReferTo      = Syntatic + #113; HelperFor    = Syntatic + #114;
   GenConstr    = Syntatic + #115; GenTypConstr = Syntatic + #116; Delayed      = Syntatic + #117; CallConv     = Syntatic + #118;
 
-  // Other non terminals
+  // Semantic operations
+  PushScope    = Semantic + #000; PopScope     = Semantic + #001;
+
+  // Terminals
   Ident = #246; StringConst = #247; CharConst = #248; IntConst = #249; RealConst = #250;
   // Grammar commands
   InsertSemi = #251; Skip = #252; Require = #253; Mark = #254; Pop = #255;
@@ -103,8 +106,8 @@ const
 // EnumList
   '{,}' + Ident + EnumInit + EnumList,
 // CompoundStmt
-  '{BEGIN}' + Statement + StmtList + 'END' +
-  '{ASM}' + Skip + 'END',
+  '{BEGIN}' + Statement + StmtList + 'END',
+//  '{ASM}' + Skip + 'END',
 // Statement
   'Statement' +
   '{' + Ident + '}' + LabelAssign + AssignStmt + Mark +
@@ -475,6 +478,6 @@ var
 implementation
 
 begin
-  OrigExternalDir := Productions[ExternalDir[1]];
-  OrigDirectives  := Productions[Directives[1]];
+  OrigExternalDir := Productions[ExternalDir[2]];
+  OrigDirectives  := Productions[Directives[2]];
 end.
