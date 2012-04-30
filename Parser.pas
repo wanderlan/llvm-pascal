@@ -7,22 +7,30 @@ License: <extlink http://www.opensource.org/licenses/bsd-license.php>BSD</extlin
 interface
 
 uses
-  Scanner;
+  Scanner, SymbolTable;
 
 type
-  Char    = AnsiChar;
   TSymbol = string[15];
   TStack  = array[1..100] of TSymbol;
+
+  { TParser }
+
   TParser = class(TScanner)
   private
     Symbol  : TSymbol;
     Symbols : TStack;
     function GetProductionName(const P : AnsiString) : AnsiString;
     procedure ExpandProduction(const T : AnsiString); inline;
-    procedure PopSymbol; inline;
+    procedure PopSymbol; //inline;
   protected
+    SymbolTable : TSymbolTable;
+    procedure Call(Operations : array of pointer; Op : char);
     procedure RecoverFromError(const Expected, Found : AnsiString); override;
+    procedure Analyse(Symbol : char); virtual; abstract;
+    procedure Generate(Symbol : char); virtual; abstract;
   public
+    constructor Create(MaxErrors : integer = 10 ; Includes : AnsiString = ''; pSilentMode : integer = 2 ;
+                       LanguageMode : AnsiString = ''; pNotShow : AnsiString = '');
     procedure Compile(const Source : AnsiString);
     procedure Error(const Msg : AnsiString); override;
   end;
@@ -30,7 +38,10 @@ type
 implementation
 
 uses
-  SysUtils, StrUtils, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF}{$IFDEF UNICODE}, AnsiStrings{$ENDIF};
+  SysUtils, Math, Grammar, StrUtils, Token {$IFDEF UNICODE}, AnsiStrings{$ENDIF};
+
+type
+  TParserMethod = procedure of object;
 
 procedure TParser.PopSymbol; begin
   dec(Top);
@@ -54,6 +65,15 @@ procedure TParser.PopSymbol; begin
   end
 end;
 
+procedure TParser.Call(Operations : array of pointer; Op : char);
+var
+  Method : TMethod;
+begin
+  Method.Code := Operations[Ord(Op)];
+  Method.Data := Self;
+  TParserMethod(Method);
+end;
+
 procedure TParser.RecoverFromError(const Expected, Found : AnsiString); begin
   inherited;
   if Top = 1 then
@@ -74,6 +94,13 @@ procedure TParser.RecoverFromError(const Expected, Found : AnsiString); begin
   end;
 end;
 
+constructor TParser.Create(MaxErrors : integer; Includes : AnsiString; pSilentMode : integer; LanguageMode : AnsiString;
+                           pNotShow : AnsiString);
+begin
+  SymbolTable := TSymbolTable.Create;
+  inherited;
+end;
+
 procedure TParser.Compile(const Source : AnsiString); begin
   try
     SourceName := Source;
@@ -84,13 +111,21 @@ procedure TParser.Compile(const Source : AnsiString); begin
       case Symbol[1] of
         #0..#127   : MatchToken(Symbol); // Terminal
         Syntatic   : ExpandProduction(Token.Lexeme); // Production
+        Semantic   : Analyse(Symbol[2]);
+        Generator  : Generate(Symbol[2]);
         InsertSemi : begin
           dec(First, length(Token.Lexeme));
           Token.Lexeme := ';';
           Token.Kind   := tkSpecialSymbol;
         end
       else // Other Terminal
-        MatchTerminal(CharToTokenKind(Symbol[1]));
+        if MatchTerminal(CharToTokenKind(Symbol[1])) then begin
+          if Token.Kind = tkIdentifier then begin
+	           SymbolTable.Add(Token);
+	           Token := TToken.Create;
+          end;
+          NextToken;
+        end;
       end;
       PopSymbol;
     until EndSource or (Top < 1);

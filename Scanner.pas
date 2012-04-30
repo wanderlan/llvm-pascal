@@ -7,22 +7,16 @@ License: <extlink http://www.opensource.org/licenses/bsd-license.php>BSD</extlin
 interface
 
 uses
-  Classes;
+  Classes, Token;
 
 const
   MaxIncludeLevel = 16;
-  Version = '2010.9.24 pre-Alpha IV scanner/parser';
+  Version = '2012.5 Alpha I semantics';
 
 type
+  {$IFDEF UNICODE}
   Char = AnsiChar;
-  TTokenKind = (tkUndefined, tkIdentifier, tkStringConstant, tkCharConstant, tkIntegerConstant, tkRealConstant, tkConstantExpression,
-                tkLabelIdentifier, tkTypeIdentifier, tkClassIdentifier, tkReservedWord, tkSpecialSymbol);
-  TToken = class
-    Lexeme       : AnsiString;
-    Kind         : TTokenKind;
-    RealValue    : Extended;
-    IntegerValue : Int64;
-  end;
+  {$ENDIF}
   TSetChar = set of char;
   TScanner = class
   private
@@ -33,24 +27,24 @@ type
     FInitTime : TDateTime;
     Macros    : TStringList;
     Line      : AnsiString;
-    Buffer    : array[1..8*1024] of byte;
+    Buffer    : array[1..8 * 1024] of byte;
     FSourceName   : array[0..MaxIncludeLevel] of ShortString;
     FStartComment : string[10];
     FEndComment   : string[100];
+    function TokenIn(const S : AnsiString) : boolean; inline;
+    function GetFLineNumber : integer;
+    function GetFSourceName : AnsiString;
+    function TestIncludePaths : boolean;
     procedure NextChar(C : TSetChar);
     procedure FindEndComment(const StartComment, EndComment : AnsiString);
     procedure SetFSourceName(const Value : AnsiString);
     procedure DoDirective(DollarInc : integer);
     procedure SkipBlank; inline;
-    function TokenIn(const S : AnsiString) : boolean; inline;
     procedure NextString;
     procedure DoIf(Condition : boolean);
     procedure CreateMacro;
     procedure OpenInclude;
-    function GetFLineNumber : integer;
-    function GetFSourceName : AnsiString;
     procedure SetFLineNumber(const Value : integer);
-    function TestIncludePaths : boolean;
     procedure EmitMessage;
     procedure GotoEndComment;
   protected
@@ -59,25 +53,26 @@ type
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment, FSilentMode : integer;
     ErrorCode, NestedIf : ShortString;
     IncludePath, NotShow, ReservedWords : TStringList;
-    procedure ShowMessage(Kind, Msg : ShortString);
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
     function GetNonTerminalName(N : char) : AnsiString;
+    procedure ShowMessage(Kind, Msg : ShortString);
     procedure ScanChars(const Chars: array of TSetChar; const Tam : array of integer; Optional : boolean = false);
     procedure NextToken(Skip : boolean = false);
     procedure RecoverFromError(const Expected, Found : AnsiString); virtual;
     procedure ChangeLanguageMode(FPC : boolean);
   public
-    constructor Create(MaxErrors : integer = 10; Includes : AnsiString = ''; pSilentMode : integer = 2; LanguageMode : AnsiString = ''; pNotShow : AnsiString = '');
+    constructor Create(MaxErrors : integer = 10; Includes : AnsiString = ''; pSilentMode : integer = 2; LanguageMode : AnsiString = '';
+                       pNotShow : AnsiString = '');
     destructor Destroy; override;
+    function MatchTerminal(KindExpected : TTokenKind) : Boolean; //inline;
     procedure Error(const Msg : AnsiString); virtual;
-    procedure MatchToken(const TokenExpected : AnsiString); inline;
-    procedure MatchTerminal(KindExpected : TTokenKind); inline;
+    procedure MatchToken(const TokenExpected : AnsiString); //inline;
     property SourceName : AnsiString read GetFSourceName write SetFSourceName;
     property LineNumber : integer    read GetFLineNumber write SetFLineNumber;
     property TotalLines : integer    read FTotalLines;
     property ColNumber  : integer    read First;
-    property Token      : TToken     read FToken;
+    property Token      : TToken     read FToken write FToken;
     property EndSource  : boolean    read FEndSource;
     property Errors     : integer    read FErrors;
     property InitTime   : TDateTime  read FInitTime;
@@ -85,23 +80,25 @@ type
   end;
 
 const
-  Kinds : array[TTokenKind] of AnsiString = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant', 'Real Constant', 'Constant Expression',
-     'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word', 'Special Symbol');
+  Kinds : array[TTokenKind] of AnsiString = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant',
+     'Real Constant', 'Constant Expression', 'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word',
+     'Special Symbol', 'Parameter');
 
 implementation
 
 uses
-  SysUtils, StrUtils, IniFiles, Math, Grammar{$IFDEF FPC}, FPCTunning{$ENDIF}{$IFDEF UNICODE}, AnsiStrings{$ENDIF};
+  SysUtils, StrUtils, IniFiles, Math, Grammar {$IFDEF UNICODE}, AnsiStrings{$ENDIF};
 
 const
-  DelphiReservedWords = 'and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.else.end.except.exports.' +
-    'file.finalization.finally.for.function.goto.if.implementation.in.inherited.initialization.inline.interface.is.label.library.mod.nil.' +
-    'not.object.of.or.out.packed.private.procedure.program.property.protected.public.published.raise.record.repeat.resourcestring.set.shl.shr.' +
-    'strict.then.threadvar.to.try.type.unit.until.uses.var.while.with.xor';
+  DelphiReservedWords = 'and.array.as.asm.automated.begin.case.class.const.constructor.destructor.dispinterface.div.do.downto.' +
+    'else.end.except.exports.file.finalization.finally.for.function.goto.if.implementation.in.inherited.initialization.inline.' +
+    'interface.is.label.library.mod.nil.not.object.of.or.out.packed.private.procedure.program.property.protected.public.' +
+    'published.raise.record.repeat.resourcestring.set.shl.shr.strict.then.threadvar.to.try.type.unit.until.uses.var.while.with.xor';
   FPCReservedWords = '.operator';
   ConditionalSymbols : AnsiString = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
-constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''; pSilentMode : integer = 2; LanguageMode : AnsiString = ''; pNotShow : AnsiString = ''); begin
+constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''; pSilentMode : integer = 2;
+                            LanguageMode : AnsiString = ''; pNotShow : AnsiString = ''); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
   DecimalSeparator  := '.';
@@ -266,9 +263,9 @@ begin
   if length(ErrorCode) = 1 then ErrorCode := IntToStr(ord(ErrorCode[1]));
   Kind := UpCase(Kind[1]) + LowerCase(copy(Kind, 2, 10));
   if CanShowMessage and ((FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal')) then begin
-    writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber) + '): ' +
+    writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber - Length(Token.Lexeme)) + '): ' +
             Kind[1] + ErrorCode + ' ' + Msg);
-    if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1);
+    if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1 - Length(Token.Lexeme));
   end;
 end;
 
@@ -618,7 +615,7 @@ begin
             3 : FToken.Lexeme := FormatDateTime('tt', Now);
             4 : FToken.Lexeme := Version;
             5 : FToken.Lexeme := 'Windows';
-            6 : FToken.Lexeme := 'x86';
+            6 : FToken.Lexeme := 'x86_64';
           end;
           FToken.Kind := tkStringConstant;
         end;
@@ -662,17 +659,18 @@ begin
 end;
 
 procedure TScanner.RecoverFromError(const Expected, Found : AnsiString); begin
-  if Expected <> '' then Error(Expected + ' expected but ''' + ReplaceSpecialChars(Found) + ''' found');
+  if Expected <> '' then Error(Expected + ' not found, but ''' + ReplaceSpecialChars(Found) + ''' found');
 end;
 
-procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
+function TScanner.MatchTerminal(KindExpected : TTokenKind) : Boolean; begin
   if KindExpected = FToken.Kind then begin
     LastGoodTop := Top;
-    NextToken
+    Result := true;
   end
   else begin
     ErrorCode := IntToStr(ord(ErrorCode[1])) + '.' + IntToStr(byte(KindExpected));
-    RecoverFromError(Kinds[KindExpected], FToken.Lexeme)
+    RecoverFromError(Kinds[KindExpected], FToken.Lexeme);
+    Result := false;
   end;
 end;
 
@@ -694,17 +692,17 @@ begin
   FPCMode := FPC;
   if FPC then begin
     ReservedWords.DelimitedText := DelphiReservedWords + FPCReservedWords;
-    if pos('{[}', Productions[Directives[1]]) = 0 then begin
-      Productions[ExternalDir[1]] := Productions[ExternalDir[1]] + '{CVAR};' + ExternalDir;
-      Productions[Directives[1]]  := Productions[Directives[1]] + '{[}' + Skip + ']' + Mark + ';';
+    if pos('{[}', Productions[Directives[2]]) = 0 then begin
+      Productions[ExternalDir[2]] := Productions[ExternalDir[2]] + '{CVAR};' + ExternalDir;
+      Productions[Directives[2]]  := Productions[Directives[2]] + '{[}' + Skip + ']' + Mark + ';';
     end;
   end
   else begin
     ReservedWords.DelimitedText := DelphiReservedWords;
-    I := pos('{[}', Productions[Directives[1]]);
+    I := pos('{[}', Productions[Directives[2]]);
     if I <> 0 then begin
-      Productions[ExternalDir[1]] := OrigExternalDir;
-      Productions[Directives[1]]  := OrigDirectives;
+      Productions[ExternalDir[2]] := OrigExternalDir;
+      Productions[Directives[2]]  := OrigDirectives;
     end;
   end;
 end;
