@@ -1,4 +1,5 @@
 unit SymbolTable;
+{$R-,O-}
 
 interface
 
@@ -63,6 +64,8 @@ end;
 
 constructor TSymbolTable.Create; begin
   Stack := TStack.Create;
+  PushScope;
+  Scope := 0;
 end;
 
 destructor TSymbolTable.Destroy; begin
