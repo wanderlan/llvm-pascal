@@ -48,7 +48,7 @@ type
     procedure EmitMessage;
     procedure GotoEndComment;
   protected
-    FEndSource, FPCMode : boolean;
+    FEndSource, FPCMode, DoNextToken : boolean;
     FLineNumber : array[0..MaxIncludeLevel] of integer;
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment, FSilentMode : integer;
     LastLexeme, ErrorCode, NestedIf : ShortString;
@@ -157,7 +157,7 @@ begin
   end;
 end;
 
-procedure TScanner.SetFLineNumber(const Value: integer); begin
+procedure TScanner.SetFLineNumber(const Value : integer); begin
   FLineNumber[Include] := Value
 end;
 
@@ -178,6 +178,8 @@ procedure TScanner.SetFSourceName(const Value : AnsiString); begin
     First  := 1;
     FToken := TToken.Create;
     FreeAndNil(Macros);
+    DoNextToken := true;
+    NextToken;
   end
   else begin
     FEndSource := true;
@@ -448,7 +450,9 @@ var
   Str : AnsiString;
   I   : integer;
 begin
-  LastLexeme := FToken.Lexeme;
+  if not DoNextToken then exit;
+  DoNextToken := false;
+  LastLexeme  := FToken.Lexeme;
   while not FEndSource do begin
     while First > LenLine do begin
       readln(Arq[Include], Line);
@@ -472,7 +476,7 @@ begin
       LineNumber := LineNumber + 1;
       inc(FTotalLines);
       First := 1;
-      if (Macros <> nil) and (LenLine <> 0) and (FEndComment = '') and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
+      if (FEndComment = '') and (Macros <> nil) and (LenLine <> 0) and ((NestedIf = '') or (NestedIf[length(NestedIf)] = 'T')) then
         for I := 0 to Macros.Count - 1 do // Replace macros
           Line := AnsiReplaceStr(Line, Macros.Names[I], Macros.ValueFromIndex[I]);
     end;
@@ -665,8 +669,10 @@ end;
 
 procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
   NextToken;
-  if KindExpected = FToken.Kind then
-    LastGoodTop := Top
+  if KindExpected = FToken.Kind then begin
+    LastGoodTop := Top;
+    DoNextToken := true;
+  end
   else begin
     ErrorCode := IntToStr(ord(ErrorCode[1])) + '.' + IntToStr(byte(KindExpected));
     RecoverFromError(Kinds[KindExpected], FToken.Lexeme);
@@ -675,8 +681,10 @@ end;
 
 procedure TScanner.MatchToken(const TokenExpected : AnsiString); begin
   NextToken;
-  if TokenExpected = UpperCase(FToken.Lexeme) then
-    LastGoodTop := Top
+  if TokenExpected = UpperCase(FToken.Lexeme) then begin
+    LastGoodTop := Top;
+    DoNextToken := true;
+  end
   else begin
     ErrorCode := IntToStr(ord(ErrorCode[1])) + '.' + IntToStr(byte(TokenExpected[1]));
     RecoverFromError('''' + TokenExpected + '''', FToken.Lexeme)

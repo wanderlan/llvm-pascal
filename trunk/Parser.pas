@@ -20,7 +20,7 @@ type
     Symbol  : TSymbol;
     Symbols : TStack;
     function GetProductionName(const P : AnsiString) : AnsiString;
-    procedure ExpandProduction(const T : AnsiString); inline;
+    procedure ExpandProduction; inline;
     procedure PopSymbol; //inline;
   protected
     SymbolTable : TSymbolTable;
@@ -110,10 +110,11 @@ procedure TParser.Compile(const Source : AnsiString); begin
     repeat
       case Symbol[1] of
         #0..#127   : MatchToken(Symbol); // Terminal
-        Syntatic   : ExpandProduction(Token.Lexeme); // Production
+        Syntatic   : ExpandProduction; // Production
         Semantic   : Analyse(Symbol[2]);
         Generator  : Generate(Symbol[2]);
         InsertSemi : begin
+          NextToken;
           dec(First, length(Token.Lexeme));
           Token.Lexeme := ';';
           Token.Kind   := tkSpecialSymbol;
@@ -148,12 +149,13 @@ begin
     end;
 end;
 
-procedure TParser.ExpandProduction(const T : AnsiString);
+procedure TParser.ExpandProduction;
 var
   Production : AnsiString;
   P, TopAux, LenToken : integer;
   Aux : TStack;
 begin
+  NextToken;
   ErrorCode  := Symbol[2];
   Production := Productions[Symbol[2]];
   LenToken   := 1;
@@ -161,13 +163,13 @@ begin
     tkIdentifier : begin
       P := pos('{' + Ident, Production);
       if P = 0 then begin
-        P := pos('{' + UpperCase(T) + '}', Production); // find FIRST or FOLLOW terminal
-        LenToken := length(T);
+        P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
+        LenToken := length(Token.Lexeme);
       end
     end;
     tkReservedWord, tkSpecialSymbol : begin
-      P := pos('{' + UpperCase(T) + '}', Production); // find FIRST or FOLLOW terminal
-      LenToken := length(T);
+      P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
+      LenToken := length(Token.Lexeme);
     end;
   else // tkStringConstant..tkRealConstant
     P := pos('{' + TokenKindToChar(Token.Kind) + '}', Production);
