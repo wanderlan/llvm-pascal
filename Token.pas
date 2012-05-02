@@ -5,17 +5,16 @@ interface
 type
 	 TTokenKind = (tkUndefined, tkIdentifier, tkStringConstant, tkCharConstant, tkIntegerConstant, tkRealConstant,
                 tkConstantExpression, tkLabelIdentifier, tkTypeIdentifier, tkClassIdentifier, tkReservedWord, tkSpecialSymbol,
-                tkParameter);
-	 PToken = ^TToken;
+                tkParameter, tkProgram, tkUnit, tkLibrary, tkPackage);
 	 TToken = class
-	   Lexeme       : AnsiString;
+	   Lexeme       : string;
+    Type_        : TToken;
+	   NextScope    : TToken;
+	   Scope				    : Word;
 	   Kind         : TTokenKind;
-    Type_        : PToken;
 	   RealValue    : Extended;
 	   IntegerValue : Int64;
-	   Address			   : pointer;
-	   NextScope    : PToken;
-	   Scope				    : word;
+    StringValue  : string;
 	 public
 	   destructor Destroy; override;
 	 end;

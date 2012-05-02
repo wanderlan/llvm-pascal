@@ -11,7 +11,7 @@ const
 type
   TSymbolTable = class
   private
-    Table   : array[0..TABLE_SIZE - 1] of PToken;
+    Table   : array[0..TABLE_SIZE - 1] of TToken;
     Stack   : TStack;
     Current : Integer;
     Scope   : Word;
@@ -19,15 +19,15 @@ type
     constructor Create;
     destructor Destroy; override;
     function GetHash(Name : string) : Cardinal;
-    function Get(Name : string) : PToken;
+    function Get(Name : string) : TToken;
     function Count : Integer;
     procedure Add(Token : TToken);
     procedure Delete(Token : TToken);
     procedure PushScope;
     procedure PopScope;
-    function Last : PToken;
-    function Previous : PToken;
-    property Tokens[Name : string] : PToken read Get; default;
+    function Last : TToken;
+    function Previous : TToken;
+    property Tokens[Name : string] : TToken read Get; default;
   end;
   ESymbolTable = Exception;
 
@@ -53,7 +53,7 @@ function TSymbolTable.GetHash(Name : string) : Cardinal; begin
     Result := (Result + 1) mod TABLE_SIZE;
 end;
 
-function TSymbolTable.Get(Name : string) : PToken; begin
+function TSymbolTable.Get(Name : string) : TToken; begin
   Result := Table[GetHash(Name)];
 end;
 
@@ -116,7 +116,7 @@ procedure TSymbolTable.PopScope; begin
   dec(Scope);
 end;
 
-function TSymbolTable.Last : PToken; begin
+function TSymbolTable.Last : TToken; begin
   Current := Stack.Count - 1;
   Result  := Stack.Peek;
 end;
@@ -124,7 +124,7 @@ end;
 type
   THackStack = class(TStack);
 
-function TSymbolTable.Previous : PToken; begin
+function TSymbolTable.Previous : TToken; begin
   if THackStack(Stack).List[Current] <> nil then dec(Current);
   Result := THackStack(Stack).List[Current];
 end;

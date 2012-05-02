@@ -33,7 +33,8 @@ const
   GenConstr    = Syntatic + #115; GenTypConstr = Syntatic + #116; Delayed      = Syntatic + #117; CallConv     = Syntatic + #118;
 
   // Semantic operations
-  PushScope    = Semantic + #000; PopScope     = Semantic + #001;
+  PushScope    = Semantic + #000; PopScope     = Semantic + #001; AddModule    = Semantic + #002; AddSymbol    = Semantic + #003;
+  SetType      = Semantic + #004;
 
   // Terminals
   Ident = #246; StringConst = #247; CharConst = #248; IntConst = #249; RealConst = #250;
@@ -48,7 +49,7 @@ const
 
   Productions : array[#0..#118] of AnsiString = (
 // Start
-  '{PROGRAM}' + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
+  '{PROGRAM}' + PushScope + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
   '{UNIT}'    + Ident + QualId + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
   '{LIBRARY}' + Ident + QualId + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + InitSection  + '.' +
   '{PACKAGE}' + Ident + QualId + WarnDir2 + ';' + 'REQUIRES' + Ident + QualId + IdentList + ';' + Mark + 'CONTAINS' + Ident + QualId + IdentList + 'END.',
@@ -76,9 +77,9 @@ const
   '{RESOURCESTRING}' + Require + RsrcDecl + DeclSection +
   '{[}' + Ident + QualId + IdentList + ']' + DeclSection,
 // VarDecl
-  '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + VarInit + ';' + ExternalDir + Mark + VarDecl,
+  '{' + Ident + '}' + AddSymbol + VarList + ':' + Require + Type_ + SetType + WarnDir2 + VarInit + ';' + ExternalDir + Mark + VarDecl,
 // VarList
-  '{,}' + Ident + VarList,
+  '{,}' + Ident + AddSymbol + VarList,
 // VarInit
   '{=}' + Require + Expression +
   '{ABSOLUTE}' + AbsoluteAddr,

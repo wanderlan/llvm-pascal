@@ -119,13 +119,7 @@ procedure TParser.Compile(const Source : AnsiString); begin
           Token.Kind   := tkSpecialSymbol;
         end
       else // Other Terminal
-        if MatchTerminal(CharToTokenKind(Symbol[1])) then begin
-          if Token.Kind = tkIdentifier then begin
-	           SymbolTable.Add(Token);
-	           Token := TToken.Create;
-          end;
-          NextToken;
-        end;
+        MatchTerminal(CharToTokenKind(Symbol[1]));
       end;
       PopSymbol;
     until EndSource or (Top < 1);
