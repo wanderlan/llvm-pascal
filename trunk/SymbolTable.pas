@@ -1,5 +1,4 @@
 unit SymbolTable;
-{$R-,O-}
 
 interface
 
@@ -34,6 +33,7 @@ type
 
 implementation
 
+{$R-,O-}
 function Hash(const S : string) : Cardinal;
 var
   A : Cardinal;
@@ -47,6 +47,7 @@ begin
   end;
   Result := Result mod TABLE_SIZE;
 end;
+{$R+,O+}
 
 function TSymbolTable.GetHash(Name : string) : Cardinal; begin
   Result := Hash(Name);
@@ -115,8 +116,7 @@ end;
 
 procedure TSymbolTable.PopScope; begin
   while Stack.Peek <> nil do Delete(TToken(Stack.Pop));
-  Stack.Pop;
-  dec(Scope);
+  Stack.Push(nil);
 end;
 
 function TSymbolTable.Last : TToken; begin

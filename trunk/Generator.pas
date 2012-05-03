@@ -14,10 +14,10 @@ type
 implementation
 
 const
-  GeneratorOperation : array[#0..#1] of pointer = (@TGenerator.Generate, nil);
+  GeneratorAction : array[#0..#1] of pointer = (@TGenerator.Generate, nil);
 
 procedure TGenerator.Generate(Symbol : char); begin
-  Call(GeneratorOperation, Symbol);
+  Call(GeneratorAction, Symbol);
 end;
 
 end.

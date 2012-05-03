@@ -178,7 +178,6 @@ procedure TScanner.SetFSourceName(const Value : AnsiString); begin
     First  := 1;
     FToken := TToken.Create;
     FreeAndNil(Macros);
-    DoNextToken := true;
     NextToken;
   end
   else begin
@@ -450,7 +449,6 @@ var
   Str : AnsiString;
   I   : integer;
 begin
-  if not DoNextToken then exit;
   DoNextToken := false;
   LastLexeme  := FToken.Lexeme;
   while not FEndSource do begin
@@ -668,7 +666,7 @@ procedure TScanner.RecoverFromError(const Expected, Found : AnsiString); begin
 end;
 
 procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
-  NextToken;
+  if DoNextToken then NextToken;
   if KindExpected = FToken.Kind then begin
     LastGoodTop := Top;
     DoNextToken := true;
@@ -680,7 +678,7 @@ procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
 end;
 
 procedure TScanner.MatchToken(const TokenExpected : AnsiString); begin
-  NextToken;
+  if DoNextToken then NextToken;
   if TokenExpected = UpperCase(FToken.Lexeme) then begin
     LastGoodTop := Top;
     DoNextToken := true;
