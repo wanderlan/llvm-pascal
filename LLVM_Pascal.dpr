@@ -36,7 +36,7 @@ begin
             '[-Se<max number of errors, default is 10>]'^J,
             '[-M<language mode, Delphi or OBJFPC, default is Delphi>]')
   else begin
-    Compiler := TGenerator.Create(ReadSwitch(['Se'], 400), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']), ReadSwitch(['vm']));
+    Compiler := TGenerator.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']), ReadSwitch(['vm']));
     try
       CompileTree(Compiler, ParamStr(1));
     finally

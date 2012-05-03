@@ -110,11 +110,11 @@ procedure TParser.Compile(const Source : AnsiString); begin
     repeat
       case Symbol[1] of
         #0..#127   : MatchToken(Symbol); // Terminal
-        Syntatic   : ExpandProduction; // Production
-        Semantic   : Analyse(Symbol[2]);
-        Generator  : Generate(Symbol[2]);
+        Syntatic   : ExpandProduction;
+        Semantic   : ;//Analyse(Symbol[2]);
+        Generator  : ;//Generate(Symbol[2]);
         InsertSemi : begin
-          NextToken;
+          if DoNextToken then NextToken;
           dec(First, length(Token.Lexeme));
           Token.Lexeme := ';';
           Token.Kind   := tkSpecialSymbol;
@@ -155,7 +155,7 @@ var
   P, TopAux, LenToken : integer;
   Aux : TStack;
 begin
-  NextToken;
+  if DoNextToken then NextToken;
   ErrorCode  := Symbol[2];
   Production := Productions[Symbol[2]];
   LenToken   := 1;
