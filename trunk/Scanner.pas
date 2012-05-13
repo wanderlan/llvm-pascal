@@ -31,6 +31,8 @@ type
     FSourceName   : array[0..MaxIncludeLevel] of ShortString;
     FStartComment : string[10];
     FEndComment   : string[100];
+    Procedure GetCompilerInfo;  // Compiler Info and Environment Variable
+    procedure SetDelphiMode;
     function TokenIn(const S : AnsiString) : boolean; inline;
     function GetFLineNumber : integer;
     function GetFSourceName : AnsiString;
@@ -63,8 +65,8 @@ type
     procedure RecoverFromError(const Expected, Found : AnsiString); virtual;
     procedure ChangeLanguageMode(FPC : boolean);
   public
-    constructor Create(MaxErrors : integer = 10; Includes : AnsiString = ''; pSilentMode : integer = 2; LanguageMode : AnsiString = '';
-                       pNotShow : AnsiString = '');
+    constructor Create(MaxErrors : integer = 10 ; Includes : AnsiString = ''; SilentMode : integer = 2 ;
+                       LanguageMode : AnsiString = ''; ANotShow : AnsiString = '');
     destructor Destroy; override;
     procedure MatchTerminal(KindExpected : TTokenKind); //inline;
     procedure Error(const Msg : AnsiString); virtual;
@@ -98,22 +100,23 @@ const
   FPCReservedWords = '.operator';
   ConditionalSymbols : AnsiString = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
-constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''; pSilentMode : integer = 2;
-                            LanguageMode : AnsiString = ''; pNotShow : AnsiString = ''); begin
+constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''; SilentMode : integer = 2;
+                            LanguageMode : AnsiString = ''; ANotShow : AnsiString = ''); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
   DecimalSeparator  := '.';
   ThousandSeparator := ',';
-  FSilentMode := pSilentMode;
+  FSilentMode := SilentMode;
   IncludePath := TStringList.Create;
   IncludePath.Delimiter := ';';
   IncludePath.StrictDelimiter := true;
   IncludePath.DelimitedText := ';' + Includes;
   NotShow := TStringList.Create;
-  NotShow.DelimitedText := pNotShow;
+  NotShow.DelimitedText := ANotShow;
   ReservedWords := THashedStringList.Create;
   ReservedWords.Delimiter := '.';
   ReservedWords.CaseSensitive := false;
+  SetDelphiMode;
   ChangeLanguageMode(pos('FPC', UpperCase(LanguageMode)) <> 0);
 end;
 
@@ -121,8 +124,9 @@ destructor TScanner.Destroy;
 var
   Elapsed : TDateTime;
 begin
-  Elapsed := Now-InitTime;
+  Elapsed := Now - InitTime;
   if Elapsed = 0 then Elapsed := 3E-9;
+  close(Arq[Include]);
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
   writeln(TotalLines, ' lines, ', IfThen(FormatDateTime('n', Elapsed) = '0', '', FormatDateTime('n ', Elapsed) + 'minute(s) and '),
@@ -210,6 +214,25 @@ procedure TScanner.DoIf(Condition : boolean); begin
   end;
 end;
 
+procedure TScanner.GetCompilerInfo; begin
+  ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [254]);
+  case AnsiIndexText(FToken.Lexeme, ['FILE', 'LINE', 'DATE', 'TIME', 'VERSION', 'FPCVERSION', 'TARGETOS', 'FPCTARGETOS',
+                                     'TARGETCPU', 'FPCTARGETCPU']) of
+   -1 : FToken.Lexeme := GetEnvironmentVariable(FToken.Lexeme);
+    0 : FToken.Lexeme := ExtractFileName(SourceName);
+    1 : FToken.Lexeme := IntToStr(LineNumber);
+    2 : FToken.Lexeme := FormatDateTime('ddddd', Date);
+    3 : FToken.Lexeme := FormatDateTime('tt', Now);
+    4,
+    5 : FToken.Lexeme := Version;
+    6,
+    7 : FToken.Lexeme := 'Windows';
+    8,
+    9 : FToken.Lexeme := 'x86_64';
+  end;
+  FToken.Kind := tkStringConstant;
+end;
+
 function TScanner.TestIncludePaths : boolean;
 var
   F : string;
@@ -230,22 +253,30 @@ procedure TScanner.OpenInclude; begin
   if Line[First] in ['+', '-'] then exit;
   First := FAnt;
   SkipBlank;
-  ScanChars([['!'..#255] - ['}']], [255]);
-  FToken.Lexeme := AnsiDequotedStr(trim(FToken.Lexeme), '''');
-  if FToken.Lexeme = '' then exit;
-  if TestIncludePaths then begin
-    if length(trim(copy(Line, First, 100))) > 1 then
-      ShowMessage('Warning', 'Text after $Include directive, in the same line, is lost, break the line please.');
+  if Line[First] = '%' then begin
+    inc(First);
+    GetCompilerInfo;
     GotoEndComment;
-    inc(Include);
-    assign(Arq[Include], FToken.Lexeme);
-    reset(Arq[Include]);
-    LineNumber := 0;
-    FSourceName[Include] := FToken.Lexeme;
-    if FSilentMode >= 2 then writeln('' : Include * 2, ExtractFileName(SourceName));
+    Abort;
   end
-  else
-    if FSilentMode >= 2 then Error('Include file ''' + FToken.Lexeme + ''' not found');
+  else begin
+	   ScanChars([['!'..#255] - ['}']], [255]);
+	   FToken.Lexeme := AnsiDequotedStr(trim(FToken.Lexeme), '''');
+	   if FToken.Lexeme = '' then exit;
+	   if TestIncludePaths then begin
+	     if length(trim(copy(Line, First, 100))) > 1 then
+	       ShowMessage('Warning', 'Text after $Include directive, in the same line, is lost, break the line please.');
+	     GotoEndComment;
+	     inc(Include);
+	     assign(Arq[Include], FToken.Lexeme);
+	     reset(Arq[Include]);
+	     LineNumber := 0;
+	     FSourceName[Include] := FToken.Lexeme;
+	     if FSilentMode >= 2 then writeln('' : Include * 2, ExtractFileName(SourceName));
+	   end
+	   else
+	     if FSilentMode >= 2 then Error('Include file ''' + FToken.Lexeme + ''' not found');
+  end;
 end;
 
 procedure TScanner.ShowMessage(Kind, Msg : ShortString);
@@ -266,7 +297,7 @@ begin
   if CanShowMessage and ((FSilentMode >= 2) or (Kind = 'Error') or (Kind = 'Fatal')) then begin
     writeln('[' + Kind + '] ' + ExtractFileName(SourceName) + '('+ IntToStr(LineNumber) + ', ' + IntToStr(ColNumber - Length(Token.Lexeme)) + '): ' +
             Kind[1] + ErrorCode + ' ' + Msg);
-    if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - 1 - Length(Token.Lexeme));
+    if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - Length(Token.Lexeme));
   end;
 end;
 
@@ -490,7 +521,7 @@ begin
         if length(FToken.Lexeme) = 1 then
           FToken.Kind := tkIdentifier
         else
-          if ReservedWords.IndexOf({$IFDEF FPC}LowerCase{$ENDIF}(FToken.Lexeme)) <> -1  then
+          if ReservedWords.IndexOf({$IFDEF FPC}LowerCase{$ENDIF}(FToken.Lexeme)) <> -1 then
             FToken.Kind := tkReservedWord
           else
             if (FToken.Lexeme[1] = '&') and (FToken.Lexeme[2] in ['0'..'7']) then begin // Octal
@@ -587,7 +618,12 @@ begin
           NextChar(['=']);
           exit
         end;
-      '{' : FindEndComment('{', '}');
+      '{' :
+        try
+          FindEndComment('{', '}');
+        except
+          on EAbort do exit;
+        end;
       '.' : begin NextChar(['.']); exit; end;
       '*' : begin NextChar(['*', '=']); exit; end;
       '>',
@@ -608,25 +644,14 @@ begin
             if FToken.Lexeme[I] = '1' then
               inc(FToken.IntegerValue, trunc(Power(2, length(FToken.Lexeme) - I)));
         end
-        else begin // Compiler Info and Environment Variable
-          ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [254]);
-          case AnsiIndexText(FToken.Lexeme, ['FILE', 'LINE', 'DATE', 'TIME', 'VERSION', 'TARGETOS', 'TARGETCPU']) of
-           -1 : FToken.Lexeme := GetEnvironmentVariable(FToken.Lexeme);
-            0 : FToken.Lexeme := ExtractFileName(SourceName);
-            1 : FToken.Lexeme := IntToStr(LineNumber);
-            2 : FToken.Lexeme := FormatDateTime('ddddd', Date);
-            3 : FToken.Lexeme := FormatDateTime('tt', Now);
-            4 : FToken.Lexeme := Version;
-            5 : FToken.Lexeme := 'Windows';
-            6 : FToken.Lexeme := 'x86_64';
-          end;
-          FToken.Kind := tkStringConstant;
-        end;
+        else
+          GetCompilerInfo;
         exit;
       end;
     else
       inc(First);
-      if not EOF(Arq[Include]) and not Skip then Error('Invalid character ''' + Line[First] + ''' ($' + IntToHex(ord(Line[First]), 4) + ')');
+      if not EOF(Arq[Include]) and not Skip then
+        Error('Invalid character ''' + Line[First-1] + ''' ($' + IntToHex(ord(Line[First-1]), 4) + ')');
     end;
   end;
 end;
@@ -689,10 +714,20 @@ procedure TScanner.MatchToken(const TokenExpected : AnsiString); begin
   end;
 end;
 
-procedure TScanner.ChangeLanguageMode(FPC : boolean);
+procedure TScanner.SetDelphiMode;
 var
-  I : integer;
+  I : Integer;
 begin
+  ReservedWords.DelimitedText := DelphiReservedWords;
+  I := pos('{[}', Productions[Directives[2]]);
+  if I <> 0 then begin
+    Productions[ExternalDir[2]] := OrigExternalDir;
+    Productions[Directives[2]]  := OrigDirectives;
+  end;
+end;
+
+procedure TScanner.ChangeLanguageMode(FPC : boolean); begin
+  if FPCMode = FPC then exit;
   FPCMode := FPC;
   if FPC then begin
     ReservedWords.DelimitedText := DelphiReservedWords + FPCReservedWords;
@@ -701,14 +736,8 @@ begin
       Productions[Directives[2]]  := Productions[Directives[2]] + '{[}' + Skip + ']' + Mark + ';';
     end;
   end
-  else begin
-    ReservedWords.DelimitedText := DelphiReservedWords;
-    I := pos('{[}', Productions[Directives[2]]);
-    if I <> 0 then begin
-      Productions[ExternalDir[2]] := OrigExternalDir;
-      Productions[Directives[2]]  := OrigDirectives;
-    end;
-  end;
+  else
+    SetDelphiMode;
 end;
 
 function TScanner.CharToTokenKind(N : char) : TTokenKind; begin
@@ -752,3 +781,4 @@ begin
 end;
 
 end.
+

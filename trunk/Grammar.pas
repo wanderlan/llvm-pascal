@@ -30,7 +30,7 @@ const
   FieldList    = Syntatic + #100; Operators    = Syntatic + #101; CteField     = Syntatic + #102; DispId       = Syntatic + #103; AbsoluteAddr = Syntatic + #104;
   IdentOpc     = Syntatic + #105; UsesList     = Syntatic + #106; UnitIn       = Syntatic + #107; EnumInit     = Syntatic + #108; ArithExpr    = Syntatic + #109;
   ArithOp      = Syntatic + #110; ClassDir     = Syntatic + #111; Generics     = Syntatic + #112; ReferTo      = Syntatic + #113; HelperFor    = Syntatic + #114;
-  GenConstr    = Syntatic + #115; GenTypConstr = Syntatic + #116; Delayed      = Syntatic + #117; CallConv     = Syntatic + #118;
+  GenConstr    = Syntatic + #115; GenTypConstr = Syntatic + #116; Delayed      = Syntatic + #117; CallConv     = Syntatic + #118; ParamsBody   = Syntatic + #119;
 
   // Semantic operations
   PushScope    = Semantic + #000; PopScope     = Semantic + #001; AddModule    = Semantic + #002; AddSymbol    = Semantic + #003;
@@ -41,18 +41,26 @@ const
   // Grammar commands
   InsertSemi = #251; Skip = #252; Require = #253; Mark = #254; Pop = #255;
 
-  SimpleType = 'Type' + '{' + Ident + '}' + Generics + QualId + Generics + SubRange + '{INTEGER}{BOOLEAN}{BYTE}{WORD}{CARDINAL}{LONGINT}' +
+  SIMPLE_TYPE =
+    'Type' + '{' + Ident + '}' + Generics + QualId + Generics + SubRange + '{INTEGER}{BOOLEAN}{BYTE}{WORD}{CARDINAL}{LONGINT}' +
     '{INT64}{UINT64}{CHAR}{WIDECHAR}{WIDESTRING}{LONGWORD}{SHORTINT}{SMALLINT}' +
     '{PCHAR}{POINTER}{REAL}{SINGLE}{DOUBLE}{EXTENDED}{CURRENCY}{COMP}{BYTEBOOL}{WORDBOOL}{LONGBOOL}';
-  ProceduralType = '{PROCEDURE}' + FormalParams + OfObject + CallConvType +
-                   '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + OfObject + CallConvType;
+  PROCEDURAL_TYPE =
+    '{PROCEDURE}' + FormalParams + OfObject + CallConvType +
+    '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + OfObject + CallConvType;
+  METHODS_BODY =
+    '{PROCEDURE}'   + Ident + MetId + PushScope + ParamsBody + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + PopScope + DeclSection +
+    '{FUNCTION}'    + Ident + MetId + PushScope + ParamsBody + IdentType + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + PopScope + DeclSection +
+    '{CONSTRUCTOR}' + Ident + MetId + PushScope + ParamsBody + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + PopScope + DeclSection +
+    '{DESTRUCTOR}'  + Ident + MetId + PushScope + ParamsBody + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + PopScope + DeclSection +
+    '{OPERATOR}'    + Require + Operators + PushScope + Require + ParamsBody + IdentOpc + ':' + Ident + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + PopScope + DeclSection;
 
-  Productions : array[#0..#118] of AnsiString = (
+  Productions : array[#0..#119] of AnsiString = (
 // Start
-  '{PROGRAM}' + PushScope + Ident + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt  + '.' +
-  '{UNIT}'    + Ident + QualId + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' +
-  '{LIBRARY}' + Ident + QualId + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + InitSection  + '.' +
-  '{PACKAGE}' + Ident + QualId + WarnDir2 + ';' + 'REQUIRES' + Ident + QualId + IdentList + ';' + Mark + 'CONTAINS' + Ident + QualId + IdentList + 'END.',
+  '{PROGRAM}' + PushScope + Ident + AddModule + ParIdentList + ';' + UsesClause + DeclSection + Require + CompoundStmt + '.' + PopScope +
+  '{UNIT}'    + PushScope + Ident + AddModule + QualId + WarnDir2 + ';' + Require + IntSection + Require + ImplSection + Require + InitSection + '.' + PopScope +
+  '{LIBRARY}' + PushScope + Ident + AddModule + QualId + WarnDir2 + ';' + UsesClause + DeclSection + InterDecl + Require + InitSection + '.' + PopScope +
+  '{PACKAGE}' + PushScope + Ident + AddModule + QualId + WarnDir2 + ';' + 'REQUIRES' + Ident + QualId + IdentList + ';' + Mark + 'CONTAINS' + Ident + QualId + IdentList + 'END.' + PopScope,
 // ParIdentList
   '{(}' + Ident + Generics + QualId + Generics + IdentList + ')',
 // IdentList
@@ -66,12 +74,8 @@ const
   '{VAR}'         + Require + VarDecl + DeclSection +
   '{CONST}'       + Require + ConstDecl + DeclSection +
   '{TYPE}'        + Require + TypeDecl + DeclSection +
-  '{PROCEDURE}'   + Ident + MetId + FormalParams + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '{FUNCTION}'    + Ident + MetId + FormalParams + IdentType + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '{CONSTRUCTOR}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
-  '{DESTRUCTOR}'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
-  '{OPERATOR}'    + Require + Operators + Require + FormalParams + IdentOpc + ':' + Ident + CallConvType + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '{CLASS}'       + ClassMet +
+  METHODS_BODY    +
+  '{CLASS}'       + Require + ClassMet +
   '{THREADVAR}'   + Require + VarDecl + DeclSection +
   '{LABEL}'       + Require + LabelId + LabelList + DeclSection +
   '{RESOURCESTRING}' + Require + RsrcDecl + DeclSection +
@@ -84,7 +88,7 @@ const
   '{=}' + Require + Expression +
   '{ABSOLUTE}' + AbsoluteAddr,
 // Type_
-  SimpleType +
+  SIMPLE_TYPE +
   '{STRING}' + StringLength +
   '{ARRAY}'  + ArrayDim + 'OF' + Require + Type_ +
   '{'+ IntConst + '}' + Require + SubRange +
@@ -93,11 +97,11 @@ const
   '{+}' + ArithExpr + Require + SubRange +
   '{-}' + ArithExpr + Require + SubRange +
   '{^}' + Ident +
-  '{RECORD}' + HelperFor + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark +
-  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + HelperFor + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' +
-  '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
+  '{RECORD}' + HelperFor + PushScope + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark + PopScope +
+  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + HelperFor + ForwardClass + PushScope + FieldDecl + MethodDecl + ClassDecl + 'END' + PopScope +
+  '{OBJECT}' + ObjHerit + PushScope + FieldDecl + MethodDecl + ObjDecl + 'END' + PopScope +
   '{SET}' + 'OF' + Require + OrdinalType +
-  ProceduralType +
+  PROCEDURAL_TYPE +
   '{PACKED}' + PackedDecl +
   '{FILE}' + FileOf +
   '{TEXT}' +
@@ -144,8 +148,8 @@ const
   '{@}' + Expression +
   '{[}' + Expression + SetList + ']' + RelOp +
   '{INHERITED}' + Expression +
-  '{PROCEDURE}' + FormalParams + InternalDecl + CompoundStmt +
-  '{FUNCTION}'  + FormalParams + ':' + Ident + QualId + InternalDecl + CompoundStmt,
+  '{PROCEDURE}' + PushScope + ParamsBody + InternalDecl + CompoundStmt + PopScope + // Anonymous methods
+  '{FUNCTION}'  + PushScope + ParamsBody + ':' + Ident + QualId + InternalDecl + CompoundStmt + PopScope,
 // ToOrDownto
   '{TO}{DOWNTO}',
 // WithList
@@ -192,7 +196,7 @@ const
   '{(}'  + Ident + Generics + QualId + Generics + IdentList + ')' +
   '{OF}' + Ident + Pop,
 // FieldDecl
-  '{' + Ident + '}' + VarList + ':' + Require + Type_ + WarnDir2 + FieldList +
+  '{' + Ident + '}' + AddSymbol + VarList + ':' + Require + Type_ + WarnDir2 + FieldList +
   '{VAR}'   + FieldDecl +
   '{CONST}' + Require + ConstDecl + FieldDecl +
   '{TYPE}'  + Require + TypeDecl + FieldDecl +
@@ -208,14 +212,14 @@ const
   '{TYPE}'  + Require + TypeDecl + MethodDecl +
   '{[}' + Ident + QualId + IdentList + ']' + MethodDecl,
 // FormalParams
-  '{(}' + FormalParam + FormalList + ')',
+  '{(}' + PushScope + FormalParam + FormalList + ')' + PopScope,
 // FormalList
   '{;}' + FormalParam + FormalList,
 // FormalParam
-  '{' + Ident + '}' + VarList + Require + ParamSpec + ParamInit +
-  '{VAR}' + Ident + VarList + ParamSpec +
-  '{CONST}' + Ident + VarList + ParamSpec + ParamInit +
-  '{OUT}' + Ident + VarList + ParamSpec,
+  '{' + Ident + '}' + AddSymbol + VarList + Require + ParamSpec + ParamInit +
+  '{VAR}' + Ident + AddSymbol + VarList + ParamSpec +
+  '{CONST}' + Ident + AddSymbol + VarList + ParamSpec + ParamInit +
+  '{OUT}' + Ident + AddSymbol + VarList + ParamSpec,
 // ParamInit
   '{=}' + Expression,
 // ParamSpec
@@ -237,12 +241,12 @@ const
   '{' + CharConst + '}' + Require + SubRange +
   '{(}' + Ident + EnumList + ')',
 // ArrayOfType
-  SimpleType +
+  SIMPLE_TYPE +
   '{CONST}',
 // TypeId
-  SimpleType,
+  SIMPLE_TYPE,
 // ParamType
-  SimpleType +
+  SIMPLE_TYPE +
   '{STRING}{FILE}{TEXT}' +
   '{ARRAY}' + 'OF' + Require + ArrayOfType,
 // PropInterf
@@ -269,7 +273,7 @@ const
   '{**}' + Require + Expression,
 // MetId
   '{.}' + Ident + MetId +
-  '{<}' + Ident + VarList + '>' + MetId,
+  '{<}' + Ident + AddSymbol + VarList + '>' + MetId,
 // AssignStmt
   '{:=}' + Require + Expression +
   '{+=}' + Require + Expression + '{-=}' + Require + Expression + '{*=}' + Require + Expression + '{/=}' + Require + Expression,
@@ -312,7 +316,7 @@ const
   '{:=}' + Require + Expression + Require + ToOrDownto + Require + Expression +
   '{IN}' + Require + Expression,
 // PropParams
-  '{[}' + Require + FormalParam + FormalList + ']',
+  '{[}' + PushScope + Require + FormalParam + FormalList + ']' + PopScope,
 // IdentDir
   '{' + Ident + '}' + QualId +
   '{' + StringConst + '}' +
@@ -339,7 +343,7 @@ const
   '{DISPID}' + Expression + ';' + InterDir +
   '{OVERLOAD};' + InterDir + '{CDECL};' + InterDir + '{SAFECALL};' + InterDir + '{STDCALL};' + InterDir + '{REGISTER};' + InterDir + '{PASCAL};' + InterDir,
 // ProcedType
-  ProceduralType,
+  PROCEDURAL_TYPE,
 // FinSection
   '{FINALIZATION}' + Statement + StmtList + 'END' +
   '{END}',
@@ -349,9 +353,9 @@ const
   '{AT}' + Require + Expression,
 // PackedDecl
   '{ARRAY}' + ArrayDim + 'OF' + Require + Type_ +
-  '{RECORD}' + HelperFor + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark +
-  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + HelperFor + ForwardClass + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark +
-  '{OBJECT}' + ObjHerit + FieldDecl + MethodDecl + ObjDecl + 'END' +
+  '{RECORD}' + HelperFor + PushScope + FieldDecl + MethodDecl + ClassDecl + RecordCase + 'END' + Mark + PopScope +
+  '{CLASS}' + ForwardClass + ClassDir + ClassHerit + HelperFor + ForwardClass + PushScope + FieldDecl + MethodDecl + ClassDecl + 'END' + Mark + PopScope +
+  '{OBJECT}' + ObjHerit + PushScope + FieldDecl + MethodDecl + ObjDecl + 'END' + PopScope +
   '{SET}' + 'OF' + Require + OrdinalType +
   '{FILE}' + FileOf,
 // ObjHerit
@@ -387,19 +391,15 @@ const
 // Delegation
   '{.}' + Ident + '=' + Ident + ';' + Pop,
 // ClassMet
-  '{PROCEDURE}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '{FUNCTION}'  + Ident + MetId + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection +
-  '{CONSTRUCTOR}' + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
-  '{DESTRUCTOR}'  + Ident + MetId + FormalParams + ';' + Directives + CallConv + WarnDir + InternalDecl + Require + CompoundStmt + ';' + DeclSection +
-  '{OPERATOR}' + Ident + MetId + FormalParams + ':' + Ident + Generics + QualId + Generics + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + DeclSection,
+  METHODS_BODY,
 // InternalDecl
   'Internal Declaration Section' +
   '{VAR}' + Require + VarDecl + InternalDecl +
   '{CONST}' + Require + ConstDecl + InternalDecl +
   '{TYPE}' + Require + TypeDecl + InternalDecl +
   '{LABEL}' + Require + LabelId + LabelList + ';' + InternalDecl +
-  '{PROCEDURE}' + Ident + FormalParams + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
-  '{FUNCTION}'  + Ident + FormalParams + ':' + Ident + QualId + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + InternalDecl +
+  '{PROCEDURE}' + Ident + PushScope + ParamsBody + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + PopScope + InternalDecl +
+  '{FUNCTION}'  + Ident + PushScope + ParamsBody + ':' + Ident + QualId + ';' + Directives + CallConv + WarnDir + ExternalDir + InternalDecl + CompoundStmt + ';' + Mark + PopScope + InternalDecl +
   '{RESOURCESTRING}' + Require + RsrcDecl + InterDecl,
 // RecordConst
   '{:}' + Expression + CteFieldList + Pop,
@@ -451,11 +451,11 @@ const
 // ArithOp
   '{+}'  + Require + ArithExpr + '{-}'  + Require + ArithExpr + '{AND}'+ Require + ArithExpr + '{OR}' + Require + ArithExpr +
   '{XOR}'+ Require + ArithExpr + '{SHR}'+ Require + ArithExpr + '{SHL}'+ Require + ArithExpr + '{*}'  + Require + ArithExpr +
-  '{/}'  + Require + ArithExpr + '{DIV}'+ Require + ArithExpr + '{MOD}'+ Require + ArithExpr,
+  '{/}'  + Require + ArithExpr + '{DIV}'+ Require + ArithExpr + '{MOD}'+ Require + ArithExpr + '{**}'  + Require + ArithExpr,
 // ClassDir
   '{ABSTRACT}{SEALED}',
 // Generics
-  '{<}' + Ident + Generics + GenConstr + VarList + '>',
+  '{<}' + Ident + AddSymbol + Generics + GenConstr + VarList + '>',
 // ReferTo
   '{REFERENCE}' + 'TO' + Require + ProcedType + ';' + Pop,
 // HelperFor
@@ -470,7 +470,9 @@ const
   '{STDCALL};' + Directives + '{CDECL};'+ CallConv + Directives + '{SAFECALL};' + Directives + '{INLINE};' + Directives +
   '{REGISTER};{PASCAL};{FORWARD};' + Pop + '{VARARGS};' +
   '{FAR};{NEAR};{EXPORT};' + CallConv + '{LOCAL};' + // Deprecateds
-  '{ALIAS}:' + StringConst + ';' + '{NOSTACKFRAME};{MWPASCAL};{COMPILERPROC};' // FPC only
+  '{ALIAS}:' + StringConst + ';' + '{NOSTACKFRAME};{MWPASCAL};{COMPILERPROC};', // FPC only
+// ParamsBody
+  '{(}' + FormalParam + FormalList + ')'
   );
 
 var
