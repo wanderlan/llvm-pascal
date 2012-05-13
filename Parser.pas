@@ -12,9 +12,6 @@ uses
 type
   TSymbol = string[15];
   TStack  = array[1..100] of TSymbol;
-
-  { TParser }
-
   TParser = class(TScanner)
   private
     Symbol  : TSymbol;
@@ -111,8 +108,8 @@ procedure TParser.Compile(const Source : AnsiString); begin
       case Symbol[1] of
         #0..#127   : MatchToken(Symbol); // Terminal
         Syntatic   : ExpandProduction;
-        Semantic   : ;//Analyse(Symbol[2]);
-        Generator  : ;//Generate(Symbol[2]);
+        Semantic   : Analyse(Symbol[2]);
+        Generator  : Generate(Symbol[2]);
         InsertSemi : begin
           if DoNextToken then NextToken;
           dec(First, length(Token.Lexeme));
@@ -126,7 +123,7 @@ procedure TParser.Compile(const Source : AnsiString); begin
     until EndSource or (Top < 1);
   except
     on E : EAbort do Raise;
-    on E : Exception do Error(E.Message);
+    on E : Exception do Error(E.Message + Format(':%d.%d', [Ord(Symbol[1]), Ord(Symbol[2])]));
   end;
 end;
 

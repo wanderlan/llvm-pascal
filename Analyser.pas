@@ -52,7 +52,7 @@ var
   T : TToken;
 begin
   T := SymbolTable.Last;
-  while T <> nil do begin
+  while (T <> nil) and (T.StringValue = '') and (T.Kind = tkIdentifier) do begin
     T.StringValue := LastLexeme;
     T := SymbolTable.Previous;
   end;
