@@ -10,7 +10,7 @@ uses
   Classes, Token;
 
 const
-  MaxIncludeLevel = 16;
+  MaxIncludeLevel = 32;
   Version = '2012.5 Alpha I semantics';
 
 type
@@ -126,7 +126,7 @@ var
 begin
   Elapsed := Now - InitTime;
   if Elapsed = 0 then Elapsed := 3E-9;
-  close(Arq[Include]);
+  if FileExists(SourceName) then close(Arq[Include]);
   writeln;
   if Errors <> 0 then writeln(Errors, ' error(s).');
   writeln(TotalLines, ' lines, ', IfThen(FormatDateTime('n', Elapsed) = '0', '', FormatDateTime('n ', Elapsed) + 'minute(s) and '),
@@ -186,7 +186,7 @@ procedure TScanner.SetFSourceName(const Value : AnsiString); begin
   end
   else begin
     FEndSource := true;
-    Error('Source file ''' + SourceName + ''' not found');
+    Error('Source file "' + SourceName + '" not found');
     Abort;
   end;
 end;
@@ -275,7 +275,7 @@ procedure TScanner.OpenInclude; begin
 	     if FSilentMode >= 2 then writeln('' : Include * 2, ExtractFileName(SourceName));
 	   end
 	   else
-	     if FSilentMode >= 2 then Error('Include file ''' + FToken.Lexeme + ''' not found');
+	     if FSilentMode >= 2 then Error('Include file "' + FToken.Lexeme + '" not found');
   end;
 end;
 
@@ -299,6 +299,7 @@ begin
             Kind[1] + ErrorCode + ' ' + Msg);
     if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - Length(Token.Lexeme));
   end;
+  if Kind = 'Fatal' then FEndSource := true;
 end;
 
 procedure TScanner.EmitMessage;
@@ -311,10 +312,7 @@ begin
   case AnsiIndexText(L, ['HINT', 'WARN', 'ERROR', 'FATAL']) of
     0, 1 : ShowMessage(L, FToken.Lexeme);
     2 : Error(FToken.Lexeme);
-    3 : begin
-      ShowMessage('Fatal', FToken.Lexeme);
-      Abort;
-    end;
+    3 : ShowMessage('Fatal', FToken.Lexeme);
   else
     First := FAnt;
     SkipBlank;
@@ -335,7 +333,8 @@ begin
     FAnt := First;
     SkipBlank;
     ScanChars([['A'..'Z', 'a'..'z', '_', '0'..'9']], [255]);
-    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE', 'I', 'INCLUDE', 'MESSAGE']) of
+    case AnsiIndexText(L, ['DEFINE', 'UNDEF', 'IFDEF', 'IFNDEF', 'IF', 'IFOPT', 'ENDIF', 'IFEND', 'ELSE', 'ELSEIF', 'MODE',
+                           'I', 'INCLUDE', 'MESSAGE', 'MODESWITCH']) of
       0 : begin
         if not TokenIn(ConditionalSymbols) then ConditionalSymbols := ConditionalSymbols + LowerCase(FToken.Lexeme) + '.';
         CreateMacro;
@@ -357,6 +356,7 @@ begin
       10 : ChangeLanguageMode(pos('FPC', UpperCase(FToken.Lexeme)) <> 0);
       11, 12 : OpenInclude;
       13 : EmitMessage;
+      14 : ShowMessage('Fatal', 'Invalid directive "' + L + ' ' + FToken.Lexeme + '"');
     else
       GotoEndComment;
       exit;
@@ -364,7 +364,7 @@ begin
     FindEndComment(FStartComment, FEndComment);
   end
   else begin
-    Error('Invalid compiler directive ''' + Line[First] + '''');
+    Error('Invalid compiler directive "' + Line[First] + '"');
     inc(First);
   end;
 end;
@@ -650,8 +650,10 @@ begin
       end;
     else
       inc(First);
-      if not EOF(Arq[Include]) and not Skip then
-        Error('Invalid character ''' + Line[First-1] + ''' ($' + IntToHex(ord(Line[First-1]), 4) + ')');
+      if not EOF(Arq[Include]) and not Skip then begin
+        Token.Lexeme := Line[First-1];
+        Error('Invalid character "' + Line[First-1] + '" ($' + IntToHex(ord(Line[First-1]), 4) + ')');
+      end;
     end;
   end;
 end;
@@ -661,8 +663,10 @@ const
   LastColNumber  : integer = 0;
   LastLineNumber : integer = 0;
   LastSourceName : AnsiString  = '';
+  LastError      : char = #0;
 begin
-  if (LastColNumber = ColNumber) and (LastLineNumber = LineNumber) and (LastSourceName = SourceName) then
+  if ((LastColNumber = ColNumber) or (LastError = ErrorCode[1])) and
+      (LastLineNumber = LineNumber) and (LastSourceName = SourceName) then
     NextToken // Prevents locks in the same error
   else begin
     ShowMessage('Error', Msg);
@@ -671,6 +675,7 @@ begin
     LastColNumber  := ColNumber;
     LastLineNumber := LineNumber;
     LastSourceName := SourceName;
+    LastError      := ErrorCode[1];
   end;
 end;
 
@@ -687,7 +692,7 @@ begin
 end;
 
 procedure TScanner.RecoverFromError(const Expected, Found : AnsiString); begin
-  if Expected <> '' then Error(Expected + ' not found, but ''' + ReplaceSpecialChars(Found) + ''' found');
+  if Expected <> '' then Error(Expected + ' not found, but "' + ReplaceSpecialChars(Found) + '" found');
 end;
 
 procedure TScanner.MatchTerminal(KindExpected : TTokenKind); begin
@@ -710,7 +715,7 @@ procedure TScanner.MatchToken(const TokenExpected : AnsiString); begin
   end
   else begin
     ErrorCode := IntToStr(ord(ErrorCode[1])) + '.' + IntToStr(byte(TokenExpected[1]));
-    RecoverFromError('''' + TokenExpected + '''', FToken.Lexeme)
+    RecoverFromError('"' + TokenExpected + '"', FToken.Lexeme)
   end;
 end;
 

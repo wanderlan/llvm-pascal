@@ -6,7 +6,7 @@ uses
   SysUtils, Contnrs, Token;
 
 const
-  TABLE_SIZE = 98317;//49157;6151; 196613; // 393241
+  TABLE_SIZE = 98317; // 49157; 6151; 196613; 393241
 
 type
   TSymbolTable = class
@@ -36,26 +36,24 @@ implementation
 
 {$R-,O-}
 function TSymbolTable.Hash(const S : string) : Cardinal;
-var // Jenkins 0/890
+var // Jenkins
   I : Cardinal;
 begin
   Result := 0;
   for I := 1 to Length(S) do begin
-    inc(Result, (Result + ord(Upcase(S[I]))) shl 10);
+    inc(Result, (Result + ord(UpCase(S[I]))) shl 10);
     Result := Result xor (Result shr 6);
   end;
   inc(Result, Result shl 3);
   Result := Result xor (Result shr 11);
-  Result := ((Result + (Result shl 15)) +ord(S[length(s)]) * 2) mod TABLE_SIZE;
+  Result := ((Result + (Result shl 15)) + ord(S[length(S)]) * 2) mod TABLE_SIZE;
 end;
 {$R+,O+}
 
 function TSymbolTable.GetHash(Name : string) : Cardinal; begin
   Result := Hash(Name);
-  while (Table[Result] <> nil) and (LowerCase(Table[Result].Lexeme) <> LowerCase(Name)) do begin
-    writeln('Colisao ', Name, ' ', Result, ' ', Table[Result].Lexeme); readln;
+  while (Table[Result] <> nil) and (LowerCase(Table[Result].Lexeme) <> LowerCase(Name)) do
     Result := (Result + 1) mod TABLE_SIZE;
-  end;
 end;
 
 function TSymbolTable.Get(Name : string) : TToken; begin
@@ -85,7 +83,7 @@ begin
   if Count >= TABLE_SIZE then raise ESymbolTable.Create('Symbol table is full"');
   H := Hash(Token.Lexeme);
   Token.Scope := Scope;
-  while Table[H] <> nil do begin
+  while Table[H] <> nil do
     if LowerCase(Table[H].Lexeme) = LowerCase(Token.Lexeme) then begin
       if Table[H].Scope = Token.Scope then
         raise ESymbolTable.CreateFmt('Duplicate identifier "%s"', [Token.Lexeme])
@@ -93,11 +91,8 @@ begin
         Token.NextScope := Table[H];
       break;
     end
-    else begin
-      writeln('Colisao ', Token.Lexeme, ' ', H, ' ', Table[H].Lexeme); readln;
+    else
       H := (H + 1) mod TABLE_SIZE;
-    end;
-  end;
   Token.Hash := H;
   Table[H] := Token;
   Stack.Push(Token);
