@@ -373,7 +373,7 @@ const
   '{OF}' + 'OBJECT',
 // Directives
   '{OVERRIDE};' + Directives + '{OVERLOAD};' + Directives + '{VIRTUAL};' + Directives + '{REINTRODUCE};' + Directives +
-  '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};{FINAL};{STATIC};{DYNAMIC};' + Directives,
+  '{MESSAGE}' + Require + IdentDir + ';' + '{ABSTRACT};' + Directives + '{FINAL};{STATIC};' + Directives + '{DYNAMIC};' + Directives,
 // ExternalDir
   '{EXTERNAL}' + NameDir + IdentDir + NameDir + Mark + PropIndex + ';' + Directives + CallConv + Pop +
   '{ASSEMBLER};' + Directives + CallConv,

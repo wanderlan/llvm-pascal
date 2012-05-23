@@ -153,6 +153,7 @@ var
   Aux : TStack;
 begin
   if DoNextToken then NextToken;
+  if EndSource then exit;
   ErrorCode  := Symbol[2];
   Production := Productions[Symbol[2]];
   LenToken   := 1;
@@ -228,7 +229,7 @@ begin
       if S[1] > Start then
         S := GetNonTerminalName(S[1])
       else
-        S := '''' + S + '''';
+        S := '"' + S + '"';
       if Result = '' then
         Result := S
       else
