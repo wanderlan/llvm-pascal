@@ -8,9 +8,10 @@
 *)
 unit llvmAPI;
 
-{$DEFINE LLVM_DEBUG}
-{$DEFINE LLVM_DYNAMIC_LINK}
+{$DEFINE LLVM_DEBUG}                          // Only for debug w/ vLogs
+{$DEFINE LLVM_DYNAMIC_LINK}                   // Dynamic or Static linking of llvm.dll
 
+// Modules
 {$DEFINE LLVM_API_ANALYSIS}                   // Analysis.h
 {$DEFINE LLVM_API_BITREADER}                  // BitReader.h
 {$DEFINE LLVM_API_BITWRITER}                  // BitWriter.h
@@ -29,6 +30,9 @@ unit llvmAPI;
 {.$DEFINE LLVM_API_PASSMANAGERBUILDER}         // Transforms\PassManagerBuilder.h
 {.$DEFINE LLVM_API_SCALAR}                     // Transforms\Scalar.h
 {.$DEFINE LLVM_API_VECTORIZE}                  // Transforms\Vectorize.h
+
+// Options
+{.$DEFINE ORIGINAL_LLVMBOOL}                   // Use LLVMBool = Integer
 
 interface
 
@@ -54,6 +58,14 @@ type
   size_t    = Cardinal;  // #WARNING
   psize_t   = ^size_t;
   off_t     = Int64;     // #WARNING
+
+{$IFNDEF ORIGINAL_LLVMBOOL}
+type
+  LLVMBool = (
+    LLVMFalse = 0,
+    LLVMTrue = 1
+  );
+{$ENDIF}
 
 
 // Converted C API
@@ -90,7 +102,9 @@ type
  *)
 
   //typedef int LLVMBool;
+{$IFDEF ORIGINAL_LLVMBOOL}
   LLVMBool = Integer;
+{$ENDIF}
 
 (* Opaque types. *)
 
@@ -1263,9 +1277,9 @@ typedef enum {
   //                           LLVMTypeRef *ParamTypes, unsigned ParamCount,
   //                           LLVMBool IsVarArg);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMFunctionType = function(ReturnType: LLVMTypeRef; var ParamTypes: LLVMTypeRef; ParamCount: Cardinal; IsVarArg: LLVMBool): LLVMTypeRef; cdecl; 
+  TLLVMFunctionType = function(ReturnType: LLVMTypeRef; {var} ParamTypes: Pointer{LLVMTypeRef}; ParamCount: Cardinal; IsVarArg: LLVMBool): LLVMTypeRef; cdecl;
 {$ELSE}
-  function LLVMFunctionType(ReturnType: LLVMTypeRef; var ParamTypes: LLVMTypeRef; ParamCount: Cardinal; IsVarArg: LLVMBool): LLVMTypeRef; cdecl;  external LLVMLibrary name 'LLVMFunctionType';
+  function LLVMFunctionType(ReturnType: LLVMTypeRef; {var} ParamTypes: Pointer{LLVMTypeRef}; ParamCount: Cardinal; IsVarArg: LLVMBool): LLVMTypeRef; cdecl;  external LLVMLibrary name 'LLVMFunctionType';
 {$ENDIF}
 
 (*
@@ -1341,9 +1355,9 @@ typedef enum {
   //LLVMTypeRef LLVMStructTypeInContext(LLVMContextRef C, LLVMTypeRef *ElementTypes,
   //                                  unsigned ElementCount, LLVMBool Packed);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMStructTypeInContext = function(C: LLVMContextRef; var ElementTypes: LLVMTypeRef; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl;
+  TLLVMStructTypeInContext = function(C: LLVMContextRef; {var} ElementTypes: Pointer{LLVMTypeRef}; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl;
 {$ELSE}
-  function LLVMStructTypeInContext(C: LLVMContextRef; var ElementTypes: LLVMTypeRef; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMStructTypeInContext';
+  function LLVMStructTypeInContext(C: LLVMContextRef; {var} ElementTypes: Pointer{LLVMTypeRef}; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMStructTypeInContext';
 {$ENDIF}
   
 (*
@@ -1354,9 +1368,9 @@ typedef enum {
   //LLVMTypeRef LLVMStructType(LLVMTypeRef *ElementTypes, unsigned ElementCount,
   //                         LLVMBool Packed);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMStructType = function(var ElementTypes: LLVMTypeRef; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl;
+  TLLVMStructType = function({var} ElementTypes: Pointer{LLVMTypeRef}; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl;
 {$ELSE}
-  function LLVMStructType(var ElementTypes: LLVMTypeRef; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMStructType';
+  function LLVMStructType({var} ElementTypes: Pointer{LLVMTypeRef}; ElementCount: Cardinal; _Packed: LLVMBool): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMStructType';
 {$ENDIF}
 
 (*
@@ -1391,9 +1405,9 @@ typedef enum {
   //void LLVMStructSetBody(LLVMTypeRef StructTy, LLVMTypeRef *ElementTypes,
   //                     unsigned ElementCount, LLVMBool Packed);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMStructSetBody = procedure(StructTy: LLVMTypeRef; var ElementTypes: LLVMTypeRef; ElementCount: Cardinal; _Packed: LLVMBool); cdecl;
+  TLLVMStructSetBody = procedure(StructTy: LLVMTypeRef; {var} ElementTypes: Pointer{LLVMTypeRef}; ElementCount: Cardinal; _Packed: LLVMBool); cdecl;
 {$ELSE}
-  procedure LLVMStructSetBody(StructTy: LLVMTypeRef; var ElementTypes: LLVMTypeRef; ElementCount: Cardinal; _Packed: LLVMBool); cdecl; external LLVMLibrary name 'LLVMStructSetBody';
+  procedure LLVMStructSetBody(StructTy: LLVMTypeRef; {var} ElementTypes: Pointer{LLVMTypeRef}; ElementCount: Cardinal; _Packed: LLVMBool); cdecl; external LLVMLibrary name 'LLVMStructSetBody';
 {$ENDIF}
 
 (*
@@ -2571,9 +2585,9 @@ typedef enum {
   //                                    LLVMValueRef *ConstantVals,
   //                                    unsigned Count, LLVMBool Packed);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstStructInContext = function(C: LLVMContextRef; var ConstantVals: LLVMValueRef; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl;
+  TLLVMConstStructInContext = function(C: LLVMContextRef; {var} ConstantVals: Pointer{LLVMValueRef}; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstStructInContext(C: LLVMContextRef; var ConstantVals: LLVMValueRef; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstStructInContext';
+  function LLVMConstStructInContext(C: LLVMContextRef; {var} ConstantVals: Pointer{LLVMValueRef}; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstStructInContext';
 {$ENDIF}
 
 (*
@@ -2587,9 +2601,9 @@ typedef enum {
   //LLVMValueRef LLVMConstStruct(LLVMValueRef *ConstantVals, unsigned Count,
   //                           LLVMBool Packed);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstStruct = function(var ConstantVals: LLVMValueRef; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl;
+  TLLVMConstStruct = function({var} ConstantVals: Pointer{LLVMValueRef}; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstStruct(var ConstantVals: LLVMValueRef; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstStruct';
+  function LLVMConstStruct({var} ConstantVals: Pointer{LLVMValueRef}; Count: Cardinal; _Packed: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstStruct';
 {$ENDIF}
 
 (*
@@ -2600,9 +2614,9 @@ typedef enum {
   //LLVMValueRef LLVMConstArray(LLVMTypeRef ElementTy,
   //                          LLVMValueRef *ConstantVals, unsigned Length);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstArray = function(ElementTy: LLVMTypeRef; var ConstantVals: LLVMValueRef; Length: Cardinal): LLVMValueRef; cdecl;
+  TLLVMConstArray = function(ElementTy: LLVMTypeRef; {var} ConstantVals: Pointer{LLVMValueRef}; Length: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstArray(ElementTy: LLVMTypeRef; var ConstantVals: LLVMValueRef; Length: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstArray';
+  function LLVMConstArray(ElementTy: LLVMTypeRef; {var} ConstantVals: Pointer{LLVMValueRef}; Length: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstArray';
 {$ENDIF}
 
 (*
@@ -2614,9 +2628,9 @@ typedef enum {
   //                                LLVMValueRef *ConstantVals,
   //                                unsigned Count);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstNamedStruct = function(StructTy: LLVMTypeRef; var ConstantVals: LLVMValueRef; Count: Cardinal): LLVMValueRef; cdecl;
+  TLLVMConstNamedStruct = function(StructTy: LLVMTypeRef; {var} ConstantVals: Pointer{LLVMValueRef}; Count: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstNamedStruct(StructTy: LLVMTypeRef; var ConstantVals: LLVMValueRef; Count: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstNamedStruct';
+  function LLVMConstNamedStruct(StructTy: LLVMTypeRef; {var} ConstantVals: Pointer{LLVMValueRef}; Count: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstNamedStruct';
 {$ENDIF}
 
 (*
@@ -2626,9 +2640,9 @@ typedef enum {
  *)
   //LLVMValueRef LLVMConstVector(LLVMValueRef *ScalarConstantVals, unsigned Size);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstVector = function(var ScalarConstantVals: LLVMValueRef; Size: Cardinal): LLVMValueRef; cdecl;
+  TLLVMConstVector = function({var} ScalarConstantVals: Pointer{LLVMValueRef}; Size: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstVector(var ScalarConstantVals: LLVMValueRef; Size: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstVector';
+  function LLVMConstVector({var} ScalarConstantVals: Pointer{LLVMValueRef}; Size: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstVector';
 {$ENDIF}
 
 (*
@@ -2859,17 +2873,17 @@ typedef enum {
   //LLVMValueRef LLVMConstGEP(LLVMValueRef ConstantVal,
   //                        LLVMValueRef *ConstantIndices, unsigned NumIndices);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstGEP = function(ConstantVal: LLVMValueRef; var ConstantIndices: LLVMValueRef; NumIndices: Cardinal): LLVMValueRef; cdecl;
+  TLLVMConstGEP = function(ConstantVal: LLVMValueRef; {var} ConstantIndices: Pointer{LLVMValueRef}; NumIndices: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstGEP(ConstantVal: LLVMValueRef; var ConstantIndices: LLVMValueRef; NumIndices: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstGEP';
+  function LLVMConstGEP(ConstantVal: LLVMValueRef; {var} ConstantIndices: Pointer{LLVMValueRef}; NumIndices: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstGEP';
 {$ENDIF}
   //LLVMValueRef LLVMConstInBoundsGEP(LLVMValueRef ConstantVal,
   //                                LLVMValueRef *ConstantIndices,
   //                                unsigned NumIndices);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstInBoundsGEP = function(ConstantVal: LLVMValueRef; var ConstantIndices: LLVMValueRef; NumIndices: Cardinal): LLVMValueRef; cdecl;
+  TLLVMConstInBoundsGEP = function(ConstantVal: LLVMValueRef; {var} ConstantIndices: Pointer{LLVMValueRef}; NumIndices: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstInBoundsGEP(ConstantVal: LLVMValueRef; var ConstantIndices: LLVMValueRef; NumIndices: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstInBoundsGEP';
+  function LLVMConstInBoundsGEP(ConstantVal: LLVMValueRef; {var} ConstantIndices: Pointer{LLVMValueRef}; NumIndices: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstInBoundsGEP';
 {$ENDIF}
   //LLVMValueRef LLVMConstTrunc(LLVMValueRef ConstantVal, LLVMTypeRef ToType);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -3590,9 +3604,9 @@ typedef enum {
   //LLVMValueRef LLVMMDNodeInContext(LLVMContextRef C, LLVMValueRef *Vals,
   //                               unsigned Count);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMMDNodeInContext = function(C: LLVMContextRef; var Vals: LLVMValueRef; Count: Cardinal): LLVMValueRef; cdecl;
+  TLLVMMDNodeInContext = function(C: LLVMContextRef; {var} Vals: Pointer{LLVMValueRef}; Count: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMMDNodeInContext(C: LLVMContextRef; var Vals: LLVMValueRef; Count: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDNodeInContext';
+  function LLVMMDNodeInContext(C: LLVMContextRef; {var} Vals: Pointer{LLVMValueRef}; Count: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDNodeInContext';
 {$ENDIF}
 
 (*
@@ -3600,9 +3614,9 @@ typedef enum {
  *)
   //LLVMValueRef LLVMMDNode(LLVMValueRef *Vals, unsigned Count);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMMDNode = function(var Vals: LLVMValueRef; Count: Cardinal): LLVMValueRef; cdecl;
+  TLLVMMDNode = function({var} Vals: Pointer{LLVMValueRef}; Count: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMMDNode(var Vals: LLVMValueRef; Count: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDNode';
+  function LLVMMDNode({var} Vals: Pointer{LLVMValueRef}; Count: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDNode';
 {$ENDIF}
 
 (*
@@ -9210,6 +9224,7 @@ var
 var
   hLibrary: Cardinal = 0;
 
+function IsLLVMLoaded: Boolean;
 function LoadLLVM: Boolean;
 procedure UnloadLLVM;
 {$ENDIF}
@@ -9220,6 +9235,7 @@ implementation
 function GetLLVMProc(const AProcName: String): Pointer;
 begin
   Result := GetProcAddress(hLibrary, PChar(AProcName));
+  //Log('%s', [AProcName]);
   if (Result = nil) then
 {$IFNDEF LLVM_DEBUG}
     raise Exception.CreateFmt('[GetLLVMProc] Function "%s" not founded in LLVM Library!', [AProcName]);
@@ -9228,8 +9244,16 @@ begin
 {$ENDIF}
 end;
 
+function IsLLVMLoaded: Boolean;
+begin
+  Result := (hLibrary <> 0);
+end;
+
 function LoadLLVM: Boolean;
 begin
+  if IsLLVMLoaded then
+    UnloadLLVM;
+
   Result := False;
   try
     hLibrary := LoadLibrary(LLVMLibrary);
@@ -9982,7 +10006,8 @@ begin
 {$IFDEF LLVM_API_VECTORIZE}
       @LLVMAddBBVectorizePass := GetLLVMProc('LLVMAddBBVectorizePass');
 {$ENDIF}
-    end;
+    end else
+      raise Exception.CreateFmt('Cannot load "%s" library!', [LLVMLibrary]);
   except
     on E:Exception do
     begin
