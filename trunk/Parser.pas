@@ -151,13 +151,11 @@ begin
     tkIdentifier : begin
       P := pos('{' + Ident, Production);
       if P = 0 then begin
-        P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
         P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST terminal
         LenToken := length(Token.Lexeme);
       end
     end;
     tkReservedWord, tkSpecialSymbol : begin
-      P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
       P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST terminal
       LenToken := length(Token.Lexeme);
     end;
