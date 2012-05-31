@@ -7,7 +7,7 @@ License: <extlink http://www.opensource.org/licenses/bsd-license.php>BSD</extlin
 interface
 
 uses
-  Scanner, SymbolTable;
+  Scanner;
 
 type
   TSymbol = string[15];
@@ -20,14 +20,11 @@ type
     procedure ExpandProduction; inline;
     procedure PopSymbol; //inline;
   protected
-    SymbolTable : TSymbolTable;
     procedure Call(Operations : array of pointer; Op : char);
     procedure RecoverFromError(const Expected, Found : AnsiString); override;
     procedure Analyse(Symbol : char); virtual; abstract;
     procedure Generate(Symbol : char); virtual; abstract;
   public
-    constructor Create(MaxErrors : integer = 10 ; Includes : AnsiString = ''; pSilentMode : integer = 2 ;
-                       LanguageMode : AnsiString = ''; pNotShow : AnsiString = '');
     procedure Compile(const Source : AnsiString);
     procedure Error(const Msg : AnsiString); override;
   end;
@@ -91,13 +88,6 @@ procedure TParser.RecoverFromError(const Expected, Found : AnsiString); begin
   end;
 end;
 
-constructor TParser.Create(MaxErrors : integer; Includes : AnsiString; pSilentMode : integer; LanguageMode : AnsiString;
-                           pNotShow : AnsiString);
-begin
-  inherited;
-  SymbolTable := TSymbolTable.Create;
-end;
-
 procedure TParser.Compile(const Source : AnsiString); begin
   try
     SourceName := Source;
@@ -122,7 +112,7 @@ procedure TParser.Compile(const Source : AnsiString); begin
       PopSymbol;
     until EndSource or (Top < 1);
   except
-    on E : EAbort do Raise;
+    on E : EAbort do raise;
     on E : Exception do Error(E.Message + Format(':%d.%d', [Ord(Symbol[1]), Ord(Symbol[2])]));
   end;
 end;
@@ -161,11 +151,13 @@ begin
     tkIdentifier : begin
       P := pos('{' + Ident, Production);
       if P = 0 then begin
+        P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
         P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST terminal
         LenToken := length(Token.Lexeme);
       end
     end;
     tkReservedWord, tkSpecialSymbol : begin
+      P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
       P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST terminal
       LenToken := length(Token.Lexeme);
     end;

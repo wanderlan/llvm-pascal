@@ -54,21 +54,21 @@ type
     FLineNumber : array[0..MaxIncludeLevel] of integer;
     FTotalLines, First, FErrors, FMaxErrors, Top, LastGoodTop, FAnt, LineComment, FSilentMode : integer;
     LastLexeme, ErrorCode, NestedIf : ShortString;
-    IncludePath, NotShow, ReservedWords : TStringList;
+    IncludePath, FNotShow, ReservedWords : TStringList;
     function CharToTokenKind(N : char) : TTokenKind;
     function TokenKindToChar(T : TTokenKind) : char;
-    function StringToTokenKind(S : string) : TTokenKind;
+    function StringToTokenKind(S : string; Default : TTokenKind = tkUndefined) : TTokenKind;
     function GetNonTerminalName(N : char) : AnsiString;
-    procedure ShowMessage(Kind, Msg : ShortString);
     procedure ScanChars(const Chars: array of TSetChar; const Tam : array of integer; Optional : boolean = false);
     procedure NextToken(Skip : boolean = false);
     procedure RecoverFromError(const Expected, Found : AnsiString); virtual;
     procedure ChangeLanguageMode(FPC : boolean);
   public
     constructor Create(MaxErrors : integer = 10 ; Includes : AnsiString = ''; SilentMode : integer = 2 ;
-                       LanguageMode : AnsiString = ''; ANotShow : AnsiString = '');
+                       LanguageMode : AnsiString = ''; NotShow : AnsiString = '');
     destructor Destroy; override;
     procedure MatchTerminal(KindExpected : TTokenKind); //inline;
+    procedure ShowMessage(Kind, Msg : ShortString);
     procedure Error(const Msg : AnsiString); virtual;
     procedure MatchToken(const TokenExpected : AnsiString); //inline;
     property SourceName : AnsiString read GetFSourceName write SetFSourceName;
@@ -81,11 +81,6 @@ type
     property InitTime   : TDateTime  read FInitTime;
     property SilentMode : integer    read FSilentMode;
   end;
-
-const
-  Kinds : array[TTokenKind] of AnsiString = ('Undefined', 'Identifier', 'String Constant', 'Char Constant', 'Integer Constant',
-     'Real Constant', 'Constant Expression', 'Label Identifier', 'Type Identifier', 'Class Identifier', 'Reserved Word',
-     'Special Symbol', 'Parameter', 'Program', 'Unit', 'Library', 'Package');
 
 implementation
 
@@ -101,7 +96,7 @@ const
   ConditionalSymbols : AnsiString = '.llvm.ver2010.mswindows.win32.cpu386.conditionalexpressions.purepascal.';
 
 constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''; SilentMode : integer = 2;
-                            LanguageMode : AnsiString = ''; ANotShow : AnsiString = ''); begin
+                            LanguageMode : AnsiString = ''; NotShow : AnsiString = ''); begin
   FInitTime  := Now;
   FMaxErrors := MaxErrors;
   DecimalSeparator  := '.';
@@ -111,8 +106,8 @@ constructor TScanner.Create(MaxErrors : integer = 10; Includes : AnsiString = ''
   IncludePath.Delimiter := ';';
   IncludePath.StrictDelimiter := true;
   IncludePath.DelimitedText := ';' + Includes;
-  NotShow := TStringList.Create;
-  NotShow.DelimitedText := ANotShow;
+  FNotShow := TStringList.Create;
+  FNotShow.DelimitedText := NotShow;
   ReservedWords := THashedStringList.Create;
   ReservedWords.Delimiter := '.';
   ReservedWords.CaseSensitive := false;
@@ -134,7 +129,7 @@ begin
   inherited;
   FToken.Free;
   IncludePath.Free;
-  NotShow.Free;
+  FNotShow.Free;
   ReservedWords.Free;
   FreeAndNil(Macros);
 end;
@@ -284,8 +279,8 @@ procedure TScanner.ShowMessage(Kind, Msg : ShortString);
   var
     I : integer;
   begin
-    for I := 0 to NotShow.Count - 1 do
-      if pos(NotShow[I], Kind[1] + ErrorCode) = 1 then begin
+    for I := 0 to FNotShow.Count - 1 do
+      if pos(FNotShow[I], Kind[1] + ErrorCode) = 1 then begin
         Result := false;
         exit;
       end;
@@ -753,9 +748,9 @@ function TScanner.TokenKindToChar(T : TTokenKind) : char; begin
   Result := char(byte(T) + byte(pred(Ident)))
 end;
 
-function TScanner.StringToTokenKind(S : string) : TTokenKind; begin
+function TScanner.StringToTokenKind(S : string; Default : TTokenKind = tkUndefined) : TTokenKind; begin
   Result := TTokenKind(AnsiIndexText(S, Kinds));
-  if Result = TTokenKind(-1) then Result := tkUndefined;
+  if Result = TTokenKind(-1) then Result := Default;
 end;
 
 function TScanner.GetFLineNumber: integer; begin

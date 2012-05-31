@@ -1,7 +1,7 @@
 program LLVM_Pascal;
 {
 Author: Wanderlan Santos dos Anjos, wanderlan.anjos@gmail.com
-Author: Barbara A.B. dos Anjos, barbara.ab.anjos@gmail.com
+Author: Barbara A. B. dos Anjos, barbara.ab.anjos@gmail.com
 Advisor: Paulo Guilherme Freire, freire.brasilia@gmail.com
 Advisor: Joel Guilherme da Silva Filho, joel-iesb@joelguilherme.com
 Date: apr-2010
