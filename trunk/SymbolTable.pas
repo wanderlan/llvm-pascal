@@ -3,7 +3,7 @@ unit SymbolTable;
 interface
 
 uses
-  SysUtils, Contnrs, Token;
+  Contnrs, Token, Scanner;
 
 const
   TABLE_SIZE = 98317; // 49157; 6151; 196613; 393241
@@ -30,9 +30,11 @@ type
     function Previous : TToken;
     property Tokens[Name : string] : TToken read Get; default;
   end;
-  ESymbolTable = Exception;
 
 implementation
+
+uses
+  CompilerUtils;
 
 {$R-,O-}
 function TSymbolTable.Hash(const S : string) : Cardinal;
@@ -80,13 +82,13 @@ procedure TSymbolTable.Add(Token : TToken);
 var
   H : Cardinal;
 begin
-  if Count >= TABLE_SIZE then raise ESymbolTable.Create('Symbol table is full"');
+  if Count >= TABLE_SIZE then raise EFatal.Create('Symbol table is full');
   H := Hash(Token.Lexeme);
   Token.Scope := Scope;
   while Table[H] <> nil do
     if LowerCase(Table[H].Lexeme) = LowerCase(Token.Lexeme) then begin
       if Table[H].Scope = Token.Scope then
-        raise ESymbolTable.CreateFmt('Duplicate identifier "%s"', [Token.Lexeme])
+        raise EError.CreateFmt('Identifier redeclared "%s"', [Token.Lexeme])
       else
         Token.NextScope := Table[H];
       break;
@@ -104,8 +106,9 @@ var
   H : Cardinal;
 begin
   H := Token.Hash;
-  if (H >= TABLE_SIZE) or (Table[H] = nil) or (LowerCase(Table[H].Lexeme) <> LowerCase(Token.Lexeme))  then
-    raise ESymbolTable.CreateFmt('Trying to delete invalid token "%s"', [Token.Lexeme])
+  if (H >= TABLE_SIZE) or (Table[H] = nil) or
+     (LowerCase(Table[H].Lexeme) <> LowerCase(Token.Lexeme)) then
+    raise EFatal.CreateFmt('Trying to delete invalid token "%s", possibly data corruption', [Token.Lexeme])
   else
     Table[H] := Table[H].NextScope;
   Token.Free;
@@ -119,7 +122,7 @@ end;
 procedure TSymbolTable.PopScope; begin
   while Stack.Peek <> nil do Delete(TToken(Stack.Pop));
   Stack.Pop;
-  dec(Scope);
+  if Scope > 0 then dec(Scope);
 end;
 
 function TSymbolTable.Last : TToken; begin
@@ -131,8 +134,12 @@ type
   THackStack = class(TStack);
 
 function TSymbolTable.Previous : TToken; begin
-  if THackStack(Stack).List[Current] <> nil then dec(Current);
-  Result := THackStack(Stack).List[Current];
+  if Current >= 0 then begin
+    if THackStack(Stack).List[Current] <> nil then dec(Current);
+    Result := THackStack(Stack).List[Current];
+  end
+  else
+    Result := nil;
 end;
 
 end.

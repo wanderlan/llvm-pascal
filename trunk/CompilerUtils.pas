@@ -3,7 +3,13 @@ unit CompilerUtils;
 interface
 
 uses
-  Parser;
+  SysUtils, Parser;
+
+type
+  EHint    = Exception;
+  EWarning = class(EHint);
+  EError   = class(EWarning);
+  EFatal   = class(EError);
 
 function ReadSwitch(Switches : array of AnsiString) : AnsiString; overload;
 function ReadSwitch(Switches : array of AnsiString; Default : integer) : integer; overload;
@@ -11,9 +17,6 @@ procedure CompilePath(Compiler : TParser; Path : AnsiString);
 procedure CompileTree(Compiler : TParser; Tree : AnsiString);
 
 implementation
-
-uses
-  SysUtils;
 
 function ReadSwitch(Switches : array of AnsiString) : AnsiString;
 var

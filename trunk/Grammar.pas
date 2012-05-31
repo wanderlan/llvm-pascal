@@ -34,7 +34,7 @@ const
 
   // Semantic operations
   PushScope    = Semantic + #000; PopScope     = Semantic + #001; AddModule    = Semantic + #002; AddSymbol    = Semantic + #003;
-  SetType      = Semantic + #004;
+  SetType      = Semantic + #004; GetSymbol    = Semantic + #005;
 
   // Terminals
   Ident = #246; StringConst = #247; CharConst = #248; IntConst = #249; RealConst = #250;
@@ -135,7 +135,7 @@ const
   '{;}' + Statement + StmtList,
 // Expression
   'Expression' +
-  '{' + Ident + '}' + QualId + RelOp +
+  '{' + Ident + '}' + GetSymbol + QualId + RelOp +
   '{' + IntConst + '}' + RelOp +
   '{' + StringConst + '}' + RelOp +
   '{' + CharConst + '}' + RelOp +
