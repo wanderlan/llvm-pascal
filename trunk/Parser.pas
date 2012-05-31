@@ -85,7 +85,7 @@ procedure TParser.RecoverFromError(const Expected, Found : AnsiString); begin
           break
         else
           PopSymbol;
-        if (Top = 1) and not EndSource then NextToken;
+      if (Top = 1) and not EndSource then NextToken;
     until (Top <> 1) or EndSource;
     inc(Top);
   end;
@@ -94,8 +94,8 @@ end;
 constructor TParser.Create(MaxErrors : integer; Includes : AnsiString; pSilentMode : integer; LanguageMode : AnsiString;
                            pNotShow : AnsiString);
 begin
-  SymbolTable := TSymbolTable.Create;
   inherited;
+  SymbolTable := TSymbolTable.Create;
 end;
 
 procedure TParser.Compile(const Source : AnsiString); begin
@@ -161,12 +161,12 @@ begin
     tkIdentifier : begin
       P := pos('{' + Ident, Production);
       if P = 0 then begin
-        P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
+        P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST terminal
         LenToken := length(Token.Lexeme);
       end
     end;
     tkReservedWord, tkSpecialSymbol : begin
-      P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST or FOLLOW terminal
+      P := pos('{' + UpperCase(Token.Lexeme) + '}', Production); // find FIRST terminal
       LenToken := length(Token.Lexeme);
     end;
   else // tkStringConstant..tkRealConstant
