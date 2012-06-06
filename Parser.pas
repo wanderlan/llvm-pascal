@@ -23,7 +23,7 @@ type
     procedure Call(Operations : array of pointer; Op : char);
     procedure RecoverFromError(const Expected, Found : AnsiString); override;
     procedure Analyse(Symbol : char); virtual; abstract;
-    procedure Generate(Symbol : char); virtual; abstract;
+//    procedure Generate(Symbol : char); virtual; abstract;
   public
     procedure Compile(const Source : AnsiString);
     procedure Error(const Msg : AnsiString); override;
@@ -99,7 +99,7 @@ procedure TParser.Compile(const Source : AnsiString); begin
         #0..#127   : MatchToken(Symbol); // Terminal
         Syntatic   : ExpandProduction;
         Semantic   : Analyse(Symbol[2]);
-        Generator  : Generate(Symbol[2]);
+//        Generator  : Generate(Symbol[2]);
         InsertSemi : begin
           if DoNextToken then NextToken;
           dec(First, length(Token.Lexeme));

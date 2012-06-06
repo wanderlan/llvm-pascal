@@ -15,10 +15,10 @@ virtual site:http://lazarus-ccr.sourceforge.net/docs
 {$APPTYPE CONSOLE}
 
 uses
-  SysUtils, CompilerUtils, Scanner, Generator;
+  SysUtils, CompilerUtils, Scanner, Analyser;
 
 var
-  Compiler : TGenerator;
+  Compiler : TAnalyser;
 
 begin
   if not FindCmdLineSwitch('v0') then begin
@@ -36,7 +36,7 @@ begin
             '[-Se<max number of errors, default is 10>]'^J,
             '[-M<language mode, Delphi or OBJFPC, default is Delphi>]')
   else begin
-    Compiler := TGenerator.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']), ReadSwitch(['vm']));
+    Compiler := TAnalyser.Create(ReadSwitch(['Se'], 10), ReadSwitch(['I', 'Fi']), ReadSwitch(['v'], 2), ReadSwitch(['M']), ReadSwitch(['vm']));
     try
       CompileTree(Compiler, ParamStr(1));
     finally

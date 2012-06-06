@@ -11,7 +11,11 @@ uses
 
 const
   MaxIncludeLevel = 32;
-  Version = '2012.5 Alpha I semantics';
+  Version   = '2012.5 Alpha I semantics';
+  TargetCPU = 'x86_64'; // 'arm'; 'cellspu'; 'hexagon'; 'mips'; 'mipsel'; 'mips64'; 'mips64el'; 'msp430'; 'powerpc64'; 'powerpc';
+                        // 'r600'; 'sparc'; 'sparcv9'; 'tce'; 'thumb'; 'i386'; 'xcore'; 'mblaze'; 'ptx32'; 'ptx64'; 'le32'; 'amdil';
+  TargetOS  = 'win32'; // 'auroraux'; 'cygwin'; 'darwin'; 'dragonfly'; 'freebsd'; 'ios'; 'kfreebsd'; 'linux'; 'lv2'; 'macosx';
+                       // 'mingw32'; 'netbsd'; 'openbsd'; 'solaris'; 'haiku'; 'minix'; 'rtems'; 'nacl'; 'cnk';
 
 type
   {$IFDEF UNICODE}
@@ -221,9 +225,9 @@ procedure TScanner.GetCompilerInfo; begin
     4,
     5 : FToken.Lexeme := Version;
     6,
-    7 : FToken.Lexeme := 'Windows';
+    7 : FToken.Lexeme := TargetOS;
     8,
-    9 : FToken.Lexeme := 'x86_64';
+    9 : FToken.Lexeme := TargetCPU;
   end;
   FToken.Kind := tkStringConstant;
 end;
