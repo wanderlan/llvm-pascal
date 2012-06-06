@@ -8,7 +8,7 @@
 *)
 unit llvmAPI;
 
-{$DEFINE LLVM_DEBUG}                          // Only for debug w/ vLogs
+{.$DEFINE LLVM_DEBUG}                          // Only for debug w/ vLogs
 {$DEFINE LLVM_DYNAMIC_LINK}                   // Dynamic or Static linking of llvm.dll
 
 // Modules
