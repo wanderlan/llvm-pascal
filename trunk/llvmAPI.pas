@@ -2,13 +2,14 @@
     LLVM API for Delphi
       > Author: Aleksey A. Naumov [alexey.naumov@gmail.com]
       > License: BSD
-      > Delphi API Version: 0.2b
+      > Delphi API Version: 0.3b
 
     Tested on Windows only & D2007.
 *)
 unit llvmAPI;
 
 {.$DEFINE LLVM_DEBUG}                          // Only for debug w/ vLogs
+{.$DEFINE LLVM_TRACE}                          // Only for trace w/ vLogs
 {$DEFINE LLVM_DYNAMIC_LINK}                   // Dynamic or Static linking of llvm.dll
 
 // Modules
@@ -46,10 +47,15 @@ uses
 // Internals & workarounds
 const
   LLVMVersion = '3.1';
+{$IFNDEF CPUX64}
+  LLVMArch = 'x86';
+{$ELSE}
+  LLVMArch = 'x86_64';
+{$ENDIF}
   LLVMVersionMajor = 3;
   LLVMVersionMinor = 1;
   // #ATTENTION: Windows only
-  LLVMLibrary = 'llvm-' + LLVMVersion + '.dll';
+  LLVMLibrary = 'llvm-' + LLVMVersion + '.' + LLVMArch + '.dll';
 
 type
   uint64_t  = UInt64;
@@ -5648,7 +5654,12 @@ type
   //#include "llvm/Config/Targets.def"
   //#undef LLVM_TARGET  // Explicit undef to make SWIG happier 
   //}
+  // #ATTENTION: DL postfix - wrapper in library side
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMInitializeAllTargetInfos = procedure(); cdecl;
+{$ELSE}
+  procedure LLVMInitializeAllTargetInfos(); cdecl; external LLVMLibrary name 'LLVMInitializeAllTargetInfosDL';
+{$ENDIF}
 
 (** LLVMInitializeAllTargets - The main program should call this function if it
     wants to link in all available targets that LLVM is configured to
@@ -5658,7 +5669,12 @@ type
   //#include "llvm/Config/Targets.def"
   //#undef LLVM_TARGET  // Explicit undef to make SWIG happier 
   //}
+  // #ATTENTION: DL postfix - wrapper in library side
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMInitializeAllTargets = procedure(); cdecl;
+{$ELSE}
+  procedure LLVMInitializeAllTargets(); cdecl; external LLVMLibrary name 'LLVMInitializeAllTargetsDL';
+{$ENDIF}
 
 (** LLVMInitializeAllTargetMCs - The main program should call this function if
     it wants access to all available target MC that LLVM is configured to
@@ -5666,10 +5682,15 @@ type
   //static inline void LLVMInitializeAllTargetMCs(void) {
   //#define LLVM_TARGET(TargetName) LLVMInitialize##TargetName##TargetMC();
   //#include "llvm/Config/Targets.def"
-  //#undef LLVM_TARGET  // Explicit undef to make SWIG happier 
+  //#undef LLVM_TARGET  // Explicit undef to make SWIG happier
   //}
+  // #ATTENTION: DL postfix - wrapper in library side
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMInitializeAllTargetMCs = procedure(); cdecl;
-  
+{$ELSE}
+  procedure LLVMInitializeAllTargetMCs(); cdecl; external LLVMLibrary name 'LLVMInitializeAllTargetMCsDL';
+{$ENDIF}
+
 (** LLVMInitializeAllAsmPrinters - The main program should call this function if
     it wants all asm printers that LLVM is configured to support, to make them
     available via the TargetRegistry. *)
@@ -5678,8 +5699,13 @@ type
   //#include "llvm/Config/AsmPrinters.def"
   //#undef LLVM_ASM_PRINTER  // Explicit undef to make SWIG happier 
   //}
+  // #ATTENTION: DL postfix - wrapper in library side
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMInitializeAllAsmPrinters = procedure(); cdecl;
-  
+{$ELSE}
+  procedure LLVMInitializeAllAsmPrinters(); cdecl; external LLVMLibrary name 'LLVMInitializeAllAsmPrintersDL';
+{$ENDIF}
+
 (** LLVMInitializeAllAsmParsers - The main program should call this function if
     it wants all asm parsers that LLVM is configured to support, to make them
     available via the TargetRegistry. *)
@@ -5688,8 +5714,13 @@ type
   //#include "llvm/Config/AsmParsers.def"
   //#undef LLVM_ASM_PARSER  // Explicit undef to make SWIG happier 
   //}
+  // #ATTENTION: DL postfix - wrapper in library side
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMInitializeAllAsmParsers = procedure(); cdecl;
-  
+{$ELSE}
+  procedure LLVMInitializeAllAsmParsers(); cdecl; external LLVMLibrary name 'LLVMInitializeAllAsmParsersDL';
+{$ENDIF}
+
 (** LLVMInitializeAllDisassemblers - The main program should call this function
     if it wants all disassemblers that LLVM is configured to support, to make
     them available via the TargetRegistry. *)
@@ -5699,13 +5730,18 @@ type
   //#include "llvm/Config/Disassemblers.def"
   //#undef LLVM_DISASSEMBLER  // Explicit undef to make SWIG happier 
   //}
+  // #ATTENTION: DL postfix - wrapper in library side
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMInitializeAllDisassemblers = procedure(); cdecl;
-  
+{$ELSE}
+  procedure LLVMInitializeAllDisassemblers(); cdecl; external LLVMLibrary name 'LLVMInitializeAllDisassemblersDL';
+{$ENDIF}
+
 (** LLVMInitializeNativeTarget - The main program should call this function to
-    initialize the native target corresponding to the host.  This is useful 
+    initialize the native target corresponding to the host.  This is useful
     for JIT applications to ensure that the target gets linked in correctly. *)
   //static inline LLVMBool LLVMInitializeNativeTarget(void) {
-  // If we have a native target, initialize it to ensure it is linked in. 
+  // If we have a native target, initialize it to ensure it is linked in.
   //#ifdef LLVM_NATIVE_TARGET
   //  LLVM_NATIVE_TARGETINFO();
   //  LLVM_NATIVE_TARGET();
@@ -5714,102 +5750,175 @@ type
   //#else
   //  return 1;
   //#endif
-  //}  
+  //}
+  // #ATTENTION: DL postfix - wrapper in library side
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMInitializeNativeTarget = function(): LLVMBool; cdecl;
+{$ELSE}
+  function LLVMInitializeNativeTarget(): LLVMBool; cdecl; external LLVMLibrary name 'LLVMInitializeNativeTargetDL';
+{$ENDIF}
 
 (*===-- Target Data -------------------------------------------------------===*)
 
 (** Creates target data from a target layout string.
     See the constructor llvm::TargetData::TargetData. *)
   //LLVMTargetDataRef LLVMCreateTargetData(const char *StringRep);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMCreateTargetData = function(StringRep: PChar): LLVMTargetDataRef; cdecl;
+{$ELSE}
+  function LLVMCreateTargetData(StringRep: PChar): LLVMTargetDataRef; cdecl; external LLVMLibrary name 'LLVMCreateTargetData';
+{$ENDIF}
 
 (** Adds target data information to a pass manager. This does not take ownership
     of the target data.
     See the method llvm::PassManagerBase::add. *)
   //void LLVMAddTargetData(LLVMTargetDataRef, LLVMPassManagerRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMAddTargetData = procedure(Unknown: LLVMTargetDataRef; Unknown_: LLVMPassManagerRef); cdecl;
+{$ELSE}
+  procedure LLVMAddTargetData(Unknown: LLVMTargetDataRef; Unknown_: LLVMPassManagerRef); cdecl; external LLVMLibrary name 'LLVMAddTargetData';
+{$ENDIF}
 
 (** Adds target library information to a pass manager. This does not take
     ownership of the target library info.
     See the method llvm::PassManagerBase::add. *)
   //void LLVMAddTargetLibraryInfo(LLVMTargetLibraryInfoRef, LLVMPassManagerRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMAddTargetLibraryInfo = procedure(Unknown: LLVMTargetLibraryInfoRef; Unknown_: LLVMPassManagerRef); cdecl;
+{$ELSE}
+  procedure LLVMAddTargetLibraryInfo(Unknown: LLVMTargetLibraryInfoRef; Unknown_: LLVMPassManagerRef); cdecl; external LLVMLibrary name 'LLVMAddTargetLibraryInfo';
+{$ENDIF}
 
 (** Converts target data to a target layout string. The string must be disposed
     with LLVMDisposeMessage.
     See the constructor llvm::TargetData::TargetData. *)
   //char *LLVMCopyStringRepOfTargetData(LLVMTargetDataRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMCopyStringRepOfTargetData = function(Unknown: LLVMTargetDataRef): PChar; cdecl;
+{$ELSE}
+  function LLVMCopyStringRepOfTargetData(Unknown: LLVMTargetDataRef): PChar; cdecl; external LLVMLibrary name 'LLVMCopyStringRepOfTargetData';
+{$ENDIF}
 
 (** Returns the byte order of a target, either LLVMBigEndian or
     LLVMLittleEndian.
     See the method llvm::TargetData::isLittleEndian. *)
   //enum LLVMByteOrdering LLVMByteOrder(LLVMTargetDataRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMByteOrder = function(Unknown: LLVMTargetDataRef): LLVMByteOrdering; cdecl;
+{$ELSE}
+  function LLVMByteOrder(Unknown: LLVMTargetDataRef): LLVMByteOrdering; cdecl; external LLVMLibrary name 'LLVMByteOrder';
+{$ENDIF}
 
 (** Returns the pointer size in bytes for a target.
     See the method llvm::TargetData::getPointerSize. *)
   //unsigned LLVMPointerSize(LLVMTargetDataRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMPointerSize = function(Unknown: LLVMTargetDataRef): Cardinal; cdecl;
+{$ELSE}
+  function LLVMPointerSize(Unknown: LLVMTargetDataRef): Cardinal; cdecl; external LLVMLibrary name 'LLVMPointerSize';
+{$ENDIF}
 
 (** Returns the integer type that is the same size as a pointer on a target.
     See the method llvm::TargetData::getIntPtrType. *)
   //LLVMTypeRef LLVMIntPtrType(LLVMTargetDataRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMIntPtrType = function(Unknown: LLVMTargetDataRef): LLVMTypeRef; cdecl;
+{$ELSE}
+  function LLVMIntPtrType(Unknown: LLVMTargetDataRef): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMIntPtrType';
+{$ENDIF}
 
 (** Computes the size of a type in bytes for a target.
     See the method llvm::TargetData::getTypeSizeInBits. *)
   //unsigned long long LLVMSizeOfTypeInBits(LLVMTargetDataRef, LLVMTypeRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMSizeOfTypeInBits = function(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): UInt64; cdecl;
+{$ELSE}
+  function LLVMSizeOfTypeInBits(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): UInt64; cdecl; external LLVMLibrary name 'LLVMSizeOfTypeInBits';
+{$ENDIF}
 
 (** Computes the storage size of a type in bytes for a target.
     See the method llvm::TargetData::getTypeStoreSize. *)
   //unsigned long long LLVMStoreSizeOfType(LLVMTargetDataRef, LLVMTypeRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMStoreSizeOfType = function(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): UInt64; cdecl;
+{$ELSE}
+  function LLVMStoreSizeOfType(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): UInt64; cdecl; external LLVMLibrary name 'LLVMStoreSizeOfType';
+{$ENDIF}
 
 (** Computes the ABI size of a type in bytes for a target.
     See the method llvm::TargetData::getTypeAllocSize. *)
   //unsigned long long LLVMABISizeOfType(LLVMTargetDataRef, LLVMTypeRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMABISizeOfType = function(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): UInt64; cdecl;
+{$ELSE}
+  function LLVMABISizeOfType(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): UInt64; cdecl; external LLVMLibrary name 'LLVMABISizeOfType';
+{$ENDIF}
 
 (** Computes the ABI alignment of a type in bytes for a target.
     See the method llvm::TargetData::getTypeABISize. *)
   //unsigned LLVMABIAlignmentOfType(LLVMTargetDataRef, LLVMTypeRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMABIAlignmentOfType = function(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): Cardinal; cdecl;
+{$ELSE}
+  function LLVMABIAlignmentOfType(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): Cardinal; cdecl; external LLVMLibrary name 'LLVMABIAlignmentOfType';
+{$ENDIF}
 
 (** Computes the call frame alignment of a type in bytes for a target.
     See the method llvm::TargetData::getTypeABISize. *)
   //unsigned LLVMCallFrameAlignmentOfType(LLVMTargetDataRef, LLVMTypeRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMCallFrameAlignmentOfType = function(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): Cardinal; cdecl;
+{$ELSE}
+  function LLVMCallFrameAlignmentOfType(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): Cardinal; cdecl; external LLVMLibrary name 'LLVMCallFrameAlignmentOfType';
+{$ENDIF}
 
 (** Computes the preferred alignment of a type in bytes for a target.
     See the method llvm::TargetData::getTypeABISize. *)
   //unsigned LLVMPreferredAlignmentOfType(LLVMTargetDataRef, LLVMTypeRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMPreferredAlignmentOfType = function(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): Cardinal; cdecl;
+{$ELSE}
+  function LLVMPreferredAlignmentOfType(Unknown: LLVMTargetDataRef; Unknown_: LLVMTypeRef): Cardinal; cdecl; external LLVMLibrary name 'LLVMPreferredAlignmentOfType';
+{$ENDIF}
 
 (** Computes the preferred alignment of a global variable in bytes for a target.
     See the method llvm::TargetData::getPreferredAlignment. *)
   //unsigned LLVMPreferredAlignmentOfGlobal(LLVMTargetDataRef,
   //                                      LLVMValueRef GlobalVar);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMPreferredAlignmentOfGlobal = function(Unknown: LLVMTargetDataRef; GlobalVar: LLVMValueRef): Cardinal; cdecl;
+{$ELSE}
+  function LLVMPreferredAlignmentOfGlobal(Unknown: LLVMTargetDataRef; GlobalVar: LLVMValueRef): Cardinal; cdecl; external LLVMLibrary name 'LLVMPreferredAlignmentOfGlobal';
+{$ENDIF}
 
 (** Computes the structure element that contains the byte offset for a target.
     See the method llvm::StructLayout::getElementContainingOffset. *)
   //unsigned LLVMElementAtOffset(LLVMTargetDataRef, LLVMTypeRef StructTy,
   //                           unsigned long long Offset);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMElementAtOffset = function(Unknown: LLVMTargetDataRef; StructTy: LLVMTypeRef; Offset: UInt64): Cardinal; cdecl;
+{$ELSE}
+  function LLVMElementAtOffset(Unknown: LLVMTargetDataRef; StructTy: LLVMTypeRef; Offset: UInt64): Cardinal; cdecl; external LLVMLibrary name 'LLVMElementAtOffset';
+{$ENDIF}
 
 (** Computes the byte offset of the indexed struct element for a target.
     See the method llvm::StructLayout::getElementContainingOffset. *)
   //unsigned long long LLVMOffsetOfElement(LLVMTargetDataRef, LLVMTypeRef StructTy,
   //                                     unsigned Element);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMOffsetOfElement = function(Unknown: LLVMTargetDataRef; StructTy: LLVMTypeRef; Element: Cardinal): UInt64; cdecl;
+{$ELSE}
+  function LLVMOffsetOfElement(Unknown: LLVMTargetDataRef; StructTy: LLVMTypeRef; Element: Cardinal): UInt64; cdecl; external LLVMLibrary name 'LLVMOffsetOfElement';
+{$ENDIF}
 
 (** Deallocates a TargetData.
     See the destructor llvm::TargetData::~TargetData. *)
   //void LLVMDisposeTargetData(LLVMTargetDataRef);
+{$IFDEF LLVM_DYNAMIC_LINK}
   TLLVMDisposeTargetData = procedure(Unknown: LLVMTargetDataRef); cdecl;
+{$ELSE}
+  procedure LLVMDisposeTargetData(Unknown: LLVMTargetDataRef); cdecl; external LLVMLibrary name 'LLVMDisposeTargetData';
+{$ENDIF}
 
 (*
 namespace llvm {
@@ -9231,16 +9340,44 @@ procedure UnloadLLVM;
 
 implementation
 
+procedure LLVMTraceLog(const AMessage: String; ACRLF: Boolean = False); overload;
+begin
+{$IFDEF LLVM_TRACE}
+  Log(AMessage, ACRLF);
+{$ENDIF}
+end;
+
+procedure LLVMTraceLog(const AMessage: String; AArgs: array of const; ACRLF: Boolean = False); overload;
+begin
+{$IFDEF LLVM_TRACE}
+  Log(AMessage, AArgs, ACRLF);
+{$ENDIF}
+end;
+
+procedure LLVMDebugLog(const AMessage: String; ACRLF: Boolean = False); overload;
+begin
+{$IFDEF LLVM_DEBUG}
+  Log(AMessage, ACRLF);
+{$ENDIF}
+end;
+
+procedure LLVMDebugLog(const AMessage: String; AArgs: array of const; ACRLF: Boolean = False); overload;
+begin
+{$IFDEF LLVM_DEBUG}
+  Log(AMessage, AArgs, ACRLF);
+{$ENDIF}
+end;
+
 {$IFDEF LLVM_DYNAMIC_LINK}
 function GetLLVMProc(const AProcName: String): Pointer;
 begin
   Result := GetProcAddress(hLibrary, PChar(AProcName));
-  //Log('%s', [AProcName]);
+  LLVMTraceLog('%s', [AProcName]);
   if (Result = nil) then
 {$IFNDEF LLVM_DEBUG}
     raise Exception.CreateFmt('[GetLLVMProc] Function "%s" not founded in LLVM Library!', [AProcName]);
 {$ELSE}
-    Log('[-] Function "%s" not founded in LLVM Library!', [AProcName]);
+    LLVMDebugLog('[-] Function "%s" not founded in LLVM Library!', [AProcName]);
 {$ENDIF}
 end;
 
@@ -9260,6 +9397,7 @@ begin
     if (hLibrary <> 0) then
     begin
 {$IFDEF LLVM_API_CORE}
+      LLVMTraceLog(';Core.h');
       @LLVMInitializeCore := GetLLVMProc('LLVMInitializeCore');
       @LLVMDisposeMessage := GetLLVMProc('LLVMDisposeMessage');
       @LLVMContextCreate := GetLLVMProc('LLVMContextCreate');
@@ -9723,27 +9861,35 @@ begin
       @LLVMRunFunctionPassManager := GetLLVMProc('LLVMRunFunctionPassManager');
       @LLVMFinalizeFunctionPassManager := GetLLVMProc('LLVMFinalizeFunctionPassManager');
       @LLVMDisposePassManager := GetLLVMProc('LLVMDisposePassManager');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_ANALYSIS}
+      LLVMTraceLog(';Analysis.h');
       @LLVMVerifyModule := GetLLVMProc('LLVMVerifyModule');
       @LLVMVerifyFunction := GetLLVMProc('LLVMVerifyFunction');
       @LLVMViewFunctionCFG := GetLLVMProc('LLVMViewFunctionCFG');
       @LLVMViewFunctionCFGOnly := GetLLVMProc('LLVMViewFunctionCFGOnly');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_BITREADER}
+      LLVMTraceLog(';BitReader.h');
       @LLVMParseBitcode := GetLLVMProc('LLVMParseBitcode');
       @LLVMParseBitcodeInContext := GetLLVMProc('LLVMParseBitcodeInContext');
       @LLVMGetBitcodeModuleInContext := GetLLVMProc('LLVMGetBitcodeModuleInContext');
       @LLVMGetBitcodeModule := GetLLVMProc('LLVMGetBitcodeModule');
       @LLVMGetBitcodeModuleProviderInContext := GetLLVMProc('LLVMGetBitcodeModuleProviderInContext');
       @LLVMGetBitcodeModuleProvider := GetLLVMProc('LLVMGetBitcodeModuleProvider');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_BITWRITER}
+      LLVMTraceLog(';BitWriter.h');
       @LLVMWriteBitcodeToFile := GetLLVMProc('LLVMWriteBitcodeToFile');
       @LLVMWriteBitcodeToFD := GetLLVMProc('LLVMWriteBitcodeToFD');
       @LLVMWriteBitcodeToFileHandle := GetLLVMProc('LLVMWriteBitcodeToFileHandle');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_INITIALIZATION}
+      LLVMTraceLog(';Initialization.h');
       @LLVMInitializeCore_ := GetLLVMProc('LLVMInitializeCore');
       @LLVMInitializeTransformUtils := GetLLVMProc('LLVMInitializeTransformUtils');
       @LLVMInitializeScalarOpts := GetLLVMProc('LLVMInitializeScalarOpts');
@@ -9755,21 +9901,25 @@ begin
       @LLVMInitializeIPA := GetLLVMProc('LLVMInitializeIPA');
       @LLVMInitializeCodeGen := GetLLVMProc('LLVMInitializeCodeGen');
       @LLVMInitializeTarget := GetLLVMProc('LLVMInitializeTarget');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_LINKTIMEOPTIMIZER}
+      LLVMTraceLog(';LinkTimeOptimizer.h');
       @llvm_create_optimizer := GetLLVMProc('llvm_create_optimizer');
       @llvm_destroy_optimizer := GetLLVMProc('llvm_destroy_optimizer');
       @llvm_read_object_file := GetLLVMProc('llvm_read_object_file');
       @llvm_optimize_modules := GetLLVMProc('llvm_optimize_modules');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_TARGET}
-      @LLVMInitializeAllTargetInfos := GetLLVMProc('LLVMInitializeAllTargetInfos');
-      @LLVMInitializeAllTargets := GetLLVMProc('LLVMInitializeAllTargets');
-      @LLVMInitializeAllTargetMCs := GetLLVMProc('LLVMInitializeAllTargetMCs');
-      @LLVMInitializeAllAsmPrinters := GetLLVMProc('LLVMInitializeAllAsmPrinters');
-      @LLVMInitializeAllAsmParsers := GetLLVMProc('LLVMInitializeAllAsmParsers');
-      @LLVMInitializeAllDisassemblers := GetLLVMProc('LLVMInitializeAllDisassemblers');
-      @LLVMInitializeNativeTarget := GetLLVMProc('LLVMInitializeNativeTarget');
+      LLVMTraceLog(';Target.h');
+      @LLVMInitializeAllTargetInfos := GetLLVMProc('LLVMInitializeAllTargetInfosDL');      // This function need wrapper
+      @LLVMInitializeAllTargets := GetLLVMProc('LLVMInitializeAllTargetsDL');              // This function need wrapper
+      @LLVMInitializeAllTargetMCs := GetLLVMProc('LLVMInitializeAllTargetMCsDL');          // This function need wrapper
+      @LLVMInitializeAllAsmPrinters := GetLLVMProc('LLVMInitializeAllAsmPrintersDL');      // This function need wrapper
+      @LLVMInitializeAllAsmParsers := GetLLVMProc('LLVMInitializeAllAsmParsersDL');        // This function need wrapper
+      @LLVMInitializeAllDisassemblers := GetLLVMProc('LLVMInitializeAllDisassemblersDL');  // This function need wrapper
+      @LLVMInitializeNativeTarget := GetLLVMProc('LLVMInitializeNativeTargetDL');          // This function need wrapper
       @LLVMCreateTargetData := GetLLVMProc('LLVMCreateTargetData');
       @LLVMAddTargetData := GetLLVMProc('LLVMAddTargetData');
       @LLVMAddTargetLibraryInfo := GetLLVMProc('LLVMAddTargetLibraryInfo');
@@ -9787,8 +9937,10 @@ begin
       @LLVMElementAtOffset := GetLLVMProc('LLVMElementAtOffset');
       @LLVMOffsetOfElement := GetLLVMProc('LLVMOffsetOfElement');
       @LLVMDisposeTargetData := GetLLVMProc('LLVMDisposeTargetData');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_TARGETMACHINE}
+      LLVMTraceLog(';TargetMachine.h');
       @LLVMGetFirstTarget := GetLLVMProc('LLVMGetFirstTarget');
       @LLVMGetNextTarget := GetLLVMProc('LLVMGetNextTarget');
       @LLVMGetTargetName := GetLLVMProc('LLVMGetTargetName');
@@ -9804,8 +9956,10 @@ begin
       @LLVMGetTargetMachineFeatureString := GetLLVMProc('LLVMGetTargetMachineFeatureString');
       @LLVMGetTargetMachineData := GetLLVMProc('LLVMGetTargetMachineData');
       @LLVMTargetMachineEmitToFile := GetLLVMProc('LLVMTargetMachineEmitToFile');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_OBJECT}
+      LLVMTraceLog(';Object.h');
       @LLVMCreateObjectFile := GetLLVMProc('LLVMCreateObjectFile');
       @LLVMDisposeObjectFile := GetLLVMProc('LLVMDisposeObjectFile');
       @LLVMGetSections := GetLLVMProc('LLVMGetSections');
@@ -9836,8 +9990,10 @@ begin
       @LLVMGetRelocationType := GetLLVMProc('LLVMGetRelocationType');
       @LLVMGetRelocationTypeName := GetLLVMProc('LLVMGetRelocationTypeName');
       @LLVMGetRelocationValueString := GetLLVMProc('LLVMGetRelocationValueString');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_EXECUTIONENGINE}
+      LLVMTraceLog(';ExecutionEngine.h');
       @LLVMLinkInJIT := GetLLVMProc('LLVMLinkInJIT');
       @LLVMLinkInInterpreter := GetLLVMProc('LLVMLinkInInterpreter');
       @LLVMCreateGenericValueOfInt := GetLLVMProc('LLVMCreateGenericValueOfInt');
@@ -9869,13 +10025,17 @@ begin
       @LLVMGetExecutionEngineTargetData := GetLLVMProc('LLVMGetExecutionEngineTargetData');
       @LLVMAddGlobalMapping := GetLLVMProc('LLVMAddGlobalMapping');
       @LLVMGetPointerToGlobal := GetLLVMProc('LLVMGetPointerToGlobal');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_DISASSEMBLER}
+      LLVMTraceLog('Disassembler.h');
       @LLVMCreateDisasm := GetLLVMProc('LLVMCreateDisasm');
       @LLVMDisasmDispose := GetLLVMProc('LLVMDisasmDispose');
       @LLVMDisasmInstruction := GetLLVMProc('LLVMDisasmInstruction');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_LTO}
+      LLVMTraceLog(';lto.h');
       @lto_get_version := GetLLVMProc('lto_get_version');
       @lto_get_error_message := GetLLVMProc('lto_get_error_message');
       @lto_module_is_object_file := GetLLVMProc('lto_module_is_object_file');
@@ -9905,8 +10065,10 @@ begin
       @lto_codegen_compile := GetLLVMProc('lto_codegen_compile');
       @lto_codegen_compile_to_file := GetLLVMProc('lto_codegen_compile_to_file');
       @lto_codegen_debug_options := GetLLVMProc('lto_codegen_debug_options');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_ENHANCEDDISASSEMBLY}
+      LLVMTraceLog(';EnhancedDisassembly.h');
       @EDGetDisassembler := GetLLVMProc('EDGetDisassembler');
       @EDGetRegisterName := GetLLVMProc('EDGetRegisterName');
       @EDRegisterIsStackPointer := GetLLVMProc('EDRegisterIsStackPointer');
@@ -9941,8 +10103,10 @@ begin
       @EDRegisterOperandValue := GetLLVMProc('EDRegisterOperandValue');
       @EDImmediateOperandValue := GetLLVMProc('EDImmediateOperandValue');
       @EDEvaluateOperand := GetLLVMProc('EDEvaluateOperand');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_IPO}
+      LLVMTraceLog(';Ipo.h');
       @LLVMAddArgumentPromotionPass := GetLLVMProc('LLVMAddArgumentPromotionPass');
       @LLVMAddConstantMergePass := GetLLVMProc('LLVMAddConstantMergePass');
       @LLVMAddDeadArgEliminationPass := GetLLVMProc('LLVMAddDeadArgEliminationPass');
@@ -9957,8 +10121,10 @@ begin
       @LLVMAddInternalizePass := GetLLVMProc('LLVMAddInternalizePass');
       @LLVMAddStripDeadPrototypesPass := GetLLVMProc('LLVMAddStripDeadPrototypesPass');
       @LLVMAddStripSymbolsPass := GetLLVMProc('LLVMAddStripSymbolsPass');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_PASSMANAGERBUILDER}
+      LLVMTraceLog(';PassManagerBuilder.h');
       @LLVMPassManagerBuilderCreate := GetLLVMProc('LLVMPassManagerBuilderCreate');
       @LLVMPassManagerBuilderDispose := GetLLVMProc('LLVMPassManagerBuilderDispose');
       @LLVMPassManagerBuilderSetOptLevel := GetLLVMProc('LLVMPassManagerBuilderSetOptLevel');
@@ -9970,8 +10136,10 @@ begin
       @LLVMPassManagerBuilderPopulateFunctionPassManager := GetLLVMProc('LLVMPassManagerBuilderPopulateFunctionPassManager');
       @LLVMPassManagerBuilderPopulateModulePassManager := GetLLVMProc('LLVMPassManagerBuilderPopulateModulePassManager');
       @LLVMPassManagerBuilderPopulateLTOPassManager := GetLLVMProc('LLVMPassManagerBuilderPopulateLTOPassManager');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_SCALAR}
+      LLVMTraceLog(';Scalar.h');
       @LLVMAddAggressiveDCEPass := GetLLVMProc('LLVMAddAggressiveDCEPass');
       @LLVMAddCFGSimplificationPass := GetLLVMProc('LLVMAddCFGSimplificationPass');
       @LLVMAddDeadStoreEliminationPass := GetLLVMProc('LLVMAddDeadStoreEliminationPass');
@@ -10002,9 +10170,12 @@ begin
       @LLVMAddLowerExpectIntrinsicPass := GetLLVMProc('LLVMAddLowerExpectIntrinsicPass');
       @LLVMAddTypeBasedAliasAnalysisPass := GetLLVMProc('LLVMAddTypeBasedAliasAnalysisPass');
       @LLVMAddBasicAliasAnalysisPass := GetLLVMProc('LLVMAddBasicAliasAnalysisPass');
+      LLVMTraceLog('');
 {$ENDIF}
 {$IFDEF LLVM_API_VECTORIZE}
+      LLVMTraceLog(';Vectorize.h');
       @LLVMAddBBVectorizePass := GetLLVMProc('LLVMAddBBVectorizePass');
+      LLVMTraceLog('');
 {$ENDIF}
     end else
       raise Exception.CreateFmt('Cannot load "%s" library!', [LLVMLibrary]);

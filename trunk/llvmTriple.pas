@@ -38,32 +38,38 @@ type
     atAMDil
   );
 
+  TArchRec = record
+    Name: String;
+    PBW: Cardinal;
+    Alternate: TArchType;
+  end;
+
 const
-  CArchType: array [TArchType] of String = (
-    'UnknownArch',
-    'arm',
-    'cellspu',
-    'hexagon',
-    'mips',
-    'mipsel',
-    'mips64',
-    'mips64el',
-    'msp430',
-    'ppc',
-    'ppc64',
-    'r600',
-    'sparc',
-    'sparcv9',
-    'tce',
-    'thumb',
-    'x86',
-    'x86_64',
-    'xcore',
-    'mblaze',
-    'nvptx',
-    'nvptx64',
-    'le32',
-    'amdil'
+  CArchType: array [TArchType] of TArchRec = (
+    (Name: 'UnknownArch';  PBW: 0;    Alternate: atUnknownArch),
+    (Name: 'arm';          PBW: 32;   Alternate: atARM),
+    (Name: 'cellspu';      PBW: 32;   Alternate: atCellSPU),
+    (Name: 'hexagon';      PBW: 32;   Alternate: atHexagon),
+    (Name: 'mips';         PBW: 32;   Alternate: atMIPS64),
+    (Name: 'mipsel';       PBW: 32;   Alternate: atMIPS64el),
+    (Name: 'mips64';       PBW: 64;   Alternate: atMIPS),
+    (Name: 'mips64el';     PBW: 64;   Alternate: atMIPSel),
+    (Name: 'msp430';       PBW: 16;   Alternate: atUnknownArch),
+    (Name: 'ppc';          PBW: 32;   Alternate: atPPC64),
+    (Name: 'ppc64';        PBW: 64;   Alternate: atPPC),
+    (Name: 'r600';         PBW: 32;   Alternate: atR600),
+    (Name: 'sparc';        PBW: 32;   Alternate: atSparcV9),
+    (Name: 'sparcv9';      PBW: 64;   Alternate: atSparc),
+    (Name: 'tce';          PBW: 32;   Alternate: atTCE),
+    (Name: 'thumb';        PBW: 32;   Alternate: atThumb),
+    (Name: 'x86';          PBW: 32;   Alternate: atX86_64),
+    (Name: 'x86_64';       PBW: 64;   Alternate: atX86),
+    (Name: 'xcore';        PBW: 32;   Alternate: atXCore),
+    (Name: 'mblaze';       PBW: 32;   Alternate: atMBlaze),
+    (Name: 'nvptx';        PBW: 32;   Alternate: atNVPTX64),
+    (Name: 'nvptx64';      PBW: 64;   Alternate: atNVPTX),
+    (Name: 'le32';         PBW: 32;   Alternate: atLE32),
+    (Name: 'amdil';        PBW: 32;   Alternate: atAMDil)
   );
 
 type
@@ -173,6 +179,11 @@ type
     procedure SetOSType(const Value: TOSType);
     procedure SetVendorType(const Value: TVendorType);
     procedure SetTriple(const Value: String);
+    function GetArchTypeName: String;
+    function GetEnvTypeName: String;
+    function GetOSTypeName: String;
+    function GetVendorTypeName: String;
+    function GetArchPointerBitWidth: Cardinal;
   public
     constructor Create; overload;
     constructor Create(const ATriple: String); overload;
@@ -181,22 +192,31 @@ type
     constructor Create(AArchType: TArchType; AVendorType: TVendorType;
       AOSType: TOSType; AEnvType: TEnvironmentType); overload;
     destructor Destroy; override;
-  public
-    function GetArchTypeName: String;
-    function GetEnvTypeName: String;
-    function GetOSTypeName: String;
-    function GetVendorTypeName: String;
+
+    function IsArch16Bit: Boolean;
+    function IsArch32Bit: Boolean;
+    function IsArch64Bit: Boolean;
     function HasEnvironment: Boolean;
+
+    function Get32BitArchVariant: TArchType;
+    function Get64BitArchVariant: TArchType;
+
+    procedure SwitchTo32BitArchVariant;
+    procedure SwitchTo64BitArchVariant;
   public
-    property ArchType: TArchType read FArchType write SetArchType;
-    property ArchTypeName: String read GetArchTypeName;
-    property VendorType: TVendorType read FVendorType write SetVendorType;
-    property VendorTypeName: String read GetVendorTypeName;
-    property OSType: TOSType read FOSType write SetOSType;
-    property OSTypeName: String read GetOSTypeName;
-    property EnvType: TEnvironmentType read FEnvType write SetEnvType;
-    property EnvTypeName: String read GetEnvTypeName;
     property Triple: String read FTriple write SetTriple;
+
+    property ArchType: TArchType read FArchType write SetArchType;
+    property VendorType: TVendorType read FVendorType write SetVendorType;
+    property OSType: TOSType read FOSType write SetOSType;
+    property EnvType: TEnvironmentType read FEnvType write SetEnvType;
+
+    property ArchTypeName: String read GetArchTypeName;
+    property VendorTypeName: String read GetVendorTypeName;
+    property OSTypeName: String read GetOSTypeName;
+    property EnvTypeName: String read GetEnvTypeName;
+
+    property ArchPointerBitWidth: Cardinal read GetArchPointerBitWidth;
   end;
 
 implementation
@@ -260,9 +280,28 @@ begin
   inherited;
 end;
 
+function TLLVMTriple.Get32BitArchVariant: TArchType;
+begin
+  Result := FArchType;
+  if (CArchType[FArchType].PBW <> 32) then
+    Result := CArchType[FArchType].Alternate;
+end;
+
+function TLLVMTriple.Get64BitArchVariant: TArchType;
+begin
+  Result := FArchType;
+  if (CArchType[FArchType].PBW <> 64) then
+    Result := CArchType[FArchType].Alternate;
+end;
+
+function TLLVMTriple.GetArchPointerBitWidth: Cardinal;
+begin
+  Result := CArchType[FArchType].PBW;
+end;
+
 function TLLVMTriple.GetArchTypeName: String;
 begin
-  Result := CArchType[FArchType];
+  Result := CArchType[FArchType].Name;
 end;
 
 function TLLVMTriple.GetEnvTypeName: String;
@@ -283,6 +322,21 @@ end;
 function TLLVMTriple.HasEnvironment: Boolean;
 begin
   Result := (FEnvType <> etUnknownEnvironment);
+end;
+
+function TLLVMTriple.IsArch16Bit: Boolean;
+begin
+  Result := (GetArchPointerBitWidth = 16);
+end;
+
+function TLLVMTriple.IsArch32Bit: Boolean;
+begin
+  Result := (GetArchPointerBitWidth = 32);
+end;
+
+function TLLVMTriple.IsArch64Bit: Boolean;
+begin
+  Result := (GetArchPointerBitWidth = 64);
 end;
 
 procedure TLLVMTriple.ParseTriple;
@@ -334,6 +388,16 @@ begin
     FVendorType := Value;
     BuildTriple;
   end;
+end;
+
+procedure TLLVMTriple.SwitchTo32BitArchVariant;
+begin
+  SetArchType(Get32BitArchVariant);
+end;
+
+procedure TLLVMTriple.SwitchTo64BitArchVariant;
+begin
+  SetArchType(Get64BitArchVariant);
 end;
 
 end.
