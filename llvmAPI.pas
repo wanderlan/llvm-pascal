@@ -4,7 +4,7 @@
       > License: BSD
       > Delphi API Version: 0.3b
 
-    Tested on Windows only & D2007.
+    Tested on Windows only & D2007, DXE2.
 *)
 unit llvmAPI;
 
@@ -61,7 +61,7 @@ type
   uint64_t  = UInt64;
   puint64_t = ^UInt64;
   uint8_t   = Byte;
-  size_t    = Cardinal;  // #WARNING
+  size_t    = {$IFDEF CPUX64}UInt64{$ELSE}Cardinal{$ENDIF};  // #WARNING
   psize_t   = ^size_t;
   off_t     = Int64;     // #WARNING
 
@@ -9331,7 +9331,7 @@ var
 {$ENDIF}
 
 var
-  hLibrary: Cardinal = 0;
+  hLibrary: THandle = 0;
 
 function IsLLVMLoaded: Boolean;
 function LoadLLVM: Boolean;
@@ -9371,7 +9371,7 @@ end;
 {$IFDEF LLVM_DYNAMIC_LINK}
 function GetLLVMProc(const AProcName: String): Pointer;
 begin
-  Result := GetProcAddress(hLibrary, PChar(AProcName));
+  Result := Windows.GetProcAddress(hLibrary, PAnsiChar(AnsiString(AProcName)));
   LLVMTraceLog('%s', [AProcName]);
   if (Result = nil) then
 {$IFNDEF LLVM_DEBUG}
