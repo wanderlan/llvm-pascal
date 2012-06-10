@@ -647,9 +647,9 @@ typedef enum {
 
   //void LLVMDisposeMessage(char *Message);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMDisposeMessage = procedure(_Message: PChar); cdecl;
+  TLLVMDisposeMessage = procedure(_Message: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMDisposeMessage(_Message: PChar); cdecl; external LLVMLibrary name 'LLVMDisposeMessage';
+  procedure LLVMDisposeMessage(_Message: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMDisposeMessage';
 {$ENDIF}
 
 (*
@@ -702,16 +702,16 @@ typedef enum {
 
   //unsigned LLVMGetMDKindIDInContext(LLVMContextRef C, const char* Name, unsigned SLen);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetMDKindIDInContext = function(C: LLVMContextRef; Name: PChar; SLen: Cardinal): Cardinal; cdecl;
+  TLLVMGetMDKindIDInContext = function(C: LLVMContextRef; Name: PAnsiChar; SLen: Cardinal): Cardinal; cdecl;
 {$ELSE}
-  function LLVMGetMDKindIDInContext(C: LLVMContextRef; Name: PChar; SLen: Cardinal): Cardinal; cdecl; external LLVMLibrary name 'LLVMGetMDKindIDInContext';
+  function LLVMGetMDKindIDInContext(C: LLVMContextRef; Name: PAnsiChar; SLen: Cardinal): Cardinal; cdecl; external LLVMLibrary name 'LLVMGetMDKindIDInContext';
 {$ENDIF}
   
   //unsigned LLVMGetMDKindID(const char* Name, unsigned SLen);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetMDKindID = function(Name: PChar; SLen: Cardinal): Cardinal; cdecl;
+  TLLVMGetMDKindID = function(Name: PAnsiChar; SLen: Cardinal): Cardinal; cdecl;
 {$ELSE}
-  function LLVMGetMDKindID(Name: PChar; SLen: Cardinal): Cardinal; cdecl; external LLVMLibrary name 'LLVMGetMDKindID';
+  function LLVMGetMDKindID(Name: PAnsiChar; SLen: Cardinal): Cardinal; cdecl; external LLVMLibrary name 'LLVMGetMDKindID';
 {$ENDIF}
 
 (*
@@ -739,9 +739,9 @@ typedef enum {
  *)
   //LLVMModuleRef LLVMModuleCreateWithName(const char *ModuleID);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMModuleCreateWithName = function(ModuleID: PChar): LLVMModuleRef; cdecl;
+  TLLVMModuleCreateWithName = function(ModuleID: PAnsiChar): LLVMModuleRef; cdecl;
 {$ELSE}
-  function LLVMModuleCreateWithName(ModuleID: PChar): LLVMModuleRef; cdecl; external LLVMLibrary name 'LLVMModuleCreateWithName';
+  function LLVMModuleCreateWithName(ModuleID: PAnsiChar): LLVMModuleRef; cdecl; external LLVMLibrary name 'LLVMModuleCreateWithName';
 {$ENDIF}
 
 (*
@@ -752,9 +752,9 @@ typedef enum {
  *)
   //LLVMModuleRef LLVMModuleCreateWithNameInContext(const char *ModuleID, LLVMContextRef C);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMModuleCreateWithNameInContext = function(ModuleID: PChar; C: LLVMContextRef): LLVMModuleRef; cdecl;
+  TLLVMModuleCreateWithNameInContext = function(ModuleID: PAnsiChar; C: LLVMContextRef): LLVMModuleRef; cdecl;
 {$ELSE}
-  function LLVMModuleCreateWithNameInContext(ModuleID: PChar; C: LLVMContextRef): LLVMModuleRef; cdecl; external LLVMLibrary name 'LLVMModuleCreateWithNameInContext';
+  function LLVMModuleCreateWithNameInContext(ModuleID: PAnsiChar; C: LLVMContextRef): LLVMModuleRef; cdecl; external LLVMLibrary name 'LLVMModuleCreateWithNameInContext';
 {$ENDIF}
 
 (*
@@ -777,9 +777,9 @@ typedef enum {
  *)
   //const char *LLVMGetDataLayout(LLVMModuleRef M);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetDataLayout = function(M: LLVMModuleRef): PChar; cdecl;
+  TLLVMGetDataLayout = function(M: LLVMModuleRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetDataLayout(M: LLVMModuleRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetDataLayout';
+  function LLVMGetDataLayout(M: LLVMModuleRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetDataLayout';
 {$ENDIF}
 
 (*
@@ -789,9 +789,9 @@ typedef enum {
  *)
   //void LLVMSetDataLayout(LLVMModuleRef M, const char *Triple);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMSetDataLayout = procedure(M: LLVMModuleRef; Triple: PChar); cdecl;
+  TLLVMSetDataLayout = procedure(M: LLVMModuleRef; Triple: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMSetDataLayout(M: LLVMModuleRef; Triple: PChar); cdecl; external LLVMLibrary name 'LLVMSetDataLayout';
+  procedure LLVMSetDataLayout(M: LLVMModuleRef; Triple: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMSetDataLayout';
 {$ENDIF}
 
 (*
@@ -801,9 +801,9 @@ typedef enum {
  *)
   //const char *LLVMGetTarget(LLVMModuleRef M);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetTarget = function(M: LLVMModuleRef): PChar; cdecl;
+  TLLVMGetTarget = function(M: LLVMModuleRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetTarget(M: LLVMModuleRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetTarget';
+  function LLVMGetTarget(M: LLVMModuleRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetTarget';
 {$ENDIF}
 
 (*
@@ -813,9 +813,9 @@ typedef enum {
  *)
   //void LLVMSetTarget(LLVMModuleRef M, const char *Triple);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMSetTarget = procedure(M: LLVMModuleRef; Triple: PChar); cdecl;
+  TLLVMSetTarget = procedure(M: LLVMModuleRef; Triple: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMSetTarget(M: LLVMModuleRef; Triple: PChar); cdecl; external LLVMLibrary name 'LLVMSetTarget';
+  procedure LLVMSetTarget(M: LLVMModuleRef; Triple: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMSetTarget';
 {$ENDIF}
 
 (*
@@ -837,9 +837,9 @@ typedef enum {
  *)
   //void LLVMSetModuleInlineAsm(LLVMModuleRef M, const char *Asm);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMSetModuleInlineAsm = procedure(M: LLVMModuleRef; _Asm: PChar); cdecl;
+  TLLVMSetModuleInlineAsm = procedure(M: LLVMModuleRef; _Asm: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMSetModuleInlineAsm(M: LLVMModuleRef; _Asm: PChar); cdecl; external LLVMLibrary name 'LLVMSetModuleInlineAsm';
+  procedure LLVMSetModuleInlineAsm(M: LLVMModuleRef; _Asm: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMSetModuleInlineAsm';
 {$ENDIF}
 
 (*
@@ -859,9 +859,9 @@ typedef enum {
  *)
   //LLVMTypeRef LLVMGetTypeByName(LLVMModuleRef M, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetTypeByName = function(M: LLVMModuleRef; Name: PChar): LLVMTypeRef; cdecl;
+  TLLVMGetTypeByName = function(M: LLVMModuleRef; Name: PAnsiChar): LLVMTypeRef; cdecl;
 {$ELSE}
-  function LLVMGetTypeByName(M: LLVMModuleRef; Name: PChar): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMGetTypeByName';
+  function LLVMGetTypeByName(M: LLVMModuleRef; Name: PAnsiChar): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMGetTypeByName';
 {$ENDIF}
 
 (*
@@ -871,9 +871,9 @@ typedef enum {
  *)
   //unsigned LLVMGetNamedMetadataNumOperands(LLVMModuleRef M, const char* name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetNamedMetadataNumOperands = function(M: LLVMModuleRef; Name: PChar): Cardinal; cdecl; 
+  TLLVMGetNamedMetadataNumOperands = function(M: LLVMModuleRef; Name: PAnsiChar): Cardinal; cdecl;
 {$ELSE}
-  function LLVMGetNamedMetadataNumOperands(M: LLVMModuleRef; Name: PChar): Cardinal; cdecl;  external LLVMLibrary name 'LLVMGetNamedMetadataNumOperands';
+  function LLVMGetNamedMetadataNumOperands(M: LLVMModuleRef; Name: PAnsiChar): Cardinal; cdecl;  external LLVMLibrary name 'LLVMGetNamedMetadataNumOperands';
 {$ENDIF}
 
 (*
@@ -889,9 +889,9 @@ typedef enum {
  *)
   //void LLVMGetNamedMetadataOperands(LLVMModuleRef M, const char* name, LLVMValueRef *Dest);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetNamedMetadataOperands = procedure(M: LLVMModuleRef; Name: PChar; var Dest: LLVMValueRef); cdecl;
+  TLLVMGetNamedMetadataOperands = procedure(M: LLVMModuleRef; Name: PAnsiChar; var Dest: LLVMValueRef); cdecl;
 {$ELSE}
-  procedure LLVMGetNamedMetadataOperands(M: LLVMModuleRef; Name: PChar; var Dest: LLVMValueRef); cdecl; external LLVMLibrary name 'LLVMGetNamedMetadataOperands';
+  procedure LLVMGetNamedMetadataOperands(M: LLVMModuleRef; Name: PAnsiChar; var Dest: LLVMValueRef); cdecl; external LLVMLibrary name 'LLVMGetNamedMetadataOperands';
 {$ENDIF}
 
 (*
@@ -903,9 +903,9 @@ typedef enum {
   //void LLVMAddNamedMetadataOperand(LLVMModuleRef M, const char* name,
   //                               LLVMValueRef Val);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMAddNamedMetadataOperand = procedure(M: LLVMModuleRef; Name: PChar; Val: LLVMValueRef); cdecl;
+  TLLVMAddNamedMetadataOperand = procedure(M: LLVMModuleRef; Name: PAnsiChar; Val: LLVMValueRef); cdecl;
 {$ELSE}
-  procedure LLVMAddNamedMetadataOperand(M: LLVMModuleRef; Name: PChar; Val: LLVMValueRef); cdecl; external LLVMLibrary name 'LLVMAddNamedMetadataOperand';
+  procedure LLVMAddNamedMetadataOperand(M: LLVMModuleRef; Name: PAnsiChar; Val: LLVMValueRef); cdecl; external LLVMLibrary name 'LLVMAddNamedMetadataOperand';
 {$ENDIF}
 
 (*
@@ -915,9 +915,9 @@ typedef enum {
  *)
   //LLVMValueRef LLVMAddFunction(LLVMModuleRef M, const char *Name, LLVMTypeRef FunctionTy);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMAddFunction = function(M: LLVMModuleRef; Name: PChar; FunctionTy: LLVMTypeRef): LLVMValueRef; cdecl;
+  TLLVMAddFunction = function(M: LLVMModuleRef; Name: PAnsiChar; FunctionTy: LLVMTypeRef): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMAddFunction(M: LLVMModuleRef; Name: PChar; FunctionTy: LLVMTypeRef): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddFunction';
+  function LLVMAddFunction(M: LLVMModuleRef; Name: PAnsiChar; FunctionTy: LLVMTypeRef): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddFunction';
 {$ENDIF}
 
 (*
@@ -929,9 +929,9 @@ typedef enum {
  *)
   //LLVMValueRef LLVMGetNamedFunction(LLVMModuleRef M, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetNamedFunction = function(M: LLVMModuleRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMGetNamedFunction = function(M: LLVMModuleRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMGetNamedFunction(M: LLVMModuleRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMGetNamedFunction';
+  function LLVMGetNamedFunction(M: LLVMModuleRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMGetNamedFunction';
 {$ENDIF}
 
 (*
@@ -1386,9 +1386,9 @@ typedef enum {
  *)
   //LLVMTypeRef LLVMStructCreateNamed(LLVMContextRef C, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMStructCreateNamed = function(C: LLVMContextRef; Name: PChar): LLVMTypeRef; cdecl;
+  TLLVMStructCreateNamed = function(C: LLVMContextRef; Name: PAnsiChar): LLVMTypeRef; cdecl;
 {$ELSE}
-  function LLVMStructCreateNamed(C: LLVMContextRef; Name: PChar): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMStructCreateNamed';
+  function LLVMStructCreateNamed(C: LLVMContextRef; Name: PAnsiChar): LLVMTypeRef; cdecl; external LLVMLibrary name 'LLVMStructCreateNamed';
 {$ENDIF}
 
 (*
@@ -1398,9 +1398,9 @@ typedef enum {
  *)
   //const char *LLVMGetStructName(LLVMTypeRef Ty);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetStructName = function(Ty: LLVMTypeRef): PChar; cdecl;
+  TLLVMGetStructName = function(Ty: LLVMTypeRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetStructName(Ty: LLVMTypeRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetStructName';
+  function LLVMGetStructName(Ty: LLVMTypeRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetStructName';
 {$ENDIF}
 
 (*
@@ -1779,9 +1779,9 @@ typedef enum {
  *)
   //const char *LLVMGetValueName(LLVMValueRef Val);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetValueName = function(Val: LLVMValueRef): PChar; cdecl;
+  TLLVMGetValueName = function(Val: LLVMValueRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetValueName(Val: LLVMValueRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetValueName';
+  function LLVMGetValueName(Val: LLVMValueRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetValueName';
 {$ENDIF}
 
 (*
@@ -1791,9 +1791,9 @@ typedef enum {
  *)
   //void LLVMSetValueName(LLVMValueRef Val, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMSetValueName = procedure(Val: LLVMValueRef; Name: PChar); cdecl;
+  TLLVMSetValueName = procedure(Val: LLVMValueRef; Name: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMSetValueName(Val: LLVMValueRef; Name: PChar); cdecl; external LLVMLibrary name 'LLVMSetValueName';
+  procedure LLVMSetValueName(Val: LLVMValueRef; Name: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMSetValueName';
 {$ENDIF}
 
 (*
@@ -2463,9 +2463,9 @@ typedef enum {
   //LLVMValueRef LLVMConstIntOfString(LLVMTypeRef IntTy, const char *Text,
   //                                uint8_t Radix);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstIntOfString = function(IntTy: LLVMTypeRef; Text: PChar; Radix: uint8_t): LLVMValueRef; cdecl;
+  TLLVMConstIntOfString = function(IntTy: LLVMTypeRef; Text: PAnsiChar; Radix: uint8_t): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstIntOfString(IntTy: LLVMTypeRef; Text: PChar; Radix: uint8_t): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstIntOfString';
+  function LLVMConstIntOfString(IntTy: LLVMTypeRef; Text: PAnsiChar; Radix: uint8_t): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstIntOfString';
 {$ENDIF}
 
 (*
@@ -2477,9 +2477,9 @@ typedef enum {
   //LLVMValueRef LLVMConstIntOfStringAndSize(LLVMTypeRef IntTy, const char *Text,
   //                                       unsigned SLen, uint8_t Radix);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstIntOfStringAndSize = function(IntTy: LLVMTypeRef; Text: PChar; SLen: Cardinal; Radix: uint8_t): LLVMValueRef; cdecl;
+  TLLVMConstIntOfStringAndSize = function(IntTy: LLVMTypeRef; Text: PAnsiChar; SLen: Cardinal; Radix: uint8_t): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstIntOfStringAndSize(IntTy: LLVMTypeRef; Text: PChar; SLen: Cardinal; Radix: uint8_t): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstIntOfStringAndSize';
+  function LLVMConstIntOfStringAndSize(IntTy: LLVMTypeRef; Text: PAnsiChar; SLen: Cardinal; Radix: uint8_t): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstIntOfStringAndSize';
 {$ENDIF}
 
 (*
@@ -2500,9 +2500,9 @@ typedef enum {
  *)
   //LLVMValueRef LLVMConstRealOfString(LLVMTypeRef RealTy, const char *Text);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstRealOfString = function(RealTy: LLVMTypeRef; Text: PChar): LLVMValueRef; cdecl;
+  TLLVMConstRealOfString = function(RealTy: LLVMTypeRef; Text: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstRealOfString(RealTy: LLVMTypeRef; Text: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstRealOfString';
+  function LLVMConstRealOfString(RealTy: LLVMTypeRef; Text: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstRealOfString';
 {$ENDIF}
 
 (*
@@ -2511,9 +2511,9 @@ typedef enum {
   //LLVMValueRef LLVMConstRealOfStringAndSize(LLVMTypeRef RealTy, const char *Text,
   //                                        unsigned SLen);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstRealOfStringAndSize = function(RealTy: LLVMTypeRef; Text: PChar; SLen: Cardinal): LLVMValueRef; cdecl;
+  TLLVMConstRealOfStringAndSize = function(RealTy: LLVMTypeRef; Text: PAnsiChar; SLen: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstRealOfStringAndSize(RealTy: LLVMTypeRef; Text: PChar; SLen: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstRealOfStringAndSize';
+  function LLVMConstRealOfStringAndSize(RealTy: LLVMTypeRef; Text: PAnsiChar; SLen: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstRealOfStringAndSize';
 {$ENDIF}
 
 (*
@@ -2560,9 +2560,9 @@ typedef enum {
   //LLVMValueRef LLVMConstStringInContext(LLVMContextRef C, const char *Str,
   //                                    unsigned Length, LLVMBool DontNullTerminate);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstStringInContext = function(C: LLVMContextRef; Str: PChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl;
+  TLLVMConstStringInContext = function(C: LLVMContextRef; Str: PAnsiChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstStringInContext(C: LLVMContextRef; Str: PChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstStringInContext';
+  function LLVMConstStringInContext(C: LLVMContextRef; Str: PAnsiChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstStringInContext';
 {$ENDIF}
 
 (*
@@ -2577,9 +2577,9 @@ typedef enum {
   //LLVMValueRef LLVMConstString(const char *Str, unsigned Length,
   //                           LLVMBool DontNullTerminate);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstString = function(Str: PChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl;
+  TLLVMConstString = function(Str: PAnsiChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstString(Str: PChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstString';
+  function LLVMConstString(Str: PAnsiChar; Length: Cardinal; DontNullTerminate: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstString';
 {$ENDIF}
 
 (*
@@ -3054,9 +3054,9 @@ typedef enum {
   //                              const char *AsmString, const char *Constraints,
   //                              LLVMBool HasSideEffects, LLVMBool IsAlignStack);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMConstInlineAsm = function(Ty: LLVMTypeRef; AsmString: PChar; Constraints: PChar; HasSideEffects: LLVMBool; IsAlignStack: LLVMBool): LLVMValueRef; cdecl;
+  TLLVMConstInlineAsm = function(Ty: LLVMTypeRef; AsmString: PAnsiChar; Constraints: PAnsiChar; HasSideEffects: LLVMBool; IsAlignStack: LLVMBool): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMConstInlineAsm(Ty: LLVMTypeRef; AsmString: PChar; Constraints: PChar; HasSideEffects: LLVMBool; IsAlignStack: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstInlineAsm';
+  function LLVMConstInlineAsm(Ty: LLVMTypeRef; AsmString: PAnsiChar; Constraints: PAnsiChar; HasSideEffects: LLVMBool; IsAlignStack: LLVMBool): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMConstInlineAsm';
 {$ENDIF}
   //LLVMValueRef LLVMBlockAddress(LLVMValueRef F, LLVMBasicBlockRef BB);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -3106,15 +3106,15 @@ typedef enum {
 {$ENDIF}
   //const char *LLVMGetSection(LLVMValueRef Global);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetSection = function(Global: LLVMValueRef): PChar; cdecl;
+  TLLVMGetSection = function(Global: LLVMValueRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetSection(Global: LLVMValueRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetSection';
+  function LLVMGetSection(Global: LLVMValueRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetSection';
 {$ENDIF}
   //void LLVMSetSection(LLVMValueRef Global, const char *Section);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMSetSection = procedure(Global: LLVMValueRef; Section: PChar); cdecl;
+  TLLVMSetSection = procedure(Global: LLVMValueRef; Section: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMSetSection(Global: LLVMValueRef; Section: PChar); cdecl; external LLVMLibrary name 'LLVMSetSection';
+  procedure LLVMSetSection(Global: LLVMValueRef; Section: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMSetSection';
 {$ENDIF}
   //LLVMVisibility LLVMGetVisibility(LLVMValueRef Global);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -3152,23 +3152,23 @@ typedef enum {
  *)
   //LLVMValueRef LLVMAddGlobal(LLVMModuleRef M, LLVMTypeRef Ty, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMAddGlobal = function(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMAddGlobal = function(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMAddGlobal(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddGlobal';
+  function LLVMAddGlobal(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddGlobal';
 {$ENDIF}
   //LLVMValueRef LLVMAddGlobalInAddressSpace(LLVMModuleRef M, LLVMTypeRef Ty,
   //                                       const char *Name,
   //                                       unsigned AddressSpace);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMAddGlobalInAddressSpace = function(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PChar; AddressSpace: Cardinal): LLVMValueRef; cdecl;
+  TLLVMAddGlobalInAddressSpace = function(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PAnsiChar; AddressSpace: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMAddGlobalInAddressSpace(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PChar; AddressSpace: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddGlobalInAddressSpace';
+  function LLVMAddGlobalInAddressSpace(M: LLVMModuleRef; Ty: LLVMTypeRef; Name: PAnsiChar; AddressSpace: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddGlobalInAddressSpace';
 {$ENDIF}
   //LLVMValueRef LLVMGetNamedGlobal(LLVMModuleRef M, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetNamedGlobal = function(M: LLVMModuleRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMGetNamedGlobal = function(M: LLVMModuleRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMGetNamedGlobal(M: LLVMModuleRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMGetNamedGlobal';
+  function LLVMGetNamedGlobal(M: LLVMModuleRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMGetNamedGlobal';
 {$ENDIF}
   //LLVMValueRef LLVMGetFirstGlobal(LLVMModuleRef M);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -3253,9 +3253,9 @@ typedef enum {
   //LLVMValueRef LLVMAddAlias(LLVMModuleRef M, LLVMTypeRef Ty, LLVMValueRef Aliasee,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMAddAlias = function(M: LLVMModuleRef; Ty: LLVMTypeRef; Aliasee: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMAddAlias = function(M: LLVMModuleRef; Ty: LLVMTypeRef; Aliasee: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMAddAlias(M: LLVMModuleRef; Ty: LLVMTypeRef; Aliasee: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddAlias';
+  function LLVMAddAlias(M: LLVMModuleRef; Ty: LLVMTypeRef; Aliasee: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMAddAlias';
 {$ENDIF}
 
 (*
@@ -3334,9 +3334,9 @@ typedef enum {
  *)
   //const char *LLVMGetGC(LLVMValueRef Fn);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetGC = function(Fn: LLVMValueRef): PChar; cdecl;
+  TLLVMGetGC = function(Fn: LLVMValueRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetGC(Fn: LLVMValueRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetGC';
+  function LLVMGetGC(Fn: LLVMValueRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetGC';
 {$ENDIF}
 
 (*
@@ -3346,9 +3346,9 @@ typedef enum {
  *)
   //void LLVMSetGC(LLVMValueRef Fn, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMSetGC = procedure(Fn: LLVMValueRef; Name: PChar); cdecl;
+  TLLVMSetGC = procedure(Fn: LLVMValueRef; Name: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMSetGC(Fn: LLVMValueRef; Name: PChar); cdecl; external LLVMLibrary name 'LLVMSetGC';
+  procedure LLVMSetGC(Fn: LLVMValueRef; Name: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMSetGC';
 {$ENDIF}
 
 (*
@@ -3587,9 +3587,9 @@ typedef enum {
   //LLVMValueRef LLVMMDStringInContext(LLVMContextRef C, const char *Str,
   //                                 unsigned SLen);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMMDStringInContext = function(C: LLVMContextRef; Str: PChar; SLen: Cardinal): LLVMValueRef; cdecl;
+  TLLVMMDStringInContext = function(C: LLVMContextRef; Str: PAnsiChar; SLen: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMMDStringInContext(C: LLVMContextRef; Str: PChar; SLen: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDStringInContext';
+  function LLVMMDStringInContext(C: LLVMContextRef; Str: PAnsiChar; SLen: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDStringInContext';
 {$ENDIF}
 
 (*
@@ -3597,9 +3597,9 @@ typedef enum {
  *)
   //LLVMValueRef LLVMMDString(const char *Str, unsigned SLen);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMMDString = function(Str: PChar; SLen: Cardinal): LLVMValueRef; cdecl;
+  TLLVMMDString = function(Str: PAnsiChar; SLen: Cardinal): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMMDString(Str: PChar; SLen: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDString';
+  function LLVMMDString(Str: PAnsiChar; SLen: Cardinal): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMMDString';
 {$ENDIF}
 
 (*
@@ -3634,9 +3634,9 @@ typedef enum {
  *)
   //const char  *LLVMGetMDString(LLVMValueRef V, unsigned* Len);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetMDString = function(V: LLVMValueRef; Len: PCardinal): PChar; cdecl;
+  TLLVMGetMDString = function(V: LLVMValueRef; Len: PCardinal): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetMDString(V: LLVMValueRef; Len: PCardinal): PChar; cdecl; external LLVMLibrary name 'LLVMGetMDString';
+  function LLVMGetMDString(V: LLVMValueRef; Len: PCardinal): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetMDString';
 {$ENDIF}
 
 (*
@@ -3815,9 +3815,9 @@ typedef enum {
   //                                              LLVMValueRef Fn,
   //                                              const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMAppendBasicBlockInContext = function(C: LLVMContextRef; Fn: LLVMValueRef; Name: PChar): LLVMBasicBlockRef; cdecl;
+  TLLVMAppendBasicBlockInContext = function(C: LLVMContextRef; Fn: LLVMValueRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl;
 {$ELSE}
-  function LLVMAppendBasicBlockInContext(C: LLVMContextRef; Fn: LLVMValueRef; Name: PChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMAppendBasicBlockInContext';
+  function LLVMAppendBasicBlockInContext(C: LLVMContextRef; Fn: LLVMValueRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMAppendBasicBlockInContext';
 {$ENDIF}
 
 (*
@@ -3828,9 +3828,9 @@ typedef enum {
  *)
   //LLVMBasicBlockRef LLVMAppendBasicBlock(LLVMValueRef Fn, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMAppendBasicBlock = function(Fn: LLVMValueRef; Name: PChar): LLVMBasicBlockRef; cdecl;
+  TLLVMAppendBasicBlock = function(Fn: LLVMValueRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl;
 {$ELSE}
-  function LLVMAppendBasicBlock(Fn: LLVMValueRef; Name: PChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMAppendBasicBlock';
+  function LLVMAppendBasicBlock(Fn: LLVMValueRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMAppendBasicBlock';
 {$ENDIF}
 
 (*
@@ -3845,9 +3845,9 @@ typedef enum {
   //                                              LLVMBasicBlockRef BB,
   //                                              const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMInsertBasicBlockInContext = function(C: LLVMContextRef; BB: LLVMBasicBlockRef; Name: PChar): LLVMBasicBlockRef; cdecl;
+  TLLVMInsertBasicBlockInContext = function(C: LLVMContextRef; BB: LLVMBasicBlockRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl;
 {$ELSE}
-  function LLVMInsertBasicBlockInContext(C: LLVMContextRef; BB: LLVMBasicBlockRef; Name: PChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMInsertBasicBlockInContext';
+  function LLVMInsertBasicBlockInContext(C: LLVMContextRef; BB: LLVMBasicBlockRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMInsertBasicBlockInContext';
 {$ENDIF}
 
 (*
@@ -3858,9 +3858,9 @@ typedef enum {
   //LLVMBasicBlockRef LLVMInsertBasicBlock(LLVMBasicBlockRef InsertBeforeBB,
   //                                     const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMInsertBasicBlock = function(InsertBeforeBB: LLVMBasicBlockRef; Name: PChar): LLVMBasicBlockRef; cdecl;
+  TLLVMInsertBasicBlock = function(InsertBeforeBB: LLVMBasicBlockRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl;
 {$ELSE}
-  function LLVMInsertBasicBlock(InsertBeforeBB: LLVMBasicBlockRef; Name: PChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMInsertBasicBlock';
+  function LLVMInsertBasicBlock(InsertBeforeBB: LLVMBasicBlockRef; Name: PAnsiChar): LLVMBasicBlockRef; cdecl; external LLVMLibrary name 'LLVMInsertBasicBlock';
 {$ENDIF}
 
 (*
@@ -4307,9 +4307,9 @@ typedef enum {
   //void LLVMInsertIntoBuilderWithName(LLVMBuilderRef Builder, LLVMValueRef Instr,
   //                                 const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMInsertIntoBuilderWithName = procedure(Builder: LLVMBuilderRef; Instr: LLVMValueRef; Name: PChar); cdecl;
+  TLLVMInsertIntoBuilderWithName = procedure(Builder: LLVMBuilderRef; Instr: LLVMValueRef; Name: PAnsiChar); cdecl;
 {$ELSE}
-  procedure LLVMInsertIntoBuilderWithName(Builder: LLVMBuilderRef; Instr: LLVMValueRef; Name: PChar); cdecl; external LLVMLibrary name 'LLVMInsertIntoBuilderWithName';
+  procedure LLVMInsertIntoBuilderWithName(Builder: LLVMBuilderRef; Instr: LLVMValueRef; Name: PAnsiChar); cdecl; external LLVMLibrary name 'LLVMInsertIntoBuilderWithName';
 {$ENDIF}
   //void LLVMDisposeBuilder(LLVMBuilderRef Builder);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -4390,18 +4390,18 @@ typedef enum {
   //                           LLVMBasicBlockRef Then, LLVMBasicBlockRef Catch,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildInvoke = function(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; _Then: LLVMBasicBlockRef; Catch: LLVMBasicBlockRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildInvoke = function(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; _Then: LLVMBasicBlockRef; Catch: LLVMBasicBlockRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildInvoke(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; _Then: LLVMBasicBlockRef; Catch: LLVMBasicBlockRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInvoke';
+  function LLVMBuildInvoke(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; _Then: LLVMBasicBlockRef; Catch: LLVMBasicBlockRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInvoke';
 {$ENDIF}
 
   //LLVMValueRef LLVMBuildLandingPad(LLVMBuilderRef B, LLVMTypeRef Ty,
   //                               LLVMValueRef PersFn, unsigned NumClauses,
   //                               const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildLandingPad = function(B: LLVMBuilderRef; Ty: LLVMTypeRef; PersFn: LLVMValueRef; NumClauses: Cardinal; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildLandingPad = function(B: LLVMBuilderRef; Ty: LLVMTypeRef; PersFn: LLVMValueRef; NumClauses: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildLandingPad(B: LLVMBuilderRef; Ty: LLVMTypeRef; PersFn: LLVMValueRef; NumClauses: Cardinal; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildLandingPad';
+  function LLVMBuildLandingPad(B: LLVMBuilderRef; Ty: LLVMTypeRef; PersFn: LLVMValueRef; NumClauses: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildLandingPad';
 {$ENDIF}
   //LLVMValueRef LLVMBuildResume(LLVMBuilderRef B, LLVMValueRef Exn);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -4453,245 +4453,245 @@ typedef enum {
   //LLVMValueRef LLVMBuildAdd(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAdd';
+  function LLVMBuildAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAdd';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNSWAdd(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNSWAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNSWAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNSWAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWAdd';
+  function LLVMBuildNSWAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWAdd';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNUWAdd(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNUWAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNUWAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNUWAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWAdd';
+  function LLVMBuildNUWAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWAdd';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFAdd(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFAdd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFAdd';
+  function LLVMBuildFAdd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFAdd';
 {$ENDIF}
   //LLVMValueRef LLVMBuildSub(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSub';
+  function LLVMBuildSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSub';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNSWSub(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNSWSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNSWSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNSWSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWSub';
+  function LLVMBuildNSWSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWSub';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNUWSub(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNUWSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNUWSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNUWSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWSub';
+  function LLVMBuildNUWSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWSub';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFSub(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFSub = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFSub';
+  function LLVMBuildFSub(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFSub';
 {$ENDIF}
   //LLVMValueRef LLVMBuildMul(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildMul';
+  function LLVMBuildMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildMul';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNSWMul(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNSWMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNSWMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNSWMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWMul';
+  function LLVMBuildNSWMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWMul';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNUWMul(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNUWMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNUWMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNUWMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWMul';
+  function LLVMBuildNUWMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWMul';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFMul(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFMul = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFMul';
+  function LLVMBuildFMul(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFMul';
 {$ENDIF}
   //LLVMValueRef LLVMBuildUDiv(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildUDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildUDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildUDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildUDiv';
+  function LLVMBuildUDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildUDiv';
 {$ENDIF}
   //LLVMValueRef LLVMBuildSDiv(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildSDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildSDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildSDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSDiv';
+  function LLVMBuildSDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSDiv';
 {$ENDIF}
   //LLVMValueRef LLVMBuildExactSDiv(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                              const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildExactSDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildExactSDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildExactSDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildExactSDiv';
+  function LLVMBuildExactSDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildExactSDiv';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFDiv(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFDiv = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFDiv';
+  function LLVMBuildFDiv(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFDiv';
 {$ENDIF}
   //LLVMValueRef LLVMBuildURem(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildURem = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildURem = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildURem(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildURem';
+  function LLVMBuildURem(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildURem';
 {$ENDIF}
   //LLVMValueRef LLVMBuildSRem(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildSRem = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildSRem = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildSRem(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSRem';
+  function LLVMBuildSRem(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSRem';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFRem(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFRem = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFRem = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFRem(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFRem';
+  function LLVMBuildFRem(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFRem';
 {$ENDIF}
   //LLVMValueRef LLVMBuildShl(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildShl = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildShl = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildShl(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildShl';
+  function LLVMBuildShl(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildShl';
 {$ENDIF}
   //LLVMValueRef LLVMBuildLShr(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildLShr = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildLShr = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildLShr(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildLShr';
+  function LLVMBuildLShr(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildLShr';
 {$ENDIF}
   //LLVMValueRef LLVMBuildAShr(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildAShr = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildAShr = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildAShr(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAShr';
+  function LLVMBuildAShr(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAShr';
 {$ENDIF}
   //LLVMValueRef LLVMBuildAnd(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildAnd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildAnd = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildAnd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAnd';
+  function LLVMBuildAnd(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAnd';
 {$ENDIF}
   //LLVMValueRef LLVMBuildOr(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildOr = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildOr = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildOr(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildOr';
+  function LLVMBuildOr(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildOr';
 {$ENDIF}
   //LLVMValueRef LLVMBuildXor(LLVMBuilderRef, LLVMValueRef LHS, LLVMValueRef RHS,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildXor = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildXor = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildXor(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildXor';
+  function LLVMBuildXor(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildXor';
 {$ENDIF}
   //LLVMValueRef LLVMBuildBinOp(LLVMBuilderRef B, LLVMOpcode Op,
   //                          LLVMValueRef LHS, LLVMValueRef RHS,
   //                          const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildBinOp = function(B: LLVMBuilderRef; Op: LLVMOpcode; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildBinOp = function(B: LLVMBuilderRef; Op: LLVMOpcode; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildBinOp(B: LLVMBuilderRef; Op: LLVMOpcode; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildBinOp';
+  function LLVMBuildBinOp(B: LLVMBuilderRef; Op: LLVMOpcode; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildBinOp';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNeg(LLVMBuilderRef, LLVMValueRef V, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNeg = function(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNeg = function(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNeg(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNeg';
+  function LLVMBuildNeg(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNeg';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNSWNeg(LLVMBuilderRef B, LLVMValueRef V,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNSWNeg = function(B: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNSWNeg = function(B: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNSWNeg(B: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWNeg';
+  function LLVMBuildNSWNeg(B: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNSWNeg';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNUWNeg(LLVMBuilderRef B, LLVMValueRef V,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNUWNeg = function(B: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNUWNeg = function(B: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNUWNeg(B: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWNeg';
+  function LLVMBuildNUWNeg(B: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNUWNeg';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFNeg(LLVMBuilderRef, LLVMValueRef V, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFNeg = function(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFNeg = function(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFNeg(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFNeg';
+  function LLVMBuildFNeg(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFNeg';
 {$ENDIF}
   //LLVMValueRef LLVMBuildNot(LLVMBuilderRef, LLVMValueRef V, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildNot = function(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildNot = function(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildNot(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNot';
+  function LLVMBuildNot(Unknown: LLVMBuilderRef; V: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildNot';
 {$ENDIF}
 
 (* Memory *)
   //LLVMValueRef LLVMBuildMalloc(LLVMBuilderRef, LLVMTypeRef Ty, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildMalloc = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildMalloc = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildMalloc(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildMalloc';
+  function LLVMBuildMalloc(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildMalloc';
 {$ENDIF}
   //LLVMValueRef LLVMBuildArrayMalloc(LLVMBuilderRef, LLVMTypeRef Ty,
   //                                LLVMValueRef Val, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildArrayMalloc = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildArrayMalloc = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildArrayMalloc(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildArrayMalloc';
+  function LLVMBuildArrayMalloc(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildArrayMalloc';
 {$ENDIF}
   //LLVMValueRef LLVMBuildAlloca(LLVMBuilderRef, LLVMTypeRef Ty, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildAlloca = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildAlloca = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildAlloca(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAlloca';
+  function LLVMBuildAlloca(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildAlloca';
 {$ENDIF}
   //LLVMValueRef LLVMBuildArrayAlloca(LLVMBuilderRef, LLVMTypeRef Ty,
   //                                LLVMValueRef Val, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildArrayAlloca = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildArrayAlloca = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildArrayAlloca(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildArrayAlloca';
+  function LLVMBuildArrayAlloca(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildArrayAlloca';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFree(LLVMBuilderRef, LLVMValueRef PointerVal);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -4702,9 +4702,9 @@ typedef enum {
   //LLVMValueRef LLVMBuildLoad(LLVMBuilderRef, LLVMValueRef PointerVal,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildLoad = function(Unknown: LLVMBuilderRef; PointerVal: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildLoad = function(Unknown: LLVMBuilderRef; PointerVal: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildLoad(Unknown: LLVMBuilderRef; PointerVal: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildLoad';
+  function LLVMBuildLoad(Unknown: LLVMBuilderRef; PointerVal: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildLoad';
 {$ENDIF}
   //LLVMValueRef LLVMBuildStore(LLVMBuilderRef, LLVMValueRef Val, LLVMValueRef Ptr);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -4716,38 +4716,38 @@ typedef enum {
   //                        LLVMValueRef *Indices, unsigned NumIndices,
   //                        const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildGEP = function(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildGEP = function(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildGEP(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildGEP';
+  function LLVMBuildGEP(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildGEP';
 {$ENDIF}
   //LLVMValueRef LLVMBuildInBoundsGEP(LLVMBuilderRef B, LLVMValueRef Pointer,
   //                                LLVMValueRef *Indices, unsigned NumIndices,
   //                                const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildInBoundsGEP = function(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildInBoundsGEP = function(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildInBoundsGEP(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInBoundsGEP';
+  function LLVMBuildInBoundsGEP(B: LLVMBuilderRef; Pointer: LLVMValueRef; var Indices: LLVMValueRef; NumIndices: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInBoundsGEP';
 {$ENDIF}
   //LLVMValueRef LLVMBuildStructGEP(LLVMBuilderRef B, LLVMValueRef Pointer,
   //                              unsigned Idx, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildStructGEP = function(B: LLVMBuilderRef; Pointer: LLVMValueRef; Idx: Cardinal; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildStructGEP = function(B: LLVMBuilderRef; Pointer: LLVMValueRef; Idx: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildStructGEP(B: LLVMBuilderRef; Pointer: LLVMValueRef; Idx: Cardinal; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildStructGEP';
+  function LLVMBuildStructGEP(B: LLVMBuilderRef; Pointer: LLVMValueRef; Idx: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildStructGEP';
 {$ENDIF}
   //LLVMValueRef LLVMBuildGlobalString(LLVMBuilderRef B, const char *Str,
   //                                 const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildGlobalString = function(B: LLVMBuilderRef; Str: PChar; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildGlobalString = function(B: LLVMBuilderRef; Str: PAnsiChar; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildGlobalString(B: LLVMBuilderRef; Str: PChar; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildGlobalString';
+  function LLVMBuildGlobalString(B: LLVMBuilderRef; Str: PAnsiChar; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildGlobalString';
 {$ENDIF}
   //LLVMValueRef LLVMBuildGlobalStringPtr(LLVMBuilderRef B, const char *Str,
   //                                    const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildGlobalStringPtr = function(B: LLVMBuilderRef; Str: PChar; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildGlobalStringPtr = function(B: LLVMBuilderRef; Str: PAnsiChar; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildGlobalStringPtr(B: LLVMBuilderRef; Str: PChar; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildGlobalStringPtr';
+  function LLVMBuildGlobalStringPtr(B: LLVMBuilderRef; Str: PAnsiChar; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildGlobalStringPtr';
 {$ENDIF}
   //LLVMBool LLVMGetVolatile(LLVMValueRef MemoryAccessInst);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -4766,135 +4766,135 @@ typedef enum {
   //LLVMValueRef LLVMBuildTrunc(LLVMBuilderRef, LLVMValueRef Val,
   //                          LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildTrunc = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildTrunc = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildTrunc(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildTrunc';
+  function LLVMBuildTrunc(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildTrunc';
 {$ENDIF}
   //LLVMValueRef LLVMBuildZExt(LLVMBuilderRef, LLVMValueRef Val,
   //                         LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildZExt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildZExt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildZExt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildZExt';
+  function LLVMBuildZExt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildZExt';
 {$ENDIF}
   //LLVMValueRef LLVMBuildSExt(LLVMBuilderRef, LLVMValueRef Val,
   //                         LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildSExt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildSExt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildSExt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSExt';
+  function LLVMBuildSExt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSExt';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFPToUI(LLVMBuilderRef, LLVMValueRef Val,
   //                           LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFPToUI = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFPToUI = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFPToUI(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPToUI';
+  function LLVMBuildFPToUI(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPToUI';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFPToSI(LLVMBuilderRef, LLVMValueRef Val,
   //                           LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFPToSI = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFPToSI = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFPToSI(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPToSI';
+  function LLVMBuildFPToSI(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPToSI';
 {$ENDIF}
   //LLVMValueRef LLVMBuildUIToFP(LLVMBuilderRef, LLVMValueRef Val,
   //                           LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildUIToFP = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildUIToFP = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildUIToFP(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildUIToFP';
+  function LLVMBuildUIToFP(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildUIToFP';
 {$ENDIF}
   //LLVMValueRef LLVMBuildSIToFP(LLVMBuilderRef, LLVMValueRef Val,
   //                           LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildSIToFP = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildSIToFP = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildSIToFP(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSIToFP';
+  function LLVMBuildSIToFP(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSIToFP';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFPTrunc(LLVMBuilderRef, LLVMValueRef Val,
   //                            LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFPTrunc = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFPTrunc = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFPTrunc(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPTrunc';
+  function LLVMBuildFPTrunc(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPTrunc';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFPExt(LLVMBuilderRef, LLVMValueRef Val,
   //                          LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFPExt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFPExt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFPExt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPExt';
+  function LLVMBuildFPExt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPExt';
 {$ENDIF}
   //LLVMValueRef LLVMBuildPtrToInt(LLVMBuilderRef, LLVMValueRef Val,
   //                             LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildPtrToInt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildPtrToInt = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildPtrToInt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPtrToInt';
+  function LLVMBuildPtrToInt(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPtrToInt';
 {$ENDIF}
   //LLVMValueRef LLVMBuildIntToPtr(LLVMBuilderRef, LLVMValueRef Val,
   //                             LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildIntToPtr = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildIntToPtr = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildIntToPtr(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIntToPtr';
+  function LLVMBuildIntToPtr(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIntToPtr';
 {$ENDIF}
   //LLVMValueRef LLVMBuildBitCast(LLVMBuilderRef, LLVMValueRef Val,
   //                            LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildBitCast';
+  function LLVMBuildBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildBitCast';
 {$ENDIF}
   //LLVMValueRef LLVMBuildZExtOrBitCast(LLVMBuilderRef, LLVMValueRef Val,
   //                                  LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildZExtOrBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildZExtOrBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildZExtOrBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildZExtOrBitCast';
+  function LLVMBuildZExtOrBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildZExtOrBitCast';
 {$ENDIF}
   //LLVMValueRef LLVMBuildSExtOrBitCast(LLVMBuilderRef, LLVMValueRef Val,
   //                                  LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildSExtOrBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildSExtOrBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildSExtOrBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSExtOrBitCast';
+  function LLVMBuildSExtOrBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSExtOrBitCast';
 {$ENDIF}
   //LLVMValueRef LLVMBuildTruncOrBitCast(LLVMBuilderRef, LLVMValueRef Val,
   //                                   LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildTruncOrBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildTruncOrBitCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildTruncOrBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildTruncOrBitCast';
+  function LLVMBuildTruncOrBitCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildTruncOrBitCast';
 {$ENDIF}
   //LLVMValueRef LLVMBuildCast(LLVMBuilderRef B, LLVMOpcode Op, LLVMValueRef Val,
   //                         LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildCast';
+  function LLVMBuildCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildCast';
 {$ENDIF}
   //LLVMValueRef LLVMBuildPointerCast(LLVMBuilderRef, LLVMValueRef Val,
   //                                LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildPointerCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildPointerCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildPointerCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPointerCast';
+  function LLVMBuildPointerCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPointerCast';
 {$ENDIF}
   //LLVMValueRef LLVMBuildIntCast(LLVMBuilderRef, LLVMValueRef Val, (*Signed cast!*)
   //                            LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildIntCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildIntCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildIntCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIntCast';
+  function LLVMBuildIntCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIntCast';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFPCast(LLVMBuilderRef, LLVMValueRef Val,
   //                           LLVMTypeRef DestTy, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFPCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFPCast = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFPCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPCast';
+  function LLVMBuildFPCast(Unknown: LLVMBuilderRef; Val: LLVMValueRef; DestTy: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFPCast';
 {$ENDIF}
 
 (* Comparisons *)
@@ -4902,108 +4902,108 @@ typedef enum {
   //                         LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildICmp = function(Unknown: LLVMBuilderRef; Op: LLVMIntPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildICmp = function(Unknown: LLVMBuilderRef; Op: LLVMIntPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildICmp(Unknown: LLVMBuilderRef; Op: LLVMIntPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildICmp';
+  function LLVMBuildICmp(Unknown: LLVMBuilderRef; Op: LLVMIntPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildICmp';
 {$ENDIF}
   //LLVMValueRef LLVMBuildFCmp(LLVMBuilderRef, LLVMRealPredicate Op,
   //                         LLVMValueRef LHS, LLVMValueRef RHS,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildFCmp = function(Unknown: LLVMBuilderRef; Op: LLVMRealPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildFCmp = function(Unknown: LLVMBuilderRef; Op: LLVMRealPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildFCmp(Unknown: LLVMBuilderRef; Op: LLVMRealPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFCmp';
+  function LLVMBuildFCmp(Unknown: LLVMBuilderRef; Op: LLVMRealPredicate; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildFCmp';
 {$ENDIF}
 
 (* Miscellaneous instructions *)
   //LLVMValueRef LLVMBuildPhi(LLVMBuilderRef, LLVMTypeRef Ty, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildPhi = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildPhi = function(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildPhi(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPhi';
+  function LLVMBuildPhi(Unknown: LLVMBuilderRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPhi';
 {$ENDIF}
   //LLVMValueRef LLVMBuildCall(LLVMBuilderRef, LLVMValueRef Fn,
   //                         LLVMValueRef *Args, unsigned NumArgs,
   //                         const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildCall = function(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildCall = function(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildCall(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildCall';
+  function LLVMBuildCall(Unknown: LLVMBuilderRef; Fn: LLVMValueRef; var Args: LLVMValueRef; NumArgs: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildCall';
 {$ENDIF}
   //LLVMValueRef LLVMBuildSelect(LLVMBuilderRef, LLVMValueRef If,
   //                           LLVMValueRef Then, LLVMValueRef Else,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildSelect = function(Unknown: LLVMBuilderRef; _If: LLVMValueRef; _Then: LLVMValueRef; _Else: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildSelect = function(Unknown: LLVMBuilderRef; _If: LLVMValueRef; _Then: LLVMValueRef; _Else: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildSelect(Unknown: LLVMBuilderRef; _If: LLVMValueRef; _Then: LLVMValueRef; _Else: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSelect';
+  function LLVMBuildSelect(Unknown: LLVMBuilderRef; _If: LLVMValueRef; _Then: LLVMValueRef; _Else: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildSelect';
 {$ENDIF}
   //LLVMValueRef LLVMBuildVAArg(LLVMBuilderRef, LLVMValueRef List, LLVMTypeRef Ty,
   //                          const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildVAArg = function(Unknown: LLVMBuilderRef; List: LLVMValueRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildVAArg = function(Unknown: LLVMBuilderRef; List: LLVMValueRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildVAArg(Unknown: LLVMBuilderRef; List: LLVMValueRef; Ty: LLVMTypeRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildVAArg';
+  function LLVMBuildVAArg(Unknown: LLVMBuilderRef; List: LLVMValueRef; Ty: LLVMTypeRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildVAArg';
 {$ENDIF}
   //LLVMValueRef LLVMBuildExtractElement(LLVMBuilderRef, LLVMValueRef VecVal,
   //                                   LLVMValueRef Index, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildExtractElement = function(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; Index: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildExtractElement = function(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; Index: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildExtractElement(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; Index: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildExtractElement';
+  function LLVMBuildExtractElement(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; Index: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildExtractElement';
 {$ENDIF}
   //LLVMValueRef LLVMBuildInsertElement(LLVMBuilderRef, LLVMValueRef VecVal,
   //                                  LLVMValueRef EltVal, LLVMValueRef Index,
   //                                  const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildInsertElement = function(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; EltVal: LLVMValueRef; Index: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildInsertElement = function(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; EltVal: LLVMValueRef; Index: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildInsertElement(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; EltVal: LLVMValueRef; Index: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInsertElement';
+  function LLVMBuildInsertElement(Unknown: LLVMBuilderRef; VecVal: LLVMValueRef; EltVal: LLVMValueRef; Index: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInsertElement';
 {$ENDIF}
   //LLVMValueRef LLVMBuildShuffleVector(LLVMBuilderRef, LLVMValueRef V1,
   //                                  LLVMValueRef V2, LLVMValueRef Mask,
   //                                  const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildShuffleVector = function(Unknown: LLVMBuilderRef; V1: LLVMValueRef; V2: LLVMValueRef; Mask: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildShuffleVector = function(Unknown: LLVMBuilderRef; V1: LLVMValueRef; V2: LLVMValueRef; Mask: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildShuffleVector(Unknown: LLVMBuilderRef; V1: LLVMValueRef; V2: LLVMValueRef; Mask: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildShuffleVector';
+  function LLVMBuildShuffleVector(Unknown: LLVMBuilderRef; V1: LLVMValueRef; V2: LLVMValueRef; Mask: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildShuffleVector';
 {$ENDIF}
   //LLVMValueRef LLVMBuildExtractValue(LLVMBuilderRef, LLVMValueRef AggVal,
   //                                 unsigned Index, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildExtractValue = function(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; Index: Cardinal; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildExtractValue = function(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; Index: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildExtractValue(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; Index: Cardinal; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildExtractValue';
+  function LLVMBuildExtractValue(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; Index: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildExtractValue';
 {$ENDIF}
   //LLVMValueRef LLVMBuildInsertValue(LLVMBuilderRef, LLVMValueRef AggVal,
   //                                LLVMValueRef EltVal, unsigned Index,
   //                                const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildInsertValue = function(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; EltVal: LLVMValueRef; Index: Cardinal; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildInsertValue = function(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; EltVal: LLVMValueRef; Index: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildInsertValue(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; EltVal: LLVMValueRef; Index: Cardinal; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInsertValue';
+  function LLVMBuildInsertValue(Unknown: LLVMBuilderRef; AggVal: LLVMValueRef; EltVal: LLVMValueRef; Index: Cardinal; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildInsertValue';
 {$ENDIF}
 
   //LLVMValueRef LLVMBuildIsNull(LLVMBuilderRef, LLVMValueRef Val,
   //                           const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildIsNull = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildIsNull = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildIsNull(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIsNull';
+  function LLVMBuildIsNull(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIsNull';
 {$ENDIF}
   //LLVMValueRef LLVMBuildIsNotNull(LLVMBuilderRef, LLVMValueRef Val,
   //                              const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildIsNotNull = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildIsNotNull = function(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildIsNotNull(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIsNotNull';
+  function LLVMBuildIsNotNull(Unknown: LLVMBuilderRef; Val: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildIsNotNull';
 {$ENDIF}
   //LLVMValueRef LLVMBuildPtrDiff(LLVMBuilderRef, LLVMValueRef LHS,
   //                            LLVMValueRef RHS, const char *Name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMBuildPtrDiff = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl;
+  TLLVMBuildPtrDiff = function(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl;
 {$ELSE}
-  function LLVMBuildPtrDiff(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPtrDiff';
+  function LLVMBuildPtrDiff(Unknown: LLVMBuilderRef; LHS: LLVMValueRef; RHS: LLVMValueRef; Name: PAnsiChar): LLVMValueRef; cdecl; external LLVMLibrary name 'LLVMBuildPtrDiff';
 {$ENDIF}
 
 (*
@@ -5052,16 +5052,16 @@ typedef enum {
   //                                                LLVMMemoryBufferRef *OutMemBuf,
   //                                                char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateMemoryBufferWithContentsOfFile = function(Path: PChar; var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMCreateMemoryBufferWithContentsOfFile = function(Path: PAnsiChar; var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateMemoryBufferWithContentsOfFile(Path: PChar; var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateMemoryBufferWithContentsOfFile';
+  function LLVMCreateMemoryBufferWithContentsOfFile(Path: PAnsiChar; var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateMemoryBufferWithContentsOfFile';
 {$ENDIF}
   //LLVMBool LLVMCreateMemoryBufferWithSTDIN(LLVMMemoryBufferRef *OutMemBuf,
   //                                       char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateMemoryBufferWithSTDIN = function(var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMCreateMemoryBufferWithSTDIN = function(var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateMemoryBufferWithSTDIN(var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateMemoryBufferWithSTDIN';
+  function LLVMCreateMemoryBufferWithSTDIN(var OutMemBuf: LLVMMemoryBufferRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateMemoryBufferWithSTDIN';
 {$ENDIF}
   //void LLVMDisposeMemoryBuffer(LLVMMemoryBufferRef MemBuf);
 {$IFDEF LLVM_DYNAMIC_LINK}
@@ -5295,9 +5295,9 @@ typedef enum {
    OutMessage must be disposed with LLVMDisposeMessage. *)
   //LLVMBool LLVMVerifyModule(LLVMModuleRef M, LLVMVerifierFailureAction Action, char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMVerifyModule = function(M: LLVMModuleRef; Action: LLVMVerifierFailureAction; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMVerifyModule = function(M: LLVMModuleRef; Action: LLVMVerifierFailureAction; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMVerifyModule(M: LLVMModuleRef; Action: LLVMVerifierFailureAction; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMVerifyModule';
+  function LLVMVerifyModule(M: LLVMModuleRef; Action: LLVMVerifierFailureAction; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMVerifyModule';
 {$ENDIF}
 
 (* Verifies that a single function is valid, taking the specified action. Useful
@@ -5336,18 +5336,18 @@ typedef enum {
    Optionally returns a human-readable error message via OutMessage. *)
   //LLVMBool LLVMParseBitcode(LLVMMemoryBufferRef MemBuf, LLVMModuleRef *OutModule, char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMParseBitcode = function(MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMParseBitcode = function(MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMParseBitcode(MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMParseBitcode';
+  function LLVMParseBitcode(MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMParseBitcode';
 {$ENDIF}
 
   //LLVMBool LLVMParseBitcodeInContext(LLVMContextRef ContextRef,
   //                                 LLVMMemoryBufferRef MemBuf,
   //                                 LLVMModuleRef *OutModule, char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMParseBitcodeInContext = function(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMParseBitcodeInContext = function(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMParseBitcodeInContext(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMParseBitcodeInContext';
+  function LLVMParseBitcodeInContext(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutModule: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMParseBitcodeInContext';
 {$ENDIF}
   
 
@@ -5359,16 +5359,16 @@ typedef enum {
   //                                     LLVMModuleRef *OutM,
   //                                     char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetBitcodeModuleInContext = function(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMGetBitcodeModuleInContext = function(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMGetBitcodeModuleInContext(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModuleInContext';
+  function LLVMGetBitcodeModuleInContext(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModuleInContext';
 {$ENDIF}
 
   //LLVMBool LLVMGetBitcodeModule(LLVMMemoryBufferRef MemBuf, LLVMModuleRef *OutM, char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetBitcodeModule = function(MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMGetBitcodeModule = function(MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMGetBitcodeModule(MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModule';
+  function LLVMGetBitcodeModule(MemBuf: LLVMMemoryBufferRef; var OutM: LLVMModuleRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModule';
 {$ENDIF}
 
 (* Deprecated: Use LLVMGetBitcodeModuleInContext instead. *)
@@ -5377,9 +5377,9 @@ typedef enum {
   //                                             LLVMModuleProviderRef *OutMP,
   //                                             char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetBitcodeModuleProviderInContext = function(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMGetBitcodeModuleProviderInContext = function(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMGetBitcodeModuleProviderInContext(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModuleProviderInContext';
+  function LLVMGetBitcodeModuleProviderInContext(ContextRef: LLVMContextRef; MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModuleProviderInContext';
 {$ENDIF}
 
 (* Deprecated: Use LLVMGetBitcodeModule instead. *)
@@ -5387,9 +5387,9 @@ typedef enum {
   //                                    LLVMModuleProviderRef *OutMP,
   //                                    char **OutMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetBitcodeModuleProvider = function(MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PChar): LLVMBool; cdecl;
+  TLLVMGetBitcodeModuleProvider = function(MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMGetBitcodeModuleProvider(MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModuleProvider';
+  function LLVMGetBitcodeModuleProvider(MemBuf: LLVMMemoryBufferRef; var OutMP: LLVMModuleProviderRef; var OutMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMGetBitcodeModuleProvider';
 {$ENDIF}
   
 {$ENDIF}
@@ -5402,9 +5402,9 @@ typedef enum {
 (* Writes a module to the specified path. Returns 0 on success. *)
   //int LLVMWriteBitcodeToFile(LLVMModuleRef M, const char *Path);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMWriteBitcodeToFile = function(M: LLVMModuleRef; Path: PChar): Integer; cdecl;
+  TLLVMWriteBitcodeToFile = function(M: LLVMModuleRef; Path: PAnsiChar): Integer; cdecl;
 {$ELSE}
-  function LLVMWriteBitcodeToFile(M: LLVMModuleRef; Path: PChar): Integer; cdecl; external LLVMLibrary name 'LLVMWriteBitcodeToFile';
+  function LLVMWriteBitcodeToFile(M: LLVMModuleRef; Path: PAnsiChar): Integer; cdecl; external LLVMLibrary name 'LLVMWriteBitcodeToFile';
 {$ENDIF}
 
 (* Writes a module to an open file descriptor. Returns 0 on success. *)
@@ -5571,17 +5571,17 @@ type
   //extern llvm_lto_status_t llvm_read_object_file
   //  (llvm_lto_t lto, const char* input_filename);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tllvm_read_object_file = function(lto: llvm_lto_t; const input_filename: PChar): llvm_lto_status_t; cdecl;
+  Tllvm_read_object_file = function(lto: llvm_lto_t; const input_filename: PAnsiChar): llvm_lto_status_t; cdecl;
 {$ELSE}
-  function llvm_read_object_file(lto: llvm_lto_t; const input_filename: PChar): llvm_lto_status_t; cdecl; external LLVMLibrary name 'llvm_read_object_file';
+  function llvm_read_object_file(lto: llvm_lto_t; const input_filename: PAnsiChar): llvm_lto_status_t; cdecl; external LLVMLibrary name 'llvm_read_object_file';
 {$ENDIF}
   
   //extern llvm_lto_status_t llvm_optimize_modules
   //  (llvm_lto_t lto, const char* output_filename);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tllvm_optimize_modules = function(lto: llvm_lto_t; const input_filename: PChar): llvm_lto_status_t; cdecl;
+  Tllvm_optimize_modules = function(lto: llvm_lto_t; const input_filename: PAnsiChar): llvm_lto_status_t; cdecl;
 {$ELSE}
-  function llvm_optimize_modules(lto: llvm_lto_t; const input_filename: PChar): llvm_lto_status_t; cdecl; external LLVMLibrary name 'llvm_optimize_modules';
+  function llvm_optimize_modules(lto: llvm_lto_t; const input_filename: PAnsiChar): llvm_lto_status_t; cdecl; external LLVMLibrary name 'llvm_optimize_modules';
 {$ENDIF}
   
 {$ENDIF}
@@ -5764,9 +5764,9 @@ type
     See the constructor llvm::TargetData::TargetData. *)
   //LLVMTargetDataRef LLVMCreateTargetData(const char *StringRep);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateTargetData = function(StringRep: PChar): LLVMTargetDataRef; cdecl;
+  TLLVMCreateTargetData = function(StringRep: PAnsiChar): LLVMTargetDataRef; cdecl;
 {$ELSE}
-  function LLVMCreateTargetData(StringRep: PChar): LLVMTargetDataRef; cdecl; external LLVMLibrary name 'LLVMCreateTargetData';
+  function LLVMCreateTargetData(StringRep: PAnsiChar): LLVMTargetDataRef; cdecl; external LLVMLibrary name 'LLVMCreateTargetData';
 {$ENDIF}
 
 (** Adds target data information to a pass manager. This does not take ownership
@@ -5794,9 +5794,9 @@ type
     See the constructor llvm::TargetData::TargetData. *)
   //char *LLVMCopyStringRepOfTargetData(LLVMTargetDataRef);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCopyStringRepOfTargetData = function(Unknown: LLVMTargetDataRef): PChar; cdecl;
+  TLLVMCopyStringRepOfTargetData = function(Unknown: LLVMTargetDataRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMCopyStringRepOfTargetData(Unknown: LLVMTargetDataRef): PChar; cdecl; external LLVMLibrary name 'LLVMCopyStringRepOfTargetData';
+  function LLVMCopyStringRepOfTargetData(Unknown: LLVMTargetDataRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMCopyStringRepOfTargetData';
 {$ENDIF}
 
 (** Returns the byte order of a target, either LLVMBigEndian or
@@ -6039,17 +6039,17 @@ typedef enum {
 (* Returns the name of a target. See llvm::Target::getName *)
   //const char *LLVMGetTargetName(LLVMTargetRef T);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetTargetName = function(T: LLVMTargetRef): PChar; cdecl;
+  TLLVMGetTargetName = function(T: LLVMTargetRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetTargetName(T: LLVMTargetRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetTargetName';
+  function LLVMGetTargetName(T: LLVMTargetRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetTargetName';
 {$ENDIF}
 
 (* Returns the description  of a target. See llvm::Target::getDescription *)
   //const char *LLVMGetTargetDescription(LLVMTargetRef T);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetTargetDescription = function(T: LLVMTargetRef): PChar; cdecl;
+  TLLVMGetTargetDescription = function(T: LLVMTargetRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetTargetDescription(T: LLVMTargetRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetTargetDescription';
+  function LLVMGetTargetDescription(T: LLVMTargetRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetTargetDescription';
 {$ENDIF}
 
 (* Returns if the target has a JIT *)
@@ -6082,9 +6082,9 @@ typedef enum {
   //  char *CPU, char *Features, LLVMCodeGenOptLevel Level, LLVMRelocMode Reloc,
   //  LLVMCodeModel CodeModel);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateTargetMachine = function(T: LLVMTargetRef; Triple: PChar; CPU: PChar; Features: PChar; Level: LLVMCodeGenOptLevel; Reloc: LLVMRelocMode; CodeModel: LLVMCodeModel): LLVMTargetMachineRef; cdecl;
+  TLLVMCreateTargetMachine = function(T: LLVMTargetRef; Triple: PAnsiChar; CPU: PAnsiChar; Features: PAnsiChar; Level: LLVMCodeGenOptLevel; Reloc: LLVMRelocMode; CodeModel: LLVMCodeModel): LLVMTargetMachineRef; cdecl;
 {$ELSE}
-  function LLVMCreateTargetMachine(T: LLVMTargetRef; Triple: PChar; CPU: PChar; Features: PChar; Level: LLVMCodeGenOptLevel; Reloc: LLVMRelocMode; CodeModel: LLVMCodeModel): LLVMTargetMachineRef; cdecl; external LLVMLibrary name 'LLVMCreateTargetMachine';
+  function LLVMCreateTargetMachine(T: LLVMTargetRef; Triple: PAnsiChar; CPU: PAnsiChar; Features: PAnsiChar; Level: LLVMCodeGenOptLevel; Reloc: LLVMRelocMode; CodeModel: LLVMCodeModel): LLVMTargetMachineRef; cdecl; external LLVMLibrary name 'LLVMCreateTargetMachine';
 {$ENDIF}
 
 (* Dispose the LLVMTargetMachineRef instance generated by
@@ -6109,9 +6109,9 @@ typedef enum {
   LLVMDisposeMessage. *)
   //char *LLVMGetTargetMachineTriple(LLVMTargetMachineRef T);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetTargetMachineTriple = function(T: LLVMTargetMachineRef): PChar; cdecl;
+  TLLVMGetTargetMachineTriple = function(T: LLVMTargetMachineRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetTargetMachineTriple(T: LLVMTargetMachineRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetTargetMachineTriple';
+  function LLVMGetTargetMachineTriple(T: LLVMTargetMachineRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetTargetMachineTriple';
 {$ENDIF}
 
 (* Returns the cpu used creating this target machine. See
@@ -6119,9 +6119,9 @@ typedef enum {
   LLVMDisposeMessage. *)
   //char *LLVMGetTargetMachineCPU(LLVMTargetMachineRef T);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetTargetMachineCPU = function(T: LLVMTargetMachineRef): PChar; cdecl;
+  TLLVMGetTargetMachineCPU = function(T: LLVMTargetMachineRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetTargetMachineCPU(T: LLVMTargetMachineRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetTargetMachineCPU';
+  function LLVMGetTargetMachineCPU(T: LLVMTargetMachineRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetTargetMachineCPU';
 {$ENDIF}
 
 (* Returns the feature string used creating this target machine. See
@@ -6129,9 +6129,9 @@ typedef enum {
   LLVMDisposeMessage. *)
   //char *LLVMGetTargetMachineFeatureString(LLVMTargetMachineRef T);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetTargetMachineFeatureString = function(T: LLVMTargetMachineRef): PChar; cdecl;
+  TLLVMGetTargetMachineFeatureString = function(T: LLVMTargetMachineRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetTargetMachineFeatureString(T: LLVMTargetMachineRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetTargetMachineFeatureString';
+  function LLVMGetTargetMachineFeatureString(T: LLVMTargetMachineRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetTargetMachineFeatureString';
 {$ENDIF}
 
 (* Returns the llvm::TargetData used for this llvm:TargetMachine. *)
@@ -6148,9 +6148,9 @@ typedef enum {
   //LLVMBool LLVMTargetMachineEmitToFile(LLVMTargetMachineRef T, LLVMModuleRef M,
   //  char *Filename, LLVMCodeGenFileType codegen, char **ErrorMessage);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMTargetMachineEmitToFile = function(T: LLVMTargetMachineRef; M: LLVMModuleRef; Filename: PChar; codegen: LLVMCodeGenFileType; var ErrorMessage: PChar): LLVMBool; cdecl;
+  TLLVMTargetMachineEmitToFile = function(T: LLVMTargetMachineRef; M: LLVMModuleRef; Filename: PAnsiChar; codegen: LLVMCodeGenFileType; var ErrorMessage: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMTargetMachineEmitToFile(T: LLVMTargetMachineRef; M: LLVMModuleRef; Filename: PChar; codegen: LLVMCodeGenFileType; var ErrorMessage: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMTargetMachineEmitToFile';
+  function LLVMTargetMachineEmitToFile(T: LLVMTargetMachineRef; M: LLVMModuleRef; Filename: PAnsiChar; codegen: LLVMCodeGenFileType; var ErrorMessage: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMTargetMachineEmitToFile';
 {$ENDIF}
 
 (*
@@ -6283,9 +6283,9 @@ type
 (* SectionRef accessors *)
   //const char *LLVMGetSectionName(LLVMSectionIteratorRef SI);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetSectionName = function(SI: LLVMSectionIteratorRef): PChar; cdecl;
+  TLLVMGetSectionName = function(SI: LLVMSectionIteratorRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetSectionName(SI: LLVMSectionIteratorRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetSectionName';
+  function LLVMGetSectionName(SI: LLVMSectionIteratorRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetSectionName';
 {$ENDIF}
   
   //uint64_t LLVMGetSectionSize(LLVMSectionIteratorRef SI);
@@ -6297,9 +6297,9 @@ type
   
   //const char *LLVMGetSectionContents(LLVMSectionIteratorRef SI);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetSectionContents = function(SI: LLVMSectionIteratorRef): PChar; cdecl;
+  TLLVMGetSectionContents = function(SI: LLVMSectionIteratorRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetSectionContents(SI: LLVMSectionIteratorRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetSectionContents';
+  function LLVMGetSectionContents(SI: LLVMSectionIteratorRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetSectionContents';
 {$ENDIF}
   
   //uint64_t LLVMGetSectionAddress(LLVMSectionIteratorRef SI);
@@ -6348,9 +6348,9 @@ type
 (* SymbolRef accessors *)
   //const char *LLVMGetSymbolName(LLVMSymbolIteratorRef SI);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetSymbolName = function(SI: LLVMSymbolIteratorRef): PChar; cdecl;
+  TLLVMGetSymbolName = function(SI: LLVMSymbolIteratorRef): PAnsiChar; cdecl;
 {$ELSE}
-  function LLVMGetSymbolName(SI: LLVMSymbolIteratorRef): PChar; cdecl; external LLVMLibrary name 'LLVMGetSymbolName';
+  function LLVMGetSymbolName(SI: LLVMSymbolIteratorRef): PAnsiChar; cdecl; external LLVMLibrary name 'LLVMGetSymbolName';
 {$ENDIF}
   
   //uint64_t LLVMGetSymbolAddress(LLVMSymbolIteratorRef SI);
@@ -6407,16 +6407,16 @@ type
    following functions. *)
   //const char *LLVMGetRelocationTypeName(LLVMRelocationIteratorRef RI);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetRelocationTypeName = function(RI: LLVMRelocationIteratorRef): PChar;
+  TLLVMGetRelocationTypeName = function(RI: LLVMRelocationIteratorRef): PAnsiChar;
 {$ELSE}
-  function LLVMGetRelocationTypeName(RI: LLVMRelocationIteratorRef): PChar; external LLVMLibrary name 'LLVMGetRelocationTypeName';
+  function LLVMGetRelocationTypeName(RI: LLVMRelocationIteratorRef): PAnsiChar; external LLVMLibrary name 'LLVMGetRelocationTypeName';
 {$ENDIF}
   
   //const char *LLVMGetRelocationValueString(LLVMRelocationIteratorRef RI);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMGetRelocationValueString = function(RI: LLVMRelocationIteratorRef): PChar;
+  TLLVMGetRelocationValueString = function(RI: LLVMRelocationIteratorRef): PAnsiChar;
 {$ELSE}
-  function LLVMGetRelocationValueString(RI: LLVMRelocationIteratorRef): PChar; external LLVMLibrary name 'LLVMGetRelocationValueString';
+  function LLVMGetRelocationValueString(RI: LLVMRelocationIteratorRef): PAnsiChar; external LLVMLibrary name 'LLVMGetRelocationValueString';
 {$ENDIF}
 
 //namespace llvm {
@@ -6556,18 +6556,18 @@ type
   //                                          LLVMModuleRef M,
   //                                          char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateExecutionEngineForModule = function(var OutEE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl;
+  TLLVMCreateExecutionEngineForModule = function(var OutEE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateExecutionEngineForModule(var OutEE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateExecutionEngineForModule';
+  function LLVMCreateExecutionEngineForModule(var OutEE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateExecutionEngineForModule';
 {$ENDIF}
 
   //LLVMBool LLVMCreateInterpreterForModule(LLVMExecutionEngineRef *OutInterp,
   //                                      LLVMModuleRef M,
   //                                      char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateInterpreterForModule = function(var OutInterp: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl;
+  TLLVMCreateInterpreterForModule = function(var OutInterp: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateInterpreterForModule(var OutInterp: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateInterpreterForModule';
+  function LLVMCreateInterpreterForModule(var OutInterp: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateInterpreterForModule';
 {$ENDIF}
 
   //LLVMBool LLVMCreateJITCompilerForModule(LLVMExecutionEngineRef *OutJIT,
@@ -6575,9 +6575,9 @@ type
   //                                      unsigned OptLevel,
   //                                      char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateJITCompilerForModule = function(var OutJIT: LLVMExecutionEngineRef; M: LLVMModuleRef; OptLevel: Cardinal; var OutError: PChar): LLVMBool; cdecl; 
+  TLLVMCreateJITCompilerForModule = function(var OutJIT: LLVMExecutionEngineRef; M: LLVMModuleRef; OptLevel: Cardinal; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateJITCompilerForModule(var OutJIT: LLVMExecutionEngineRef; M: LLVMModuleRef; OptLevel: Cardinal; var OutError: PChar): LLVMBool; cdecl;  external LLVMLibrary name 'LLVMCreateJITCompilerForModule';
+  function LLVMCreateJITCompilerForModule(var OutJIT: LLVMExecutionEngineRef; M: LLVMModuleRef; OptLevel: Cardinal; var OutError: PAnsiChar): LLVMBool; cdecl;  external LLVMLibrary name 'LLVMCreateJITCompilerForModule';
 {$ENDIF}
 
 (* Deprecated: Use LLVMCreateExecutionEngineForModule instead. *)
@@ -6585,9 +6585,9 @@ type
   //                                 LLVMModuleProviderRef MP,
   //                                 char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateExecutionEngine = function(var OutEE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PChar): LLVMBool; cdecl;
+  TLLVMCreateExecutionEngine = function(var OutEE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateExecutionEngine(var OutEE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateExecutionEngine';
+  function LLVMCreateExecutionEngine(var OutEE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateExecutionEngine';
 {$ENDIF}
 
 (* Deprecated: Use LLVMCreateInterpreterForModule instead. *)
@@ -6595,9 +6595,9 @@ type
   //                             LLVMModuleProviderRef MP,
   //                             char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateInterpreter = function(var OutInterp: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PChar): LLVMBool; cdecl;
+  TLLVMCreateInterpreter = function(var OutInterp: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateInterpreter(var OutInterp: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateInterpreter';
+  function LLVMCreateInterpreter(var OutInterp: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutError: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMCreateInterpreter';
 {$ENDIF}
 
 (* Deprecated: Use LLVMCreateJITCompilerForModule instead. *)
@@ -6606,9 +6606,9 @@ type
   //                             unsigned OptLevel,
   //                             char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMCreateJITCompiler = function(var OutJIT: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; OptLevel: Cardinal; var OutError: PChar): LLVMBool; cdecl; 
+  TLLVMCreateJITCompiler = function(var OutJIT: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; OptLevel: Cardinal; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMCreateJITCompiler(var OutJIT: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; OptLevel: Cardinal; var OutError: PChar): LLVMBool; cdecl;  external LLVMLibrary name 'LLVMCreateJITCompiler';
+  function LLVMCreateJITCompiler(var OutJIT: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; OptLevel: Cardinal; var OutError: PAnsiChar): LLVMBool; cdecl;  external LLVMLibrary name 'LLVMCreateJITCompiler';
 {$ENDIF}
 
   //void LLVMDisposeExecutionEngine(LLVMExecutionEngineRef EE);
@@ -6637,9 +6637,9 @@ type
   //                        const char * const *EnvP);
   // #WARNING: I forgot so complex types as const char * const *EnvP :)
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMRunFunctionAsMain = function(EE: LLVMExecutionEngineRef; F: LLVMValueRef; ArgC: Cardinal; var ArgV: PChar; var EnvP: PChar): Integer; cdecl;
+  TLLVMRunFunctionAsMain = function(EE: LLVMExecutionEngineRef; F: LLVMValueRef; ArgC: Cardinal; var ArgV: PAnsiChar; var EnvP: PAnsiChar): Integer; cdecl;
 {$ELSE}
-  function LLVMRunFunctionAsMain(EE: LLVMExecutionEngineRef; F: LLVMValueRef; ArgC: Cardinal; var ArgV: PChar; var EnvP: PChar): Integer; cdecl; external LLVMLibrary name 'LLVMRunFunctionAsMain';
+  function LLVMRunFunctionAsMain(EE: LLVMExecutionEngineRef; F: LLVMValueRef; ArgC: Cardinal; var ArgV: PAnsiChar; var EnvP: PAnsiChar): Integer; cdecl; external LLVMLibrary name 'LLVMRunFunctionAsMain';
 {$ENDIF}
 
   //LLVMGenericValueRef LLVMRunFunction(LLVMExecutionEngineRef EE, LLVMValueRef F,
@@ -6676,9 +6676,9 @@ type
   //LLVMBool LLVMRemoveModule(LLVMExecutionEngineRef EE, LLVMModuleRef M,
   //                        LLVMModuleRef *OutMod, char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMRemoveModule = function(EE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutMod: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl;
+  TLLVMRemoveModule = function(EE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutMod: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMRemoveModule(EE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutMod: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMRemoveModule';
+  function LLVMRemoveModule(EE: LLVMExecutionEngineRef; M: LLVMModuleRef; var OutMod: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMRemoveModule';
 {$ENDIF}
 
 (* Deprecated: Use LLVMRemoveModule instead. *)
@@ -6686,16 +6686,16 @@ type
   //                                LLVMModuleProviderRef MP,
   //                                LLVMModuleRef *OutMod, char **OutError);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMRemoveModuleProvider = function(EE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutMod: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl;
+  TLLVMRemoveModuleProvider = function(EE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutMod: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMRemoveModuleProvider(EE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutMod: LLVMModuleRef; var OutError: PChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMRemoveModuleProvider';
+  function LLVMRemoveModuleProvider(EE: LLVMExecutionEngineRef; MP: LLVMModuleProviderRef; var OutMod: LLVMModuleRef; var OutError: PAnsiChar): LLVMBool; cdecl; external LLVMLibrary name 'LLVMRemoveModuleProvider';
 {$ENDIF}
 
   //LLVMBool LLVMFindFunction(LLVMExecutionEngineRef EE, const char *Name, LLVMValueRef *OutFn);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMFindFunction = function(EE: LLVMExecutionEngineRef; Name: PChar; var OutFn: LLVMValueRef): LLVMBool; cdecl;
+  TLLVMFindFunction = function(EE: LLVMExecutionEngineRef; Name: PAnsiChar; var OutFn: LLVMValueRef): LLVMBool; cdecl;
 {$ELSE}
-  function LLVMFindFunction(EE: LLVMExecutionEngineRef; Name: PChar; var OutFn: LLVMValueRef): LLVMBool; cdecl; external LLVMLibrary name 'LLVMFindFunction';
+  function LLVMFindFunction(EE: LLVMExecutionEngineRef; Name: PAnsiChar; var OutFn: LLVMValueRef): LLVMBool; cdecl; external LLVMLibrary name 'LLVMFindFunction';
 {$ENDIF}
 
   //void *LLVMRecompileAndRelinkFunction(LLVMExecutionEngineRef EE, LLVMValueRef Fn);
@@ -6814,7 +6814,7 @@ struct LLVMOpInfoSymbol1 {
 *)
   LLVMOpInfoSymbol1 = packed record
     Present: uint64_t;  (* 1 if this symbol is present *)
-	Name: PChar;        (* symbol name if not NULL *)
+	Name: PAnsiChar;        (* symbol name if not NULL *)
 	Value: uint64_t;    (* symbol value if name is NULL *)
   end;
 
@@ -6867,7 +6867,7 @@ type
   //  					    uint64_t ReferencePC,
   //						const char **ReferenceName);
   // #ATTENTION: Not extern!
-  LLVMSymbolLookupCallback = function(DisInfo: Pointer; ReferenceValue: uint64_t; ReferenceType: puint64_t; ReferencePC: uint64_t; var ReferenceName: PChar): PChar; cdecl;
+  LLVMSymbolLookupCallback = function(DisInfo: Pointer; ReferenceValue: uint64_t; ReferenceType: puint64_t; ReferencePC: uint64_t; var ReferenceName: PAnsiChar): PAnsiChar; cdecl;
 						
 (*
  * The reference types on input and output.
@@ -6906,9 +6906,9 @@ const
   //                                    LLVMSymbolLookupCallback SymbolLookUp);
 {$IFDEF LLVM_DYNAMIC_LINK}
 type
-  TLLVMCreateDisasm = function(TripleName: PChar; DisInfo: Pointer; TagType: Integer; GetOpInfo: LLVMOpInfoCallback; SymbolLookUp: LLVMSymbolLookupCallback): LLVMDisasmContextRef; cdecl;
+  TLLVMCreateDisasm = function(TripleName: PAnsiChar; DisInfo: Pointer; TagType: Integer; GetOpInfo: LLVMOpInfoCallback; SymbolLookUp: LLVMSymbolLookupCallback): LLVMDisasmContextRef; cdecl;
 {$ELSE}
-  function LLVMCreateDisasm(TripleName: PChar; DisInfo: Pointer; TagType: Integer; GetOpInfo: LLVMOpInfoCallback; SymbolLookUp: LLVMSymbolLookupCallback): LLVMDisasmContextRef; cdecl; external LLVMLibrary name 'LLVMCreateDisasm';
+  function LLVMCreateDisasm(TripleName: PAnsiChar; DisInfo: Pointer; TagType: Integer; GetOpInfo: LLVMOpInfoCallback; SymbolLookUp: LLVMSymbolLookupCallback): LLVMDisasmContextRef; cdecl; external LLVMLibrary name 'LLVMCreateDisasm';
 {$ENDIF}
 
 (*
@@ -6935,9 +6935,9 @@ type
   //                           uint64_t BytesSize, uint64_t PC,
   //                           char *OutString, size_t OutStringSize);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TLLVMDisasmInstruction = function(DC: LLVMDisasmContextRef; Bytes: PByte; BytesSize: uint64_t; PC: uint64_t; OutString: PChar; OutStringSize: size_t): size_t;
+  TLLVMDisasmInstruction = function(DC: LLVMDisasmContextRef; Bytes: PByte; BytesSize: uint64_t; PC: uint64_t; OutString: PAnsiChar; OutStringSize: size_t): size_t;
 {$ELSE}
-  function LLVMDisasmInstruction(DC: LLVMDisasmContextRef; Bytes: PByte; BytesSize: uint64_t; PC: uint64_t; OutString: PChar; OutStringSize: size_t): size_t; external LLVMLibrary name 'LLVMDisasmInstruction';
+  function LLVMDisasmInstruction(DC: LLVMDisasmContextRef; Bytes: PByte; BytesSize: uint64_t; PC: uint64_t; OutString: PAnsiChar; OutStringSize: size_t): size_t; external LLVMLibrary name 'LLVMDisasmInstruction';
 {$ENDIF}
   
 {$ENDIF}
@@ -7035,9 +7035,9 @@ typedef enum {
   //extern const char*
   //lto_get_version(void);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_get_version = function(): PChar;
+  Tlto_get_version = function(): PAnsiChar;
 {$ELSE}
-  function lto_get_version(): PChar; external LLVMLibrary name 'lto_get_version';
+  function lto_get_version(): PAnsiChar; external LLVMLibrary name 'lto_get_version';
 {$ENDIF}
 
 (*
@@ -7046,9 +7046,9 @@ typedef enum {
   //extern const char*
   //lto_get_error_message(void);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_get_error_message = function(): PChar;
+  Tlto_get_error_message = function(): PAnsiChar;
 {$ELSE}
-  function lto_get_error_message(): PChar; external LLVMLibrary name 'lto_get_error_message';
+  function lto_get_error_message(): PAnsiChar; external LLVMLibrary name 'lto_get_error_message';
 {$ENDIF}
 
 (*
@@ -7057,9 +7057,9 @@ typedef enum {
   //extern bool
   //lto_module_is_object_file(const char* path);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_is_object_file = function(path: PChar): Boolean; cdecl;
+  Tlto_module_is_object_file = function(path: PAnsiChar): Boolean; cdecl;
 {$ELSE}
-  function lto_module_is_object_file(path: PChar): Boolean; cdecl; external LLVMLibrary name 'lto_module_is_object_file';
+  function lto_module_is_object_file(path: PAnsiChar): Boolean; cdecl; external LLVMLibrary name 'lto_module_is_object_file';
 {$ENDIF}
 
 (*
@@ -7069,9 +7069,9 @@ typedef enum {
   //lto_module_is_object_file_for_target(const char* path,
   //                                   const char* target_triple_prefix);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_is_object_file_for_target = function(path: PChar; target_triple_prefix: PChar): Boolean; cdecl;
+  Tlto_module_is_object_file_for_target = function(path: PAnsiChar; target_triple_prefix: PAnsiChar): Boolean; cdecl;
 {$ELSE}
-  function lto_module_is_object_file_for_target(path: PChar; target_triple_prefix: PChar): Boolean; cdecl; external LLVMLibrary name 'lto_module_is_object_file_for_target';
+  function lto_module_is_object_file_for_target(path: PAnsiChar; target_triple_prefix: PAnsiChar): Boolean; cdecl; external LLVMLibrary name 'lto_module_is_object_file_for_target';
 {$ENDIF}
 
 (*
@@ -7092,9 +7092,9 @@ typedef enum {
   //lto_module_is_object_file_in_memory_for_target(const void* mem, size_t length,
   //                                            const char* target_triple_prefix);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_is_object_file_in_memory_for_target = function(mem: Pointer; length: size_t; target_triple_prefix: PChar): Boolean; cdecl;
+  Tlto_module_is_object_file_in_memory_for_target = function(mem: Pointer; length: size_t; target_triple_prefix: PAnsiChar): Boolean; cdecl;
 {$ELSE}
-  function lto_module_is_object_file_in_memory_for_target(mem: Pointer; length: size_t; target_triple_prefix: PChar): Boolean; cdecl; external LLVMLibrary name 'lto_module_is_object_file_in_memory_for_target';
+  function lto_module_is_object_file_in_memory_for_target(mem: Pointer; length: size_t; target_triple_prefix: PAnsiChar): Boolean; cdecl; external LLVMLibrary name 'lto_module_is_object_file_in_memory_for_target';
 {$ENDIF}
 
 (*
@@ -7104,9 +7104,9 @@ typedef enum {
   //extern lto_module_t
   //lto_module_create(const char* path);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_create = function(path: PChar): lto_module_t; cdecl;
+  Tlto_module_create = function(path: PAnsiChar): lto_module_t; cdecl;
 {$ELSE}
-  function lto_module_create(path: PChar): lto_module_t; cdecl; external LLVMLibrary name 'lto_module_create';
+  function lto_module_create(path: PAnsiChar): lto_module_t; cdecl; external LLVMLibrary name 'lto_module_create';
 {$ENDIF}
 
 (*
@@ -7128,9 +7128,9 @@ typedef enum {
   //extern lto_module_t
   //lto_module_create_from_fd(int fd, const char *path, size_t file_size);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_create_from_fd = function(fd: Integer; path: PChar; file_size: size_t): lto_module_t; cdecl;
+  Tlto_module_create_from_fd = function(fd: Integer; path: PAnsiChar; file_size: size_t): lto_module_t; cdecl;
 {$ELSE}
-  function lto_module_create_from_fd(fd: Integer; path: PChar; file_size: size_t): lto_module_t; cdecl; external LLVMLibrary name 'lto_module_create_from_fd';
+  function lto_module_create_from_fd(fd: Integer; path: PAnsiChar; file_size: size_t): lto_module_t; cdecl; external LLVMLibrary name 'lto_module_create_from_fd';
 {$ENDIF}
 
 (*
@@ -7141,9 +7141,9 @@ typedef enum {
   //lto_module_create_from_fd_at_offset(int fd, const char *path, size_t file_size,
   //                                  size_t map_size, off_t offset);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_create_from_fd_at_offset = function(fd: Integer; path: PChar; file_size: size_t; map_size: size_t; offset: off_t): lto_module_t; cdecl; 
+  Tlto_module_create_from_fd_at_offset = function(fd: Integer; path: PAnsiChar; file_size: size_t; map_size: size_t; offset: off_t): lto_module_t; cdecl;
 {$ELSE}
-  function lto_module_create_from_fd_at_offset(fd: Integer; path: PChar; file_size: size_t; map_size: size_t; offset: off_t): lto_module_t; cdecl;  external LLVMLibrary name 'lto_module_create_from_fd_at_offset';
+  function lto_module_create_from_fd_at_offset(fd: Integer; path: PAnsiChar; file_size: size_t; map_size: size_t; offset: off_t): lto_module_t; cdecl;  external LLVMLibrary name 'lto_module_create_from_fd_at_offset';
 {$ENDIF}
 
 (*
@@ -7164,9 +7164,9 @@ typedef enum {
   //extern const char*
   //lto_module_get_target_triple(lto_module_t mod);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_get_target_triple = function(_mod: lto_module_t): PChar; cdecl;
+  Tlto_module_get_target_triple = function(_mod: lto_module_t): PAnsiChar; cdecl;
 {$ELSE}
-  function lto_module_get_target_triple(_mod: lto_module_t): PChar; cdecl; external LLVMLibrary name 'lto_module_get_target_triple';
+  function lto_module_get_target_triple(_mod: lto_module_t): PAnsiChar; cdecl; external LLVMLibrary name 'lto_module_get_target_triple';
 {$ENDIF}
 
 (*
@@ -7175,9 +7175,9 @@ typedef enum {
   //extern void
   //lto_module_set_target_triple(lto_module_t mod, const char *triple);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_set_target_triple = procedure(_mod: lto_module_t; triple: PChar); cdecl;
+  Tlto_module_set_target_triple = procedure(_mod: lto_module_t; triple: PAnsiChar); cdecl;
 {$ELSE}
-  procedure lto_module_set_target_triple(_mod: lto_module_t; triple: PChar); cdecl; external LLVMLibrary name 'lto_module_set_target_triple';
+  procedure lto_module_set_target_triple(_mod: lto_module_t; triple: PAnsiChar); cdecl; external LLVMLibrary name 'lto_module_set_target_triple';
 {$ENDIF}
 
 (*
@@ -7197,9 +7197,9 @@ typedef enum {
   //extern const char*
   //lto_module_get_symbol_name(lto_module_t mod, unsigned int index);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_module_get_symbol_name = function(_mod: lto_module_t; index: Cardinal): PChar; cdecl;
+  Tlto_module_get_symbol_name = function(_mod: lto_module_t; index: Cardinal): PAnsiChar; cdecl;
 {$ELSE}
-  function lto_module_get_symbol_name(_mod: lto_module_t; index: Cardinal): PChar; cdecl; external LLVMLibrary name 'lto_module_get_symbol_name';
+  function lto_module_get_symbol_name(_mod: lto_module_t; index: Cardinal): PAnsiChar; cdecl; external LLVMLibrary name 'lto_module_get_symbol_name';
 {$ENDIF}
 
 (*
@@ -7279,9 +7279,9 @@ typedef enum {
   //extern void
   //lto_codegen_set_cpu(lto_code_gen_t cg, const char *cpu);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_codegen_set_cpu = procedure(cg: lto_code_gen_t; cpu: PChar); cdecl;
+  Tlto_codegen_set_cpu = procedure(cg: lto_code_gen_t; cpu: PAnsiChar); cdecl;
 {$ELSE}
-  procedure lto_codegen_set_cpu(cg: lto_code_gen_t; cpu: PChar); cdecl; external LLVMLibrary name 'lto_codegen_set_cpu';
+  procedure lto_codegen_set_cpu(cg: lto_code_gen_t; cpu: PAnsiChar); cdecl; external LLVMLibrary name 'lto_codegen_set_cpu';
 {$ENDIF}
 
 (*
@@ -7291,9 +7291,9 @@ typedef enum {
   //extern void
   //lto_codegen_set_assembler_path(lto_code_gen_t cg, const char* path);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_codegen_set_assembler_path = procedure(cg: lto_code_gen_t; path: PChar); cdecl;
+  Tlto_codegen_set_assembler_path = procedure(cg: lto_code_gen_t; path: PAnsiChar); cdecl;
 {$ELSE}
-  procedure lto_codegen_set_assembler_path(cg: lto_code_gen_t; path: PChar); cdecl; external LLVMLibrary name 'lto_codegen_set_assembler_path';
+  procedure lto_codegen_set_assembler_path(cg: lto_code_gen_t; path: PAnsiChar); cdecl; external LLVMLibrary name 'lto_codegen_set_assembler_path';
 {$ENDIF}
 
 (*
@@ -7303,9 +7303,9 @@ typedef enum {
   //lto_codegen_set_assembler_args(lto_code_gen_t cg, const char **args,
   //                             int nargs);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_codegen_set_assembler_args = procedure(cg: lto_code_gen_t; var args: PChar; nargs: Integer); cdecl;
+  Tlto_codegen_set_assembler_args = procedure(cg: lto_code_gen_t; var args: PAnsiChar; nargs: Integer); cdecl;
 {$ELSE}
-  procedure lto_codegen_set_assembler_args(cg: lto_code_gen_t; var args: PChar; nargs: Integer); cdecl; external LLVMLibrary name 'lto_codegen_set_assembler_args';
+  procedure lto_codegen_set_assembler_args(cg: lto_code_gen_t; var args: PAnsiChar; nargs: Integer); cdecl; external LLVMLibrary name 'lto_codegen_set_assembler_args';
 {$ENDIF}
 
 (*
@@ -7316,9 +7316,9 @@ typedef enum {
   //extern void
   //lto_codegen_add_must_preserve_symbol(lto_code_gen_t cg, const char* symbol);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_codegen_add_must_preserve_symbol = procedure(cg: lto_code_gen_t; symbol: PChar); cdecl;
+  Tlto_codegen_add_must_preserve_symbol = procedure(cg: lto_code_gen_t; symbol: PAnsiChar); cdecl;
 {$ELSE}
-  procedure lto_codegen_add_must_preserve_symbol(cg: lto_code_gen_t; symbol: PChar); cdecl; external LLVMLibrary name 'lto_codegen_add_must_preserve_symbol';
+  procedure lto_codegen_add_must_preserve_symbol(cg: lto_code_gen_t; symbol: PAnsiChar); cdecl; external LLVMLibrary name 'lto_codegen_add_must_preserve_symbol';
 {$ENDIF}
 
 (*
@@ -7329,9 +7329,9 @@ typedef enum {
   //extern bool
   //lto_codegen_write_merged_modules(lto_code_gen_t cg, const char* path);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_codegen_write_merged_modules = function(cg: lto_code_gen_t; path: PChar): Boolean; cdecl;
+  Tlto_codegen_write_merged_modules = function(cg: lto_code_gen_t; path: PAnsiChar): Boolean; cdecl;
 {$ELSE}
-  function lto_codegen_write_merged_modules(cg: lto_code_gen_t; path: PChar): Boolean; cdecl; external LLVMLibrary name 'lto_codegen_write_merged_modules';
+  function lto_codegen_write_merged_modules(cg: lto_code_gen_t; path: PAnsiChar): Boolean; cdecl; external LLVMLibrary name 'lto_codegen_write_merged_modules';
 {$ENDIF}
 
 (*
@@ -7358,9 +7358,9 @@ typedef enum {
   //extern bool
   //lto_codegen_compile_to_file(lto_code_gen_t cg, const char** name);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_codegen_compile_to_file = function(cg: lto_code_gen_t; var name: PChar): Boolean; cdecl;
+  Tlto_codegen_compile_to_file = function(cg: lto_code_gen_t; var name: PAnsiChar): Boolean; cdecl;
 {$ELSE}
-  function lto_codegen_compile_to_file(cg: lto_code_gen_t; var name: PChar): Boolean; cdecl; external LLVMLibrary name 'lto_codegen_compile_to_file';
+  function lto_codegen_compile_to_file(cg: lto_code_gen_t; var name: PAnsiChar): Boolean; cdecl; external LLVMLibrary name 'lto_codegen_compile_to_file';
 {$ENDIF}
 
 (*
@@ -7369,9 +7369,9 @@ typedef enum {
   //extern void
   //lto_codegen_debug_options(lto_code_gen_t cg, const char *);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  Tlto_codegen_debug_options = procedure(cg: lto_code_gen_t; unknown: PChar); cdecl;
+  Tlto_codegen_debug_options = procedure(cg: lto_code_gen_t; unknown: PAnsiChar); cdecl;
 {$ELSE}
-  procedure lto_codegen_debug_options(cg: lto_code_gen_t; unknown: PChar); cdecl; external LLVMLibrary name 'lto_codegen_debug_options';
+  procedure lto_codegen_debug_options(cg: lto_code_gen_t; unknown: PAnsiChar); cdecl; external LLVMLibrary name 'lto_codegen_debug_options';
 {$ENDIF}
 
 {$ENDIF}
@@ -7490,9 +7490,9 @@ enum {
   //                    const char *triple,
   //                    EDAssemblySyntax_t syntax);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TEDGetDisassembler = function(var disassembler: EDDisassemblerRef; triple: PChar; syntax: EDAssemblySyntax_t): Integer; cdecl;
+  TEDGetDisassembler = function(var disassembler: EDDisassemblerRef; triple: PAnsiChar; syntax: EDAssemblySyntax_t): Integer; cdecl;
 {$ELSE}
-  function EDGetDisassembler(var disassembler: EDDisassemblerRef; triple: PChar; syntax: EDAssemblySyntax_t): Integer; cdecl; external LLVMLibrary name 'EDGetDisassembler';
+  function EDGetDisassembler(var disassembler: EDDisassemblerRef; triple: PAnsiChar; syntax: EDAssemblySyntax_t): Integer; cdecl; external LLVMLibrary name 'EDGetDisassembler';
 {$ENDIF}
   
 (*!
@@ -7512,9 +7512,9 @@ enum {
   //                    EDDisassemblerRef disassembler,
   //                    unsigned regID);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TEDGetRegisterName = function(var regName: PChar; disassembler: EDDisassemblerRef; regID: Cardinal): Integer; cdecl;
+  TEDGetRegisterName = function(var regName: PAnsiChar; disassembler: EDDisassemblerRef; regID: Cardinal): Integer; cdecl;
 {$ELSE}
-  function EDGetRegisterName(var regName: PChar; disassembler: EDDisassemblerRef; regID: Cardinal): Integer; cdecl; external LLVMLibrary name 'EDGetRegisterName';
+  function EDGetRegisterName(var regName: PAnsiChar; disassembler: EDDisassemblerRef; regID: Cardinal): Integer; cdecl; external LLVMLibrary name 'EDGetRegisterName';
 {$ENDIF}
 
 (*!
@@ -7613,9 +7613,9 @@ enum {
   //int EDGetInstString(const char **buf,
   //                  EDInstRef inst);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TEDGetInstString = function(var buf: PChar; inst: EDInstRef): Integer; cdecl;
+  TEDGetInstString = function(var buf: PAnsiChar; inst: EDInstRef): Integer; cdecl;
 {$ELSE}
-  function EDGetInstString(var buf: PChar; inst: EDInstRef): Integer; cdecl; external LLVMLibrary name 'EDGetInstString';
+  function EDGetInstString(var buf: PAnsiChar; inst: EDInstRef): Integer; cdecl; external LLVMLibrary name 'EDGetInstString';
 {$ENDIF}
 
 (*!
@@ -7742,9 +7742,9 @@ enum {
   //int EDGetTokenString(const char **buf,
   //                   EDTokenRef token);
 {$IFDEF LLVM_DYNAMIC_LINK}
-  TEDGetTokenString = function(var buf: PChar; token: EDTokenRef): Integer; cdecl;
+  TEDGetTokenString = function(var buf: PAnsiChar; token: EDTokenRef): Integer; cdecl;
 {$ELSE}
-  function EDGetTokenString(var buf: PChar; token: EDTokenRef): Integer; cdecl; external LLVMLibrary name 'EDGetTokenString';
+  function EDGetTokenString(var buf: PAnsiChar; token: EDTokenRef): Integer; cdecl; external LLVMLibrary name 'EDGetTokenString';
 {$ENDIF}
 
 (*!
@@ -9371,7 +9371,7 @@ end;
 {$IFDEF LLVM_DYNAMIC_LINK}
 function GetLLVMProc(const AProcName: String): Pointer;
 begin
-  Result := Windows.GetProcAddress(hLibrary, PAnsiChar(AnsiString(AProcName)));
+  Result := GetProcAddress(hLibrary, PAnsiChar(AnsiString(AProcName)));
   LLVMTraceLog('%s', [AProcName]);
   if (Result = nil) then
 {$IFNDEF LLVM_DEBUG}
