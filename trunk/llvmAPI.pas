@@ -2,15 +2,21 @@
     LLVM API for Delphi
       > Author: Aleksey A. Naumov [alexey.naumov@gmail.com]
       > License: BSD
-      > Delphi API Version: 0.3b
+      > Delphi API Version: 0.3c
 
-    Tested on Windows only & D2007, DXE2.
+    Tested on Windows only & D2007, DXE2, FPC 2.6.
 *)
 unit llvmAPI;
 
+{$IFDEF FPC}
+  {$IFDEF CPUX86_64}
+    {$DEFINE CPUX64}
+  {$ENDIF}
+{$ENDIF}
+
 {.$DEFINE LLVM_DEBUG}                          // Only for debug w/ vLogs
 {.$DEFINE LLVM_TRACE}                          // Only for trace w/ vLogs
-{$DEFINE LLVM_DYNAMIC_LINK}                   // Dynamic or Static linking of llvm.dll
+{.$DEFINE LLVM_DYNAMIC_LINK}                   // Dynamic or Static linking of llvm.dll
 
 // Modules
 {$DEFINE LLVM_API_ANALYSIS}                   // Analysis.h
