@@ -16,7 +16,7 @@ type
 implementation
 
 uses
-  llvmAPI, Scanner;
+  Scanner, llvmAPI;
 
 (*const
   GeneratorAction : array[#0..#1] of pointer = (@TGenerator.Generate, nil);
@@ -29,7 +29,7 @@ procedure TGenerator.MakeModule(Token : TToken);
 var
   Module: LLVMModuleRef;
   ArrayTy_0, PointerTy_1, FuncTy_2, PointerTy_3, FuncTy_5, PointerTy_4: LLVMTypeRef;
-  FyncTy_2_Args: array [0.x.0] of LLVMTypeRef;
+  FyncTy_2_Args: array [0..0] of LLVMTypeRef;
   FyncTy_5_Args: array [0..0] of LLVMTypeRef;
   func_main, func_puts, gvar_array_str, const_array_6, int32_puts,
   const_ptr_7, const_int32_9, const_int64_8: LLVMValueRef;
@@ -39,7 +39,8 @@ var
   Context: LLVMContextRef;
 begin
   Module := LLVMModuleCreateWithName(PChar((*Path*)Token.Lexeme + '.bc'));
-  LLVMSetDataLayout(Module, 'e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128');
+  LLVMSetDataLayout(Module,
+    'e-p:64:64:64-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:64:64-f32:32:32-f64:64:64-v64:64:64-v128:128:128-a0:0:64-s0:64:64-f80:128:128-n8:16:32:64-S128');
   LLVMSetTarget(Module, TargetCPU + '-unknown-' + TargetOS);
   Context := LLVMGetModuleContext(Module);
   // Type Definitions
