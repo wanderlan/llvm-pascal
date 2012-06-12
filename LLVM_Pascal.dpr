@@ -24,7 +24,7 @@ begin
   if not FindCmdLineSwitch('v0') then begin
     writeln('LLVM-Pascal Version ', Version, ^J,
             '(c)2012 by'^J,
-            'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos and Joel Guilherme'^J,
+            'Wanderlan Santos dos Anjos, Barbara A.B. dos Anjos, Aleksey A. Naumov and Joel Guilherme'^J,
             'New BSD license'^J,
             'http://llvm-pascal.googlecode.com'^J);
   end;

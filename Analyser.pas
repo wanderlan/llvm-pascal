@@ -25,7 +25,7 @@ type
 implementation
 
 uses
-  CompilerUtils, Generator;
+  CompilerUtils;//, Generator;
 
 const
   SemanticAction : array[#0..#5] of pointer = (
@@ -57,7 +57,7 @@ end;
 
 procedure TAnalyser.AddModule; begin
   Token.Kind := StringToTokenKind(LastLexeme);
-  MakeModule(Token);
+  //MakeModule(Token);
   AddSymbol;
 end;
 

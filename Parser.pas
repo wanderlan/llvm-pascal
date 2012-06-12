@@ -98,8 +98,8 @@ procedure TParser.Compile(const Source : AnsiString); begin
       case Symbol[1] of
         #0..#127   : MatchToken(Symbol); // Terminal
         Syntatic   : ExpandProduction;
-        Semantic   : Analyse(Symbol[2]);
-//        Generator  : Generate(Symbol[2]);
+        Semantic   : ;//Analyse(Symbol[2]);
+        Generator  : ;//Generate(Symbol[2]);
         InsertSemi : begin
           if DoNextToken then NextToken;
           dec(First, length(Token.Lexeme));
