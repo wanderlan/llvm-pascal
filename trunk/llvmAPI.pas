@@ -24,23 +24,23 @@ unit llvmAPI;
 {$DEFINE LLVM_API_BITREADER}                  // BitReader.h
 {$DEFINE LLVM_API_BITWRITER}                  // BitWriter.h
 {$DEFINE LLVM_API_CORE}                       // Core.h
-{-$DEFINE LLVM_API_DISASSEMBLER}               // Disassembler.h
-{-$DEFINE LLVM_API_ENHANCEDDISASSEMBLY}        // EnhancedDisassembly.h
+{.$DEFINE LLVM_API_DISASSEMBLER}               // Disassembler.h
+{.$DEFINE LLVM_API_ENHANCEDDISASSEMBLY}        // EnhancedDisassembly.h
 {$DEFINE LLVM_API_EXECUTIONENGINE}            // ExecutionEngine.h
-{-$DEFINE LLVM_API_INITIALIZATION}             // Initialization.h
-{-$DEFINE LLVM_API_LINKTIMEOPTIMIZER}          // LinkTimeOptimizer.h
-{-$DEFINE LLVM_API_LTO}                        // lto.h
+{.$DEFINE LLVM_API_INITIALIZATION}             // Initialization.h
+{.$DEFINE LLVM_API_LINKTIMEOPTIMIZER}          // LinkTimeOptimizer.h
+{.$DEFINE LLVM_API_LTO}                        // lto.h
 {$DEFINE LLVM_API_OBJECT}                     // Object.h
 {$DEFINE LLVM_API_TARGET}                     // Target.h
-{-$DEFINE LLVM_API_TARGETMACHINE}              // TargetMachine.h
+{.$DEFINE LLVM_API_TARGETMACHINE}              // TargetMachine.h
 
-{-$DEFINE LLVM_API_IPO}                        // Transforms\IPO.h
-{-$DEFINE LLVM_API_PASSMANAGERBUILDER}         // Transforms\PassManagerBuilder.h
-{-$DEFINE LLVM_API_SCALAR}                     // Transforms\Scalar.h
-{-$DEFINE LLVM_API_VECTORIZE}                  // Transforms\Vectorize.h
+{.$DEFINE LLVM_API_IPO}                        // Transforms\IPO.h
+{.$DEFINE LLVM_API_PASSMANAGERBUILDER}         // Transforms\PassManagerBuilder.h
+{.$DEFINE LLVM_API_SCALAR}                     // Transforms\Scalar.h
+{.$DEFINE LLVM_API_VECTORIZE}                  // Transforms\Vectorize.h
 
 // Options
-{-$DEFINE ORIGINAL_LLVMBOOL}                   // Use LLVMBool = Integer
+{.$DEFINE ORIGINAL_LLVMBOOL}                   // Use LLVMBool = Integer
 
 interface
 
