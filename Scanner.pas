@@ -299,6 +299,7 @@ begin
     if (FSilentMode >= 1) and (Line <> '') then writeln(Line, ^J, '^' : ColNumber - Length(Token.Lexeme));
   end;
   if Kind = 'Fatal' then FEndSource := true;
+  readln;
 end;
 
 procedure TScanner.EmitMessage;

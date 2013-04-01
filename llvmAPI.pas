@@ -17,7 +17,7 @@ unit llvmAPI;
 
 {.$DEFINE LLVM_DEBUG}                          // Only for debug w/ vLogs
 {.$DEFINE LLVM_TRACE}                          // Only for trace w/ vLogs
-{$DEFINE LLVM_DYNAMIC_LINK}                   // Dynamic or Static linking of llvm.dll
+{.$DEFINE LLVM_DYNAMIC_LINK}                   // Dynamic or Static linking of llvm.dll
 
 // Modules
 {$DEFINE LLVM_API_ANALYSIS}                   // Analysis.h
@@ -36,8 +36,8 @@ unit llvmAPI;
 
 {.$DEFINE LLVM_API_IPO}                        // Transforms\IPO.h
 {.$DEFINE LLVM_API_PASSMANAGERBUILDER}         // Transforms\PassManagerBuilder.h
-{.$DEFINE LLVM_API_SCALAR}                     // Transforms\Scalar.h
-{.$DEFINE LLVM_API_VECTORIZE}                  // Transforms\Vectorize.h
+{$DEFINE LLVM_API_SCALAR}                     // Transforms\Scalar.h
+{$DEFINE LLVM_API_VECTORIZE}                  // Transforms\Vectorize.h
 
 // Options
 {.$DEFINE ORIGINAL_LLVMBOOL}                   // Use LLVMBool = Integer
