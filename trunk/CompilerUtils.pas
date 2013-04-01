@@ -20,7 +20,7 @@ implementation
 
 function ReadSwitch(Switches : array of AnsiString) : AnsiString;
 var
-  I, J : integer;
+  I, J : Integer;
 begin
   for I := 0 to high(Switches) do
     for J := 2 to ParamCount do
@@ -31,9 +31,9 @@ begin
   Result := '';
 end;
 
-function ReadSwitch(Switches : array of AnsiString; Default : integer) : integer;
+function ReadSwitch(Switches : array of AnsiString; Default : Integer) : Integer;
 var
-  I, J : integer;
+  I, J : Integer;
 begin
   for I := 0 to high(Switches) do
     for J := 2 to ParamCount do
@@ -46,7 +46,7 @@ end;
 
 procedure CompilePath(Compiler : TParser; Path : AnsiString);
 var
-  F : TSearchrec;
+  F : TSearchRec;
 begin
   try
     if FindFirst(Path, faAnyFile, F) = 0 then
@@ -61,12 +61,12 @@ end;
 procedure CompileTree(Compiler : TParser; Tree : AnsiString);
 var
   Path, Ext : AnsiString;
-  F : TSearchrec;
+  F : TSearchRec;
 begin
   if pos('*', Tree) <> 0 then begin
     Path := ExtractFilePath(Tree);
     Ext  := ExtractFileName(Tree);
-    if Compiler.SilentMode >= 2 then writeln(Path);
+    if Compiler.SilentMode >= 2 then WriteLn(Path);
   end;
   CompilePath(Compiler, Tree);
   try
