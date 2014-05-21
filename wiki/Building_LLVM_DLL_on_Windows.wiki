@@ -10,4 +10,5 @@ Basic steps ([http://llvm.org/docs/GettingStartedVS.html details]):
     # Configure
     # Set LLVM_TARGETS_TO_BUILD to X86
     # Generate 
-  # Double-click c:\LLVM-version.bin\llvm.sln   
+  # Double-click c:\LLVM-version.bin\llvm.sln  
+[http://llvm.org/docs/Projects.html] 
