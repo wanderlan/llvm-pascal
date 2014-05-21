@@ -11,4 +11,4 @@ Basic steps ([http://llvm.org/docs/GettingStartedVS.html details]):
     # Set LLVM_TARGETS_TO_BUILD to X86
     # Generate 
   # Double-click c:\LLVM-version.bin\llvm.sln   
-<wiki:gadget url="http://hosting.gmodules.com/ig/gadgets/file/117808631063490062819/url.xml" up_Title="asasas" up_Url="http://mindmapping.mindmeister.com/wiki/index.php/Mind_Mapping_Wiki"/> 
+<wiki:gadget url="http://hosting.gmodules.com/ig/gadgets/file/110543442524307353585/include-gadget.xml" up_pref_title="Test" up_pref_url="http://mindmapping.mindmeister.com/wiki/index.php/Mind_Mapping_Wiki" width=600 border=1/> 
