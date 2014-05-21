@@ -11,4 +11,3 @@ Basic steps ([http://llvm.org/docs/GettingStartedVS.html details]):
     # Set LLVM_TARGETS_TO_BUILD to X86
     # Generate 
   # Double-click c:\LLVM-version.bin\llvm.sln   
-<wiki:gadget url="http://hosting.gmodules.com/ig/gadgets/file/110543442524307353585/include-gadget.xml" up_pref_url="https://www.mindmeister.com/maps/public_map_shell/358290107/projetos-f-ton?width=600&height=400&no_logo=1&no_edit=1&live_update=1&no_share=1&z=1.3" height="200" border="0" /> 
