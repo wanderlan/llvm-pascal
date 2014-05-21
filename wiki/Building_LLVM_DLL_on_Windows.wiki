@@ -1,0 +1,13 @@
+Basic steps ([http://llvm.org/docs/GettingStartedVS.html details]):
+  # Install [http://www.microsoft.com/en-us/download/details.aspx?id=34673 Visual Studio 2012+]
+  # Install [http://www.cmake.org CMake]
+  # Install [https://www.python.org/ Python 2.7.x]
+  # Download LLVM [http://llvm.org/releases/download.html sources]
+  # Unzip to C:\LLVM-version.src
+  # Run CMake GUI 
+    # Set Generator to Visual Studio 11 Win64
+    # Configure
+    # Set LLVM_TARGETS_TO_BUILD to X86
+    # Generate 
+  # Double-click c:\LLVM-version.bin\llvm.sln   
+
