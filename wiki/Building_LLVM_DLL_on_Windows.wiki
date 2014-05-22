@@ -6,7 +6,7 @@
   # Install [http://www.cmake.org CMake];
   # Install [https://www.python.org/ Python 2.7.x];
   # Download LLVM [http://llvm.org/releases/download.html sources];
-    # Unzip to C:\LLVM-version.src.
+  # Unzip to C:\LLVM-version.src.
 ==Configure the Build==
   # Run CMake GUI:
   # Set "source code" to C:\LLVM-{{{<version>}}}.src;
@@ -32,6 +32,6 @@
   # Download the LibDefExtractor.exe tool in this same folder;
   # LibDefExtractor big.lib LLVM-{{{<version>}}}.def. Extracts the non-C++ symbols to a DEF file called LLVM-3.4.def;
   # Download the EmptyDllMain.lib library in this same folder;
-  # link /DLL /DEF:LLVM-{{<version>}}}.def /MACHINE:X64 /OUT:LLVM-{{{<version>}}}-X64.dll big.lib EmptyDllMain.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib;
+  # link /DLL /DEF:LLVM-{{{<version>}}}.def /MACHINE:X64 /OUT:LLVM-{{{<version>}}}-X64.dll big.lib EmptyDllMain.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib;
   # A DLL ~10mb should be built - if it very small something has gone wrong.   
   
