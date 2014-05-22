@@ -1,22 +1,34 @@
 #labels Featured
-Basic steps ([https://github.com/CRogers/LLVM-Windows-Binaries/blob/master/compiling.md details]):
-  # Install [http://www.microsoft.com/en-us/download/details.aspx?id=34673 Visual Studio 2012+]
-  # Install [http://www.cmake.org CMake]
-  # Install [https://www.python.org/ Python 2.7.x]
-  # Download LLVM [http://llvm.org/releases/download.html sources]
-    # Unzip to C:\LLVM-version.src
-  # Run CMake GUI 
-    # Set "source code" to C:\LLVM-version.src
-    # Set "binaries" to C:\LLVM-version.bin
-    # Set "Grouped" and "Advanced"
-    # Configure
-    # Set Generator to Visual Studio 11 Win64 (for VS 2012)
-    # Set LLVM_TARGETS_TO_BUILD to X86
-    # Configure (again)
-    # Generate 
-  # Double-click c:\LLVM-version.bin\llvm.sln
+=Basic steps=
+([https://github.com/CRogers/LLVM-Windows-Binaries/blob/master/compiling.md This summary is based on CRogers' instructions])
+==Prepare the Buid==
+  # Install [http://www.microsoft.com/en-us/download/details.aspx?id=34673 Visual Studio 2012+];
+  # Install [http://www.cmake.org CMake];
+  # Install [https://www.python.org/ Python 2.7.x];
+  # Download LLVM [http://llvm.org/releases/download.html sources];
+    # Unzip to C:\LLVM-version.src.
+  # Run CMake GUI:
+    # Set "source code" to C:\LLVM-{{{<version>}}}.src;
+    # Set "binaries" to C:\LLVM-{{{<version>}}}.bin;
+    # Set "Grouped" and "Advanced";
+    # Configure;
+    # Set Generator to Visual Studio 11 Win64 (for VS 2012);
+    # Set LLVM_TARGETS_TO_BUILD to X86;
+    # Configure (again);
+    # Generate.
+  # Double-click c:\LLVM-{{{<version>}}}.bin\llvm.sln
     # Change "Debug" to "MinSizeRel" or "Release"
     # Right-click ALL-BUILD on Solution Explorer 
     # Build
     # Wait...
+    # The tools will be store in c:\LLVM-{{{<version>}}}.bin\bin\{{{<MinSizeRel or Release>}}}
+    # The libs in c:\LLVM-{{{<version>}}}.bin\lib\{{{<MinSizeRel or Release>}}}  
+  # Go to Start Menu | All Programs | Microsoft Visual Studio 2012 | Visual Studio Tools
+    # cd to c:\LLVM-{{{<version>}}}.bin\lib\{{{<MinSizeRel or Release>}}}
+    # {{{lib /OUT:big.lib LLVM*.lib}}}. This combines all the individual LLVM libs into one big one called big.lib;
+    # Download the LibDefExtractor.exe tool in this same folder;
+    # LibDefExtractor big.lib LLVM-{{{<version>}}}.def. Extracts the non-C++ symbols to a DEF file called LLVM-3.4.def;
+    # Download the EmptyDllMain.lib library in this same folder;
+link /DLL /DEF:LLVM-3.4.def /MACHINE:X86 /OUT:LLVM-3.4.dll big.lib EmptyDllMain.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+A DLL ~15mb should be built - if it very small something has gone wrong.   
   
