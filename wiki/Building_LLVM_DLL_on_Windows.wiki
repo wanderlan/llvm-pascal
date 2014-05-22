@@ -7,6 +7,7 @@
   # Install [https://www.python.org/ Python 2.7.x];
   # Download LLVM [http://llvm.org/releases/download.html sources];
     # Unzip to C:\LLVM-version.src.
+==Configure the Build==
   # Run CMake GUI:
     # Set "source code" to C:\LLVM-{{{<version>}}}.src;
     # Set "binaries" to C:\LLVM-{{{<version>}}}.bin;
@@ -16,15 +17,17 @@
     # Set LLVM_TARGETS_TO_BUILD to X86;
     # Configure (again);
     # Generate.
-  # Double-click c:\LLVM-{{{<version>}}}.bin\llvm.sln
-    # Change "Debug" to "MinSizeRel" or "Release"
-    # Right-click ALL-BUILD on Solution Explorer 
-    # Build
-    # Wait...
-    # The tools will be store in c:\LLVM-{{{<version>}}}.bin\bin\{{{<MinSizeRel or Release>}}}
-    # The libs in c:\LLVM-{{{<version>}}}.bin\lib\{{{<MinSizeRel or Release>}}}  
-  # Go to Start Menu | All Programs | Microsoft Visual Studio 2012 | Visual Studio Tools
-    # cd to c:\LLVM-{{{<version>}}}.bin\lib\{{{<MinSizeRel or Release>}}}
+==Build==
+  # Double-click c:\LLVM-{{{<version>}}}.bin\llvm.sln:
+    # Change "Debug" to "MinSizeRel" or "Release";
+    # Right-click ALL-BUILD on Solution Explorer; 
+    # Build;
+    # Wait...;
+    # The tools will be store in c:\LLVM-{{{<version>}}}.bin\bin\{{{<MinSizeRel or Release>}}};
+    # The libs will be in c:\LLVM-{{{<version>}}}.bin\lib\{{{<MinSizeRel or Release>}}}.
+==Generate the DLL==  
+  # Go to Start Menu | All Programs | Microsoft Visual Studio 2012 | Visual Studio Tools:
+    # cd to c:\LLVM-{{{<version>}}}.bin\lib\{{{<MinSizeRel or Release>}}};
     # {{{lib /OUT:big.lib LLVM*.lib}}}. This combines all the individual LLVM libs into one big one called big.lib;
     # Download the LibDefExtractor.exe tool in this same folder;
     # LibDefExtractor big.lib LLVM-{{{<version>}}}.def. Extracts the non-C++ symbols to a DEF file called LLVM-3.4.def;
