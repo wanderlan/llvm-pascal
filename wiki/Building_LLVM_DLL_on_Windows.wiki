@@ -6,8 +6,17 @@ Basic steps ([https://github.com/CRogers/LLVM-Windows-Binaries/blob/master/compi
   # Download LLVM [http://llvm.org/releases/download.html sources]
     # Unzip to C:\LLVM-version.src
   # Run CMake GUI 
-    # Set Generator to Visual Studio 11 Win64
+    # Set "source code" to C:\LLVM-version.src
+    # Set "binaries" to C:\LLVM-version.bin
+    # Set "Grouped" and "Advanced"
     # Configure
+    # Set Generator to Visual Studio 11 Win64 (for VS 2012)
     # Set LLVM_TARGETS_TO_BUILD to X86
+    # Configure (again)
     # Generate 
-  # Double-click c:\LLVM-version.bin\llvm.sln  
+  # Double-click c:\LLVM-version.bin\llvm.sln
+    # Change "Debug" to "MinSizeRel" or "Release"
+    # Right-click ALL-BUILD on Solution Explorer 
+    # Build
+    # Wait...
+  
