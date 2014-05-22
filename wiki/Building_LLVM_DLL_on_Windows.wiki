@@ -1,5 +1,5 @@
 #labels Featured
-Basic steps ([http://llvm.org/docs/GettingStartedVS.html details]):
+Basic steps ([https://github.com/CRogers/LLVM-Windows-Binaries/blob/master/compiling.md details]):
   # Install [http://www.microsoft.com/en-us/download/details.aspx?id=34673 Visual Studio 2012+]
   # Install [http://www.cmake.org CMake]
   # Install [https://www.python.org/ Python 2.7.x]
@@ -11,4 +11,3 @@ Basic steps ([http://llvm.org/docs/GettingStartedVS.html details]):
     # Set LLVM_TARGETS_TO_BUILD to X86
     # Generate 
   # Double-click c:\LLVM-version.bin\llvm.sln  
-[https://github.com/CRogers/LLVM-Windows-Binaries/blob/master/compiling.md]
